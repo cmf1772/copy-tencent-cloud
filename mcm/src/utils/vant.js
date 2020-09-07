@@ -31,7 +31,9 @@ import {
   Picker,
   CountDown,
   RadioGroup,
-  Radio
+  Radio,
+  DropdownItem,
+  DropdownMenu
 } from 'vant';
 
 Vue.use(List);
@@ -58,6 +60,9 @@ Vue.use(Picker);
 Vue.use(CountDown);
 Vue.use(Radio);
 Vue.use(RadioGroup);
+Vue.use(DropdownItem);
+Vue.use(DropdownMenu);
+
 
 Vue.prototype.$toast = Toast
 Vue.prototype.$dailog = Dialog

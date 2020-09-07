@@ -152,6 +152,33 @@ const recovery = [
     }
   },
   {
+    path: "/serve/recovery/payment/paymentOrder",
+    name: "paymentOrder",
+    component: () => import("@/views/serve/recovery/recycler/payment/paymentOrder"),
+    meta: {
+      title: "支付订单",
+      requireAuth: false
+    }
+  },
+  {
+    path: "/serve/recovery/payment/success",
+    name: "paymentOrder",
+    component: () => import("@/views/serve/recovery/recycler/payment/success"),
+    meta: {
+      title: "支付成功",
+      requireAuth: false
+    }
+  },
+  {
+    path: "/serve/recovery/payment/error",
+    name: "paymentOrder",
+    component: () => import("@/views/serve/recovery/recycler/payment/error"),
+    meta: {
+      title: "支付失败",
+      requireAuth: false
+    }
+  },
+  {
     path: "/serve/recovery/profit",
     name: "profit",
     component: () => import("@/views/serve/recovery/recycler/profit"),
