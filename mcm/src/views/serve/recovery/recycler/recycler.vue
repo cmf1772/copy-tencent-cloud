@@ -1,18 +1,17 @@
 <template>
   <div class="main">
     <div class="top">
-      <van-nav-bar
-        title="默默大师"
-        left-text
-        left-arrow
-        @click-left="onClickLeft"
-        @click-right="onClickRight"
-      >
+      <van-nav-bar title="默默大师"
+                   left-text
+                   left-arrow
+                   @click-left="onClickLeft"
+                   @click-right="onClickRight">
         <template #left>
           <img src="@/assets/images/icon/index/arrow.png" />
         </template>
         <template #right>
-          <img src="@/assets/images/icon/index/ld.png" style="height:.4rem" />
+          <img src="@/assets/images/icon/index/ld.png"
+               style="height:.4rem" />
         </template>
       </van-nav-bar>
     </div>
@@ -52,40 +51,60 @@
     <div class="fn-list">
       <ul>
         <li>
-          <van-cell is-link @click="myOrder">
+          <van-cell is-link
+                    @click="myOrder">
             <template #title>
               <div class="item">
-                <img src="@/assets/images/serve/recovery/recover/ss1.png" alt />
+                <img src="@/assets/images/serve/recovery/recover/ss1.png"
+                     alt />
                 <span class="custom-title">我的订单</span>
               </div>
             </template>
           </van-cell>
         </li>
         <li>
-          <van-cell is-link @click="getOrder">
+          <van-cell is-link
+                    @click="myGz">
             <template #title>
               <div class="item">
-                <img src="@/assets/images/serve/recovery/recover/ss1.png" alt />
+                <img src="@/assets/images/serve/recovery/recover/ss1.png"
+                     alt />
+                <span class="custom-title">回收柜列表</span>
+              </div>
+            </template>
+          </van-cell>
+        </li>
+        <li>
+          <van-cell is-link
+                    @click="getOrder">
+            <template #title>
+              <div class="item">
+                <img src="@/assets/images/serve/recovery/recover/ss1.png"
+                     alt />
                 <span class="custom-title">抢单</span>
               </div>
             </template>
           </van-cell>
         </li>
         <li>
-          <van-cell is-link @click="myProfit">
+          <van-cell is-link
+                    @click="myProfit">
             <template #title>
               <div class="item">
-                <img src="@/assets/images/serve/recovery/recover/ss2.png" alt />
+                <img src="@/assets/images/serve/recovery/recover/ss2.png"
+                     alt />
                 <span class="custom-title">我的收益</span>
               </div>
             </template>
           </van-cell>
         </li>
         <li>
-          <van-cell is-link @click="myCabinet">
+          <van-cell is-link
+                    @click="myCabinet">
             <template #title>
               <div class="item">
-                <img src="@/assets/images/serve/recovery/recover/ss3.png" alt />
+                <img src="@/assets/images/serve/recovery/recover/ss3.png"
+                     alt />
                 <span class="custom-title">我的柜子</span>
               </div>
             </template>
@@ -95,27 +114,32 @@
           <van-cell is-link>
             <template #title>
               <div class="item">
-                <img src="@/assets/images/serve/recovery/recover/ss4.png" alt />
+                <img src="@/assets/images/serve/recovery/recover/ss4.png"
+                     alt />
                 <span class="custom-title">附进仓库</span>
               </div>
             </template>
           </van-cell>
         </li>
         <li>
-          <van-cell is-link @click="info">
+          <van-cell is-link
+                    @click="info">
             <template #title>
               <div class="item">
-                <img src="@/assets/images/serve/recovery/recover/ss5.png" alt />
+                <img src="@/assets/images/serve/recovery/recover/ss5.png"
+                     alt />
                 <span class="custom-title">个人信息</span>
               </div>
             </template>
           </van-cell>
         </li>
         <li>
-          <van-cell is-link @click="meInfo">
+          <van-cell is-link
+                    @click="meInfo">
             <template #title>
               <div class="item">
-                <img src="@/assets/images/serve/recovery/recover/ss5.png" alt />
+                <img src="@/assets/images/serve/recovery/recover/ss5.png"
+                     alt />
                 <span class="custom-title">我的信息</span>
               </div>
             </template>
@@ -128,40 +152,43 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return { value: "" };
   },
   methods: {
-    onClickLeft() {
+    onClickLeft () {
       this.$router.go(-1);
     },
-    onClickRight() {},
-    info() {
+    onClickRight () { },
+    myGz () {
+      this.$router.push('/serve/recovery/index')
+    },
+    info () {
       this.$router.push({
-        path: "/serve/recovery/become_recycler",
+        path: "/serve/recovery/apply_toExamine",
       });
     },
-    myOrder() {
+    myOrder () {
       this.$router.push({
         path: "/serve/recovery/order",
       });
     },
-    myProfit() {
+    myProfit () {
       this.$router.push({
         path: "/serve/recovery/profit",
       });
     },
-    meInfo() {
+    meInfo () {
       this.$router.push({
         path: "/serve/recovery/recycler_detailed",
       });
     },
-    getOrder() {
+    getOrder () {
       this.$router.push({
         path: "/serve/recovery/getorder",
       });
     },
-    myCabinet() {
+    myCabinet () {
       this.$router.push({
         path: "/serve/recovery/cabinet",
       });

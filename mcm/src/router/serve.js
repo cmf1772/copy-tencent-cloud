@@ -116,6 +116,24 @@ const recovery = [
     }
   },
   {
+    path: "/serve/recovery/index",
+    name: "become_recycler",
+    component: () => import("@/views/serve/recovery/MyGz/index.vue"),
+    meta: {
+      title: "回收柜订单",
+      requireAuth: false
+    }
+  },
+  {
+    path: "/serve/recovery/gzSetUp",
+    name: "gzSetUp",
+    component: () => import("@/views/serve/recovery/MyGz/gzSetUp.vue"),
+    meta: {
+      title: "回收柜设置",
+      requireAuth: false
+    }
+  },
+  {
     path: "/serve/recovery/apply_toExamine",
     name: "become_recycler",
     component: () => import("@/views/serve/recovery/recycler/apply/toExamine"),

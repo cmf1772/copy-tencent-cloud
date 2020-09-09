@@ -98,27 +98,30 @@ export default {
 
     getInfo () {
       this.$api.serve.recovery.getRecoverInfo({
-        uid: this.$store.state.user.user_id,  //user id
+        uid: 0,  //user id
       })
         .then(res => {
-          this.status = res[0].status
-          res.forEach(item => {
-            this.dataAll.forEach(itemList => {
-              itemList.content = item[itemList.type]
-              if (itemList.name === '身份认证') {
-                itemList.card_front = item['card_front']
-                itemList.card_back = item['card_back']
-              } else if (itemList.name === '负责区域') {
-                itemList.content = this.areaObject.province.name + "-" + this.areaObject.city.name + "-" + '东城区'
-                this.areaObject.area.forEach(area => {
-                  if (area.id === item[itemList.type]) {
-                    itemList.content = this.areaObject.province.name + "-" + this.areaObject.city.name + "-" + area.name
-                  }
-                })
-              }
+          if (res.length) {
+            this.status = res[0].status
+            res.forEach(item => {
+              this.dataAll.forEach(itemList => {
+                itemList.content = item[itemList.type]
+                if (itemList.name === '身份认证') {
+                  itemList.card_front = item['card_front']
+                  itemList.card_back = item['card_back']
+                } else if (itemList.name === '负责区域') {
+                  itemList.content = this.areaObject.province.name + "-" + this.areaObject.city.name + "-" + '东城区'
+                  this.areaObject.area.forEach(area => {
+                    if (area.id === item[itemList.type]) {
+                      itemList.content = this.areaObject.province.name + "-" + this.areaObject.city.name + "-" + area.name
+                    }
+                  })
+                }
+              })
             })
-          })
-
+          } else {
+            this.$router.push('/serve/recovery/become_recycler')
+          }
         })
         .catch(err => {
           console.log(err);
@@ -154,7 +157,7 @@ export default {
 
         this.getInfo()
         // this.getAreaTown(res[0],0)
-        console.log(this.areaObject);
+        //   console.log(this.areaObject);
       });
   }
 }

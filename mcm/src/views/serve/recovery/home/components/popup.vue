@@ -1,19 +1,23 @@
 <template>
-  <van-action-sheet v-model="showPopup" title="添加废品" @close="closePopup">
+  <van-action-sheet v-model="showPopup"
+                    title="添加废品"
+                    @close="closePopup">
     <van-tabs v-model="active">
-      <van-tab v-for="(item,index) in data" :key="index" :title="item.name" >
+      <van-tab v-for="(item,index) in data"
+               :key="index"
+               :title="item.name">
         <div class="container">
           <span class="tips">可正常使用的家电</span>
           <div class="list">
-            <div class="item" v-for="(child,i) in item.children[0]" :key="i">
+            <div class="item"
+                 v-for="(child,i) in item.children[0]"
+                 :key="i">
               <div class="title">{{child.name}}</div>
               <div class="warp">
-                <div
-                  v-for="(childlren,j) in child.children[0]"
-                  :key="j"
-                  :class="haveChecked(index,i,j) ?' item-children active':'item-children'"
-                  @click="addCheck(index,i,j)"
-                >{{childlren.name}}</div>
+                <div v-for="(childlren,j) in child.children[0]"
+                     :key="j"
+                     :class="haveChecked(index,i,j,childlren) ?' item-children active':'item-children'"
+                     @click="addCheck(index,i,j, childlren)">{{childlren.name}}</div>
               </div>
             </div>
           </div>
@@ -24,7 +28,10 @@
                 合计/￥<span>55</span>
               </div>
             </div>
-            <van-button round type="info" color="#c3ab87" @click="closePopup">加入回收清单</van-button>
+            <van-button round
+                        type="info"
+                        color="#c3ab87"
+                        @click="closePopup">确定</van-button>
           </div>
         </div>
       </van-tab>
@@ -40,19 +47,19 @@ export default {
       default: false
     },
     data: {
-      type:Array,
-      default:() => {
+      type: Array,
+      default: () => {
         return [];
       }
     }
   },
-  mounted(){
+  mounted () {
     console.log(this.data);
   },
-  data() {
+  data () {
     return {
       active: 0,
-      showPopup:this.show,
+      showPopup: this.show,
       list: [
         {
           title: "类型",
@@ -95,13 +102,12 @@ export default {
     };
   },
   computed: {
-    haveChecked() {
-      return function(index,i, j) {
-        let id =index + "-" + i + "-" + j;
+    haveChecked () {
+      return function (index, i, j, items) {
+        // let id = index + "-" + i + "-" + j;
         let result = this.checkedList.findIndex(item => {
-          return item.id == id;
+          return item.id == items.id;
         });
-
         if (result > -1) {
           return true
         } else {
@@ -110,38 +116,46 @@ export default {
       };
     }
   },
-  watch:{
-    show:function(value){
+  watch: {
+    show: function (value) {
       this.showPopup = value
     }
   },
   methods: {
-    addCheck(index,i, j) {
-      let id = index + "-" + i + "-" + j;
+    addCheck (index, i, j, items) {
+      // console.log(item)
+      // let id = index + "-" + i + "-" + j;
       let result = this.checkedList.findIndex(item => {
-        return item.id == id;
+        return item.id == items.id;
       });
-      console.log(this.checkedList,result);
-      
+
+
+      this.checkedList = []
       if (result > -1) {
-        this.checkedList.splice(result, 1);
+
+        this.checkedList = []
+        // this.checkedList.splice(result, 1);
       } else {
-        this.checkedList.push({
-          text:this.data[index].children[0][i].children[0][j].name,
-          id
-        });
+        // this.checkedList.push({
+        //   text: this.data[index].children[0][i].children[0][j].name,
+        //   id
+        // });
+        this.checkedList[0] = {
+          text: items.name,
+          id: items.id
+        }
       }
     },
-    closePopup(){
-      let str = ""
-      for( let item of this.checkedList){
-        str += item.text + "/"
-      }
-      str = str.substr(0, str.length - 1);  
-      console.log(str);
-      this.$emit("closePopup",{
-        bol:false,
-        checkedData: str
+    closePopup () {
+      // let str = ""
+      // for (let item of this.checkedList) {
+      //   str += item.text + "/"
+      // }
+      // str = str.substr(0, str.length - 1);
+      // console.log(str);
+      this.$emit("closePopup", {
+        bol: false,
+        checkedData: this.checkedList
       })
     }
   }
@@ -157,7 +171,7 @@ export default {
     }
   }
   /deep/ .van-tab {
-    font-size: .34rem;
+    font-size: 0.34rem;
     color: #777;
   }
   /deep/ .van-tab--active {
@@ -172,26 +186,26 @@ export default {
     font-size: 0.2rem;
     color: #c3ab87;
   }
-  .footer{
+  .footer {
     padding-top: 1rem;
     display: flex;
-    font-size: .24rem;
+    font-size: 0.24rem;
     align-items: center;
     justify-content: space-between;
-    .price{
+    .price {
       display: flex;
       align-items: center;
     }
-    .van-button{
+    .van-button {
       padding: 0;
       width: 2.79rem;
       height: 0.87rem;
     }
-    .num{
+    .num {
       margin-left: 0.1rem;
       color: #c3ab87;
-      span{
-        font-size: .36rem;
+      span {
+        font-size: 0.36rem;
       }
     }
   }
@@ -212,9 +226,9 @@ export default {
         width: 100%;
         height: 0.65rem;
         border-radius: 30px;
-        line-height: .65rem;
+        line-height: 0.65rem;
         text-align: center;
-         border: transparent solid 1px;
+        border: transparent solid 1px;
       }
       .active {
         background: #f7f7f7;

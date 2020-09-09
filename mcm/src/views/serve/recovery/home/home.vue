@@ -2,7 +2,7 @@
   <div class="mian">
     <!-- 顶部 -->
     <div class="top">
-      <van-nav-bar title="回收"
+      <van-nav-bar title="填写回收信息"
                    left-text
                    left-arrow
                    @click-left="onClickLeft"
@@ -41,7 +41,7 @@
       <span class="tips"
             v-if="checkedArray.length == 0">请添加您需要上门回收的物品吧</span>
       <div class="checked"
-           v-else>{{checkedArray}}</div>
+           v-else>{{checkedArray[0].text}}</div>
       <div class="btn"
            @click="add">
         <van-icon name="plus" />
@@ -55,13 +55,24 @@
     <!-- form -->
     <div class="form-list">
       <ul>
+        <!-- <li>
+          <van-cell is-link
+                    :value="输入时间"
+                    @click="timeShow = true">
+            <template #title>
+              <div class="item">
+                <span class="custom-title">物品数量</span>
+              </div>
+            </template>
+          </van-cell>
+        </li> -->
         <li>
           <van-cell is-link
                     :value="timeText?timeText:'请选择预约上门时间'"
                     @click="timeShow = true">
             <template #title>
               <div class="item">
-                <span class="custom-title">预约时间</span>
+                <span class="custom-title">上门时间</span>
               </div>
             </template>
           </van-cell>
@@ -112,7 +123,7 @@
         <div class="submit">
           <span @click="() => {$router.push('/serve/recycling/list')}"
                 style="background: #fff; border: solid 1px #C3AB87; color: #C3AB87">回收清单</span>
-          <span @click="addOrder">立即预约</span>
+          <span @click="addOrder">添加清单</span>
         </div>
       </div>
     </div>
@@ -247,7 +258,6 @@ export default {
 
     // 提交预约订单
     addOrder () {
-
       if (!this.judgeData(this.checkedArray.length, '请选择回收类别')) return;
       if (!this.judgeData(this.timeText.length, '请选择预约时间')) return;
       if (!this.judgeData(this.fileList.length, '请选择图片')) return;
@@ -264,6 +274,7 @@ export default {
         message: '会收员抢单后将在约定时间上门取件，请提前打包回收商品。',
       })
         .then(() => {
+          debugger
           this.$api.serve.recovery.addRecoveryOrder({
             cate_id: 1,
             address_id: localStorage.getItem("_M_City_Id"),
@@ -293,6 +304,22 @@ export default {
     },
     // 关闭弹窗
     closePopup (obj) {
+      console.log(obj)
+      // this.$api.serve.recovery.addRecoveryOrder({
+      //   uid: 120,
+      //   cate_id: obj.checkedData[0].id,
+      //   address_id: localStorage.getItem("_M_City_Id"),
+      //   remark: '测试',
+      //   img: imgs,
+      //   subscribe_time: this.timeText,
+      //   uid: this.$store.state.user.user_id
+      // })
+      //   .then(res => {
+      //     this.$toast.success("预约成功");
+      //     setTimeout(() => {
+      //       this.$router.go(-1)
+      //     }, 1000)
+      //   })
       this.show = obj.bol;
       this.checkedArray = obj.checkedData;
     },

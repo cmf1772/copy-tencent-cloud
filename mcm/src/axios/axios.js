@@ -13,7 +13,8 @@ let config = {
 
 if (process.env.NODE_ENV == 'development') {
   // dev开发环境
-  config.baseURL = 'http://211.149.198.206:9501'
+  // config.baseURL = 'http://211.149.198.206:9501'
+  config.baseURL = 'http://www.bjxmqy.com:9501'
 } else if (process.env.NODE_ENV == 'production') {
   // build生产环境
   config.baseURL = 'http://www.bjxmqy.com:9501'
