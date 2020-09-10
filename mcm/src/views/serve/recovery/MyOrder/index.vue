@@ -188,7 +188,7 @@ export default {
             status: 1,
             ids: id + ''
           }).then(res => {
-            this.$toast.fail('删除成功')
+            this.$toast.fail('取消成功')
             this.getList('1, 3, 4, 5, 6')
           })
         })
