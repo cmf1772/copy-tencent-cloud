@@ -21,21 +21,23 @@
           <van-tab title="已取消"></van-tab>
         </van-tabs>
         <div class="content">
-          <div class="itemList">
+          <div class="itemList"
+               v-for="(item, index) in list"
+               :key="index">
             <div class="title">
-              <p>订单编号:11120502000</p>
-              <span>等待取件</span>
+              <p>订单编号:{{item.sn}}</p>
+              <span>{{item.status}}</span>
             </div>
             <div class="itemCon">
               <div class="left">
-                <img src="../../../../assets/images/magazine/bannerBG/b2.png"
+                <img :src="item.img.split('__')[0]"
                      alt="">
               </div>
               <div class="center">
-                <p>类 型：台式电脑</p>
-                <p>规 格：台式主机</p>
-                <p>预约保证金：100 环保金</p>
-                <p>预约时间：2020-02-20 19:00:00</p>
+                <p>类 型：{{item.p_cate_name}}</p>
+                <p>规 格：{{item.cate_name}}</p>
+                <p>预约保证金：{{item.predict_money}} 环保金</p>
+                <p>预约时间：{{item.subscribe_time}}</p>
               </div>
               <div class="right">
                 × 1
@@ -44,109 +46,8 @@
             <div class="bottom">
               <div></div>
               <div>
-                <div class="botton">
-                  取消订单
-                </div>
                 <div class="botton"
-                     @click="godetails"
-                     style="border: solid 1px #C6B08E; color:#C6B08E; margin-left:10px; ">
-                  查看详情
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="itemList">
-            <div class="title">
-              <p>订单编号:11120502000</p>
-              <span>等待取件</span>
-            </div>
-            <div class="itemCon">
-              <div class="left">
-                <img src="../../../../assets/images/magazine/bannerBG/b2.png"
-                     alt="">
-              </div>
-              <div class="center">
-                <p>类 型：台式电脑</p>
-                <p>规 格：台式主机</p>
-                <p>预约保证金：100 环保金</p>
-                <p>预约时间：2020-02-20 19:00:00</p>
-              </div>
-              <div class="right">
-                × 1
-              </div>
-            </div>
-            <div class="bottom">
-              <div></div>
-              <div>
-                <div class="botton">
-                  取消订单
-                </div>
-                <div class="botton"
-                     @click="godetails"
-                     style="border: solid 1px #C6B08E; color:#C6B08E; margin-left:10px; ">
-                  查看详情
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="itemList">
-            <div class="title">
-              <p>订单编号:11120502000</p>
-              <span>等待取件</span>
-            </div>
-            <div class="itemCon">
-              <div class="left">
-                <img src="../../../../assets/images/magazine/bannerBG/b2.png"
-                     alt="">
-              </div>
-              <div class="center">
-                <p>类 型：台式电脑</p>
-                <p>规 格：台式主机</p>
-                <p>预约保证金：100 环保金</p>
-                <p>预约时间：2020-02-20 19:00:00</p>
-              </div>
-              <div class="right">
-                × 1
-              </div>
-            </div>
-            <div class="bottom">
-              <div></div>
-              <div>
-                <div class="botton">
-                  取消订单
-                </div>
-                <div class="botton"
-                     @click="godetails"
-                     style="border: solid 1px #C6B08E; color:#C6B08E; margin-left:10px; ">
-                  查看详情
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="itemList">
-            <div class="title">
-              <p>订单编号:11120502000</p>
-              <span>等待取件</span>
-            </div>
-            <div class="itemCon">
-              <div class="left">
-                <img src="../../../../assets/images/magazine/bannerBG/b2.png"
-                     alt="">
-              </div>
-              <div class="center">
-                <p>类 型：台式电脑</p>
-                <p>规 格：台式主机</p>
-                <p>预约保证金：100 环保金</p>
-                <p>预约时间：2020-02-20 19:00:00</p>
-              </div>
-              <div class="right">
-                × 1
-              </div>
-            </div>
-            <div class="bottom">
-              <div></div>
-              <div>
-                <div class="botton">
+                     @click="deleteItem(item.order_id)">
                   取消订单
                 </div>
                 <div class="botton"
@@ -161,72 +62,28 @@
       </van-tab>
       <van-tab title="智能回收">
         <div class="content">
-          <div class="itemList">
-            <div class="titleBH">订单编号:11120502000</div>
+          <div class="itemList"
+               v-for="(item, index) in list"
+               :key="index">
+            <div class="titleBH">订单编号:{{item.sn}}</div>
             <div class="itemListP">
               <div>
                 <p>回收柜编号</p> <span>P0522222</span>
               </div>
               <div>
-                <p>回收柜地址</p> <span>北京市朝阳区呼家楼8号院</span>
+                <p>回收柜地址</p> <span>{{item.address}}</span>
               </div>
               <div>
-                <p>类 型</p> <span>台式电脑</span>
+                <p>类 型</p> <span>{{item.p_cate_name}}</span>
               </div>
               <div>
-                <p>数 量</p> <span>台式主机</span>
+                <p>数 量</p> <span>1</span>
               </div>
               <div>
-                <p>实际回收环保金</p> <span>100 环保金</span>
+                <p>实际回收环保金</p> <span>{{item.predict_money}} 环保金</span>
               </div>
               <div>
-                <p>回收时间</p> <span>2020-02-20 19:00:00</span>
-              </div>
-            </div>
-          </div>
-          <div class="itemList">
-            <div class="titleBH">订单编号:11120502000</div>
-            <div class="itemListP">
-              <div>
-                <p>回收柜编号</p> <span>P0522222</span>
-              </div>
-              <div>
-                <p>回收柜地址</p> <span>北京市朝阳区呼家楼8号院</span>
-              </div>
-              <div>
-                <p>类 型</p> <span>台式电脑</span>
-              </div>
-              <div>
-                <p>数 量</p> <span>台式主机</span>
-              </div>
-              <div>
-                <p>实际回收环保金</p> <span>100 环保金</span>
-              </div>
-              <div>
-                <p>回收时间</p> <span>2020-02-20 19:00:00</span>
-              </div>
-            </div>
-          </div>
-          <div class="itemList">
-            <div class="titleBH">订单编号:11120502000</div>
-            <div class="itemListP">
-              <div>
-                <p>回收柜编号</p> <span>P0522222</span>
-              </div>
-              <div>
-                <p>回收柜地址</p> <span>北京市朝阳区呼家楼8号院</span>
-              </div>
-              <div>
-                <p>类 型</p> <span>台式电脑</span>
-              </div>
-              <div>
-                <p>数 量</p> <span>台式主机</span>
-              </div>
-              <div>
-                <p>实际回收环保金</p> <span>100 环保金</span>
-              </div>
-              <div>
-                <p>回收时间</p> <span>2020-02-20 19:00:00</span>
+                <p>回收时间</p> <span>{{item.subscribe_time}}</span>
               </div>
             </div>
           </div>
@@ -236,7 +93,7 @@
     <van-overlay :show="show">
       <van-loading type="spinner"
                    class="wrapper"
-                   color="#1989fa" />
+                   color="#fff" />
     </van-overlay>
 
   </div>
@@ -249,11 +106,50 @@ export default {
 
   data () {
     return {
-      show: false
+      show: false,
     }
   },
 
   methods: {
+    getList (state) {
+      this.show = true
+      let data = {}
+
+      data = {
+        uid: 120,
+        page: 1,
+        status: state + '',
+        per_page: 100000000
+      }
+      this.$api.serve.recovery.getSubscribeOrderT(data).then(res => {
+        this.show = false
+        // 1=删除，2=待预约，3=待抢单，4=待取件，5=待支付，6=完成
+        res.rows.forEach(item => {
+          switch (item.status) {
+            case 1:
+              item.status = '取消订单'
+              break;
+            case 2:
+              item.status = '待预约'
+              break;
+            case 3:
+              item.status = '待抢单'
+              break;
+            case 4:
+              item.status = '待取件'
+              break;
+            case 5:
+              item.status = '待支付'
+              break;
+            case 6:
+              item.status = '完成订单'
+              break;
+          }
+        })
+        this.list = res.rows
+      })
+    },
+
     onClickLeft () {
       this.$router.go(-1);
     },
@@ -264,12 +160,46 @@ export default {
 
     onClick (name, title) {
       // Toast(title);
-      this.show = true
-
-      setTimeout(() => {
-        this.show = false
-      }, 1000)
+      switch (name) {
+        case 0:
+          this.getList('1, 3, 4, 5, 6')
+          break;
+        case 1:
+          this.getList(4)
+          break;
+        case 2:
+          this.getList(6)
+          break;
+        case 3:
+          this.getList(1)
+          break;
+      }
     },
+
+    deleteItem (id) {
+      this.$dialog.confirm({
+        title: '',
+        message: '确认取消订单？',
+      })
+        .then(() => {
+          // on confirm
+          this.show = true
+          this.$api.serve.recovery.modSubscribeOrder({
+            status: 1,
+            ids: id + ''
+          }).then(res => {
+            this.$toast.fail('删除成功')
+            this.getList('1, 3, 4, 5, 6')
+          })
+        })
+        .catch(() => {
+          this.show = false
+        });
+    },
+  },
+
+  mounted () {
+    this.getList('1, 3, 4, 5, 6')
   }
 }
 </script>

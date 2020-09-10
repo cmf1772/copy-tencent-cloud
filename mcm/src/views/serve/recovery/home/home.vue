@@ -37,17 +37,17 @@
     </div>
 
     <!-- 添加武平 -->
-    <div class="add-serve">
+    <!-- <div class="add-serve">
       <span class="tips"
             v-if="checkedArray.length == 0">请添加您需要上门回收的物品吧</span>
       <div class="checked"
-           v-else>{{checkedArray[0].text}}</div>
+           v-else></div>
       <div class="btn"
            @click="add">
         <van-icon name="plus" />
         <span>立即添加</span>
       </div>
-    </div>
+    </div> -->
     <popup :show="show"
            :data="cateDataArr"
            @closePopup="closePopup"
@@ -55,31 +55,54 @@
     <!-- form -->
     <div class="form-list">
       <ul>
-        <!-- <li>
-          <van-cell is-link
-                    :value="输入时间"
-                    @click="timeShow = true">
-            <template #title>
-              <div class="item">
-                <span class="custom-title">物品数量</span>
-              </div>
-            </template>
-          </van-cell>
-        </li> -->
         <li>
           <van-cell is-link
-                    :value="timeText?timeText:'请选择预约上门时间'"
-                    @click="timeShow = true">
+                    @click="add"
+                    :value="checkedArray.length == 0 ? '请添加您上门回收的物品' : checkedArray[0].text">
             <template #title>
               <div class="item">
-                <span class="custom-title">上门时间</span>
+                <span class="custom-title">物品分类</span>
               </div>
             </template>
           </van-cell>
         </li>
         <li>
           <van-cell is-link
-                    value="描述物品状态、特殊物品">
+                    :value="timeText?timeText:'请选择预约上门时间'"
+                    @click="timeShow = true">
+            <template #title>
+              <div class="item">
+                <span class="custom-title">预约时间</span>
+              </div>
+            </template>
+          </van-cell>
+        </li>
+        <li>
+          <van-cell is-link
+                    @click="numShow = true"
+                    :value="value ? value + '个': '0个'">
+            <template #title>
+              <div class="item">
+                <span class="custom-title">物品数量</span>
+              </div>
+            </template>
+          </van-cell>
+        </li>
+        <li>
+          <van-cell is-link
+                    @click="PriceShow = true"
+                    :value="value1 + '元'">
+            <template #title>
+              <div class="item">
+                <span class="custom-title">预估价格</span>
+              </div>
+            </template>
+          </van-cell>
+        </li>
+        <li>
+          <van-cell is-link
+                    @click="remarkShow = true"
+                    :value="remark ? remark : '描述物品状态、特殊物品'">
             <template #title>
               <div class="item">
                 <span class="custom-title">留言备注</span>
@@ -121,15 +144,14 @@
       <div class="footer">
         <span class="agreement">确认提交预约等于同意了《美城上门回收免费条款》</span>
         <div class="submit">
-          <span @click="() => {$router.push('/serve/recycling/list')}"
-                style="background: #fff; border: solid 1px #C3AB87; color: #C3AB87">回收清单</span>
-          <span @click="addOrder">添加清单</span>
+          <!-- <span @click="() => {$router.push('/serve/recycling/list')}"
+                style="background: #fff; border: solid 1px #C3AB87; color: #C3AB87">回收清单</span> -->
+          <span @click="addOrder">确定</span>
         </div>
       </div>
     </div>
     <van-popup v-model="timeShow"
                position="bottom">
-
       <van-datetime-picker v-model="currentDate"
                            title="请预约上门日期"
                            type="date"
@@ -156,6 +178,57 @@
                              ref="datePicker" />
       </div>
     </van-popup>
+
+    <van-popup v-model="numShow"
+               :style="{ height: '20%' }"
+               round
+               position="bottom">
+      <div class="cell">
+        <p></p>
+        <span style="color: #C3AB87;"
+              @click="numShow = false">完成</span>
+      </div>
+      <div class="cell">
+        <p>物品数量</p>
+        <van-stepper v-model="value"
+                     theme="round"
+                     button-size="22"
+                     disable-input />
+      </div>
+    </van-popup>
+
+    <van-popup v-model="PriceShow"
+               :style="{ height: '20%' }"
+               round
+               position="bottom">
+      <div class="cell">
+        <p></p>
+        <span style="color: #C3AB87;"
+              @click="PriceShow = false">完成</span>
+      </div>
+      <van-field v-model="value1"
+                 label="预估价格"
+                 placeholder="在输入预估价格" />
+    </van-popup>
+
+    <van-popup v-model="remarkShow"
+               round
+               position="bottom">
+      <div class="cell">
+        <p></p>
+        <span style="color: #C3AB87;"
+              @click="remarkShow = false">完成</span>
+      </div>
+      <van-field v-model="remark"
+                 rows="2"
+                 autosize
+                 label="留言"
+                 type="textarea"
+                 maxlength="50"
+                 placeholder="请输入留言"
+                 show-word-limit />
+    </van-popup>
+
   </div>
 </template>
 
@@ -174,6 +247,12 @@ export default {
       stroageData: [],  //  
       checkedArray: [], //选中数据
       timeShow: false,  // 时间选择弹窗
+      numShow: false,
+      value: null,
+      PriceShow: false,
+      value1: '',
+      remark: '',
+      remarkShow: false,
       columns: [  //时间数据
         {
           values: ["今天", "明天", "后天"],
@@ -207,6 +286,15 @@ export default {
     this.getCateData();  // 获取分类数据
   },
   methods: {
+    // formatter (value) {
+    //   // 过滤输入的数字
+    //   return value.replace(/\d/g, '');
+    // },
+
+    numChange () {
+      this.numShow === true
+    },
+
     getCateData () {
       let defaultLevel = 1; // 默认等级为1
       let defaultParentId = 0;  // 默认父级id
@@ -258,35 +346,39 @@ export default {
 
     // 提交预约订单
     addOrder () {
-      if (!this.judgeData(this.checkedArray.length, '请选择回收类别')) return;
       if (!this.judgeData(this.timeText.length, '请选择预约时间')) return;
+      if (!this.judgeData(this.checkedArray.length, '请选择回收类别')) return;
+      if (!this.judgeData(this.value, '请输入物品数量')) return;
+      if (!this.judgeData(this.value1.length, '请输入预估价格')) return;
       if (!this.judgeData(this.fileList.length, '请选择图片')) return;
 
       let imgs = "";
       this.fileList.forEach(item => {
-        console.log(item);
-        imgs += item.url + ","
+        imgs += item.url + (this.fileList.length === 1 ? "" : "__")
       })
-      imgs = imgs.substr(0, imgs.length - 1)
+      // imgs = imgs.substr(0, imgs.length - 1)
 
       Dialog.confirm({
         title: '确认提交回收预约订单？',
         message: '会收员抢单后将在约定时间上门取件，请提前打包回收商品。',
       })
         .then(() => {
-          debugger
+          // this.$store.state.user.user_id
           this.$api.serve.recovery.addRecoveryOrder({
-            cate_id: 1,
+            uid: 120,
+            cate_id: this.checkedArray[0].id,
             address_id: localStorage.getItem("_M_City_Id"),
             remark: '测试',
             img: imgs,
             subscribe_time: this.timeText,
-            uid: this.$store.state.user.user_id
+            status: 2,
+            predict_money: this.value1
           })
             .then(res => {
               this.$toast.success("预约成功");
               setTimeout(() => {
-                this.$router.go(-1)
+                // this.$router.go(-1)
+                this.$router.push('/serve/recycling/list')
               }, 1000)
             })
         })
@@ -383,6 +475,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.cell {
+  display: flex;
+  font-size: 0.3rem;
+  height: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 0 0.24rem;
+}
 .van-cell {
   padding-left: 0.45rem;
   padding-right: 0.45rem;
@@ -506,7 +607,7 @@ export default {
     }
     .submit {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       margin-top: 0.27rem;
 
       span {

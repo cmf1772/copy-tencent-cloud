@@ -37,6 +37,14 @@ const recovery = [
       requireAuth: false
     }
   }, {
+    path: "/serve/recycling/reSuccess",
+    name: "reSuccess",
+    component: () => import("@/views/serve/recovery/home/recycling/reSuccess"),
+    meta: {
+      title: "预约成功",
+      requireAuth: false
+    }
+  }, {
     path: "/serve/recovery/home/addressM",
     name: "addressM",
     component: () => import("@/views/serve/recovery/home/addressM"),

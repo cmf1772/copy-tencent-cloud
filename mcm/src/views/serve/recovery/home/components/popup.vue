@@ -22,12 +22,12 @@
             </div>
           </div>
           <div class="footer">
-            <div class="price">
+            <!-- <div class="price">
               预估回收价格
               <div class="num">
                 合计/￥<span>55</span>
               </div>
-            </div>
+            </div> -->
             <van-button round
                         type="info"
                         color="#c3ab87"
@@ -191,7 +191,7 @@ export default {
     display: flex;
     font-size: 0.24rem;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     .price {
       display: flex;
       align-items: center;

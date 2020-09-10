@@ -60,6 +60,19 @@ export default {
       value2: "",
       address: "",
       value4: "",
+      dataList: [
+        {
+          "uid": 153,
+          "is_buy": "checked",
+          "consignee": "shaoshibing",
+          "address": "成都市郫都区双柏路6号",
+          "province": "四川省",
+          "city": "成都市",
+          "county": "郫县",
+          "mobile": "18200218721",
+          "zipcode": "610023"
+        },
+      ],
     };
   },
   created () {
@@ -68,8 +81,34 @@ export default {
       this.address = location.address
       localStorage.removeItem("checkedLocation")
     }
+    this.getUserAddress()
   },
   methods: {
+    getUserAddress () {
+      // this.dataList.forEach((item, index) => {
+      //   if (item.is_buy === 'checked') {
+      //     this.radio = index
+      //   }
+      // })
+      let index = this.$route.query.index
+      // this.value1 = this.dataList[index].consignee
+      // this.value2 = this.dataList[index].mobile
+      // this.address = this.dataList[index].address
+      // this.value4 = this.dataList[index].province + this.dataList[index].city + this.dataList[index].county + this.dataList[index].address
+      this.$api.mine.getMyShopAdressList({
+        token: this.$store.state.token.token
+      })
+        .then(res => {
+          this.value1 = res[index].consignee
+          this.value2 = res[index].mobile
+          this.address = res[index].address
+          this.value4 = res[index].province + res[index].city + res[index].county + res[index].address
+          // this.dataList = res
+        })
+        .catch(err => {
+
+        })
+    },
     onClickLeft () {
       this.$router.go(-1);
     },

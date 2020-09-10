@@ -13,136 +13,27 @@
     </div>
 
     <div class="content">
-      <div class="itemList">
+      <div class="itemList"
+           v-for="(item, index) in dataList"
+           :key="index">
         <div class="title">
           <div class="left">
-            <span>默默大师</span> 18815698754
+            <span>{{item.consignee}}</span> {{item.mobile}}
           </div>
-          <div class="right">
+          <div class="right"
+               v-if="item.is_buy === 'checked'">
             默认
           </div>
         </div>
-        <div class="address">江苏省苏州市高新区金山路星韵花苑2期南组团8栋1204</div>
+        <div class="address">{{item.province + item.city + item.county + item.address}}</div>
         <div class="bottom">
           <van-radio-group v-model="radio"
                            style="margin-right: 0.1rem">
-            <van-radio name="0"
+            <van-radio :name="index"
                        checked-color="#C3AB87">设为默认</van-radio>
           </van-radio-group>
           <div class="rightBotton">
-            <p @click="edit">
-              <img src="@/assets/images/serve/recovery/bj.png"
-                   alt=""> 编辑
-            </p>
-            <p>
-              <img src="@/assets/images/serve/recovery/del.png"
-                   alt=""> 删除
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="itemList">
-        <div class="title">
-          <div class="left">
-            <span>默默大师</span> 18815698754
-          </div>
-          <!-- <div class="right">
-            默认
-          </div> -->
-        </div>
-        <div class="address">江苏省苏州市高新区金山路星韵花苑2期南组团8栋1204</div>
-        <div class="bottom">
-          <van-radio-group v-model="radio"
-                           style="margin-right: 0.1rem">
-            <van-radio name="1"
-                       checked-color="#C3AB87">设为默认</van-radio>
-          </van-radio-group>
-          <div class="rightBotton">
-            <p @click="edit">
-              <img src="@/assets/images/serve/recovery/bj.png"
-                   alt=""> 编辑
-            </p>
-            <p>
-              <img src="@/assets/images/serve/recovery/del.png"
-                   alt=""> 删除
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="itemList">
-        <div class="title">
-          <div class="left">
-            <span>默默大师</span> 18815698754
-          </div>
-          <!-- <div class="right">
-            默认
-          </div> -->
-        </div>
-        <div class="address">江苏省苏州市高新区金山路星韵花苑2期南组团8栋1204</div>
-        <div class="bottom">
-          <van-radio-group v-model="radio"
-                           style="margin-right: 0.1rem">
-            <van-radio name="2"
-                       checked-color="#C3AB87">设为默认</van-radio>
-          </van-radio-group>
-          <div class="rightBotton">
-            <p @click="edit">
-              <img src="@/assets/images/serve/recovery/bj.png"
-                   alt=""> 编辑
-            </p>
-            <p>
-              <img src="@/assets/images/serve/recovery/del.png"
-                   alt=""> 删除
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="itemList">
-        <div class="title">
-          <div class="left">
-            <span>默默大师</span> 18815698754
-          </div>
-          <!-- <div class="right">
-            默认
-          </div> -->
-        </div>
-        <div class="address">江苏省苏州市高新区金山路星韵花苑2期南组团8栋1204</div>
-        <div class="bottom">
-          <van-radio-group v-model="radio"
-                           style="margin-right: 0.1rem">
-            <van-radio name="2"
-                       checked-color="#C3AB87">设为默认</van-radio>
-          </van-radio-group>
-          <div class="rightBotton">
-            <p @click="edit">
-              <img src="@/assets/images/serve/recovery/bj.png"
-                   alt=""> 编辑
-            </p>
-            <p>
-              <img src="@/assets/images/serve/recovery/del.png"
-                   alt=""> 删除
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="itemList">
-        <div class="title">
-          <div class="left">
-            <span>默默大师</span> 18815698754
-          </div>
-          <!-- <div class="right">
-            默认
-          </div> -->
-        </div>
-        <div class="address">江苏省苏州市高新区金山路星韵花苑2期南组团8栋1204</div>
-        <div class="bottom">
-          <van-radio-group v-model="radio"
-                           style="margin-right: 0.1rem">
-            <van-radio name="2"
-                       checked-color="#C3AB87">设为默认</van-radio>
-          </van-radio-group>
-          <div class="rightBotton">
-            <p @click="edit">
+            <p @click="edit(index)">
               <img src="@/assets/images/serve/recovery/bj.png"
                    alt=""> 编辑
             </p>
@@ -167,19 +58,53 @@ export default {
 
   data () {
     return {
-      radio: '0',
+      radio: 0,
+      dataList: [
+
+      ],
     }
   },
 
   methods: {
+    getUserAddress () {
+      // this.dataList.forEach((item, index) => {
+      //   if (item.is_buy === 'checked') {
+      //     this.radio = index
+      //   }
+      // })
+      this.$api.mine.getMyShopAdressList({
+        token: this.$store.state.token.token
+      })
+        .then(res => {
+          res.forEach((item, index) => {
+            if (item.is_buy === 'checked') {
+              this.radio = index
+            }
+          })
+          this.dataList = res
+        })
+        .catch(err => {
+
+        })
+    },
+
     onClickLeft () {
       this.$router.go(-1);
     },
 
-    edit () {
-      this.$router.push('/serve/recovery/home/update_adress')
+    edit (index) {
+      this.$router.push({
+        path: '/serve/recovery/home/update_adress',
+        query: {
+          index: index
+        }
+      })
     }
-  }
+  },
+
+  created () {
+    this.getUserAddress()
+  },
 }
 </script>
 

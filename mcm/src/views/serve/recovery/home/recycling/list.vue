@@ -1,264 +1,67 @@
 <template>
   <div class="list">
     <div class="top">
-      <van-nav-bar title="回收清单"
+      <van-nav-bar title="提交回收订单"
                    left-text
                    left-arrow
-                   @click-left="onClickLeft"
-                   @click-right="onClickRight">
+                   @click-left="onClickLeft">
         <template #left>
           <img src="@/assets/images/icon/index/arrow.png" />
-        </template>
-        <template #right>
-          <span>{{flag ? '管理' : '完成'}}</span>
         </template>
       </van-nav-bar>
     </div>
 
-    <div class="content"
-         v-if="flag">
-      <div class="itemCon">
-        <div class="left">
-          <img src="@/assets/images/magazine/bannerBG/b2.png"
-               alt="">
-        </div>
-        <div class="center">
-          <p>类 型：台式电脑</p>
-          <p>规 格：台式主机</p>
-          <p>预约保证金：100 环保金</p>
-          <p>预约时间：2020-02-20 19:00:00</p>
-        </div>
-        <div class="right">
-          × 1
-        </div>
-      </div>
-      <div class="itemCon">
-        <div class="left">
-          <img src="@/assets/images/magazine/bannerBG/b2.png"
-               alt="">
-        </div>
-        <div class="center">
-          <p>类 型：台式电脑</p>
-          <p>规 格：台式主机</p>
-          <p>预约保证金：100 环保金</p>
-          <p>预约时间：2020-02-20 19:00:00</p>
-        </div>
-        <div class="right">
-          × 1
-        </div>
-      </div>
-      <div class="itemCon">
-        <div class="left">
-          <img src="@/assets/images/magazine/bannerBG/b2.png"
-               alt="">
-        </div>
-        <div class="center">
-          <p>类 型：台式电脑</p>
-          <p>规 格：台式主机</p>
-          <p>预约保证金：100 环保金</p>
-          <p>预约时间：2020-02-20 19:00:00</p>
-        </div>
-        <div class="right">
-          × 1
-        </div>
-      </div>
-      <div class="itemCon">
-        <div class="left">
-          <img src="@/assets/images/magazine/bannerBG/b2.png"
-               alt="">
-        </div>
-        <div class="center">
-          <p>类 型：台式电脑</p>
-          <p>规 格：台式主机</p>
-          <p>预约保证金：100 环保金</p>
-          <p>预约时间：2020-02-20 19:00:00</p>
-        </div>
-        <div class="right">
-          × 1
-        </div>
-      </div>
-      <div class="itemCon">
-        <div class="left">
-          <img src="@/assets/images/magazine/bannerBG/b2.png"
-               alt="">
-        </div>
-        <div class="center">
-          <p>类 型：台式电脑</p>
-          <p>规 格：台式主机</p>
-          <p>预约保证金：100 环保金</p>
-          <p>预约时间：2020-02-20 19:00:00</p>
-        </div>
-        <div class="right">
-          × 1
-        </div>
-      </div>
-    </div>
-
-    <div class="content"
-         v-if="!flag">
-      <van-swipe-cell>
-        <div class="itemCon">
-          <van-radio-group v-model="radio"
-                           style="margin-right: 0.1rem">
-            <van-radio name="1"
-                       checked-color="#C3AB87"></van-radio>
-          </van-radio-group>
-          <div class="left">
-            <img src="@/assets/images/magazine/bannerBG/b2.png"
-                 alt="">
+    <div class="content">
+      <van-checkbox-group v-model="result"
+                          ref="checkboxGroup">
+        <van-swipe-cell v-for="(item, index) in list"
+                        :key="index">
+          <div class="itemCon">
+            <van-checkbox :name="item"
+                          @click="changeItem"
+                          checked-color="#C4AC88"
+                          style="margin-right: 0.25rem"
+                          ref="checkboxes" />
+            <div class="left">
+              <img :src="item.img.split('__')[0]"
+                   alt="">
+            </div>
+            <div class="center">
+              <p>类 型：{{item.p_cate_name}}</p>
+              <p>规 格：{{item.cate_name}}</p>
+              <p>预约保证金：{{item.predict_money}} 环保金</p>
+              <p>预约时间：{{item.subscribe_time}}</p>
+            </div>
+            <div class="right">
+              × 1
+            </div>
           </div>
-          <div class="center">
-            <p>类 型：台式电脑</p>
-            <p>规 格：台式主机</p>
-            <p>预约保证金：100 环保金</p>
-            <p>预约时间：2020-02-20 19:00:00</p>
-          </div>
-          <div class="right">
-            × 1
-          </div>
-        </div>
-        <template #right>
-          <van-button square
-                      style="height: 100%"
-                      text="删除"
-                      type="danger"
-                      class="delete-button" />
-        </template>
-      </van-swipe-cell>
-      <van-swipe-cell>
-        <div class="itemCon">
-          <van-radio-group v-model="radio"
-                           style="margin-right: 0.1rem">
-            <van-radio name="1"
-                       checked-color="#C3AB87"></van-radio>
-          </van-radio-group>
-          <div class="left">
-            <img src="@/assets/images/magazine/bannerBG/b2.png"
-                 alt="">
-          </div>
-          <div class="center">
-            <p>类 型：台式电脑</p>
-            <p>规 格：台式主机</p>
-            <p>预约保证金：100 环保金</p>
-            <p>预约时间：2020-02-20 19:00:00</p>
-          </div>
-          <div class="right">
-            × 1
-          </div>
-        </div>
-        <template #right>
-          <van-button square
-                      style="height: 100%"
-                      text="删除"
-                      type="danger"
-                      class="delete-button" />
-        </template>
-      </van-swipe-cell>
-      <van-swipe-cell>
-        <div class="itemCon">
-          <van-radio-group v-model="radio"
-                           style="margin-right: 0.1rem">
-            <van-radio name="1"
-                       checked-color="#C3AB87"></van-radio>
-          </van-radio-group>
-          <div class="left">
-            <img src="@/assets/images/magazine/bannerBG/b2.png"
-                 alt="">
-          </div>
-          <div class="center">
-            <p>类 型：台式电脑</p>
-            <p>规 格：台式主机</p>
-            <p>预约保证金：100 环保金</p>
-            <p>预约时间：2020-02-20 19:00:00</p>
-          </div>
-          <div class="right">
-            × 1
-          </div>
-        </div>
-        <template #right>
-          <van-button square
-                      style="height: 100%"
-                      text="删除"
-                      type="danger"
-                      class="delete-button" />
-        </template>
-      </van-swipe-cell>
-      <van-swipe-cell>
-        <div class="itemCon">
-          <van-radio-group v-model="radio"
-                           style="margin-right: 0.1rem">
-            <van-radio name="1"
-                       checked-color="#C3AB87"></van-radio>
-          </van-radio-group>
-          <div class="left">
-            <img src="@/assets/images/magazine/bannerBG/b2.png"
-                 alt="">
-          </div>
-          <div class="center">
-            <p>类 型：台式电脑</p>
-            <p>规 格：台式主机</p>
-            <p>预约保证金：100 环保金</p>
-            <p>预约时间：2020-02-20 19:00:00</p>
-          </div>
-          <div class="right">
-            × 1
-          </div>
-        </div>
-        <template #right>
-          <van-button square
-                      style="height: 100%"
-                      text="删除"
-                      type="danger"
-                      class="delete-button" />
-        </template>
-      </van-swipe-cell>
-      <van-swipe-cell>
-        <div class="itemCon">
-          <van-radio-group v-model="radio"
-                           style="margin-right: 0.1rem">
-            <van-radio name="2"
-                       checked-color="#C3AB87"></van-radio>
-          </van-radio-group>
-          <div class="left">
-            <img src="@/assets/images/magazine/bannerBG/b2.png"
-                 alt="">
-          </div>
-          <div class="center">
-            <p>类 型：台式电脑</p>
-            <p>规 格：台式主机</p>
-            <p>预约保证金：100 环保金</p>
-            <p>预约时间：2020-02-20 19:00:00</p>
-          </div>
-          <div class="right">
-            × 1
-          </div>
-        </div>
-        <template #right>
-          <van-button square
-                      style="height: 100%"
-                      text="删除"
-                      type="danger"
-                      class="delete-button" />
-        </template>
-      </van-swipe-cell>
+          <template #right>
+            <van-button square
+                        @click="deleteItem(item.order_id)"
+                        style="height: 100%"
+                        text="删除"
+                        type="danger"
+                        class="delete-button" />
+          </template>
+        </van-swipe-cell>
+      </van-checkbox-group>
     </div>
 
     <div class="footer">
-      <van-radio-group v-model="radio"
-                       v-if="!flag"
-                       style="margin-right: 0.1rem">
-        <van-radio name="3"
-                   checked-color="#C3AB87">全选</van-radio>
-      </van-radio-group>
-      <div class="bottom"
-           v-if="!flag">
-        删除
-      </div>
+      <van-checkbox v-model="radio"
+                    checked-color="#C4AC88"
+                    @click="checkboxGroup">全选</van-checkbox>
       <div class="bottom bottoms"
-           v-if="flag">
-        添加回收物品
+           @click="setDate">
+        立即预约
       </div>
     </div>
+    <van-overlay :show="show">
+      <van-loading type="spinner"
+                   class="wrapper"
+                   color="#1989fa" />
+    </van-overlay>
   </div>
 </template>
 
@@ -268,24 +71,100 @@ export default {
 
   data () {
     return {
-      flag: true,
-      radio: false
+      result: [],
+      radio: false,
+      list: [],
+      show: false
     }
   },
 
+  mounted () {
+    this.getList()
+  },
+
   methods: {
+    getList () {
+      this.show = true
+      this.$api.serve.recovery.getSubscribeOrderT({
+        uid: 120,
+        status: 2,
+        page: 1,
+        per_page: 100000000
+      }).then(res => {
+        this.show = false
+        this.list = res.rows
+      })
+    },
+
     onClickLeft () {
       this.$router.go(-1);
     },
-
-    onClickRight () {
-      this.flag = !this.flag
+    //立即预约
+    setDate () {
+      if (!this.judgeData(this.result.length, '请选择预约的类型')) return;
+      let id = ''
+      this.result.forEach((item, index) => { id += item.order_id + (index + 1 === this.result.length ? '' : ',') })
+      this.show = true
+      this.$api.serve.recovery.modSubscribeOrder({
+        status: 3,
+        ids: id
+      }).then(res => {
+        // this.$toast.fail('预约成功')
+        // this.getList()
+        this.$router.push('/serve/recycling/reSuccess')
+      })
     },
+
+    checkboxGroup (event) {
+      // this.radio = !this.radio
+      this.$refs.checkboxGroup.toggleAll(this.radio);
+    },
+
+    changeItem () {
+      this.radio = this.result.length === this.list.length ? true : false
+    },
+
+    deleteItem (id) {
+      this.$dialog.confirm({
+        title: '',
+        message: '确认删除？',
+      })
+        .then(() => {
+          // on confirm
+          this.show = true
+          this.$api.serve.recovery.modSubscribeOrder({
+            status: 1,
+            ids: id + ''
+          }).then(res => {
+            this.$toast.fail('删除成功')
+            this.getList()
+          })
+        })
+        .catch(() => {
+          this.show = false
+        });
+    },
+
+    // 判断数据
+    judgeData (condition, message) {
+      if (!condition) {
+        this.$toast.fail(message)
+        return false;
+      }
+      return true
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
 .list {
   display: flex;
   flex-direction: column;
@@ -361,11 +240,10 @@ export default {
   }
 
   .bottoms {
-    width: 3.4rem;
+    width: 2.1rem;
     height: 0.87rem;
     line-height: 0.87rem;
     border-radius: 0.44rem;
-    margin: 0 auto;
   }
 }
 </style>

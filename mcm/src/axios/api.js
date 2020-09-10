@@ -70,7 +70,9 @@ const api = {
       addRecoveryOrder: data => post("/recovery/addSubscribeOrder", data), //预约回收订单
       getSubscribeOrder: data => post("/recovery/getSubscribeOrder", data), //待结单回收订单
       addSubscribeOrder: data => post("/recovery/addRecoveryOrder", data), //回收员接单
-      getRecoverInfo: data => get("/recovery/getRecoverInfo", data) //获取回收员的信息 以及 审核过程
+      getRecoverInfo: data => get("/recovery/getRecoverInfo", data), //获取回收员的信息 以及 审核过程
+      getSubscribeOrderT: data => get("/recovery/getSubscribeOrder", data), //待结单回收订单
+      modSubscribeOrder: data => post("/recovery/modSubscribeOrder", data), //获取回收员的信息 以及 审核过程
     }
   },
 
