@@ -26,10 +26,10 @@
               <img src="@/assets/images/icon/serve/recovery/local.png"
                    style="width:.27rem;margin-right:.05rem"
                    alt />
-              <span class="adress-text">新竹城2期男组团7#1208</span>
+              <span class="adress-text">{{address.province + address.city + address.county + address.address}}</span>
             </div>
             <div class="phone">
-              <span>中年少女15150124062</span>
+              <span>{{address.consignee}} {{address.mobile}}</span>
             </div>
           </div>
         </template>
@@ -280,16 +280,34 @@ export default {
       timeText: "", // 时间字符串
       minDate: new Date(),  //最小时间
       currentDate: new Date(),  //当前时间
+      address: {
+        province: '',
+        city: '',
+        county: '',
+        address: ''
+      }
     };
   },
   created () {
     this.getCateData();  // 获取分类数据
+    this.getUserAddress()
   },
   methods: {
-    // formatter (value) {
-    //   // 过滤输入的数字
-    //   return value.replace(/\d/g, '');
-    // },
+    getUserAddress () {
+      this.$api.mine.getMyShopAdressList({
+        token: this.$store.state.token.token
+      })
+        .then(res => {
+          res.forEach((item, index) => {
+            if (item.is_buy === 'checked') {
+              this.address = item
+            }
+          })
+        })
+        .catch(err => {
+
+        })
+    },
 
     numChange () {
       this.numShow === true
@@ -367,7 +385,7 @@ export default {
           this.$api.serve.recovery.addRecoveryOrder({
             uid: 120,
             cate_id: this.checkedArray[0].id,
-            address_id: localStorage.getItem("_M_City_Id"),
+            address_id: this.address.uid,
             remark: '测试',
             img: imgs,
             subscribe_time: this.timeText,
