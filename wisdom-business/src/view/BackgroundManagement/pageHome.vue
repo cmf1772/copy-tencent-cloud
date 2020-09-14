@@ -7,7 +7,7 @@
           <div class="tit">
             <div class="item">
               <div>
-                <img src="../../assets/img/favicon.png"
+                <img src="@/assets/img/favicon.png"
                      @click="right"
                      alt="">
               </div>

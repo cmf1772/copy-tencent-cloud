@@ -63,7 +63,7 @@
             </div>
           </template>
         </van-field>
-        <van-cell is-link>
+        <!-- <van-cell is-link>
           <template #title>
             <van-field v-model="formData.type"
                        @focus="show = true"
@@ -71,7 +71,7 @@
                        label="回收类别"
                        :rules="[{ required: true, message: ' ' }]" />
           </template>
-        </van-cell>
+        </van-cell> -->
         <van-cell is-link>
           <van-field v-model="formData.area"
                      name="validator"

@@ -93,11 +93,10 @@ export default {
     },
 
     edit (index) {
+      if (!index) index = 0
       this.$router.push({
-        path: '/serve/recovery/home/update_adress',
-        query: {
-          index: index
-        }
+        path: '/serve/recovery/home/update_adress?index=' + index,
+
       })
     }
   },

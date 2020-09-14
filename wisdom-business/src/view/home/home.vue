@@ -12,7 +12,7 @@
           <p>菜单</p>
         </div>
 
-        <img src="../../assets/img/favicon.png"
+        <img src="@/assets/img/favicon.png"
              alt=""
              @click="goDetial('home')">
         <div style=" width: 200px;margin-left: 5px;    min-width: 150px;"

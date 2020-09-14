@@ -18,22 +18,22 @@
     </div>
 
     <div class="banner">
-      <div>
+      <div @click="$router.push('/dynamic/follow')">
         <img src="../../../assets/images/magazine/sys.png"
              alt="">
         <p>扫一扫</p>
       </div>
-      <div>
+      <div @click="$router.push('/dynamic')">
         <img src="../../../assets/images/magazine/fk.png"
              alt="">
         <p>付款</p>
       </div>
-      <div>
+      <div @click="$router.push('/serve/travel')">
         <img src="../../../assets/images/magazine/cx.png"
              alt="">
         <p>出行</p>
       </div>
-      <div>
+      <div @click="$router.push('/serve/recovery')">
         <img src="../../../assets/images/magazine/hs.png"
              alt="">
         <p>回收</p>

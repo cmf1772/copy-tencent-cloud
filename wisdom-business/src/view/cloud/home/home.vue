@@ -12,7 +12,7 @@
           <p>菜单</p>
         </div>
 
-        <img src="../../assets/img/favicon.png"
+        <img src="@/assets/img/favicon.png"
              alt=""
              @click="goDetial('home')">
         <div style=" width: 125px;margin-left: 5px"
@@ -51,7 +51,7 @@
              :key="index">
 
           {{item.name}}
-          <img src="../../assets/img/hot.gif"
+          <img src="@/assets/img/hot.gif"
                v-if="index === 0"
                alt="">
           <div class="selectAll">

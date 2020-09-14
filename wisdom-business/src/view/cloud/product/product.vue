@@ -429,7 +429,7 @@
     <div class="map"
          :style="{'height': mapHeight}">
       <img ref="img"
-           src="../../assets/img/Wechat.png"
+           src="@/assets/img/Wechat.png"
            alt="">
       <p>腾讯云全球基础设施</p>
       <span>开放 27 个地理区域，运营 54 个可用区，为更多企业提供强有力的技术支持，助力业务飞速拓展</span>

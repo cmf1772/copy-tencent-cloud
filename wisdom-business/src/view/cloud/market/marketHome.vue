@@ -12,7 +12,7 @@
           <p>菜单</p>
         </div>
 
-        <img src="../../assets/img/favicon.png"
+        <img src="@/assets/img/favicon.png"
              alt="">
         <div style=" width: 125px;margin-left: 5px">美城智慧企业</div>
       </div>
@@ -33,7 +33,7 @@
     <div class="marketSwiper">
       <div class="search">
         <div class="left">
-          <img src="../../assets/img/logoFFF.png"
+          <img src="@/assets/img/logoFFF.png"
                alt="">
         </div>
         <div class="center">

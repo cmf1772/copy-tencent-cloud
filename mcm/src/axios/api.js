@@ -1,7 +1,8 @@
 import {
   get,
   post,
-  upload
+  upload,
+  put
 } from "./axios";
 
 
@@ -73,6 +74,12 @@ const api = {
       getRecoverInfo: data => get("/recovery/getRecoverInfo", data), //获取回收员的信息 以及 审核过程
       getSubscribeOrderT: data => get("/recovery/getSubscribeOrder", data), //待结单回收订单
       modSubscribeOrder: data => post("/recovery/modSubscribeOrder", data), //获取回收员的信息 以及 审核过程
+      addEquipment: data => post("/recovery/addEquipment", data), //回收柜存储
+      getEquipment: data => post("/recovery/getEquipment", data), //获取回收柜数据 /recovery/getRecoveryCate
+      getRecoveryCate: data => get("/recovery/getRecoveryCate", data), //获取回收分类列表
+      setCate: data => post("/recovery/setCate", data),  //添加设备
+      getEquipmentCate: data => get("/recovery/getEquipmentCate", data),  //获取 子设备
+      modEquipmentCate: data => put("/recovery/modEquipmentCate", data),  //修改 子设备价钱
     }
   },
 

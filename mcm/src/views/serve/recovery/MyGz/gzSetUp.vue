@@ -13,50 +13,25 @@
     </div>
 
     <div class="content">
-      <div class="itemList">
+      <div class="itemList"
+           v-for="(item, index) in list"
+           :key="index"
+           @click="goSet(item.id)">
         <div class="left">
           <img src="@/assets/images/serve/list.png"
                alt="">
-          <p>默认分类一</p>
+          <p>{{item.name}}</p>
         </div>
         <div class="right">
-          <van-radio-group v-model="radio">
-            <van-radio name="1"
-                       checked-color="#C4AC88"></van-radio>
-          </van-radio-group>
-        </div>
-      </div>
-      <div class="itemList">
-        <div class="left">
-          <img src="@/assets/images/serve/list.png"
-               alt="">
-          <p>默认分类二</p>
-        </div>
-        <div class="right">
-          <van-radio-group v-model="radio">
-            <van-radio name="2"
-                       checked-color="#C4AC88"></van-radio>
-          </van-radio-group>
-        </div>
-      </div>
-      <div class="itemList">
-        <div class="left">
-          <img src="@/assets/images/serve/list.png"
-               alt="">
-          <p>默认分类三</p>
-        </div>
-        <div class="right">
-          <van-radio-group v-model="radio">
-            <van-radio name="3"
-                       checked-color="#C4AC88"></van-radio>
-          </van-radio-group>
+          <van-icon name="arrow" />
         </div>
       </div>
     </div>
 
     <div class="botton">
-      <div class="bottom">
-        保存
+      <div class="bottom"
+           @click="add">
+        新增分类
       </div>
     </div>
   </div>
@@ -68,8 +43,8 @@ export default {
 
   data () {
     return {
-      radio: '1',
-      height: window.innerHeight + 'px'
+      height: window.innerHeight + 'px',
+      list: []
     };
   },
 
@@ -77,6 +52,27 @@ export default {
     onClickLeft () {
       this.$router.go(-1);
     },
+
+    getEquipmentCate () {
+      this.$api.serve.recovery.getEquipmentCate({
+        identification: this.$route.query.identification,
+      })
+        .then(res => {
+          this.list = res
+        })
+    },
+
+    goSet (id) {
+      this.$router.push('/serve/recovery/setTing?id=' + this.$route.query.id + '&flId=' + id + '&identification=' + this.$route.query.identification)
+    },
+
+    add () {
+      this.$router.push('/serve/recovery/setTing?id=' + this.$route.query.id + '&identification=' + this.$route.query.identification)
+    }
+  },
+
+  mounted () {
+    this.getEquipmentCate()
   }
 }
 </script>
@@ -94,7 +90,6 @@ export default {
 }
 .botton {
   width: 100%;
-
   height: 1.07rem;
   .bottom {
     margin: 0 auto;
@@ -134,6 +129,10 @@ export default {
         font-weight: 400;
         color: #000000;
       }
+    }
+    .right {
+      color: #d0d0d0;
+      font-size: 0.27rem;
     }
   }
 }

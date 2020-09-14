@@ -133,6 +133,24 @@ const recovery = [
     }
   },
   {
+    path: "/serve/recovery/addMyGz",
+    name: "addMyGz",
+    component: () => import("@/views/serve/recovery/MyGz/addMyGz.vue"),
+    meta: {
+      title: "新增回收柜",
+      requireAuth: false
+    }
+  },
+  {
+    path: "/serve/recovery/setTing",
+    name: "setTing",
+    component: () => import("@/views/serve/recovery/MyGz/setTing.vue"),
+    meta: {
+      title: "分类设置",
+      requireAuth: false
+    }
+  },
+  {
     path: "/serve/recovery/gzSetUp",
     name: "gzSetUp",
     component: () => import("@/views/serve/recovery/MyGz/gzSetUp.vue"),

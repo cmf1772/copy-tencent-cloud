@@ -26,7 +26,7 @@
               <img src="@/assets/images/icon/serve/recovery/local.png"
                    style="width:.27rem;margin-right:.05rem"
                    alt />
-              <span class="adress-text">{{address.province + address.city + address.county + address.address}}</span>
+              <span class="adress-text">{{address.province + address.city + address.county + address.address}}暂无接口(地址暂开发，不影响流程)</span>
             </div>
             <div class="phone">
               <span>{{address.consignee}} {{address.mobile}}</span>
@@ -171,7 +171,7 @@
                              title="请预约上门时间"
                              v-if="flagName === '完成'"
                              confirm-button-text="完成"
-                             type="datehour"
+                             type="time"
                              @confirm="checkedTime"
                              :min-date="minDate"
                              :formatter="formatter"
@@ -382,11 +382,13 @@ export default {
       })
         .then(() => {
           // this.$store.state.user.user_id
+          // this.address.uid
+          // localStorage.getItem("_M_City_Id")
           this.$api.serve.recovery.addRecoveryOrder({
             uid: 120,
             cate_id: this.checkedArray[0].id,
-            address_id: this.address.uid,
-            remark: '测试',
+            address_id: 1,
+            remark: this.remark,
             img: imgs,
             subscribe_time: this.timeText,
             status: 2,
@@ -443,8 +445,11 @@ export default {
         console.log(this.timeText)
         // .replace("时", ":").replace("分", ":00")
       } else {
-        let time = this.$refs.datePicker.getPicker().getValues().join("");
-        this.timeText += time.replace("时", ":").replace("分", ":00").split('日')[1];
+        let m = this.$refs.datePicker.getPicker().getValues()[0]
+        let s = this.$refs.datePicker.getPicker().getValues()[1]
+        const times = m + '' + s;
+
+        this.timeText += times.replace("时", ":").replace("分", "");
         this.timeShow = false;
         // console.log(time.replace("时", ":").replace("分", ":00"))
 
@@ -573,19 +578,19 @@ export default {
     color: #c3ab87;
   }
 }
-.none {
-  /deep/ .van-datetime-picker {
-    /deep/ .van-picker__columns {
-      .van-picker-column:first-child,
-      .van-picker-column:nth-child(2) {
-        display: none;
-      }
-      .van-picker-column:nth-child(3) {
-        display: none;
-      }
-    }
-  }
-}
+// .none {
+//   /deep/ .van-datetime-picker {
+//     /deep/ .van-picker__columns {
+//       .van-picker-column:first-child,
+//       .van-picker-column:nth-child(2) {
+//         display: none;
+//       }
+//       .van-picker-column:nth-child(3) {
+//         display: none;
+//       }
+//     }
+//   }
+// }
 
 .form-list {
   border-bottom: 0.2rem #f7f7f7 solid;

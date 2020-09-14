@@ -227,12 +227,9 @@ export default {
       this.$router.push({
         path: "/serve/recovery/recycler"
       });
-
       // this.$router.push({
       //   path: "/serve/recovery/apply"
       // });
-
-
     },
     myOrder () {
       this.$router.push({

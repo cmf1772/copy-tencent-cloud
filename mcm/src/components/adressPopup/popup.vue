@@ -1,77 +1,63 @@
 <template>
   <div class="main">
-    <van-popup
-      v-model="showPopup"
-      closeable
-      position="top left"
-      @close="hidePopup"
-      :style="{ height: 'auto',borderBox:'box-sizing' }"
-    >
+    <van-popup v-model="showPopup"
+               closeable
+               position="top left"
+               @close="hidePopup"
+               :style="{ height: 'auto',borderBox:'box-sizing' }">
       <div class="content">
         <div class="menu">
           <div class="set-menu">
             <!-- 区域 -->
             <div class="area">
               <div class="title">
-                <div
-                  :class="adressCheckIndex < 4 ? adressCheckIndex == 3?'indexnow ':'active':''"
-                  @click="changeTitle(3)"
-                >
+                <div :class="adressCheckIndex < 4 ? adressCheckIndex == 3?'indexnow ':'active':''"
+                     @click="changeTitle(3)">
                   <span>{{provinceText}}</span>
                 </div>
-                <div
-                  :class="adressCheckIndex < 3 ? adressCheckIndex == 2?'indexnow ':'active':''"
-                  @click="changeTitle(2)"
-                >
+                <div :class="adressCheckIndex < 3 ? adressCheckIndex == 2?'indexnow ':'active':''"
+                     @click="changeTitle(2)">
                   <span>{{cityText}}</span>
                 </div>
-                <div
-                  :class="adressCheckIndex < 2 ? adressCheckIndex == 1?'indexnow ':'active':''"
-                  @click="changeTitle(1)"
-                >
+                <div :class="adressCheckIndex < 2 ? adressCheckIndex == 1?'indexnow ':'active':''"
+                     @click="changeTitle(1)">
                   <span>{{countyText}}</span>
                 </div>
-                <div
-                  :class="adressCheckIndex < 1 ? adressCheckIndex == 0?'indexnow ':'active':''"
-                  @click="changeTitle(0)"
-                >
+                <div :class="adressCheckIndex < 1 ? adressCheckIndex == 0?'indexnow ':'active':''"
+                     @click="changeTitle(0)">
                   <span>{{countryText}}</span>
                 </div>
               </div>
               <div class="area-list">
-                <div class="province" v-if="adressCheckIndex == 3">
-                  <div
-                    @click="checkedProvince(item,index)"
-                    :class="index == checkedProvinceIndex ? 'active':''"
-                    v-for="(item,index) in province"
-                    :key="index"
-                  >{{item.name}}</div>
+                <div class="province"
+                     v-if="adressCheckIndex == 3">
+                  <div @click="checkedProvince(item,index)"
+                       :class="index == checkedProvinceIndex ? 'active':''"
+                       v-for="(item,index) in province"
+                       :key="index">{{item.name}}</div>
                 </div>
-                <div class="city" v-if="adressCheckIndex == 2">
-                  <div
-                    @click="checkedCity(item,index)"
-                    :class="index == checkedCityIndex ? 'active':''"
-                    v-for="(item,index) in city"
-                    :key="index"
-                  >{{item.name}}</div>
+                <div class="city"
+                     v-if="adressCheckIndex == 2">
+                  <div @click="checkedCity(item,index)"
+                       :class="index == checkedCityIndex ? 'active':''"
+                       v-for="(item,index) in city"
+                       :key="index">{{item.name}}</div>
                 </div>
-                <div class="county" v-if="adressCheckIndex == 1">
+                <div class="county"
+                     v-if="adressCheckIndex == 1">
                   <div @click="checkedCounty(null,null)">全城</div>
-                  <div
-                    @click="checkedCounty(item,index)"
-                    :class="index == checkedCountyIndex ? 'active':''"
-                    v-for="(item,index) in county"
-                    :key="index"
-                  >{{item.name}}</div>
+                  <div @click="checkedCounty(item,index)"
+                       :class="index == checkedCountyIndex ? 'active':''"
+                       v-for="(item,index) in county"
+                       :key="index">{{item.name}}</div>
                 </div>
-                <div class="country" v-if="adressCheckIndex < 1">
+                <div class="country"
+                     v-if="adressCheckIndex < 1">
                   <div @click="checkedCountry(null,null)">全区</div>
-                  <div
-                    @click="checkedCountry(item,index)"
-                    :class="index == checkedCountryIndex ? 'active':''"
-                    v-for="(item,index) in country"
-                    :key="index"
-                  >{{item | filterEmpty}}</div>
+                  <div @click="checkedCountry(item,index)"
+                       :class="index == checkedCountryIndex ? 'active':''"
+                       v-for="(item,index) in country"
+                       :key="index">{{item | filterEmpty}}</div>
                 </div>
               </div>
             </div>
@@ -87,7 +73,7 @@ export default {
   props: {
     show: false
   },
-  data() {
+  data () {
     return {
       // 存放 省 市 区 镇 数据
       province: [],
@@ -111,7 +97,7 @@ export default {
   },
   watch: {
     // 监听父组件 show 的值
-    show(val) {
+    show (val) {
       // 设置当前的显示弹出框的布尔值
       this.showPopup = val;
       //如果为真 请求 地区数据
@@ -124,8 +110,8 @@ export default {
   // 过滤器
   filters: {
     //过滤空元素
-    filterEmpty(item) {
-      console.log(typeof item);
+    filterEmpty (item) {
+      console.log(item);
       // 参数是对象就 使用name
       if (typeof item == "object") {
         return item.name;
@@ -137,11 +123,11 @@ export default {
   },
   methods: {
     // 初始化函数
-    init() {
+    init () {
       // 获取数据
       this.getData();
     },
-    hidePopup() {
+    hidePopup () {
       // 弹出层隐藏
       // 向父组件发送事件
       // 重置数据 keep-alive
@@ -169,7 +155,7 @@ export default {
       }, 500);
     },
     // 获取数据
-    getData() {
+    getData () {
       this.$api.index
         .getAdressLocalList({
           pid: 0
@@ -180,7 +166,7 @@ export default {
     },
 
     // 改变title 时需要把后边的adresslist 清空
-    changeTitle(index) {
+    changeTitle (index) {
       // 当没选中父级不能选择子级
       if (index <= this.adressCheckIndex) return;
       //重置省份
@@ -213,7 +199,8 @@ export default {
     },
 
     // 省份选中
-    checkedProvince(item, index) {
+    checkedProvince (item, index) {
+      this.$emit('returnAddress', 'province', item)
       // 清空数组防止重复添加
       this.city = [];
       this.county = [];
@@ -237,7 +224,8 @@ export default {
     },
 
     // //城市选中
-    checkedCity(item, index) {
+    checkedCity (item, index) {
+      this.$emit('returnAddress', 'city', item)
       // 清空数组防止重复添加
       this.county = [];
       this.country = [];
@@ -261,8 +249,8 @@ export default {
     },
 
     // 区县选中
-    checkedCounty(item, index) {
-
+    checkedCounty (item, index) {
+      this.$emit('returnAddress', 'area', item)
       //判断是否选择的全区
       if (item == null && index == null) {
         let adressText = this.city[this.checkedCityIndex].name + "·全城";
@@ -288,10 +276,10 @@ export default {
       localStorage.setItem(
         "checkedIndexForAdress",
         this.checkedProvinceIndex +
-          "" +
-          this.checkedCityIndex +
-          "" +
-          this.checkedCountyIndex
+        "" +
+        this.checkedCityIndex +
+        "" +
+        this.checkedCountyIndex
       );
 
       //请求子级数据
@@ -308,7 +296,7 @@ export default {
     },
 
     //乡镇选中
-    checkedCountry(item, index) {
+    checkedCountry (item, index) {
       let adressText = "";
       if (item == null && index == null) {
         adressText =
@@ -330,14 +318,14 @@ export default {
       this.showPopup = false;
       this.changeAdressVal(adressText);
     },
-    changeAdressVal(val) {
+    changeAdressVal (val) {
       // 地区改变
       this.$emit("changeAdressVal", val);
     },
-    forwardAdress(index) {
+    forwardAdress (index) {
       this.active = index;
     },
-    setCookie(value) {
+    setCookie (value) {
       // 设置接到cookie
       let days = 7;
       let exp = new Date();

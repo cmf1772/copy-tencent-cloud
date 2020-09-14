@@ -1,5 +1,6 @@
 <template>
-  <div class="index">
+  <div class="index"
+       :style="{'height': heightL}">
     <div class="top">
       <van-nav-bar title="回收柜列表"
                    left-text
@@ -12,63 +13,106 @@
     </div>
 
     <div class="content">
-      <div class="itemList">
+      <div class="itemList"
+           v-for="(item, index) in list"
+           :key="index">
         <div class="left">
           <van-icon name="location"
                     color='#cccccc'
                     style="font-size: 0.18rem; margin-right: 0.24rem;" />
           <div>
-            <p>P05250566</p>
-            <span>北京市朝阳区呼家楼8号院1号回收机</span>
+            <p>{{item.identification}}</p>
+            <span>{{item.province + item.city + item.area + item.address}}</span>
           </div>
         </div>
         <div class="right">
           <div class="bottom"
-               @click="setting">
+               v-if="item.status === 2"
+               @click="setting(item.id, item.identification)">
             设置
           </div>
-          <!-- <p>审核中</p> -->
+          <p v-if="item.status !== 2">
+            {{item.status === 1 ? '审核中' : '拒绝'}}
+          </p>
         </div>
       </div>
-      <div class="itemList">
-        <div class="left">
-          <van-icon name="location"
-                    color='#cccccc'
-                    style="font-size: 0.18rem; margin-right: 0.24rem; " />
-          <div>
-            <p>P05250566</p>
-            <span>北京市朝阳区呼家楼8号院1号回收机</span>
-          </div>
-        </div>
-        <div class="right">
-          <p>审核中</p>
-        </div>
-      </div>
-    </div>
-    <div class="bottom">
-      <div class="botton">
 
+    </div>
+    <div class="bottoms">
+      <div class="bottons"
+           @click="add">
+        新增回收柜
       </div>
     </div>
+
   </div>
 </template>
 
 <script>
 export default {
   name: 'index',
+  data () {
+    return {
+      heightL: window.innerHeight + 'px',
+      list: []
+    }
+  },
+
   methods: {
+    getEquipment () {
+      this.$api.serve.recovery.getEquipment({
+        recover_id: 120
+      })
+        .then(res => {
+          this.list = res
+        })
+    },
+
     onClickLeft () {
       this.$router.go(-1);
     },
 
-    setting () {
-      this.$router.push('/serve/recovery/gzSetUp')
+    setting (id, identification) {
+      this.$router.push('/serve/recovery/gzSetUp?id=' + id + '&identification=' + identification)
+    },
+
+    add () {
+      this.$router.push('/serve/recovery/addMyGz')
     }
+  },
+
+  mounted () {
+    this.getEquipment()
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.index {
+  display: flex;
+  flex-direction: column;
+  .content {
+    flex: 1;
+    overflow: auto;
+  }
+}
+.bottoms {
+  padding: 0.2rem 0;
+  .bottons {
+    margin: 0 auto;
+    width: 3.93rem;
+    height: 0.87rem;
+    border-radius: 0.44rem;
+    background: #c3ab87;
+    line-height: 0.87rem;
+    text-align: center;
+
+    font-size: 0.3rem;
+    font-family: PingFang SC;
+    font-weight: 400;
+    color: #ffffff;
+  }
+}
 .content {
   width: 100%;
   box-sizing: border-box;

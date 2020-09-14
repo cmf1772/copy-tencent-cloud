@@ -1,7 +1,8 @@
 <template>
   <div class="registered">
     <div class="form">
-      <div class="tit">
+      <div class="tit"
+           @click="goMaent">
         <i class="el-icon-tickets"></i>
         商家入驻
       </div>
@@ -275,6 +276,9 @@ export default {
   },
 
   methods: {
+    goMaent () {
+      this.$router.push('/settlement')
+    },
     handleRemove (file, fileList) {
       console.log(file, fileList);
     },
