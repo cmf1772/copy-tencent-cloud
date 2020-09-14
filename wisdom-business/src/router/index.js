@@ -5,41 +5,44 @@ import menu from './menu';
 
 Vue.use(Router)
 
+//动态路由 生成
 export function autoRouter (routes) {
   let routeList = []
   const loop = (routes, parentPath = '/') => {
     if (routes instanceof Array && routes.length) {
       routes.forEach(route => {
         let { children, component, redirect, ...rt } = route
-        if (rt.hidden) {
-          rt.meta = {
-            ...(rt.meta || {}),
+        if (route.hidden) {
+          route.meta = {
+            ...(route.meta || {}),
             activeMenu: parentPath
           }
         }
-        let cloneRouter = routeMap[rt.name]
+        let cloneRouter = routeMap[route.name]
         if (cloneRouter) {
-          rt.component = () => import(`@/${cloneRouter}`)
+          route.component = () => import(`@/view/settlement/${cloneRouter}`)
+        } else {
+          route.component = () => import(`@/view/settlement/home.vue`)
         }
         if (children instanceof Array && children.length) {
           // .filter(c => c.menuType !== 2)
           const subMenus = children
           if (subMenus.length) rt.redirect = subMenus[0].path
         }
-        routeList.push(rt)
+        routeList.push(route)
         if (children) {
-          loop(children, rt.hidden ? parentPath : rt.path)
+          // rt.hidden ? parentPath : 
+          loop(children, route.path)
         }
       })
     }
   }
   loop(routes)
-  return routeList
+  return routes
 }
 
 let autoRouters = autoRouter(menu)
 
-console.log(autoRouters)
 let rootRouter = [
   {
     path: '/',

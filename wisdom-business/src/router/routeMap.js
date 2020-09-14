@@ -1,3 +1,5 @@
 export default {
-  settlement: 'view/settlement/home.vue'
+  settlement: 'home.vue',
+  survey: 'survey/survey.vue',
+  shop: 'shop/shop.vue'
 }

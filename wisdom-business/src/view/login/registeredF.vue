@@ -277,7 +277,7 @@ export default {
 
   methods: {
     goMaent () {
-      this.$router.push('/settlement')
+      this.$router.push('/survey')
     },
     handleRemove (file, fileList) {
       console.log(file, fileList);
