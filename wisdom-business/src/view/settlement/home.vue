@@ -25,7 +25,8 @@
       </div>
       <div class="content"
            :style="{'height': contentHeight}">
-        <router-view></router-view>
+        <router-view style="flex: 1; margin: 0"
+                     class="bs"></router-view>
         <help v-if="help"></help>
       </div>
     </div>
@@ -55,14 +56,13 @@ export default {
   },
 
   methods: {
-    // 通过路由判断 是否显示帮助
+    // 通过路由判断 是否显示帮助  特殊特面不显示帮助
     showHelp () {
       let routerArray = [
         '/survey',
         '/shopPage'
       ]
       this.help = routerArray.indexOf(this.$route.path) > -1 ? false : true
-      console.log(this.help, routerArray.indexOf(this.$route.path))
     }
   },
 
@@ -147,9 +147,5 @@ export default {
       }
     }
   }
-}
-
-ul > li {
-  line-height: 30px;
 }
 </style>

@@ -18,4 +18,7 @@ export default {
   productList: 'commodity/productList.vue', // 商品列表
   productReviews: 'commodity/productReviews.vue', // 商品评论
   supplyCenter: 'commodity/supplyCenter.vue', // 供货中心
+
+  //暂无开发
+  error: 'error.vue'
 }

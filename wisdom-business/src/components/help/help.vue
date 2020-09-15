@@ -38,4 +38,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+ul > li {
+  line-height: 30px;
+}
 </style>

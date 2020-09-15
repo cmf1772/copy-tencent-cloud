@@ -205,12 +205,5 @@ export default {
 .shop {
   width: 100%;
   height: 100%;
-  .conent_box {
-    background: #f2f2f6 !important;
-    border-radius: 5px !important;
-    box-sizing: border-box;
-    padding: 10px 10px 0 10px;
-    margin-top: 10px;
-  }
 }
 </style>

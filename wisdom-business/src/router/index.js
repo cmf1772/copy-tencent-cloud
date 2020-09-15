@@ -49,7 +49,6 @@ export function autoRouter (routes) {
 }
 
 let autoRouters = autoRouter(menu)
-console.log(autoRouter(menu))
 let rootRouter = [
   {
     path: '/',
@@ -731,6 +730,13 @@ let rootRouter = [
     }]
   },
 ]
+// console.log(autoRouter[0])
+
+// autoRouters[0].children.push({
+//   path: '/error',
+//   name: 'error',
+//   component: (resolve) => require(['@/view/settlement/error.vue'], resolve)
+// })
 rootRouter.push(autoRouters[0])
 export const createRouter = new Router({
   routes: rootRouter
