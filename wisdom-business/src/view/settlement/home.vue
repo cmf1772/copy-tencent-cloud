@@ -26,6 +26,7 @@
       <div class="content"
            :style="{'height': contentHeight}">
         <router-view></router-view>
+        <help v-if="help"></help>
       </div>
     </div>
   </div>
@@ -48,12 +49,36 @@ export default {
       }],
       height: window.innerHeight + 'px',
       menuData: [],
-      contentHeight: window.innerHeight + 'px'
+      contentHeight: window.innerHeight + 'px',
+      help: true
+    }
+  },
+
+  methods: {
+    // 通过路由判断 是否显示帮助
+    showHelp () {
+      let routerArray = [
+        '/survey',
+        '/shopPage'
+      ]
+      this.help = routerArray.indexOf(this.$route.path) > -1 ? false : true
+      console.log(this.help, routerArray.indexOf(this.$route.path))
+    }
+  },
+
+  watch: {
+    $route: {
+      handler: function (val, oldVal) {
+        this.showHelp()
+      },
+      // 深度观察监听
+      deep: true
     }
   },
 
   created () {
     this.menuData = menu[0].children
+    this.showHelp()
   }
 }
 </script>
@@ -108,10 +133,23 @@ export default {
     }
     .content {
       // flex: 1;
+      display: flex;
       box-sizing: border-box;
       padding: 20px;
       overflow: auto;
+      .box {
+        // min-width: 200px;
+        max-width: 200px;
+        margin-left: 10px;
+        height: auto !important;
+        box-sizing: border-box;
+        margin-top: 0 !important;
+      }
     }
   }
+}
+
+ul > li {
+  line-height: 30px;
 }
 </style>
