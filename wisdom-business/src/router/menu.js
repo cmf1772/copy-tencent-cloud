@@ -52,6 +52,68 @@ export default [{
         name: 'shop',
         icon: 'el-icon-takeaway-box',
       }]
+    },
+    {
+      path: '/shop',
+      text: '商品',
+      name: 'shop',
+      icon: 'el-icon-magic-stick',
+      children: [{
+        path: '/listOfUnit',
+        text: '单品库列表',
+        name: 'listOfUnit',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/Classification',
+        text: '单品库分类',
+        name: 'Classification',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/shopList',
+        text: '商品库列表',
+        name: 'shopList',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/commodityGrouping',
+        text: '商品分组',
+        name: 'commodityGrouping',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/productLabel',
+        text: '商品标签',
+        name: 'productLabel',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/detailedTemplate',
+        text: '商详模板',
+        name: 'detailedTemplate',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/commodityAttributes',
+        text: '商品属性',
+        name: 'commodityAttributes',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/profileTemplate',
+        text: '档案模板',
+        name: 'profileTemplate',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/productList',
+        text: '商品列表',
+        name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/productReviews',
+        text: '商品评论',
+        name: 'productReviews',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/supplyCenter',
+        text: '供货中心',
+        name: 'supplyCenter',
+        icon: 'el-icon-news',
+      }]
     }
   ]
 }]
