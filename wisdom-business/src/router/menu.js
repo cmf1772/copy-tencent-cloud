@@ -109,9 +109,9 @@ export default [{
         name: 'productReviews',
         icon: 'el-icon-toilet-paper',
       }, {
-        path: '/supplyCenter',
+        path: '/error',
         text: '供货中心',
-        name: 'supplyCenter',
+        name: 'error',
         icon: 'el-icon-news',
       }]
     }

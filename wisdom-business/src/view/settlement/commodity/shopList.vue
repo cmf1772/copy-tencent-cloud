@@ -72,24 +72,43 @@
                   style="width: 100%">
           <el-table-column prop="name"
                            show-overflow-tooltip
-                           label="单品名称"
+                           label="商品名称"
                            width="180">
           </el-table-column>
           <el-table-column prop="address"
+                           sortable
                            show-overflow-tooltip
-                           label="单品规格">
+                           label="价格">
           </el-table-column>
           <el-table-column prop="address"
+                           sortable
                            show-overflow-tooltip
-                           label="单品单位">
+                           label="实际销售">
           </el-table-column>
           <el-table-column prop="address"
+                           sortable
                            show-overflow-tooltip
-                           label="单品分类">
+                           label="销售渠道">
           </el-table-column>
           <el-table-column prop="address"
+                           sortable
                            show-overflow-tooltip
-                           label="单品成本">
+                           label="创建时间">
+          </el-table-column>
+          <el-table-column prop="address"
+                           sortable
+                           show-overflow-tooltip
+                           label="可售状态">
+          </el-table-column>
+          <el-table-column prop="address"
+                           sortable
+                           show-overflow-tooltip
+                           label="价格">
+          </el-table-column>
+          <el-table-column prop="address"
+                           sortable
+                           show-overflow-tooltip
+                           label="价格">
           </el-table-column>
           <el-table-column show-overflow-tooltip
                            label="操作"
@@ -184,13 +203,13 @@ export default {
         value: '12',
         label: '分配/取消分配门店'
       }, {
-        value: '13',
+        value: '14',
         label: '修改预售数量'
       }, {
-        value: '13',
+        value: '15',
         label: '修改预售数量'
       }, {
-        value: '13',
+        value: '16',
         label: '修改预售数量'
       }],
       label: [{

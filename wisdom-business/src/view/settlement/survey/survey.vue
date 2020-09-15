@@ -357,10 +357,10 @@ export default {
   .s_right {
     width: 260px;
     margin-left: 20px;
-    overflow: hidden;
+    // overflow: hidden;
     box-sizing: border-box;
     padding: 5px;
-
+    overflow: auto;
     .public {
       ul {
         height: 200px;

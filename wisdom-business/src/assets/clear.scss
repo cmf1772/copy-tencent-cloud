@@ -349,6 +349,13 @@ input{ outline:none; border:0; }
   justify-content: space-between;
 }
 
+.flexCC {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
 .flexRC {
   display: flex;
   flex-wrap: wrap;
@@ -393,6 +400,14 @@ input{ outline:none; border:0; }
 }
 
 .big_box {
+  background: #f2f2f6 !important;
+  border-radius: 5px !important;
+  box-sizing: border-box;
+  padding: 10px 10px 0 10px;
+  margin-top: 10px;
+}
+
+.conent_box {
   background: #f2f2f6 !important;
   border-radius: 5px !important;
   box-sizing: border-box;

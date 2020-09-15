@@ -21,10 +21,9 @@ export function autoRouter (routes) {
 
         let cloneRouter = routeMap[route.name]
         if (cloneRouter) {
-          // console.log(route.name, `@/view/settlement/${cloneRouter}`)
           rt.component = () => import(`@/view/settlement/${cloneRouter}`)
         } else {
-          // route.component = () => import(`@/view/settlement/home.vue`)
+          rt.component = () => import(`@/view/settlement/error.vue`)
         }
 
         if (children instanceof Array && children.length) {

@@ -19,7 +19,7 @@
         <ul style="flex: 1">
 
         </ul>
-        <div class="buttom mb">
+        <div class="buttom mb s">
           新增分类
         </div>
       </div>
@@ -27,7 +27,7 @@
         <ul style="flex: 1">
 
         </ul>
-        <div class="buttom mb">
+        <div class="buttom mb s">
           新增分类
         </div>
       </div>
