@@ -8,41 +8,48 @@ Vue.use(Router)
 //动态路由 生成
 export function autoRouter (routes) {
   let routeList = []
-  const loop = (routes, parentPath = '/') => {
+  const loop = (routes, parentPath = '/', flag) => {
     if (routes instanceof Array && routes.length) {
       routes.forEach(route => {
         let { children, component, redirect, ...rt } = route
-        if (route.hidden) {
-          route.meta = {
-            ...(route.meta || {}),
+        if (rt.hidden) {
+          rt.meta = {
+            ...(rt.meta || {}),
             activeMenu: parentPath
           }
         }
+
         let cloneRouter = routeMap[route.name]
         if (cloneRouter) {
-          route.component = () => import(`@/view/settlement/${cloneRouter}`)
+          // console.log(route.name, `@/view/settlement/${cloneRouter}`)
+          rt.component = () => import(`@/view/settlement/${cloneRouter}`)
         } else {
-          route.component = () => import(`@/view/settlement/home.vue`)
+          // route.component = () => import(`@/view/settlement/home.vue`)
         }
+
         if (children instanceof Array && children.length) {
-          // .filter(c => c.menuType !== 2)
-          const subMenus = children
+          const subMenus = children.filter(c => c.menuType !== 2)
           if (subMenus.length) rt.redirect = subMenus[0].path
         }
-        routeList.push(route)
+        if (flag) {
+          if (!routeList[0].children) routeList[0].children = []
+          routeList[0].children.push(rt)
+        } else {
+          routeList.push(rt)
+
+        }
         if (children) {
-          // rt.hidden ? parentPath : 
-          loop(children, route.path)
+          loop(children, rt.path, true)
         }
       })
     }
   }
   loop(routes)
-  return routes
+  return routeList
 }
 
 let autoRouters = autoRouter(menu)
-
+console.log(autoRouter(menu))
 let rootRouter = [
   {
     path: '/',
