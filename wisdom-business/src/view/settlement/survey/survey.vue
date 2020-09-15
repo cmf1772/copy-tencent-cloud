@@ -74,9 +74,114 @@
 
         </div>
       </div>
+      <div class="footer bs flex">
+        <div class="item flex"
+             v-for="index in 5"
+             :key="index">
+          <div class="icon flexC">
+            <i class="el-icon-reading"></i>
+          </div>
+          <p class="text"
+             style="font-size:18px">新手开店</p>
+        </div>
+      </div>
     </div>
-    <div class="s_right">
+    <div class="s_right"
+         style="margin-top: 0">
+      <div class="message bs flexC"
+           style="margin-top: 0; align-items: baseline;">
+        <p class="text"
+           style="font-size: 17px; line-height: 40px">试用版</p>
+        <p class="minText">剩余 <span class="text"
+                style="font-size: 16px">15</span>天（2020.9.29到期）</p>
+        <p class="minText"
+           style="margin-top: 20px">当前为免费试用版本</p>
+        <p class="minText"
+           style="margin-top: 5px">升级解锁享受更多服务</p>
+        <div class="flexC box"
+             style="margin-top: 30px">
+          <div class="bottom">
+            立即升级
+          </div>
+        </div>
+      </div>
 
+      <div class="public bs">
+        <div class="title flexJC">
+          <p class="text">公告</p>
+          <p class="minText">更多</p>
+        </div>
+        <ul>
+          <li class="textHover flexJC mt"
+              v-for="index in 8"
+              :key="index"
+              style="padding: 0">
+            <div class="overHidden mr "
+                 style="flex: 1">
+              “区域管理员为导购分配客户”等多项功能上线
+            </div>
+            <p calss>9/23</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="itemList bs flex">
+        <div class="icon flexC">
+          <i class="el-icon-reading"></i>
+        </div>
+        <div class="right">
+          <p class="text">商户助手APP客户端</p>
+          <p class="minText">随时随地轻松管理店铺订单</p>
+        </div>
+      </div>
+
+      <div class="itemList bs flex">
+        <div class="icon flexC">
+          <i class="el-icon-reading"></i>
+        </div>
+        <div class="right">
+          <p class="text">商户助手APP客户端</p>
+          <p class="minText">随时随地轻松管理店铺订单</p>
+        </div>
+      </div>
+
+      <div class="public bs">
+        <div class="title flexJC">
+          <p class="text">优质商家案例</p>
+          <p class="minText"></p>
+        </div>
+        <ul>
+          <li class="textHover flexJC mt"
+              v-for="index in 8"
+              :key="index"
+              style="padding: 0">
+            <div class="overHidden mr "
+                 style="flex: 1">
+              “区域管理员为导购分配客户”等多项功能上线
+            </div>
+            <p calss></p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="public bs">
+        <div class="title flexJC">
+          <p class="text">使用指南</p>
+          <p class="minText">更多</p>
+        </div>
+        <ul>
+          <li class="textHover flexJC mt"
+              v-for="index in 8"
+              :key="index"
+              style="padding: 0">
+            <div class="overHidden mr "
+                 style="flex: 1">
+              “区域管理员为导购分配客户”等多项功能上线
+            </div>
+            <p calss></p>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -90,7 +195,7 @@ export default {
 <style lang="scss" scoped>
 .survey {
   display: flex;
-  height: 100%;
+  // height: 100%;
   .s_left {
     flex: 1;
     .activity {
@@ -217,7 +322,7 @@ export default {
       margin-top: 10px;
       .all .item {
         height: 85px;
-        width: 100px;
+        width: 130px;
         text-align: center;
         margin-top: 20px;
         > div {
@@ -230,11 +335,49 @@ export default {
         }
       }
     }
+    .footer {
+      height: 160px;
+      .item {
+        flex-direction: inherit !important;
+        align-items: center;
+        flex: 1;
+        cursor: pointer;
+        .icon {
+          width: 50px;
+          height: 50px;
+          border-radius: 60px;
+          background: #59a5ff;
+          color: #fff;
+          font-size: 30px;
+          margin: 0 10px;
+        }
+      }
+    }
   }
   .s_right {
     width: 260px;
     margin-left: 20px;
     overflow: hidden;
+    box-sizing: border-box;
+    padding: 5px;
+
+    .public {
+      ul {
+        height: 200px;
+        overflow: auto;
+      }
+    }
+    .itemList {
+      .icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 5px;
+        background: #59a5ff;
+        color: #fff;
+        font-size: 30px;
+        margin: 0 10px 0 0;
+      }
+    }
   }
 }
 </style>

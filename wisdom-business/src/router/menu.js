@@ -9,13 +9,19 @@ export default [{
       name: 'survey',
       text: '概况',
       component: '',
-      icon: 'el-icon-receiving'
+      icon: 'el-icon-menu'
     },
     {
       path: '/shop',
       text: '店铺',
       name: 'shop',
-      icon: 'el-icon-collection'
+      icon: 'el-icon-collection',
+      children: [{
+        path: '/shop',
+        text: '店铺',
+        name: 'shop',
+        icon: 'el-icon-collection',
+      }]
     }
   ]
 }]

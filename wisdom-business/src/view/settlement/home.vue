@@ -23,7 +23,8 @@
           </el-dropdown>
         </ul>
       </div>
-      <div class="content">
+      <div class="content"
+           :style="{'height': contentHeight}">
         <router-view></router-view>
       </div>
     </div>
@@ -46,7 +47,8 @@ export default {
         text: '帮助指引'
       }],
       height: window.innerHeight + 'px',
-      menuData: []
+      menuData: [],
+      contentHeight: window.innerHeight + 'px'
     }
   },
 
@@ -105,9 +107,10 @@ export default {
       }
     }
     .content {
-      flex: 1;
+      // flex: 1;
       box-sizing: border-box;
       padding: 20px;
+      overflow: auto;
     }
   }
 }
