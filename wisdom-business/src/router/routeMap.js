@@ -19,6 +19,18 @@ export default {
   productReviews: 'commodity/productReviews.vue', // 商品评论
   supplyCenter: 'commodity/supplyCenter.vue', // 供货中心
 
+  //库存二级菜单
+  storeInventory: 'stock/storeInventory.vue', // 门店库存
+  inOutDetails: 'stock/inOutDetails.vue', // 出入库明细
+  inReceipt: 'stock/inReceipt.vue', // 入库单
+  outReceipt: 'stock/outReceipt.vue', // 出库单
+  lnventoryChecking: 'stock/lnventoryChecking.vue',// 库存盘点
+  inventoryChecking: 'stock/inventoryChecking', // 库存控制
+  InventorySearch: 'stock/InventorySearch', // 库存查询
+  shippingReport: 'stock/shippingReport', // 出货报告
+  shippingIn: 'stock/shippingIn', // 进货报告
+  setting: 'stock/setting', // 进货报告
+
   //暂无开发
   error: 'error.vue'
 }
