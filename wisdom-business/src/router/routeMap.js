@@ -19,6 +19,8 @@ export default {
   productReviews: 'commodity/productReviews.vue', // 商品评论
   supplyCenter: 'commodity/supplyCenter.vue', // 供货中心
 
+  // 客户 二级菜单
+  allCustoms: 'custom/allCustoms.vue',   // 全部客户
   //暂无开发
   error: 'error.vue'
 }
