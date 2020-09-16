@@ -116,6 +116,61 @@ export default [{
       }]
     }, {
       path: '/shop',
+      text: '库存',
+      name: 'shop',
+      icon: 'el-icon-s-goods',
+      children: [{
+        path: '/storeInventory',
+        text: '门店库存',
+        name: 'storeInventory',
+        icon: 'el-icon-s-cooperation',
+      }, {
+        path: '/inOutDetails',
+        text: '出入库明细',
+        name: 'inOutDetails',
+        icon: 'el-icon-s-cooperation',
+      }, {
+        path: '/inReceipt',
+        text: '入库单',
+        name: 'inReceipt',
+        icon: 'el-icon-s-cooperation',
+      }, {
+        path: '/outReceipt',
+        text: '出库单',
+        name: 'outReceipt',
+        icon: 'el-icon-s-cooperation',
+      }, {
+        path: '/lnventoryChecking',
+        text: '库存盘点',
+        name: 'lnventoryChecking',
+        icon: 'el-icon-s-cooperation',
+      }, {
+        path: '/inventoryChecking',
+        text: '库存控制',
+        name: 'inventoryChecking',
+        icon: 'el-icon-s-cooperation',
+      }, { //--
+        path: '/InventorySearch',
+        text: '库存查询',
+        name: 'InventorySearch',
+        icon: 'el-icon-search',
+      }, { // --
+        path: '/shippingReport',
+        text: '出货报告',
+        name: 'shippingReport',
+        icon: 'el-icon-partly-cloudy',
+      }, {
+        path: '/shippingIn',
+        text: '进货报告',
+        name: 'shippingIn',
+        icon: 'el-icon-partly-cloudy',
+      }, { // --
+        path: '/setting',
+        text: '供应商管理',
+        name: 'setting',
+        icon: 'el-icon-setting',
+      }, {
+      path: '/shop',
       text: '客户',
       name: 'shop',
       icon: 'el-icon-magic-stick',
