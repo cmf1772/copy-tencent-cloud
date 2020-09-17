@@ -114,7 +114,8 @@ export default [{
         name: 'error',
         icon: 'el-icon-news',
       }]
-    }, {
+    },
+    {
       path: '/shop',
       text: '库存',
       name: 'shop',
@@ -169,7 +170,8 @@ export default [{
         text: '供应商管理',
         name: 'setting',
         icon: 'el-icon-setting',
-      }, {
+      }]
+    }, {
       path: '/shop',
       text: '客户',
       name: 'shop',
