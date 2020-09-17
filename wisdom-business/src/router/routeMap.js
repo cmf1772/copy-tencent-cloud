@@ -1,4 +1,5 @@
 export default {
+  //一级菜单
   settlement: 'home.vue',
   survey: 'survey/survey.vue',
 
