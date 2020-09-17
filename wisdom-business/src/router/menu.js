@@ -171,7 +171,70 @@ export default [{
         name: 'setting',
         icon: 'el-icon-setting',
       }]
-    }, {
+    },
+    {
+      path: '/shop',
+      text: '门店',
+      name: 'shop',
+      icon: 'el-icon-shopping-cart-1',
+      children: [{
+        path: '/storeInventory',
+        text: '门店列表',
+        name: 'storeInventory',
+        icon: 'el-icon-sell',
+      }, {
+        path: '/inOutDetails',
+        text: '业绩设置',
+        name: 'inOutDetails',
+        icon: 'el-icon-sell',
+      }, {
+        path: '/inReceipt',
+        text: '业绩明细',
+        name: 'inReceipt',
+        icon: 'el-icon-sell',
+      }, {
+        path: '/outReceipt',
+        text: '进店规则',
+        name: 'outReceipt',
+        icon: 'el-icon-sell',
+      }, {///-----
+        path: '/lnventoryChecking',
+        text: '区域管理',
+        name: 'lnventoryChecking',
+        icon: 'el-icon-present',
+      }, {// ---
+        path: '/inventoryChecking',
+        text: '导购管理',
+        name: 'inventoryChecking',
+        icon: 'el-icon-box',
+      }, {
+        path: '/InventorySearch',
+        text: '导购设置',
+        name: 'InventorySearch',
+        icon: 'el-icon-box',
+      }, {
+        path: '/shippingReport',
+        text: '统计报表',
+        name: 'shippingReport',
+        icon: 'el-icon-box',
+      }, {// ---
+        path: '/shippingIn',
+        text: '交易设置',
+        name: 'shippingIn',
+        icon: 'el-icon-bank-card',
+      }, {
+        path: '/setting',
+        text: '小票设置',
+        name: 'setting',
+        icon: 'el-icon-bank-card',
+      }, {
+        path: '/setting',
+        text: '收银台交班',
+        name: 'setting',
+        icon: 'el-icon-bank-card',
+      }]
+    },
+    {
       path: '/shop',
       text: '客户',
       name: 'shop',
