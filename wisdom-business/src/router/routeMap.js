@@ -32,6 +32,9 @@ export default {
   shippingIn: 'stock/shippingIn', // 进货报告
   setting: 'stock/setting', // 进货报告
 
+  // 客户 二级菜单
+  allCustoms: 'custom/allCustoms.vue',   // 全部客户
+
   //暂无开发
-  error: 'error.vue'
+  error: 'error.vue',
 }

@@ -171,6 +171,57 @@ export default [{
         name: 'setting',
         icon: 'el-icon-setting',
       }]
+    }, {
+      path: '/shop',
+      text: '客户',
+      name: 'shop',
+      icon: 'el-icon-magic-stick',
+      children: [{
+        path: '/allCustoms',
+        text: '全部客户',
+        name: 'allCustoms',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/Classification',
+        text: '客户标签',
+        name: 'Classification',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/shopList',
+        text: '客户设置',
+        name: 'shopList',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/commodityGrouping',
+        text: '客户分群',
+        name: 'commodityGrouping',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/productLabel',
+        text: '黑名单管理',
+        name: 'productLabel',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/detailedTemplate',
+        text: '会员设置',
+        name: 'detailedTemplate',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/commodityAttributes',
+        text: '会员权益',
+        name: 'commodityAttributes',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/profileTemplate',
+        text: '积分管理',
+        name: 'profileTemplate',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/productList',
+        text: '储值管理',
+        name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }]
     }
   ]
 }]
