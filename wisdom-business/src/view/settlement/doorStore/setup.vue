@@ -1,0 +1,14 @@
+<template>
+  <div class="storeList">
+    交易设置
+  </div>
+</template>
+
+<script>
+export default {
+  name: ''
+}
+</script>
+
+<style lang="scss" scoped>
+</style>

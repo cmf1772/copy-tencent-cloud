@@ -18,7 +18,7 @@
     </div>
     <el-divider></el-divider>
     <div class="flexColumn">
-      <p class="text">使用指南</p>
+      <p class="text">常见问题</p>
       <ul class="flexColumn">
         <li class="textHover">单品库列表使用指南</li>
         <li class="textHover">单品库列表使用指南</li>

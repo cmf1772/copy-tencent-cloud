@@ -2,7 +2,7 @@
   <div class="outReceipt bs flexColumn"
        style="margin: 0">
     <div class="flexJC">
-      <p class="text">入库单</p>
+      <p class="text">出库单</p>
     </div>
     <div class="flexColumn conent_box"
          style="flex: 1">
