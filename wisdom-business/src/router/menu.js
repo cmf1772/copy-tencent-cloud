@@ -182,9 +182,9 @@ export default [{
         name: 'allCustoms',
         icon: 'el-icon-data-analysis',
       }, {
-        path: '/Classification',
+        path: '/customerTag',
         text: '客户标签',
-        name: 'Classification',
+        name: 'customerTag',
         icon: 'el-icon-data-analysis',
       }, {
         path: '/shopList',

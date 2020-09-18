@@ -32,7 +32,8 @@ export default {
   setting: 'stock/setting', // 进货报告
   
   // 客户 二级菜单
-  allCustoms: 'custom/allCustoms.vue',   // 全部客户
+  allCustoms: 'custom/allCustoms.vue',                // 全部客户
+  customerTag: 'custom/customerTag.vue',              // 客户标签
   
   //暂无开发
   error: 'error.vue'
