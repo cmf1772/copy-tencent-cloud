@@ -1,4 +1,5 @@
 export default {
+  //一级菜单
   settlement: 'home.vue',
   survey: 'survey/survey.vue',
 
@@ -30,11 +31,11 @@ export default {
   shippingReport: 'stock/shippingReport', // 出货报告
   shippingIn: 'stock/shippingIn', // 进货报告
   setting: 'stock/setting', // 进货报告
-  
+
   // 客户 二级菜单
   allCustoms: 'custom/allCustoms.vue',                // 全部客户
   customerTag: 'custom/customerTag.vue',              // 客户标签
   
   //暂无开发
-  error: 'error.vue'
+  error: 'error.vue',
 }

@@ -33,16 +33,18 @@
                          value="7"></el-option>
             </el-select>
             <el-button slot="append"
-                       size="mini"
-                       >搜索</el-button>
+                       size="mini">搜索</el-button>
           </el-input>
           <div>
-            <el-button size="mini" icon="el-icon-refresh">同步粉丝</el-button>
-            <el-button size="mini" icon="el-icon-download">导出客户</el-button>
-            <el-button size="mini" icon="el-icon-upload2">导入客户</el-button>
             <el-button size="mini"
-                      type="primary"
-                      plain>高级筛选</el-button>
+                       icon="el-icon-refresh">同步粉丝</el-button>
+            <el-button size="mini"
+                       icon="el-icon-download">导出客户</el-button>
+            <el-button size="mini"
+                       icon="el-icon-upload2">导入客户</el-button>
+            <el-button size="mini"
+                       type="primary"
+                       plain>高级筛选</el-button>
           </div>
         </div>
 
@@ -89,7 +91,8 @@
         </div>
       </div>
 
-      <div class="table" style="width: 100%;">
+      <div class="table"
+           style="width: 100%;">
         <el-table :data="tableData"
                   stripe
                   style="width: 1090px">
