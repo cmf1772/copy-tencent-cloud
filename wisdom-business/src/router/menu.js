@@ -208,7 +208,7 @@ export default [{
         name: 'shoppingManagement',
         icon: 'el-icon-box',
       }, {
-        path: '/shoppingSetting',
+        path: '/error',
         text: '导购设置',
         name: 'shoppingSetting',
         icon: 'el-icon-box',
