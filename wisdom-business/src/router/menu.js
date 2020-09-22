@@ -317,9 +317,9 @@ export default [{
         name: 'customerTag',
         icon: 'el-icon-data-analysis',
       }, {
-        path: '/shopList',
+        path: '/customerSetting',
         text: '客户设置',
-        name: 'shopList',
+        name: 'customerSetting',
         icon: 'el-icon-notebook-2',
       }, {
         path: '/commodityGrouping',

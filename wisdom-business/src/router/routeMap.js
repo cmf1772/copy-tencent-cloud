@@ -49,6 +49,7 @@ export default {
   // 客户 二级菜单
   allCustoms: 'custom/allCustoms.vue',                // 全部客户
   customerTag: 'custom/customerTag.vue',              // 客户标签
+  customerSetting: 'custom/customerSetting.vue',      // 客户设置
 
   //暂无开发
   error: 'error.vue',
