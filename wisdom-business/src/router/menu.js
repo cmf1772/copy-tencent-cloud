@@ -236,6 +236,73 @@ export default [{
     },
     {
       path: '/shop',
+      text: '订单',
+      name: 'shop',
+      icon: 'el-icon-box',
+      children: [{
+        path: '/storeList',
+        text: '全部订单',
+        name: 'storeList',
+        icon: 'el-icon-sell',
+      }, {
+        path: '/performanceSetting',
+        text: '充值订单',
+        name: 'performanceSetting',
+        icon: 'el-icon-sell',
+      }, {
+        path: '/performanceDetails',
+        text: '消费订单',
+        name: 'performanceDetails',
+        icon: 'el-icon-sell',
+      }, {
+        path: '/entryRules',
+        text: '发货管理',
+        name: 'entryRules',
+        icon: 'el-icon-sell',
+      }, {///-----
+        path: '/regionalManagement',
+        text: '自提管理',
+        name: 'regionalManagement',
+        icon: 'el-icon-present',
+      }, {// ---
+        path: '/shoppingManagement',
+        text: '待分配订单',
+        name: 'shoppingManagement',
+        icon: 'el-icon-box',
+      }, {
+        path: '/error',
+        text: '社区订单管理',
+        name: 'shoppingSetting',
+        icon: 'el-icon-box',
+      }, {
+        path: '/statisticalReport',
+        text: '分销供货订单',
+        name: 'statisticalReport',
+        icon: 'el-icon-box',
+      }, {// ---
+        path: '/setup',
+        text: '售后订单',
+        name: 'setup',
+        icon: 'el-icon-bank-card',
+      }, {
+        path: '/ticketSetting',
+        text: '支付单查询',
+        name: 'ticketSetting',
+        icon: 'el-icon-bank-card',
+      }, {
+        path: '/cashRegister',
+        text: '历史订单',
+        name: 'cashRegister',
+        icon: 'el-icon-bank-card',
+      }, {
+        path: '/cashRegister',
+        text: '店铺合并',
+        name: 'cashRegister',
+        icon: 'el-icon-bank-card',
+      }]
+    },
+    {
+      path: '/shop',
       text: '客户',
       name: 'shop',
       icon: 'el-icon-magic-stick',
