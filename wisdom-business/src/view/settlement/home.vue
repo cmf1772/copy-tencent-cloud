@@ -62,7 +62,10 @@ export default {
         '/survey',
         '/shopPage',
         '/marketingCenter',
-        '/promotionCenter'
+        '/promotionCenter',
+        '/advertisingPromotion',
+        '/myApp',
+        '/myOrder'
       ]
       // this.help = !routerArray.indexOf(this.$route.path) > -1
       this.help = routerArray.indexOf(this.$route.path) > -1 ? false : true

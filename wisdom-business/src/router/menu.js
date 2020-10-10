@@ -357,7 +357,7 @@ export default [{
       path: '/shop',
       text: '营销',
       name: 'shop',
-      icon: 'el-icon-magic-stick',
+      icon: 'el-icon-sell ',
       children: [{
         path: '/marketingCenter',
         text: '营销中心',
@@ -369,24 +369,24 @@ export default [{
         name: 'promotionCenter',
         icon: 'el-icon-data-analysis',
       }, {
-        path: '/customerSetting',
+        path: '/advertisingPromotion',
         text: '渠道追踪',
-        name: 'customerSetting',
+        name: 'advertisingPromotion',
         icon: 'el-icon-notebook-2',
       }, {
-        path: '/commodityGrouping',
+        path: '/error',
         text: '全部服务',
-        name: 'commodityGrouping',
+        name: 'error',
         icon: 'el-icon-notebook-2',
       }, {
-        path: '/productLabel',
+        path: '/myApp',
         text: '我的应用',
-        name: 'productLabel',
+        name: 'myApp',
         icon: 'el-icon-notebook-2',
       }, {
-        path: '/detailedTemplate',
+        path: '/myOrder',
         text: '我的订单',
-        name: 'detailedTemplate',
+        name: 'myOrder',
         icon: 'el-icon-notebook-2',
       }, {
         path: '/commodityAttributes',
@@ -394,14 +394,171 @@ export default [{
         name: 'commodityAttributes',
         icon: 'el-icon-notebook-2',
       }, {
-        path: '/profileTemplate',
+        path: '/price',
         text: '开发指南 ',
-        name: 'profileTemplate',
+        // name: 'profileTemplate',
         icon: 'el-icon-notebook-2',
       }, {
-        path: '/productList',
+        path: '/price',
         text: 'API指南',
-        name: 'productList',
+        // name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }]
+    },
+    {
+      path: '/shop',
+      text: '慧付',
+      name: 'shop',
+      icon: 'el-icon-cpu',
+      children: [{
+        path: '/marketingCenter',
+        text: '支付账号',
+        name: 'marketingCenter',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/promotionCenter',
+        text: '收款配置',
+        name: 'promotionCenter',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/advertisingPromotion',
+        text: '付款配置',
+        name: 'advertisingPromotion',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/error',
+        text: '线下收款',
+        name: 'error',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/myApp',
+        text: '营收概况',
+        name: 'myApp',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/myOrder',
+        text: '财务明细',
+        name: 'myOrder',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/commodityAttributes',
+        text: '线上交易',
+        name: 'commodityAttributes',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/price',
+        text: '线上退款 ',
+        // name: 'profileTemplate',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/price',
+        text: '对账报表',
+        // name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/price',
+        text: '业务分账',
+        // name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/price',
+        text: '线上分账',
+        // name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/price',
+        text: '分账解冻',
+        // name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/price',
+        text: '应付账单',
+        // name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/price',
+        text: '提现管理',
+        // name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/price',
+        text: '付款记录',
+        // name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/price',
+        text: '直播应收',
+        // name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/price',
+        text: '分账订单',
+        // name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/price',
+        text: '三方物流',
+        // name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/price',
+        text: '积分明细',
+        // name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/price',
+        text: '余额明细',
+        // name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/price',
+        text: '微客奖励',
+        // name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/price',
+        text: '社区团购',
+        // name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/price',
+        text: '电票配置',
+        // name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/price',
+        text: '电票订单',
+        // name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/price',
+        text: '发票管理',
+        // name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/price',
+        text: '我的账户',
+        // name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/price',
+        text: '提现订单',
+        // name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/price',
+        text: '余额对账',
+        // name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/price',
+        text: '发票管理',
+        // name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/price',
+        text: '导出管理',
+        // name: 'productList',
         icon: 'el-icon-toilet-paper',
       }]
     }

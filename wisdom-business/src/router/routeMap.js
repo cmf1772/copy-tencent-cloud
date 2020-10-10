@@ -66,6 +66,9 @@ export default {
   // 营销 二级菜单
   marketingCenter: 'marketing/marketingCenter.vue', // 营销中心
   promotionCenter: 'marketing/promotionCenter.vue', // 推广中心
+  advertisingPromotion: 'marketing/advertisingPromotion.vue', // 广告推广
+  myApp: 'marketing/myApp.vue', // 我的应用
+  myOrder: 'marketing/myOrder.vue', // 我的订单
 
   //暂无开发
   error: 'error.vue',
