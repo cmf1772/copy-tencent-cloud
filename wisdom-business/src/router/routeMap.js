@@ -46,6 +46,18 @@ export default {
   ticketSetting: 'doorStore/ticketSetting.vue', // 小票设置
   cashRegister: 'doorStore/cashRegister.vue', // 收银台交班
 
+  // 订单
+  allOrders: 'orders/allOrders.vue', // 全部订单
+  recharge0rder: 'orders/recharge0rder.vue', // 充值订单
+  consumerOrder: 'orders/consumerOrder.vue', // 消费订单
+  delivery: 'orders/delivery.vue', // 发货管理
+  selfRaised: 'orders/selfRaised.vue', // 自提管理
+  toBeAllocated: 'orders/toBeAllocated.vue', // 带分配订单
+  communityOrder: 'orders/communityOrder.vue',
+  distributionSupply: 'orders/distributionSupply.vue', // 分销供货订单
+  afterSale: 'orders/afterSale.vue', //售后订单
+  paymentOrderQuery: 'orders/paymentOrderQuery.vue', // 付款单查询
+
   // 客户 二级菜单
   allCustoms: 'custom/allCustoms.vue',                // 全部客户
   customerTag: 'custom/customerTag.vue',              // 客户标签
