@@ -352,6 +352,58 @@ export default [{
         name: 'productList',
         icon: 'el-icon-toilet-paper',
       }]
+    },
+    {
+      path: '/shop',
+      text: '营销',
+      name: 'shop',
+      icon: 'el-icon-magic-stick',
+      children: [{
+        path: '/allCustoms',
+        text: '营销中心',
+        name: 'allCustoms',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/customerTag',
+        text: '推广中心',
+        name: 'customerTag',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/customerSetting',
+        text: '渠道追踪',
+        name: 'customerSetting',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/commodityGrouping',
+        text: '全部服务',
+        name: 'commodityGrouping',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/productLabel',
+        text: '我的应用',
+        name: 'productLabel',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/detailedTemplate',
+        text: '我的订单',
+        name: 'detailedTemplate',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/commodityAttributes',
+        text: '开发者中心',
+        name: 'commodityAttributes',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/profileTemplate',
+        text: '开发指南 ',
+        name: 'profileTemplate',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/productList',
+        text: 'API指南',
+        name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }]
     }
   ]
 }]
