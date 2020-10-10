@@ -60,8 +60,11 @@ export default {
     showHelp () {
       let routerArray = [
         '/survey',
-        '/shopPage'
+        '/shopPage',
+        '/marketingCenter',
+        '/promotionCenter'
       ]
+      // this.help = !routerArray.indexOf(this.$route.path) > -1
       this.help = routerArray.indexOf(this.$route.path) > -1 ? false : true
     }
   },

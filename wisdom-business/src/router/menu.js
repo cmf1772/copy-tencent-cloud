@@ -359,14 +359,14 @@ export default [{
       name: 'shop',
       icon: 'el-icon-magic-stick',
       children: [{
-        path: '/allCustoms',
+        path: '/marketingCenter',
         text: '营销中心',
-        name: 'allCustoms',
+        name: 'marketingCenter',
         icon: 'el-icon-data-analysis',
       }, {
-        path: '/customerTag',
+        path: '/promotionCenter',
         text: '推广中心',
-        name: 'customerTag',
+        name: 'promotionCenter',
         icon: 'el-icon-data-analysis',
       }, {
         path: '/customerSetting',

@@ -46,7 +46,7 @@ export default {
   ticketSetting: 'doorStore/ticketSetting.vue', // 小票设置
   cashRegister: 'doorStore/cashRegister.vue', // 收银台交班
 
-  // 订单
+  // 订单 二级菜单
   allOrders: 'orders/allOrders.vue', // 全部订单
   recharge0rder: 'orders/recharge0rder.vue', // 充值订单
   consumerOrder: 'orders/consumerOrder.vue', // 消费订单
@@ -62,6 +62,10 @@ export default {
   allCustoms: 'custom/allCustoms.vue',                // 全部客户
   customerTag: 'custom/customerTag.vue',              // 客户标签
   customerSetting: 'custom/customerSetting.vue',      // 客户设置
+
+  // 营销 二级菜单
+  marketingCenter: 'marketing/marketingCenter.vue', // 营销中心
+  promotionCenter: 'marketing/promotionCenter.vue', // 推广中心
 
   //暂无开发
   error: 'error.vue',
