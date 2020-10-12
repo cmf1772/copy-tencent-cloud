@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div class="bg"></div>
+    <div class=""></div>
     <!--搜索框-->
     <div class="search"
          id="search">
@@ -19,207 +19,131 @@
 
     <div class="banner">
       <div @click="$router.push('/dynamic/follow')">
-        <img src="../../../assets/images/magazine/sys.png"
+        <img src="@/assets/images/sys.jpg"
              alt="">
         <p>扫一扫</p>
       </div>
       <div @click="$router.push('/dynamic')">
-        <img src="../../../assets/images/magazine/fk.png"
-             alt="">
+        <img src="@/assets/images/rwm.jpg"
+             alt="@/assets/images/rwm.jpg">
         <p>付款</p>
       </div>
       <div @click="$router.push('/serve/travel')">
-        <img src="../../../assets/images/magazine/cx.png"
+        <img src="@/assets/images/dd.jpg"
              alt="">
-        <p>出行</p>
+        <p>订单</p>
       </div>
       <div @click="$router.push('/serve/recovery')">
-        <img src="../../../assets/images/magazine/hs.png"
+        <img src="@/assets/images/zc.jpg"
              alt="">
-        <p>回收</p>
+        <p>资产</p>
       </div>
     </div>
+    <!-- 导航Lan -->
+    <van-swipe class="my-swipe"
+               :autoplay="3000"
+               indicator-color="white">
+      <van-swipe-item>1</van-swipe-item>
+      <van-swipe-item>2</van-swipe-item>
+      <van-swipe-item>3</van-swipe-item>
+      <van-swipe-item>4</van-swipe-item>
+    </van-swipe>
 
-    <div class="bannerALl">
-      <!--功能入口-->
-      <ul class="inavs">
-        <li>
-          <router-link to="/magazine/index">
-            <div class="img">
-              <img src="../../../assets/images/magazine/zz.png" />
+    <van-tabs v-model="active"
+              color="#409EFF">
+      <van-tab title="资讯">
+        <div class="item_top"
+             @click="$router.push('/console/index')">
+          <p>管理控制台</p>
+          <van-icon name="arrow" />
+        </div>
+        <div class="box">
+          <div class="item"
+               @click="$router.push('/console/business')"
+               style="border-right: solid #F1F1F1 1px;border-bottom: solid #F1F1F1 1px;">
+            <div>
+              <p style="font-size: 0.3rem;font-family: PingFang SC;font-weight: bold;color: #000000;">商家</p>
+              <p style="font-size: 0.2rem;font-family: PingFang SC;font-weight: bold;color: #777777;">控制台</p>
             </div>
-            <p>杂志</p>
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/magazine/dynamic/follow">
-            <div class="img">
-              <img src="../../../assets/images/magazine/na1.png" />
+            <img src="../../../assets/images/serve/recovery/ss4.png"
+                 alt="">
+          </div>
+          <div class="item"
+               style="border-bottom: solid #F1F1F1 1px;"
+               @click="$router.push('/console/onlineContract')">
+            <div>
+              <p style="font-size: 0.3rem;font-family: PingFang SC;font-weight: bold;color: #000000;">网约工</p>
+              <p style="font-size: 0.2rem;font-family: PingFang SC;font-weight: bold;color: #777777;">控制台</p>
             </div>
-            <p>看看</p>
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/magazine/dynamic">
-            <div class="img">
-              <img src="../../../assets/images/magazine/na2.png" />
+            <img src="../../../assets/images/serve/recovery/ss4.png"
+                 alt="">
+          </div>
+          <div class="item">
+            <div>
+              <p style="font-size: 0.3rem;font-family: PingFang SC;font-weight: bold;color: #000000;">服务商</p>
+              <p style="font-size: 0.2rem;font-family: PingFang SC;font-weight: bold;color: #777777;">控制台</p>
             </div>
-            <p>动态</p>
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/magazine/problem">
-            <div class="img">
-              <img src="../../../assets/images/magazine/na3.png" />
+            <img src="../../../assets/images/serve/recovery/ss4.png"
+                 alt="">
+          </div>
+          <div class="item"
+               style="border-left: solid #F1F1F1 1px;">
+            <div>
+              <p style="font-size: 0.3rem;font-family: PingFang SC;font-weight: bold;color: #000000;">城市站</p>
+              <p style="font-size: 0.2rem;font-family: PingFang SC;font-weight: bold;color: #777777;">控制台</p>
             </div>
-            <p>问答</p>
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/magazine/broadcast">
-            <div class="img">
-              <img src="../../../assets/images/magazine/na4.png" />
-            </div>
-            <p>广播</p>
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/magazine/video">
-            <div class="img">
-              <img src="../../../assets/images/magazine/na5.png" />
-            </div>
-            <p>视频</p>
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/magazine/index">
-            <div class="img">
-              <img src="../../../assets/images/magazine/zz.png" />
-            </div>
-            <p>杂志</p>
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/magazine/dynamic/follow">
-            <div class="img">
-              <img src="../../../assets/images/magazine/na1.png" />
-            </div>
-            <p>看看</p>
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/magazine/dynamic">
-            <div class="img">
-              <img src="../../../assets/images/magazine/na2.png" />
-            </div>
-            <p>动态</p>
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/magazine/problem">
-            <div class="img">
-              <img src="../../../assets/images/magazine/na3.png" />
-            </div>
-            <p>问答</p>
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/magazine/broadcast">
-            <div class="img">
-              <img src="../../../assets/images/magazine/na4.png" />
-            </div>
-            <p>广播</p>
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/magazine/video">
-            <div class="img">
-              <img src="../../../assets/images/magazine/na5.png" />
-            </div>
-            <p>视频</p>
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/magazine/broadcast">
-            <div class="img">
-              <img src="../../../assets/images/magazine/na4.png" />
-            </div>
-            <p>广播</p>
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/magazine/video">
-            <div class="img">
-              <img src="../../../assets/images/magazine/na5.png" />
-            </div>
-            <p>视频</p>
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/magazine/more">
-            <div class="img">
-              <img src="../../../assets/images/magazine/gd.png" />
-            </div>
-            <p>更多</p>
-          </router-link>
-        </li>
-      </ul>
-    </div>
+            <img src="../../../assets/images/serve/recovery/ss4.png"
+                 alt="">
+          </div>
+        </div>
 
-    <div class="content">
-      <img src="../../../assets/images/magazine/bannerBG/topBg.png"
-           class="bgImg"
-           alt="">
+        <div class="item_top">
+          <p>热门产品</p>
+          <van-icon name="arrow" />
+        </div>
+        <!-- 导航Lan -->
+        <van-swipe class="my-swipe"
+                   :autoplay="3000"
+                   indicator-color="white">
+          <van-swipe-item>1</van-swipe-item>
+          <van-swipe-item>2</van-swipe-item>
+          <van-swipe-item>3</van-swipe-item>
+          <van-swipe-item>4</van-swipe-item>
+        </van-swipe>
 
-      <van-tabs v-model="active"
-                color="#C3AB87">
-        <van-tab title="资讯">
-          <div class="tabContent">
-            <div>
-              <img src="../../../assets/images/magazine/bannerBG/b1.png"
-                   alt="">
-              <p>颜值爆表的渐变色蕾丝蛋卷一 个鸡蛋做一堆</p>
+        <div class="item_top">
+          <p>推荐应用</p>
+          <van-icon name="arrow" />
+        </div>
+
+        <div class="itemShop"
+             v-for="item in 9">
+          <img src="../../../assets/images/shop/wechat1.jpg"
+               alt="">
+          <div class="right">
+            <p>小米米家自动洗手机套装泡沫洗手机智能感应皂液器洗手液机家用...</p>
+            <div class="rightItem">
+              <div v-for="iegm in 2">
+                免费试用
+              </div>
             </div>
-            <div>
-              <img src="../../../assets/images/magazine/bannerBG/b2.png"
-                   alt="">
-              <p>颜值爆表的渐变色蕾丝蛋卷一 个鸡蛋做一堆</p>
-            </div>
-            <div>
-              <img src="../../../assets/images/magazine/bannerBG/b2.png"
-                   alt="">
-              <p>颜值爆表的渐变色蕾丝蛋卷一 个鸡蛋做一堆</p>
-            </div>
-            <div>
-              <img src="../../../assets/images/magazine/bannerBG/b2.png"
-                   alt="">
-              <p>颜值爆表的渐变色蕾丝蛋卷一 个鸡蛋做一堆</p>
-            </div>
-            <div>
-              <img src="../../../assets/images/magazine/bannerBG/b1.png"
-                   alt="">
-              <p>颜值爆表的渐变色蕾丝蛋卷一 个鸡蛋做一堆</p>
-            </div>
-            <div>
-              <img src="../../../assets/images/magazine/bannerBG/b2.png"
-                   alt="">
-              <p>颜值爆表的渐变色蕾丝蛋卷一 个鸡蛋做一堆</p>
-            </div>
-            <div>
-              <img src="../../../assets/images/magazine/bannerBG/b1.png"
-                   alt="">
-              <p>颜值爆表的渐变色蕾丝蛋卷一 个鸡蛋做一堆</p>
+            <div class="rightBottom">
+              <div>
+                <p>￥199</p>
+                <del>￥250</del>
+              </div>
+              <div>
+                3200人在用
+              </div>
             </div>
           </div>
-        </van-tab>
-        <van-tab title="营销">内容 2</van-tab>
-        <van-tab title="通证">内容 3</van-tab>
-        <van-tab title="服务">内容 4</van-tab>
-        <van-tab title="应用">内容 4</van-tab>
-      </van-tabs>
-    </div>
-
-    <!-- 导航Lan -->
+        </div>
+      </van-tab>
+      <van-tab title="产品">产品</van-tab>
+      <van-tab title="方案">方案</van-tab>
+      <van-tab title="服务">服务</van-tab>
+      <van-tab title="应用">应用</van-tab>
+    </van-tabs>
 
     <footer-bar></footer-bar>
   </div>
@@ -246,6 +170,7 @@ export default {
   mixins: [getLocation],
   data () {
     return {
+      active: 1,
       banner1: {
         swiperOption: {
           pagination: {
@@ -305,7 +230,6 @@ export default {
     // 获取分类咨询
     this.getCategoryList();
 
-
   },
   methods: {
     //跳转
@@ -336,9 +260,132 @@ export default {
 
 
 <style scoped lang="less">
+.itemShop {
+  width: 85%;
+  margin: 0 auto;
+  border-bottom: solid 1px #f1f1f1;
+  display: flex;
+  padding: 0.3rem 0;
+  .right {
+    display: flex;
+    flex-direction: column;
+    > p {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+
+      font-size: 0.27rem;
+      font-family: PingFang SC;
+      font-weight: 400;
+      color: #000000;
+      line-height: 0.4rem;
+    }
+
+    .rightItem {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      flex: 1;
+      > div {
+        width: 1.5rem;
+        background: #f7f7f7;
+        height: 0.3rem;
+        font-size: 0.21rem;
+        font-family: PingFang SC;
+        font-weight: 400;
+        color: #777777;
+        line-height: 0.3rem;
+        text-align: center;
+        border-radius: 0.15rem;
+        margin-right: 0.2rem;
+        margin-top: 0.2rem;
+      }
+    }
+    .rightBottom {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.21rem;
+      font-family: PingFang SC;
+      font-weight: 400;
+      color: #777777;
+      line-height: 0.48rem;
+      > div {
+        display: flex;
+        align-items: center;
+        > p {
+          font-size: 0.37rem !important;
+          font-family: PingFang SC;
+          font-weight: bold;
+          color: #409eff;
+          line-height: 0.48rem;
+        }
+      }
+    }
+  }
+  > img {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.2rem;
+    margin-right: 0.2rem;
+  }
+}
+.box {
+  width: 85%;
+  display: flex;
+  flex-wrap: wrap;
+  // box-sizing: border-box;
+  // padding: 0 0.7rem;
+  margin: 0 auto;
+  box-shadow: 0px 3px 16px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  .item {
+    width: 49%;
+    display: flex;
+    height: 1.5rem;
+    justify-content: center;
+    align-items: center;
+    > div {
+      width: 1rem;
+      height: 0.6rem;
+      margin-right: 0.5rem;
+    }
+    > img {
+      width: 0.7rem;
+      border-radius: 100%;
+    }
+  }
+}
+
+.item_top {
+  width: 85%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.45rem auto;
+  > p {
+    font-size: 0.35rem;
+    font-family: PingFang SC;
+    font-weight: bold;
+    color: #000000;
+  }
+  i {
+    font-size: 0.3rem;
+  }
+}
+.my-swipe .van-swipe-item {
+  color: #fff;
+  font-size: 20px;
+  line-height: 150px;
+  text-align: center;
+  background-color: #39a9ed;
+  margin-top: 0.2rem;
+}
+
 .main {
   width: 100%;
   height: 100%;
+  margin-bottom: 1.5rem;
 }
 #search {
   padding: 0 0.25rem;

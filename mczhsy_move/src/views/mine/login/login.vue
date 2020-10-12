@@ -1,7 +1,8 @@
 <template>
   <div class="main">
     <div class="top">
-      <van-nav-bar left-arrow @click-left="onClickLeft">
+      <van-nav-bar left-arrow
+                   @click-left="onClickLeft">
         <template #left>
           <img src="@/assets/images/icon/index/arrow.png" />
         </template>
@@ -10,43 +11,47 @@
     <div class="container">
       <div class="title">
         <p>欢迎</p>
-        <p>来到美城茂</p>
+        <p>来到美城智慧商业</p>
       </div>
       <!-- clearable -->
       <van-form @submit="onSubmit">
-        <van-field v-model="phone" name="手机号" left-icon="phone-o" placeholder="请输入账号">
+        <van-field v-model="phone"
+                   name="手机号"
+                   left-icon="phone-o"
+                   placeholder="请输入账号">
           <template #left-icon>
-            <img
-              src="@/assets/images/icon/mine/login/phone.png"
-              style="width:.25rem;margin-right:.3rem"
-            />
+            <img src="@/assets/images/icon/mine/login/phone.png"
+                 style="width:.25rem;margin-right:.3rem" />
           </template>
         </van-field>
-        <van-field
-          v-model="pwd"
-          type="password"
-          name="密码"
-          left-icon="filter-o"
-          clearable
-          placeholder="请输入密码"
-        >
+        <van-field v-model="pwd"
+                   type="password"
+                   name="密码"
+                   left-icon="filter-o"
+                   clearable
+                   placeholder="请输入密码">
           <template #left-icon>
-            <img
-              src="@/assets/images/icon/mine/login/pwd.png"
-              style="width:.28rem;margin-right:.3rem"
-            />
+            <img src="@/assets/images/icon/mine/login/pwd.png"
+                 style="width:.28rem;margin-right:.3rem" />
           </template>
         </van-field>
         <div class="ready">
           <span @click="loginByPhone">手机验证码登录</span>
 
-          <a href="javascript:;" @click="gorfet">忘记密码？</a>
+          <a href="javascript:;"
+             @click="gorfet">忘记密码？</a>
         </div>
 
-        <div style="margin: 16px;" class="btn">
-          <van-button round block color="#C3AB87" native-type="submit">登录</van-button>
+        <div style="margin: 16px;"
+             class="btn">
+          <van-button round
+                      block
+                      color="#C3AB87"
+                      native-type="submit">登录</van-button>
         </div>
-        <a href="javascript:;" class="register" @click="register">没有账号？立即去注册</a>
+        <a href="javascript:;"
+           class="register"
+           @click="register">没有账号？立即去注册</a>
       </van-form>
     </div>
   </div>
@@ -54,27 +59,27 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       phone: "",
       pwd: "",
       radio: ""
     };
   },
-  created() {},
-  deactivated() {
+  created () { },
+  deactivated () {
     // 清空数据
     this.phone = "";
     this.pwd = "";
     this.radio = "";
   },
   methods: {
-    onClickLeft() {
+    onClickLeft () {
       this.$router.go(-1);
     },
 
     // 登录
-    onSubmit() {
+    onSubmit () {
       //是否阅读条款
       // if (this.radio != 1) {
       //   this.$toast("请勾选条款");
@@ -109,7 +114,7 @@ export default {
 
 
     // 无昵称随机生成昵称
-    genID(length) {
+    genID (length) {
       return Number(
         Math.random()
           .toString()
@@ -119,12 +124,12 @@ export default {
 
 
     // 获取用户信息
-    getUserInfo(user) {
+    getUserInfo (user) {
       //用户详情
       this.$api
         .getUserInfo({ uid: user.user_id })
         .then(res => {
-          if(!res.member_name){
+          if (!res.member_name) {
             res.member_name = this.genID(6)
           }
           console.log(!res.member_name);
@@ -137,36 +142,36 @@ export default {
             path: "/mine"
           });
         })
-        .catch(err => {});
+        .catch(err => { });
     },
 
     //获取用户收藏夹列表
-    getUserStarList(token) {
+    getUserStarList (token) {
       this.$api.mine
         .getMyStarList({ token: token.token })
         .then(res => {
           // vuex 保存信息
           this.$store.commit("setUserStarList", res);
         })
-        .catch(err => {});
+        .catch(err => { });
     },
 
     // 手机登录
-    loginByPhone() {
+    loginByPhone () {
       this.$router.replace({
         path: "/login_by_phone"
       });
     },
 
     // 忘记密码
-    gorfet() {
+    gorfet () {
       this.$router.push({
         path: "/login/forgetpassword"
       });
     },
 
     // 注册
-    register() {
+    register () {
       this.$router.push({
         path: "/register"
       });

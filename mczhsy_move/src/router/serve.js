@@ -505,5 +505,31 @@ const myOrder = [{
   }
 }]
 
+// 控制台
+const console = [{
+  path: "/console/index",
+  name: "index",
+  component: () => import("../views/magazine/pageHome/console/index.vue"),
+  meta: {
+    title: "控制台",
+    requireAuth: true
+  }
+}, {
+  path: "/console/onlineContract",
+  name: "onlineContract",
+  component: () => import("../views/magazine/pageHome/console/onlineContract.vue"),
+  meta: {
+    title: "网约工控制台",
+    requireAuth: true
+  }
+}, {
+  path: "/console/business",
+  name: "business",
+  component: () => import("../views/magazine/pageHome/console/business.vue"),
+  meta: {
+    title: "商家控制台",
+    requireAuth: true
+  }
+}]
 
-export default [...recovery, ...recruit, index, ...house, ...second, ...travel, ...myOrder]
+export default [...recovery, ...recruit, index, ...house, ...second, ...travel, ...myOrder, ...console]

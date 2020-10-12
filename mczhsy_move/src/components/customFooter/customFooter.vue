@@ -13,7 +13,7 @@
       </div>
       <span class="s2-text">首页</span>
     </router-link>
-    <router-link to="/community"
+    <!-- <router-link to="/community"
                  replace
                  :class="{'on':setActive('/community')}">
       <div class="img-view">
@@ -25,8 +25,47 @@
              alt />
       </div>
       <span class="s2-text">社区</span>
+    </router-link> -->
+    <router-link to=""
+                 replace
+                 :class="{'on':setActive('/shop')}">
+      <div class="img-view">
+        <img src="@/assets/images/icon/index/shop.png"
+             alt
+             class="s1" />
+        <img src="@/assets/images/icon/index/shop_checked.png"
+             class="s2"
+             alt />
+      </div>
+      <span class="s2-text">供应</span>
     </router-link>
-    <router-link to="/shop"
+    <router-link to=""
+                 replace
+                 :class="{'on':setActive('/shop')}">
+      <div class="img-view">
+        <img src="@/assets/images/icon/index/shop.png"
+             alt
+             class="s1" />
+        <img src="@/assets/images/icon/index/shop_checked.png"
+             class="s2"
+             alt />
+      </div>
+      <span class="s2-text">消息</span>
+    </router-link>
+    <router-link to=""
+                 replace
+                 :class="{'on':setActive('/shop')}">
+      <div class="img-view">
+        <img src="@/assets/images/icon/index/shop.png"
+             alt
+             class="s1" />
+        <img src="@/assets/images/icon/index/shop_checked.png"
+             class="s2"
+             alt />
+      </div>
+      <span class="s2-text">分销</span>
+    </router-link>
+    <!-- <router-link to="/shop"
                  replace
                  :class="{'on':setActive('/shop')}">
       <div class="img-view">
@@ -51,7 +90,7 @@
              alt />
       </div>
       <span class="s2-text">服务</span>
-    </router-link>
+    </router-link> -->
     <router-link to="/mine"
                  replace
                  :class="{'on':setActive('/mine')}">
