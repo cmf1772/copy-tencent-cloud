@@ -4,7 +4,6 @@
     <div class="flexJC">
       <p class="text">订单管理-我的应用</p>
     </div>
-
     <div class="flexColumn conent_box"
          style="flex: 1">
       <div class="c_box">
@@ -53,7 +52,6 @@
           </el-table-column>
         </el-table>
       </div>
-
       <div class="btootm_paination c_box">
         <el-pagination @size-change="handleSizeChange"
                        @current-change="handleCurrentChangeFun"

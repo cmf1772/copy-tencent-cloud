@@ -4,16 +4,6 @@
       <img src="@/assets/img/favicon.png"
            alt="">
     </div>
-    <!-- <div :class="activeIndex === index ? 'active menuItem' : 'menuItem'"
-         @click="changeRight(index, item)"
-         v-for="(item, index) in menuData"
-         :key="index">
-      <div><i :class="item.icon"></i> {{item.text}}</div>
-    </div> -->
-
-    <!--  -->
-    <!-- @open="handleOpen" -->
-    <!-- @close="handleClose" -->
     <el-menu :default-active="index_menu"
              class="el-menu-vertical-demo"
              background-color="#22242f"
@@ -30,7 +20,6 @@
           <i :class="menu_one.icon"></i>
           <span>{{menu_one.text}}</span>
         </el-menu-item>
-
         <!-- 一级菜单 -->
         <el-submenu v-if="menu_one.children"
                     @click="goRightDetial(menu_one, index_one + 1 + '')"
@@ -49,9 +38,7 @@
             </template>
           </el-menu-item>
         </el-submenu>
-
       </div>
-
     </el-menu>
   </div>
 </template>
@@ -109,7 +96,6 @@ export default {
   },
 
   mounted () {
-
     this.getmenu()
   }
 }
