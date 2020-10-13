@@ -62,11 +62,38 @@
     </div>
 
     <ul class="list">
-      <li class="item"
-          v-for="item in 5">
+      <li class="item">
         <div>
           <van-icon name="shopping-cart-o" />
           <p>商家入驻</p>
+        </div>
+        <van-icon name="arrow" />
+      </li>
+      <li class="item">
+        <div>
+          <van-icon name="chat-o" />
+          <p>网约工入驻</p>
+        </div>
+        <van-icon name="arrow" />
+      </li>
+      <li class="item">
+        <div>
+          <van-icon name="user-o" />
+          <p>服务商入驻</p>
+        </div>
+        <van-icon name="arrow" />
+      </li>
+      <li class="item">
+        <div>
+          <van-icon name="contact" />
+          <p>开发者入驻</p>
+        </div>
+        <van-icon name="arrow" />
+      </li>
+      <li class="item">
+        <div>
+          <van-icon name="hotel-o" />
+          <p>城市站加盟</p>
         </div>
         <van-icon name="arrow" />
       </li>
@@ -100,18 +127,18 @@ export default {
       height: 100%;
       align-items: center;
       > i {
-        font-size: 0.32rem;
+        font-size: 0.3rem;
         margin-right: 0.3rem;
       }
       > p {
-        font-size: 0.3rem;
+        font-size: 0.28rem;
         font-family: PingFang SC;
         font-weight: 400;
         color: #000000;
       }
     }
     > i {
-      font-size: 0.3rem;
+      font-size: 0.28rem;
     }
   }
 }

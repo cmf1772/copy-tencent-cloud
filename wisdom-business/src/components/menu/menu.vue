@@ -102,6 +102,10 @@ export default {
 </script>
 
 <style lang="scss">
+.el-menu--vertical .el-menu--popup-right-start {
+  max-height: 800px;
+  overflow: auto;
+}
 .el-menu-vertical-demo {
   width: 120px !important;
   .el-submenu__icon-arrow {

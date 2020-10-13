@@ -166,7 +166,7 @@ export default {
       })
     }
 
-    // 获取缓存当中的地址信息
+    // // 获取缓存当中的地址信息
     let addressData = JSON.parse(localStorage.getItem("_M_Address_Data"))
     this.formData.provinceId = addressData.province.id;
     this.formData.cityId = addressData.city.id;
@@ -205,6 +205,7 @@ export default {
       this.$api.serve.recovery.becomeRecycler({
         uid: this.$store.state.user.user_id,  //user id
         province_id: this.areaObject.province.id,  //省份
+        real_name: this.formData.name, //姓名
         city_id: this.areaObject.city.id,  // 城市
         area_id: this.formData.areaId, //区域
         id_card: this.formData.idCard, //身份证

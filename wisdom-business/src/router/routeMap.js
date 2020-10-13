@@ -70,6 +70,12 @@ export default {
   myApp: 'marketing/myApp.vue', // 我的应用
   myOrder: 'marketing/myOrder.vue', // 我的订单
 
+  // 慧付
+  payment: 'huiFu/payment.vue', // 支付账号
+  collection: 'huiFu/collection.vue', // 收款配置
+  paymentColl: 'huiFu/paymentColl.vue', // 付款配置
+  offlinePayment: 'huiFu/offlinePayment.vue', // 线下支付
+
   //暂无开发
   error: 'error.vue',
 }

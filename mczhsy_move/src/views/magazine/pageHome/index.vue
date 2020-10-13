@@ -275,7 +275,7 @@ export default {
       -webkit-line-clamp: 2;
       overflow: hidden;
 
-      font-size: 0.27rem;
+      font-size: 0.25rem;
       font-family: PingFang SC;
       font-weight: 400;
       color: #000000;

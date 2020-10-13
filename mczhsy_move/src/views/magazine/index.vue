@@ -3,20 +3,25 @@
     <!--logo-->
     <div class="logo">
       <img src="../../assets/images/icon/logo_img.png" />
-      <span>美城茂</span>
+      <span>美城智慧商业</span>
     </div>
     <!--logo end-->
 
     <!--搜索框-->
-    <div class="search" id="search">
+    <div class="search"
+         id="search">
       <keep-alive>
-        <search placeholdertext="探索美好生活" @adressChange="adressChange" :popup="true">
+        <search placeholdertext="探索美好生活"
+                @adressChange="adressChange"
+                :popup="true">
           <template v-slot:left>
             {{adressText}}
-            <img src="@/assets/images/icon/index/down.png" style="width:.14rem" />
+            <img src="@/assets/images/icon/index/down.png"
+                 style="width:.14rem" />
           </template>
           <template #right>
-            <img src="@/assets/images/icon/index/sean.png" alt />
+            <img src="@/assets/images/icon/index/sean.png"
+                 alt />
           </template>
         </search>
       </keep-alive>
@@ -59,7 +64,8 @@
     <!--功能入口 end-->
 
     <!--第一个幻灯片-->
-    <div class="banner" id="banner">
+    <div class="banner"
+         id="banner">
       <swiper :list="banner1.bannerList"></swiper>
     </div>
     <!--第一个幻灯片 end-->
@@ -71,20 +77,27 @@
         <span class="sub-title">Discover a good life</span>
       </div>
 
-      <div v-if="categoryList.length < 1" class="loading">
+      <div v-if="categoryList.length < 1"
+           class="loading">
         <van-loading size="24px">加载中...</van-loading>
       </div>
       <div v-else>
         <!-- 美妆 -->
-        <div class="nav-title" v-for="(item,index) in categoryList" :key="index">
+        <div class="nav-title"
+             v-for="(item,index) in categoryList"
+             :key="index">
           <top-nav urlName="food_index">
             <template v-slot:left>{{item.board_title}}</template>
             <template v-slot:right>
-              <van-icon name="arrow" size="20" color="#000" />
+              <van-icon name="arrow"
+                        size="20"
+                        color="#000" />
             </template>
           </top-nav>
-          <swiper :list="item.ad_app" :textList="item.label"></swiper>
-          <small-swipers :list="item.list" :option="nextSwiper.option"></small-swipers>
+          <swiper :list="item.ad_app"
+                  :textList="item.label"></swiper>
+          <small-swipers :list="item.list"
+                         :option="nextSwiper.option"></small-swipers>
         </div>
       </div>
     </section>
@@ -111,8 +124,8 @@ export default {
     footerBar,
     topNav
   },
-  mixins:[ getLocation ],
-  data() {
+  mixins: [getLocation],
+  data () {
     return {
       banner1: {
         swiperOption: {
@@ -160,10 +173,10 @@ export default {
       }
     };
   },
-  mounted() {
-    
+  mounted () {
+
   },
-  created() {
+  created () {
     // 请求banner图
     this.$api.index.getBanner().then(res => {
       this.banner1.bannerList = res;
@@ -172,11 +185,11 @@ export default {
     // 获取分类咨询
     this.getCategoryList();
 
-    
+
   },
   methods: {
     //跳转
-    forward(name) {
+    forward (name) {
       this.$router.push({
         name
       });
@@ -184,7 +197,7 @@ export default {
 
 
     // 获取分类咨询
-    getCategoryList() {
+    getCategoryList () {
       this.$api.index
         .getNewsList({
           city: this.adressText.split("·")[0]

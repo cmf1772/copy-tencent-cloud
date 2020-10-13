@@ -411,24 +411,24 @@ export default [{
       name: 'shop',
       icon: 'el-icon-cpu',
       children: [{
-        path: '/marketingCenter',
+        path: '/payment',
         text: '支付账号',
-        name: 'marketingCenter',
+        name: 'payment',
         icon: 'el-icon-data-analysis',
       }, {
-        path: '/promotionCenter',
+        path: '/collection',
         text: '收款配置',
-        name: 'promotionCenter',
+        name: 'collection',
         icon: 'el-icon-data-analysis',
       }, {
-        path: '/advertisingPromotion',
+        path: '/paymentColl',
         text: '付款配置',
-        name: 'advertisingPromotion',
+        name: 'paymentColl',
         icon: 'el-icon-notebook-2',
       }, {
-        path: '/error',
+        path: '/offlinePayment',
         text: '线下收款',
-        name: 'error',
+        name: 'offlinePayment',
         icon: 'el-icon-notebook-2',
       }, {
         path: '/myApp',
