@@ -12,7 +12,7 @@
             <p class="text mt mb">企业微信支付</p>
             <p class="minText mt "> </p>
             <p class="bottoms mt"
-               style="margin-top: 40px !important">查看官方说明</p>
+               style="margin-top: 40px !important;">查看官方说明</p>
           </div>
         </div>
       </div>
@@ -24,7 +24,7 @@
 export default {
   name: 'collection'
 }
-</script>
+</script>  
 
 <style lang="scss" scoped>
 .item {
