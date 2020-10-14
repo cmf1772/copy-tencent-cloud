@@ -75,6 +75,15 @@ export default {
   collection: 'huiFu/collection.vue', // 收款配置
   paymentColl: 'huiFu/paymentColl.vue', // 付款配置
   offlinePayment: 'huiFu/offlinePayment.vue', // 线下支付
+  revenueProfile: 'huiFu/revenueProfile.vue', // 营收概况'
+  financialDetails: 'huiFu/financialDetails.vue', // 财务明细
+  smartRetail: 'huiFu/smartRetail.vue', // 线上交易
+  onlineRefund: 'huiFu/onlineRefund.vue', // 线下交易
+  reconciliationStatement: 'huiFu/reconciliationStatement.vue', // 对账报表
+  businessSub: 'huiFu/businessSub.vue', // 业务分账
+  accountSplitting: 'huiFu/accountSplitting.vue', // 线上分账(直连服务商)
+  separateAccount: 'huiFu/separateAccount.vue', // 分账解冻(直连服务商模式)
+  billsPayable: 'huiFu/billsPayable.vue', // 应付账单
 
   //暂无开发
   error: 'error.vue',

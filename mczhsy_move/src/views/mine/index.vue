@@ -4,13 +4,15 @@
       <van-nav-bar @click-right="onClickRight">
         <template #right>
           <img src="@/assets/images/icon/index/speak.png" />
-          <img src="@/assets/images/icon/index/xiangji.png" style="margin-left:.5rem" />
+          <img src="@/assets/images/icon/index/xiangji.png"
+               style="margin-left:.5rem" />
         </template>
       </van-nav-bar>
     </div>
 
     <div class="container">
-      <div class="admin login" v-if="user">
+      <div class="admin login"
+           v-if="user">
         <div class="icon">
           <img src="@/assets/images/user.png" />
         </div>
@@ -19,17 +21,21 @@
           <div class="card">
             <div class="user_id">
               <p>账号:</p>
-            <p class="card-num">{{user.member_id}}</p>
+              <p class="card-num">{{user.member_id}}</p>
             </div>
             <div class="right">
-              <van-icon name="qr" size=".38rem" />
-              <van-icon name="arrow"  size=".32rem"  />
+              <van-icon name="qr"
+                        size=".38rem" />
+              <van-icon name="arrow"
+                        size=".32rem" />
             </div>
           </div>
         </div>
       </div>
-      <div class="admin" v-else>
-        <div class="icon" @click="login">
+      <div class="admin"
+           v-else>
+        <div class="icon"
+             @click="login">
           <img src="@/assets/images/icon/mine/index/icon_nologin.png" />
         </div>
         <div class="name">
@@ -66,7 +72,8 @@
       <div class="fn-list">
         <ul>
           <li>
-            <van-cell is-link @click="myFn('/mine/info')">
+            <van-cell is-link
+                      @click="myFn('/mine/info')">
               <template #title>
                 <div class="item">
                   <img src="@/assets/images/icon/mine/index/smallbar9.png" />
@@ -76,7 +83,8 @@
             </van-cell>
           </li>
           <li>
-            <van-cell is-link @click="myFn('/mine/order')">
+            <van-cell is-link
+                      @click="myFn('/mine/order')">
               <template #title>
                 <div class="item">
                   <img src="@/assets/images/icon/mine/index/smallbar1.png" />
@@ -86,7 +94,8 @@
             </van-cell>
           </li>
           <li>
-            <van-cell is-link @click="myFn('/mine/collection')">
+            <van-cell is-link
+                      @click="myFn('/mine/collection')">
               <template #title>
                 <div class="item">
                   <img src="@/assets/images/icon/mine/index/smallbar2.png" />
@@ -96,7 +105,8 @@
             </van-cell>
           </li>
           <li>
-            <van-cell is-link @click="myFn('/mine/pay')">
+            <van-cell is-link
+                      @click="myFn('/mine/pay')">
               <template #title>
                 <div class="item">
                   <img src="@/assets/images/icon/mine/index/smallbar3.png" />
@@ -106,7 +116,8 @@
             </van-cell>
           </li>
           <li>
-            <van-cell is-link @click="myFn('/mine/space')">
+            <van-cell is-link
+                      @click="myFn('/mine/space')">
               <template #title>
                 <div class="item">
                   <img src="@/assets/images/icon/mine/index/smallbar4.png" />
@@ -136,7 +147,8 @@
             </van-cell>
           </li> -->
           <li>
-            <van-cell is-link @click="myFn('/mine/small_shop')">
+            <van-cell is-link
+                      @click="myFn('/mine/small_shop')">
               <template #title>
                 <div class="item">
                   <img src="@/assets/images/icon/mine/index/smallbar7.png" />
@@ -146,7 +158,8 @@
             </van-cell>
           </li>
           <li>
-            <van-cell is-link @click="myFn('/mine/vip')">
+            <van-cell is-link
+                      @click="myFn('/mine/vip')">
               <template #title>
                 <div class="item">
                   <img src="@/assets/images/icon/mine/index/smallbar8.png" />
@@ -166,7 +179,8 @@
             </van-cell>
           </li> -->
           <li>
-            <van-cell is-link @click="myFn('/mine/setting')">
+            <van-cell is-link
+                      @click="myFn('/mine/setting')">
               <template #title>
                 <div class="item">
                   <img src="@/assets/images/icon/mine/index/smallbar10.png" />
@@ -184,15 +198,20 @@
 
 <script>
 import footerBar from "@/components/customFooter/customFooter"; //底部tabbar
+import getLocation from '@/mixins/getLocationMixin.js'
+
 export default {
   components: { footerBar },
-  data() {
+
+  mixins: [getLocation],
+
+  data () {
     return {
       user: null,
       loginBol: true
     };
   },
-  activated() {
+  activated () {
     // this.$toast('成功')
     // 获取用户信息
     this.user =
@@ -206,13 +225,13 @@ export default {
     console.log(this.$store.state.isLogin);
   },
   methods: {
-    onClickRight() {},
-    login() {
+    onClickRight () { },
+    login () {
       this.$router.push({
         name: "login"
       });
     },
-    myFn(path) {
+    myFn (path) {
       if (!this.$store.state.isLogin) {
         this.$toast.fail("请登录");
         this.$router.push({
@@ -276,27 +295,27 @@ export default {
       }
     }
   }
-  .login{
-    padding-left: .45rem;
+  .login {
+    padding-left: 0.45rem;
     padding-right: 0.45rem;
     justify-content: flex-start;
-    .name{
+    .name {
       flex: 1;
       margin: 0;
       text-align: left;
-      span{
-        font-size: .42rem;
+      span {
+        font-size: 0.42rem;
       }
-      .card{
-        font-size: .27rem;
+      .card {
+        font-size: 0.27rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        .right{
+        .right {
           display: flex;
           align-items: center;
-          .van-icon{
-            margin-left: .2rem;
+          .van-icon {
+            margin-left: 0.2rem;
           }
         }
       }
@@ -308,7 +327,7 @@ export default {
     margin: 0 auto;
     display: flex;
     justify-content: space-around;
-    padding: 0 0.3rem .7rem 0.3rem;
+    padding: 0 0.3rem 0.7rem 0.3rem;
     li {
       display: inline-block;
       text-align: center;

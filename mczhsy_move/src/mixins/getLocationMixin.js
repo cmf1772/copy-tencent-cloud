@@ -3,24 +3,24 @@
 import LocationAMap from "@/utils/amap.js";
 
 export default {
-  data() {
+  data () {
     return {
       adressText: "苏州·高新区",
       categoryList: [],
     };
   },
-  mounted() {},
-  activated() {
+  mounted () { },
+  activated () {
     // 获取缓存中是否有地址
     this.adressText = localStorage.getItem("_M_Address_Text")
       ? localStorage.getItem("_M_Address_Text")
       : "苏州·高新区";
   },
-  created() {
+  created () {
     this.getCity();
   },
   watch: {
-    adressText(newVal) {
+    adressText (newVal) {
       //城市变化 重新获取资讯数据
       // this.getCategoryList();
     }
@@ -28,7 +28,7 @@ export default {
   methods: {
 
     //获取到城市
-    getCity() {
+    getCity () {
       // 判断缓存中是否有值
       if (localStorage.getItem("_M_Address_Text")) {
         return;
@@ -40,8 +40,8 @@ export default {
           //设置传入的 地区文字
           this.adressText =
             res_data.nowLocation.city + "·" + res_data.nowLocation.township;
-            localStorage.setItem("_M_Address_Text", this.adressText);
-            localStorage.setItem("_M_Adress_Location",JSON.stringify(res_data.nowLocation))
+          localStorage.setItem("_M_Address_Text", this.adressText);
+          localStorage.setItem("_M_Adress_Location", JSON.stringify(res_data.nowLocation))
           // 缓存中没有值的话 调用函数 将定位的省份 和 城市 传入
           this.setAddressCityPid(
             res_data.nowLocation.province,
@@ -55,7 +55,7 @@ export default {
     },
 
     // 设置缓存中城市的 pid
-    setAddressCityPid(province, city) {
+    setAddressCityPid (province, city) {
       let getData = false;
       let storageAddress = {}
       // 默认第 0 级
@@ -63,17 +63,17 @@ export default {
       // this指针 作用域
       let _this = this;
       // 递归查找城市 id
-      function getAddress(pid, name) {
+      function getAddress (pid, name) {
         console.log(pid);
         _this.$api.index
           .getAdressLocalList({ pid })
           .then(res => {
             // 循环数据 与 定位数据相比较
             for (let item of res) {
-              
+
               if (item.name == name) {
 
-                if(pid == 0){
+                if (pid == 0) {
                   storageAddress.province = item
                 }
                 if (getData) {
@@ -92,14 +92,14 @@ export default {
               }
             }
           })
-          .catch(err => {});
+          .catch(err => { });
       }
       // 执行递归函数
       getAddress(pid, province);
     },
-    
+
     // 子组件发射事件
-    adressChange(value) {
+    adressChange (value) {
       this.adressText = value;
     }
   }
