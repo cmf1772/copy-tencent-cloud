@@ -1,5 +1,5 @@
 <template>
-  <div class="separateAccount flexColumn">
+  <div class="reconciliationStatement flexColumn">
     <el-tabs v-model="activeName"
              style="flex: 1"
              class="flexColumn"
@@ -10,51 +10,14 @@
              style="height: 100%">
           <div class="flexJC">
             <p class="text">
-              分账解冻(直连服务商模式)
+              付款记录
             </p>
-          </div>
-          <div class="flexRC">
-            <p class="mr ml minText">订单状态：</p>
-            <el-select v-model="shopValue"
-                       style="width: 150px"
-                       size="mini"
-                       slot="prepend"
-                       placeholder="请选择">
-              <el-option label="全部"
-                         value="1"></el-option>
-              <el-option label="直连服务商模式"
-                         value="2"></el-option>
-              <el-option label="微信多店版"
-                         value="3"></el-option>
-            </el-select>
           </div>
           <div class="flexColumn conent_box"
                ref="c_box"
                style="flex: 1">
             <div class="c_box mb">
               <div class="flexRC ">
-                <p class="mr minText">分账时间：</p>
-                <el-date-picker v-model="value1"
-                                size="mini"
-                                style="width: 250px"
-                                type="daterange"
-                                range-separator="至"
-                                start-placeholder="开始日期"
-                                end-placeholder="结束日期">
-                </el-date-picker>
-                <p class="mr ml minText">订单状态：</p>
-                <el-select v-model="shopValue"
-                           style="width: 150px"
-                           size="mini"
-                           slot="prepend"
-                           placeholder="请选择">
-                  <el-option label="全部"
-                             value="1"></el-option>
-                  <el-option label="成功"
-                             value="2"></el-option>
-                  <el-option label="失败"
-                             value="3"></el-option>
-                </el-select>
                 <p class="mr ml minText">收款方名称：</p>
                 <el-input placeholder="请输入内容"
                           v-model="input"
@@ -62,6 +25,15 @@
                           size="mini"
                           clearable>
                 </el-input>
+
+                <p class="mr ml minText">收款方WID/PID：</p>
+                <el-input placeholder="请输入收款方WID/PID"
+                          v-model="input"
+                          style="width: 150px;"
+                          size="mini"
+                          clearable>
+                </el-input>
+
                 <p class="mr ml minText">收款方类型：</p>
                 <el-select v-model="shopValue"
                            style="width: 150px"
@@ -85,10 +57,17 @@
                   <el-option label="酒店-抽佣平台"
                              value="8"></el-option>
                 </el-select>
-
               </div>
               <div class="flexRC mt">
-                <p class="mr minText">原交易时间：</p>
+                <p class="mr minText">付款单号：</p>
+                <el-input placeholder="请输入付款单号"
+                          v-model="input"
+                          style="width: 150px;"
+                          size="mini"
+                          clearable>
+                </el-input>
+
+                <p class="mr minText ml">付款时间：</p>
                 <el-date-picker v-model="value1"
                                 size="mini"
                                 style="width: 250px"
@@ -97,7 +76,8 @@
                                 start-placeholder="开始日期"
                                 end-placeholder="结束日期">
                 </el-date-picker>
-                <p class="mr ml minText">分账方式：</p>
+
+                <p class="mr ml minText">付款方式：</p>
                 <el-select v-model="shopValue"
                            style="width: 150px"
                            size="mini"
@@ -112,15 +92,24 @@
                   <el-option label="平台分账"
                              value="4"></el-option>
                 </el-select>
-                <p class="mr ml minText">收款方WID/PID：</p>
-                <el-input placeholder="请输入收款方WID/PID"
-                          v-model="input"
-                          style="width: 150px;"
-                          size="mini"
-                          clearable>
-                </el-input>
               </div>
               <div class="flexRC mt">
+                <p class="mr minText">付款状态：</p>
+                <el-select v-model="shopValue"
+                           style="width: 150px"
+                           size="mini"
+                           class="mr"
+                           slot="prepend"
+                           placeholder="请选择">
+                  <el-option label="全部"
+                             value="1"></el-option>
+                  <el-option label="成功"
+                             value="2"></el-option>
+                  <el-option label="失败"
+                             value="3"></el-option>
+                  <el-option label="处理中"
+                             value="4"></el-option>
+                </el-select>
                 <el-button size="mini"
                            type="primary"
                            plain>查询</el-button>
@@ -129,7 +118,6 @@
                    style="color: #2589ff;">请前往”慧付-下载中心-导出管理“下载导出结果！</p>
               </div>
               <div class="flexRC mt">
-                <p class="minText">应付总额：<span style="color: rgb(88, 212, 77);">￥ 0.00</span></p>
               </div>
             </div>
 

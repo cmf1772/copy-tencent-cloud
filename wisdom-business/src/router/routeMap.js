@@ -70,7 +70,7 @@ export default {
   myApp: 'marketing/myApp.vue', // 我的应用
   myOrder: 'marketing/myOrder.vue', // 我的订单
 
-  // 慧付
+  // 慧付 二级菜单
   payment: 'huiFu/payment.vue', // 支付账号
   collection: 'huiFu/collection.vue', // 收款配置
   paymentColl: 'huiFu/paymentColl.vue', // 付款配置
@@ -84,6 +84,23 @@ export default {
   accountSplitting: 'huiFu/accountSplitting.vue', // 线上分账(直连服务商)
   separateAccount: 'huiFu/separateAccount.vue', // 分账解冻(直连服务商模式)
   billsPayable: 'huiFu/billsPayable.vue', // 应付账单
+  withdrawal: 'huiFu/withdrawal.vue', // 体现管理
+  paymentRecords: 'huiFu/paymentRecords.vue', // 付款记录
+  liveAccounts: 'huiFu/liveAccounts.vue', // 直播应收
+  splitOrder: 'huiFu/splitOrder.vue', // 分账订单
+  logisticsExpenses: 'huiFu/logisticsExpenses.vue', // 物流费用
+  creditDetails: 'huiFu/creditDetails.vue', // 积分明细
+  balanceDetails: 'huiFu/balanceDetails.vue', // 余额明细
+  rewardSubsidiary: 'huiFu/rewardSubsidiary.vue', //维客奖励
+  communityGroup: 'huiFu/communityGroup.vue', // 社区团购分账单
+  electronicInvoice: 'huiFu/electronicInvoice.vue', // 电子发票开通
+  orderFlow: 'huiFu/orderFlow.vue', // 发票订单流水
+  invoiceFinance: 'huiFu/invoiceFinance.vue', // 电子发票财务
+  myAccount: 'huiFu/myAccount.vue', // 我的账户
+  withdrawalOrder: 'huiFu/withdrawalOrder.vue', // 提现订单
+  balanceReconciliation: 'huiFu/balanceReconciliation.vue', // 余额对账报表
+  theInvoicenformation: 'huiFu/theInvoicenformation.vue', // 发票信息
+  exportManagement: 'huiFu/exportManagement.vue', // 导出管理
 
   //暂无开发
   error: 'error.vue',

@@ -1,39 +1,20 @@
 <template>
-  <div class="separateAccount flexColumn">
+  <div class="withdrawalOrder flexColumn">
     <el-tabs v-model="activeName"
              style="flex: 1"
              class="flexColumn"
              @tab-click="handleClick">
+
       <el-tab-pane label="模糊查询"
                    name="first">
         <div class="conent_box flexColumn"
              style="height: 100%">
-          <div class="flexJC">
-            <p class="text">
-              分账解冻(直连服务商模式)
-            </p>
-          </div>
-          <div class="flexRC">
-            <p class="mr ml minText">订单状态：</p>
-            <el-select v-model="shopValue"
-                       style="width: 150px"
-                       size="mini"
-                       slot="prepend"
-                       placeholder="请选择">
-              <el-option label="全部"
-                         value="1"></el-option>
-              <el-option label="直连服务商模式"
-                         value="2"></el-option>
-              <el-option label="微信多店版"
-                         value="3"></el-option>
-            </el-select>
-          </div>
           <div class="flexColumn conent_box"
                ref="c_box"
                style="flex: 1">
             <div class="c_box mb">
               <div class="flexRC ">
-                <p class="mr minText">分账时间：</p>
+                <p class="mr minText">提现时间：</p>
                 <el-date-picker v-model="value1"
                                 size="mini"
                                 style="width: 250px"
@@ -42,7 +23,9 @@
                                 start-placeholder="开始日期"
                                 end-placeholder="结束日期">
                 </el-date-picker>
-                <p class="mr ml minText">订单状态：</p>
+              </div>
+              <div class="flexRC mt">
+                <p class="mr minText">开票状态：</p>
                 <el-select v-model="shopValue"
                            style="width: 150px"
                            size="mini"
@@ -50,86 +33,22 @@
                            placeholder="请选择">
                   <el-option label="全部"
                              value="1"></el-option>
-                  <el-option label="成功"
+                  <el-option label="未开票"
                              value="2"></el-option>
-                  <el-option label="失败"
+                  <el-option label="开票中"
                              value="3"></el-option>
-                </el-select>
-                <p class="mr ml minText">收款方名称：</p>
-                <el-input placeholder="请输入内容"
-                          v-model="input"
-                          style="width: 150px;"
-                          size="mini"
-                          clearable>
-                </el-input>
-                <p class="mr ml minText">收款方类型：</p>
-                <el-select v-model="shopValue"
-                           style="width: 150px"
-                           size="mini"
-                           slot="prepend"
-                           placeholder="请选择">
-                  <el-option label="saas软件-商户"
-                             value="1"></el-option>
-                  <el-option label="saas软件-门店"
-                             value="2"></el-option>
-                  <el-option label="分销-微客"
-                             value="3"></el-option>
-                  <el-option label="多仓-云仓"
+                  <el-option label="开票成功"
                              value="4"></el-option>
-                  <el-option label="社区团购-团长"
+                  <el-option label="开票失败"
                              value="5"></el-option>
-                  <el-option label="智店-抽佣平台"
-                             value="6"></el-option>
-                  <el-option label="云小店-抽佣平台"
-                             value="7"></el-option>
-                  <el-option label="酒店-抽佣平台"
-                             value="8"></el-option>
                 </el-select>
-
-              </div>
-              <div class="flexRC mt">
-                <p class="mr minText">原交易时间：</p>
-                <el-date-picker v-model="value1"
-                                size="mini"
-                                style="width: 250px"
-                                type="daterange"
-                                range-separator="至"
-                                start-placeholder="开始日期"
-                                end-placeholder="结束日期">
-                </el-date-picker>
-                <p class="mr ml minText">分账方式：</p>
-                <el-select v-model="shopValue"
-                           style="width: 150px"
-                           size="mini"
-                           slot="prepend"
-                           placeholder="请选择">
-                  <el-option label="线上分账"
-                             value="1"></el-option>
-                  <el-option label="线下分账"
-                             value="2"></el-option>
-                  <el-option label="线上转线下"
-                             value="3"></el-option>
-                  <el-option label="平台分账"
-                             value="4"></el-option>
-                </el-select>
-                <p class="mr ml minText">收款方WID/PID：</p>
-                <el-input placeholder="请输入收款方WID/PID"
-                          v-model="input"
-                          style="width: 150px;"
-                          size="mini"
-                          clearable>
-                </el-input>
               </div>
               <div class="flexRC mt">
                 <el-button size="mini"
                            type="primary"
                            plain>查询</el-button>
                 <el-button size="mini">导出</el-button>
-                <p class="minText ml s"
-                   style="color: #2589ff;">请前往”慧付-下载中心-导出管理“下载导出结果！</p>
-              </div>
-              <div class="flexRC mt">
-                <p class="minText">应付总额：<span style="color: rgb(88, 212, 77);">￥ 0.00</span></p>
+
               </div>
             </div>
 
@@ -140,16 +59,36 @@
                 <el-table-column prop="name"
                                  fixed
                                  show-overflow-tooltip
-                                 label="分账时间"
+                                 label="PID"
                                  width="180">
                 </el-table-column>
                 <el-table-column prop="address"
                                  show-overflow-tooltips
-                                 label="分账金额">
+                                 label="提现时间">
                 </el-table-column>
                 <el-table-column prop="address"
                                  show-overflow-tooltip
-                                 label="订单状态">
+                                 label="财务账号">
+                </el-table-column>
+                <el-table-column prop="address"
+                                 show-overflow-tooltip
+                                 label="总店/门店名称">
+                </el-table-column>
+                <el-table-column prop="address"
+                                 show-overflow-tooltip
+                                 label="提现金额">
+                </el-table-column>
+                <el-table-column prop="address"
+                                 show-overflow-tooltip
+                                 label="手续费">
+                </el-table-column>
+                <el-table-column prop="address"
+                                 show-overflow-tooltip
+                                 label="预计到账金额">
+                </el-table-column>
+                <el-table-column prop="address"
+                                 show-overflow-tooltip
+                                 label="提现状态">
                 </el-table-column>
                 <el-table-column prop="address"
                                  show-overflow-tooltip
@@ -157,52 +96,25 @@
                 </el-table-column>
                 <el-table-column prop="address"
                                  show-overflow-tooltip
-                                 label="收款方名称">
+                                 label="提现单号">
                 </el-table-column>
                 <el-table-column prop="address"
                                  show-overflow-tooltip
-                                 label="收款方WID/PID">
+                                 label="打款日期">
                 </el-table-column>
                 <el-table-column prop="address"
                                  show-overflow-tooltip
-                                 label="收款方类型">
+                                 label="提现帐户名">
                 </el-table-column>
                 <el-table-column prop="address"
                                  show-overflow-tooltip
-                                 label="业务类型">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="分账方式">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="原交易时间">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="原交易金额">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="原交易退款金额">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="业务订单号">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="三方分账单号">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="付款方名称">
+                                 label="提现账户号">
                 </el-table-column>
                 <el-table-column prop="address"
                                  fixed="right"
+                                 width="180"
                                  show-overflow-tooltip
-                                 label="付款方类型">
+                                 label="提现开户银行">
                 </el-table-column>
               </el-table>
             </div>
