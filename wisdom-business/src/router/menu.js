@@ -602,6 +602,62 @@ export default [{
         name: 'enterpriseWeChat',
         icon: 'el-icon-notebook-2',
       }]
+    }, {
+      path: '/shop',
+      text: '设置',
+      name: 'shop',
+      icon: 'el-icon-sunny ',
+      children: [{
+        path: '/businessInformation',
+        text: '商户信息',
+        name: 'businessInformation',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/shopCertification',
+        text: '商户认证',
+        name: 'shopCertification',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/storeSettings',
+        text: '网店设置',
+        name: 'storeSettings',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/goodsSet',
+        text: '商品设置',
+        name: 'goodsSet',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/h5Set',
+        text: '订单设置',
+        name: 'h5Set',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/APPstore',
+        text: '配送设置',
+        name: 'APPstore',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/enterpriseWeChat',
+        text: '任务列表',
+        name: 'enterpriseWeChat',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/enterpriseWeChat',
+        text: '消息通知',
+        name: 'enterpriseWeChat',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/enterpriseWeChat',
+        text: '账号权限',
+        name: 'enterpriseWeChat',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/enterpriseWeChat',
+        text: '操作日志',
+        name: 'enterpriseWeChat',
+        icon: 'el-icon-notebook-2',
+      }]
     }
   ]
 }]

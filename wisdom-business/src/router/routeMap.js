@@ -111,6 +111,12 @@ export default {
   APPstore: 'channel/APPstore.vue', // app开店
   enterpriseWeChat: 'channel/enterpriseWeChat.vue', // 企业微信
 
+  // 设置 二级菜单
+  businessInformation: 'setting/businessInformation.vue', // 商户信息
+  shopCertification: 'setting/shopCertification.vue', // 商铺认证
+  storeSettings: 'setting/storeSettings.vue', // 网店设置
+  goodsSet: 'setting/goodsSet.vue', // 商品设置
+
   //暂无开发
   error: 'error.vue',
 }
