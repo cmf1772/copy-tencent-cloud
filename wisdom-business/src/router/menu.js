@@ -561,6 +561,47 @@ export default [{
         name: 'exportManagement',
         icon: 'el-icon-toilet-paper',
       }]
+    }, {
+      path: '/shop',
+      text: '渠道',
+      name: 'shop',
+      icon: 'el-icon-sunny ',
+      children: [{
+        path: '/customMenu',
+        text: '自定义菜单',
+        name: 'customMenu',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/autoReply',
+        text: '自动回复',
+        name: 'autoReply',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/publicAccount',
+        text: '公众号管理',
+        name: 'publicAccount',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/appletSetup',
+        text: '微信小程序',
+        name: 'appletSetup',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/h5Set',
+        text: 'H5设置',
+        name: 'h5Set',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/APPstore',
+        text: 'APP开店',
+        name: 'APPstore',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/enterpriseWeChat',
+        text: '企业微信',
+        name: 'enterpriseWeChat',
+        icon: 'el-icon-notebook-2',
+      }]
     }
   ]
 }]

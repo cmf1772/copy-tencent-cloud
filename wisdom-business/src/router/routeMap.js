@@ -102,6 +102,15 @@ export default {
   theInvoicenformation: 'huiFu/theInvoicenformation.vue', // 发票信息
   exportManagement: 'huiFu/exportManagement.vue', // 导出管理
 
+  // 渠道 二级菜单
+  customMenu: 'channel/customMenu.vue', // 自定义菜单
+  autoReply: 'channel/autoReply.vue', // 自动回复
+  publicAccount: 'channel/publicAccount.vue', // 公众号管理
+  appletSetup: 'channel/appletSetup.vue', // 小程序管理
+  h5Set: 'channel/h5Set.vue', // h5设置
+  APPstore: 'channel/APPstore.vue', // app开店
+  enterpriseWeChat: 'channel/enterpriseWeChat.vue', // 企业微信
+
   //暂无开发
   error: 'error.vue',
 }
