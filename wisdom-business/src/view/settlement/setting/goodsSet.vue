@@ -276,7 +276,7 @@ export default {
   },
 
   mounted () {
-    this.height = this.$refs.goodsSet.clientWidth + 50
+    this.height = this.$refs.goodsSet.clientHeight - 190
   }
 }
 </script>

@@ -628,34 +628,34 @@ export default [{
         name: 'goodsSet',
         icon: 'el-icon-notebook-2',
       }, {
-        path: '/h5Set',
+        path: '/orderISaet',
         text: '订单设置',
-        name: 'h5Set',
+        name: 'orderISaet',
         icon: 'el-icon-notebook-2',
       }, {
-        path: '/APPstore',
+        path: '/shippingSettings',
         text: '配送设置',
-        name: 'APPstore',
+        name: 'shippingSettings',
         icon: 'el-icon-notebook-2',
       }, {
-        path: '/enterpriseWeChat',
+        path: '/theRaskList',
         text: '任务列表',
-        name: 'enterpriseWeChat',
+        name: 'theRaskList',
         icon: 'el-icon-notebook-2',
       }, {
-        path: '/enterpriseWeChat',
+        path: '/error',
         text: '消息通知',
-        name: 'enterpriseWeChat',
+        name: 'error',
         icon: 'el-icon-notebook-2',
       }, {
-        path: '/enterpriseWeChat',
+        path: '/accountAccess',
         text: '账号权限',
-        name: 'enterpriseWeChat',
+        name: 'accountAccess',
         icon: 'el-icon-notebook-2',
       }, {
-        path: '/enterpriseWeChat',
+        path: '/operationLog',
         text: '操作日志',
-        name: 'enterpriseWeChat',
+        name: 'operationLog',
         icon: 'el-icon-notebook-2',
       }]
     }

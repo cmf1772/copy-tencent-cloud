@@ -116,6 +116,11 @@ export default {
   shopCertification: 'setting/shopCertification.vue', // 商铺认证
   storeSettings: 'setting/storeSettings.vue', // 网店设置
   goodsSet: 'setting/goodsSet.vue', // 商品设置
+  orderISaet: 'setting/orderISaet.vue', // 订单设置
+  shippingSettings: 'setting/shippingSettings.vue', // 配送设置
+  theRaskList: 'setting/theRaskList.vue', // 任务列表
+  accountAccess: 'setting/accountAccess.vue', // 账号权限
+  operationLog: 'setting/operationLog.vue', // 操作设置
 
   //暂无开发
   error: 'error.vue',
