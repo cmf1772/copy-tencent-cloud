@@ -175,7 +175,6 @@
         </div>
       </div>
     </div>
-    <div class="bottom"></div>
   </div>
 </template>
 

@@ -1,7 +1,9 @@
 export default [{
   path: '/survey',
   name: 'settlement',
+  text: '智慧零售',
   icon: 'gongzuotai',
+  parent: true,
   component: '',
   children: [
     {
@@ -658,6 +660,22 @@ export default [{
         name: 'operationLog',
         icon: 'el-icon-notebook-2',
       }]
+    }
+  ]
+}, {
+  path: '/r_survey',
+  name: 'wisdomRestaurant',
+  icon: 'gongzuotai',
+  text: '智慧餐厅',
+  component: '',
+  parent: true,
+  children: [
+    {
+      path: '/r_survey',
+      name: 'r_survey',
+      text: '概况',
+      component: '',
+      icon: 'el-icon-menu'
     }
   ]
 }]

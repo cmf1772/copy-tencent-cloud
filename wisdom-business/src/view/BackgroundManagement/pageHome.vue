@@ -310,6 +310,10 @@ export default {
     }
   },
 
+  // created () {
+  //   this.$router.go(0)
+  // },
+
   mounted () {
     this.getTitleBox()
     this.getTitleName()
@@ -332,8 +336,8 @@ export default {
 
 <style >
 .el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
-  min-height: 400px;
+  width: 200px !important;
+  min-height: 400px !important;
 }
 
 .el-menu-vertical-demo {

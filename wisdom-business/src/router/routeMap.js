@@ -1,127 +1,136 @@
 export default {
-  //一级菜单
-  settlement: 'home.vue',
-  survey: 'survey/survey.vue',
+  //一级菜单 智慧零售
+  settlement: 'smartRetail/home.vue',
+  survey: 'smartRetail/survey/survey.vue',
 
   //店铺二级菜单
-  shop: 'shop/shop.vue',
-  navShop: 'shop/navShop.vue',
+  shop: 'smartRetail/shop/shop.vue',
+  navShop: 'smartRetail/shop/navShop.vue',
 
   //商店 二级菜单
-  listOfUnit: 'commodity/listOfUnit.vue', // 单品库列表
-  Classification: 'commodity/Classification.vue', // 单品库分类
-  shopList: 'commodity/shopList.vue', // 商品库列表
-  commodityGrouping: 'commodity/commodityGrouping.vue', // 商品分组
-  productLabel: 'commodity/productLabel.vue', // 商品标签
-  detailedTemplate: 'commodity/detailedTemplate.vue', // 商品模版
-  commodityAttributes: 'commodity/commodityAttributes.vue',// 商品属性
-  profileTemplate: 'commodity/profileTemplate.vue', // 档案模板
-  productList: 'commodity/productList.vue', // 商品列表
-  productReviews: 'commodity/productReviews.vue', // 商品评论
-  supplyCenter: 'commodity/supplyCenter.vue', // 供货中心
+  listOfUnit: 'smartRetail/commodity/listOfUnit.vue', // 单品库列表
+  Classification: 'smartRetail/commodity/Classification.vue', // 单品库分类
+  shopList: 'smartRetail/commodity/shopList.vue', // 商品库列表
+  commodityGrouping: 'smartRetail/commodity/commodityGrouping.vue', // 商品分组
+  productLabel: 'smartRetail/commodity/productLabel.vue', // 商品标签
+  detailedTemplate: 'smartRetail/commodity/detailedTemplate.vue', // 商品模版
+  commodityAttributes: 'smartRetail/commodity/commodityAttributes.vue',// 商品属性
+  profileTemplate: 'smartRetail/commodity/profileTemplate.vue', // 档案模板
+  productList: 'smartRetail/commodity/productList.vue', // 商品列表
+  productReviews: 'smartRetail/commodity/productReviews.vue', // 商品评论
+  supplyCenter: 'smartRetail/commodity/supplyCenter.vue', // 供货中心
 
   //库存二级菜单
-  storeInventory: 'stock/storeInventory.vue', // 门店库存
-  inOutDetails: 'stock/inOutDetails.vue', // 出入库明细
-  inReceipt: 'stock/inReceipt.vue', // 入库单
-  outReceipt: 'stock/outReceipt.vue', // 出库单
-  lnventoryChecking: 'stock/lnventoryChecking.vue',// 库存盘点
-  inventoryChecking: 'stock/inventoryChecking.vue', // 库存控制
-  InventorySearch: 'stock/InventorySearch.vue', // 库存查询
-  shippingReport: 'stock/shippingReport.vue', // 出货报告
-  shippingIn: 'stock/shippingIn.vue', // 进货报告
-  setting: 'stock/setting.vue', // 进货报告
+  storeInventory: 'smartRetail/stock/storeInventory.vue', // 门店库存
+  inOutDetails: 'smartRetail/stock/inOutDetails.vue', // 出入库明细
+  inReceipt: 'smartRetail/stock/inReceipt.vue', // 入库单
+  outReceipt: 'smartRetail/stock/outReceipt.vue', // 出库单
+  lnventoryChecking: 'smartRetail/stock/lnventoryChecking.vue',// 库存盘点
+  inventoryChecking: 'smartRetail/stock/inventoryChecking.vue', // 库存控制
+  InventorySearch: 'smartRetail/stock/InventorySearch.vue', // 库存查询
+  shippingReport: 'smartRetail/stock/shippingReport.vue', // 出货报告
+  shippingIn: 'smartRetail/stock/shippingIn.vue', // 进货报告
+  setting: 'smartRetail/stock/setting.vue', // 进货报告
 
 
   //门店二级菜单
-  storeList: 'doorStore/storeList.vue', // 门店列表
-  performanceSetting: 'doorStore/performanceSetting.vue', // 业绩设置
-  performanceDetails: 'doorStore/performanceDetails.vue', // 业绩明细
-  entryRules: 'doorStore/entryRules.vue', // 进店规则
-  regionalManagement: 'doorStore/regionalManagement.vue', // 区域管理
-  shoppingManagement: 'doorStore/shoppingManagement.vue',  // 导购管理
-  shoppingSetting: 'doorStore/shoppingSetting.vue', // 导购设置
-  statisticalReport: 'doorStore/statisticalReport.vue', //统计报表
-  setup: 'doorStore/setup.vue', // 交易设置
-  ticketSetting: 'doorStore/ticketSetting.vue', // 小票设置
-  cashRegister: 'doorStore/cashRegister.vue', // 收银台交班
+  storeList: 'smartRetail/doorStore/storeList.vue', // 门店列表
+  performanceSetting: 'smartRetail/doorStore/performanceSetting.vue', // 业绩设置
+  performanceDetails: 'smartRetail/doorStore/performanceDetails.vue', // 业绩明细
+  entryRules: 'smartRetail/doorStore/entryRules.vue', // 进店规则
+  regionalManagement: 'smartRetail/doorStore/regionalManagement.vue', // 区域管理
+  shoppingManagement: 'smartRetail/doorStore/shoppingManagement.vue',  // 导购管理
+  shoppingSetting: 'smartRetail/doorStore/shoppingSetting.vue', // 导购设置
+  statisticalReport: 'smartRetail/doorStore/statisticalReport.vue', //统计报表
+  setup: 'smartRetail/doorStore/setup.vue', // 交易设置
+  ticketSetting: 'smartRetail/doorStore/ticketSetting.vue', // 小票设置
+  cashRegister: 'smartRetail/doorStore/cashRegister.vue', // 收银台交班
 
   // 订单 二级菜单
-  allOrders: 'orders/allOrders.vue', // 全部订单
-  recharge0rder: 'orders/recharge0rder.vue', // 充值订单
-  consumerOrder: 'orders/consumerOrder.vue', // 消费订单
-  delivery: 'orders/delivery.vue', // 发货管理
-  selfRaised: 'orders/selfRaised.vue', // 自提管理
-  toBeAllocated: 'orders/toBeAllocated.vue', // 带分配订单
-  communityOrder: 'orders/communityOrder.vue',
-  distributionSupply: 'orders/distributionSupply.vue', // 分销供货订单
-  afterSale: 'orders/afterSale.vue', //售后订单
-  paymentOrderQuery: 'orders/paymentOrderQuery.vue', // 付款单查询
+  allOrders: 'smartRetail/orders/allOrders.vue', // 全部订单
+  recharge0rder: 'smartRetail/orders/recharge0rder.vue', // 充值订单
+  consumerOrder: 'smartRetail/orders/consumerOrder.vue', // 消费订单
+  delivery: 'smartRetail/orders/delivery.vue', // 发货管理
+  selfRaised: 'smartRetail/orders/selfRaised.vue', // 自提管理
+  toBeAllocated: 'smartRetail/orders/toBeAllocated.vue', // 带分配订单
+  communityOrder: 'smartRetail/orders/communityOrder.vue',
+  distributionSupply: 'smartRetail/orders/distributionSupply.vue', // 分销供货订单
+  afterSale: 'smartRetail/orders/afterSale.vue', //售后订单
+  paymentOrderQuery: 'smartRetail/orders/paymentOrderQuery.vue', // 付款单查询
 
   // 客户 二级菜单
-  allCustoms: 'custom/allCustoms.vue',                // 全部客户
-  customerTag: 'custom/customerTag.vue',              // 客户标签
-  customerSetting: 'custom/customerSetting.vue',      // 客户设置
+  allCustoms: 'smartRetail/custom/allCustoms.vue',                // 全部客户
+  customerTag: 'smartRetail/custom/customerTag.vue',              // 客户标签
+  customerSetting: 'smartRetail/custom/customerSetting.vue',      // 客户设置
 
   // 营销 二级菜单
-  marketingCenter: 'marketing/marketingCenter.vue', // 营销中心
-  promotionCenter: 'marketing/promotionCenter.vue', // 推广中心
-  advertisingPromotion: 'marketing/advertisingPromotion.vue', // 广告推广
-  myApp: 'marketing/myApp.vue', // 我的应用
-  myOrder: 'marketing/myOrder.vue', // 我的订单
+  marketingCenter: 'smartRetail/marketing/marketingCenter.vue', // 营销中心
+  promotionCenter: 'smartRetail/marketing/promotionCenter.vue', // 推广中心
+  advertisingPromotion: 'smartRetail/marketing/advertisingPromotion.vue', // 广告推广
+  myApp: 'smartRetail/marketing/myApp.vue', // 我的应用
+  myOrder: 'smartRetail/marketing/myOrder.vue', // 我的订单
 
   // 慧付 二级菜单
-  payment: 'huiFu/payment.vue', // 支付账号
-  collection: 'huiFu/collection.vue', // 收款配置
-  paymentColl: 'huiFu/paymentColl.vue', // 付款配置
-  offlinePayment: 'huiFu/offlinePayment.vue', // 线下支付
-  revenueProfile: 'huiFu/revenueProfile.vue', // 营收概况'
-  financialDetails: 'huiFu/financialDetails.vue', // 财务明细
-  smartRetail: 'huiFu/smartRetail.vue', // 线上交易
-  onlineRefund: 'huiFu/onlineRefund.vue', // 线下交易
-  reconciliationStatement: 'huiFu/reconciliationStatement.vue', // 对账报表
-  businessSub: 'huiFu/businessSub.vue', // 业务分账
-  accountSplitting: 'huiFu/accountSplitting.vue', // 线上分账(直连服务商)
-  separateAccount: 'huiFu/separateAccount.vue', // 分账解冻(直连服务商模式)
-  billsPayable: 'huiFu/billsPayable.vue', // 应付账单
-  withdrawal: 'huiFu/withdrawal.vue', // 体现管理
-  paymentRecords: 'huiFu/paymentRecords.vue', // 付款记录
-  liveAccounts: 'huiFu/liveAccounts.vue', // 直播应收
-  splitOrder: 'huiFu/splitOrder.vue', // 分账订单
-  logisticsExpenses: 'huiFu/logisticsExpenses.vue', // 物流费用
-  creditDetails: 'huiFu/creditDetails.vue', // 积分明细
-  balanceDetails: 'huiFu/balanceDetails.vue', // 余额明细
-  rewardSubsidiary: 'huiFu/rewardSubsidiary.vue', //维客奖励
-  communityGroup: 'huiFu/communityGroup.vue', // 社区团购分账单
-  electronicInvoice: 'huiFu/electronicInvoice.vue', // 电子发票开通
-  orderFlow: 'huiFu/orderFlow.vue', // 发票订单流水
-  invoiceFinance: 'huiFu/invoiceFinance.vue', // 电子发票财务
-  myAccount: 'huiFu/myAccount.vue', // 我的账户
-  withdrawalOrder: 'huiFu/withdrawalOrder.vue', // 提现订单
-  balanceReconciliation: 'huiFu/balanceReconciliation.vue', // 余额对账报表
-  theInvoicenformation: 'huiFu/theInvoicenformation.vue', // 发票信息
-  exportManagement: 'huiFu/exportManagement.vue', // 导出管理
+  payment: 'smartRetail/huiFu/payment.vue', // 支付账号
+  collection: 'smartRetail/huiFu/collection.vue', // 收款配置
+  paymentColl: 'smartRetail/huiFu/paymentColl.vue', // 付款配置
+  offlinePayment: 'smartRetail/huiFu/offlinePayment.vue', // 线下支付
+  revenueProfile: 'smartRetail/huiFu/revenueProfile.vue', // 营收概况'
+  financialDetails: 'smartRetail/huiFu/financialDetails.vue', // 财务明细
+  smartRetail: 'smartRetail/huiFu/smartRetail.vue', // 线上交易
+  onlineRefund: 'smartRetail/huiFu/onlineRefund.vue', // 线下交易
+  reconciliationStatement: 'smartRetail/huiFu/reconciliationStatement.vue', // 对账报表
+  businessSub: 'smartRetail/huiFu/businessSub.vue', // 业务分账
+  accountSplitting: 'smartRetail/huiFu/accountSplitting.vue', // 线上分账(直连服务商)
+  separateAccount: 'smartRetail/huiFu/separateAccount.vue', // 分账解冻(直连服务商模式)
+  billsPayable: 'smartRetail/huiFu/billsPayable.vue', // 应付账单
+  withdrawal: 'smartRetail/huiFu/withdrawal.vue', // 体现管理
+  paymentRecords: 'smartRetail/huiFu/paymentRecords.vue', // 付款记录
+  liveAccounts: 'smartRetail/huiFu/liveAccounts.vue', // 直播应收
+  splitOrder: 'smartRetail/huiFu/splitOrder.vue', // 分账订单
+  logisticsExpenses: 'smartRetail/huiFu/logisticsExpenses.vue', // 物流费用
+  creditDetails: 'smartRetail/huiFu/creditDetails.vue', // 积分明细
+  balanceDetails: 'smartRetail/huiFu/balanceDetails.vue', // 余额明细
+  rewardSubsidiary: 'smartRetail/huiFu/rewardSubsidiary.vue', //维客奖励
+  communityGroup: 'smartRetail/huiFu/communityGroup.vue', // 社区团购分账单
+  electronicInvoice: 'smartRetail/huiFu/electronicInvoice.vue', // 电子发票开通
+  orderFlow: 'smartRetail/huiFu/orderFlow.vue', // 发票订单流水
+  invoiceFinance: 'smartRetail/huiFu/invoiceFinance.vue', // 电子发票财务
+  myAccount: 'smartRetail/huiFu/myAccount.vue', // 我的账户
+  withdrawalOrder: 'smartRetail/huiFu/withdrawalOrder.vue', // 提现订单
+  balanceReconciliation: 'smartRetail/huiFu/balanceReconciliation.vue', // 余额对账报表
+  theInvoicenformation: 'smartRetail/huiFu/theInvoicenformation.vue', // 发票信息
+  exportManagement: 'smartRetail/huiFu/exportManagement.vue', // 导出管理
 
   // 渠道 二级菜单
-  customMenu: 'channel/customMenu.vue', // 自定义菜单
-  autoReply: 'channel/autoReply.vue', // 自动回复
-  publicAccount: 'channel/publicAccount.vue', // 公众号管理
-  appletSetup: 'channel/appletSetup.vue', // 小程序管理
-  h5Set: 'channel/h5Set.vue', // h5设置
-  APPstore: 'channel/APPstore.vue', // app开店
-  enterpriseWeChat: 'channel/enterpriseWeChat.vue', // 企业微信
+  customMenu: 'smartRetail/channel/customMenu.vue', // 自定义菜单
+  autoReply: 'smartRetail/channel/autoReply.vue', // 自动回复
+  publicAccount: 'smartRetail/channel/publicAccount.vue', // 公众号管理
+  appletSetup: 'smartRetail/channel/appletSetup.vue', // 小程序管理
+  h5Set: 'smartRetail/channel/h5Set.vue', // h5设置
+  APPstore: 'smartRetail/channel/APPstore.vue', // app开店
+  enterpriseWeChat: 'smartRetail/channel/enterpriseWeChat.vue', // 企业微信
 
   // 设置 二级菜单
-  businessInformation: 'setting/businessInformation.vue', // 商户信息
-  shopCertification: 'setting/shopCertification.vue', // 商铺认证
-  storeSettings: 'setting/storeSettings.vue', // 网店设置
-  goodsSet: 'setting/goodsSet.vue', // 商品设置
-  orderISaet: 'setting/orderISaet.vue', // 订单设置
-  shippingSettings: 'setting/shippingSettings.vue', // 配送设置
-  theRaskList: 'setting/theRaskList.vue', // 任务列表
-  accountAccess: 'setting/accountAccess.vue', // 账号权限
-  operationLog: 'setting/operationLog.vue', // 操作设置
+  businessInformation: 'smartRetail/setting/businessInformation.vue', // 商户信息
+  shopCertification: 'smartRetail/setting/shopCertification.vue', // 商铺认证
+  storeSettings: 'smartRetail/setting/storeSettings.vue', // 网店设置
+  goodsSet: 'smartRetail/setting/goodsSet.vue', // 商品设置
+  orderISaet: 'smartRetail/setting/orderISaet.vue', // 订单设置
+  shippingSettings: 'smartRetail/setting/shippingSettings.vue', // 配送设置
+  theRaskList: 'smartRetail/setting/theRaskList.vue', // 任务列表
+  accountAccess: 'smartRetail/setting/accountAccess.vue', // 账号权限
+  operationLog: 'smartRetail/setting/operationLog.vue', // 操作设置
 
   //暂无开发
-  error: 'error.vue',
+  error: 'smartRetail/error.vue',
+
+  // 注册选择店铺
+  selectTheStore: 'smartRetail/selectTheStore.vue', // 选择店铺页面
+
+  // 智慧餐厅 ---------------------------------
+
+  //一级菜单 智慧零售
+  wisdomRestaurant: 'wisdomRestaurant/home.vue',
+  r_survey: 'wisdomRestaurant/survey/survey.vue',
 }

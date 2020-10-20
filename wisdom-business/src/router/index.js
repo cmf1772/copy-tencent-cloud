@@ -8,9 +8,10 @@ Vue.use(Router)
 //动态路由 生成
 export function autoRouter (routes) {
   let routeList = []
+  let cloneIndex = 0
   const loop = (routes, parentPath = '/', flag) => {
     if (routes instanceof Array && routes.length) {
-      routes.forEach(route => {
+      routes.forEach((route, index) => {
         let { children, component, redirect, ...rt } = route
         if (rt.hidden) {
           rt.meta = {
@@ -18,24 +19,24 @@ export function autoRouter (routes) {
             activeMenu: parentPath
           }
         }
-
+        if (route.parent) cloneIndex = index
         let cloneRouter = routeMap[route.name]
         if (cloneRouter) {
           rt.component = () => import(`@/view/settlement/${cloneRouter}`)
         } else {
-          rt.component = () => import(`@/view/settlement/error.vue`)
+          rt.component = () => import(`@/view/settlement/smartRetail/error.vue`)
         }
 
         if (children instanceof Array && children.length) {
           const subMenus = children.filter(c => c.menuType !== 2)
           if (subMenus.length) rt.redirect = subMenus[0].path
         }
+        console.log(cloneIndex)
         if (flag) {
-          if (!routeList[0].children) routeList[0].children = []
-          routeList[0].children.push(rt)
+          if (!routeList[cloneIndex].children) routeList[cloneIndex].children = []
+          routeList[cloneIndex].children.push(rt)
         } else {
           routeList.push(rt)
-
         }
         if (children) {
           loop(children, rt.path, true)
@@ -48,6 +49,7 @@ export function autoRouter (routes) {
 }
 
 let autoRouters = autoRouter(menu)
+
 let rootRouter = [
   {
     path: '/',
@@ -98,6 +100,10 @@ let rootRouter = [
       path: '/login',
       name: 'login',
       component: (resolve) => require(['@/view/login/login.vue'], resolve)
+    }, {
+      path: '/selectTheStore',
+      name: 'selectTheStore',
+      component: (resolve) => require(['@/view/settlement/smartRetail/selectTheStore.vue'], resolve)
     }]
   },
   {
@@ -736,7 +742,9 @@ let rootRouter = [
 //   name: 'error',
 //   component: (resolve) => require(['@/view/settlement/error.vue'], resolve)
 // })
-rootRouter.push(autoRouters[0])
+autoRouters.forEach(rouer => {
+  rootRouter.push(rouer)
+})
 export const createRouter = new Router({
   routes: rootRouter
 })

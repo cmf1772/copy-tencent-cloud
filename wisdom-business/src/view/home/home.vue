@@ -40,8 +40,19 @@
         </div>
         <div class="list">
           <!-- <span class="hoverColor">备案</span> -->
-          <span class="hoverColor"
-                @click="goHomePage">控制台</span>
+          <el-dropdown @command="goHomePage">
+            <span class="el-dropdown-link"
+                  style="font-size: 10px">
+              控制台<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="a">商家控制台</el-dropdown-item>
+              <el-dropdown-item command="b">网约工控制台</el-dropdown-item>
+              <el-dropdown-item command="c">服务商控制台</el-dropdown-item>
+              <el-dropdown-item command="d">站长控制台</el-dropdown-item>
+              <el-dropdown-item command="e">商家中心</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </div>
       </div>
     </div>
@@ -309,8 +320,24 @@ export default {
   },
 
   methods: {
-    goHomePage () {
-      this.$router.push('/homepage')
+    goHomePage (command) {
+      switch (command) {
+        case 'a':
+          this.$router.push('/survey')
+          break;
+        case 'e':
+          this.$router.push('/homepage')
+          break;
+        default:
+          return false
+
+      }
+
+      setTimeout(() => {
+        if (command === 'e') {
+          this.$router.go(0)
+        }
+      }, 500);
     },
     mouseOver (e) {
       let name = e.srcElement.className
@@ -397,6 +424,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.el-dropdown-link {
+  cursor: pointer;
+  color: #409eff;
+}
+.el-icon-arrow-down {
+  font-size: 8px;
+}
+
 .clearDiv:hover + .children {
   cursor: pointer;
   color: #409eff !important;

@@ -1,5 +1,5 @@
 <template>
-  <div class="menu">
+  <div class="menus">
     <div class="titleimg">
       <img src="@/assets/img/favicon.png"
            alt="">
@@ -64,7 +64,6 @@ export default {
     },
 
     goRightDetial (res, keyPath) {
-      console.log(res, keyPath)
       this.$router.push(res.path)
       sessionStorage.setItem('index_menu', keyPath)
     },

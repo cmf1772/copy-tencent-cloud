@@ -164,7 +164,6 @@
 
       </div>
     </div>
-    <div class="bottom"></div>
   </div>
 </template>
 
@@ -277,7 +276,7 @@ export default {
 
   methods: {
     goMaent () {
-      this.$router.push('/survey')
+      // this.$router.push('/survey')
     },
     handleRemove (file, fileList) {
       console.log(file, fileList);
@@ -294,7 +293,7 @@ export default {
         if (valid) {
           alert('submit!');
         } else {
-          console.log('error submit!!');
+          this.$router.push('/selectTheStore')
           return false;
         }
       });
