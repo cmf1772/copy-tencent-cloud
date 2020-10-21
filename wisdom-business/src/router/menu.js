@@ -743,6 +743,83 @@ export default [{
         name: 'error',
         icon: 'el-icon-takeaway-box',
       }]
+    },
+    {
+      path: '/shop',
+      text: '业务',
+      name: 'shop',
+      icon: 'el-icon-collection',
+      children: [{
+        path: '/r_checkPayment',
+        text: '买单收款',
+        name: 'r_checkPayment',
+        icon: 'el-icon-film',
+      }, {
+        path: '/r_stockCenter',
+        text: '领券中心',
+        name: 'r_stockCenter',
+        icon: 'el-icon-film',
+      }, {
+        path: '/r_APPcollection',
+        text: 'APP收款',
+        name: 'r_APPcollection',
+        icon: 'el-icon-user',
+      }, {
+        path: '/r_menuManagement',
+        text: '菜单管理',
+        name: 'r_menuManagement',
+        icon: 'el-icon-user',
+      }, {
+        path: '/r_basicSetup',
+        text: '基本设置',
+        name: 'r_basicSetup',
+        icon: 'el-icon-user',
+      }, {
+        path: '/r_error',
+        text: '菜品仓库',
+        name: 'r_error',
+        icon: 'el-icon-user',
+      }, {
+        path: '/r_tablesManagement',
+        text: '桌台管理',
+        name: 'r_tablesManagement',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/r_error',
+        text: '优惠规则',
+        name: 'r_error',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/error',
+        text: '菜单管理',
+        name: 'error',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/error',
+        text: '基本设置',
+        name: 'error',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/error',
+        text: '菜品仓库',
+        name: 'error',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/error',
+        text: '优惠规则',
+        name: 'error',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/error',
+        text: '员工管理',
+        name: 'error',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/error',
+        text: '员工营销',
+        name: 'error',
+        icon: 'el-icon-takeaway-box',
+      }]
     }
   ]
 }]
