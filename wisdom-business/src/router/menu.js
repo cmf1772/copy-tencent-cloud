@@ -19,7 +19,7 @@ export default [{
       name: 'shop',
       icon: 'el-icon-collection',
       children: [{
-        path: '/shopPage',
+        path: '/storeList',
         text: '店铺页面',
         name: 'shop',
         icon: 'el-icon-film',
@@ -676,6 +676,73 @@ export default [{
       text: '概况',
       component: '',
       icon: 'el-icon-menu'
+    },
+    {
+      path: '/shop',
+      text: '门店',
+      name: 'shop',
+      icon: 'el-icon-collection',
+      children: [{
+        path: '/r_storeList',
+        text: '门店列表',
+        name: 'r_storeList',
+        icon: 'el-icon-film',
+      }, {
+        path: '/r_storeTheTag',
+        text: '门店标签',
+        name: 'r_storeTheTag',
+        icon: 'el-icon-film',
+      }, {
+        path: '/r_storeArea',
+        text: '门店区域',
+        name: 'r_storeArea',
+        icon: 'el-icon-user',
+      }, {
+        path: '/r_storesGroup',
+        text: '门店分组',
+        name: 'r_storesGroup',
+        icon: 'el-icon-user',
+      }, {
+        path: '/r_storeStting',
+        text: '门店储值',
+        name: 'r_storeStting',
+        icon: 'el-icon-user',
+      }, {
+        path: '/r_valueAndPay',
+        text: '储值并买单',
+        name: 'r_valueAndPay',
+        icon: 'el-icon-user',
+      }, {
+        path: '/r_thePrinter',
+        text: '打印机',
+        name: 'r_thePrinter',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/r_POS',
+        text: 'POS',
+        name: 'r_POS',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/error',
+        text: '首页装修',
+        name: 'error',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/error',
+        text: '导航装修',
+        name: 'error',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/error',
+        text: '列表装修',
+        name: 'error',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/error',
+        text: '用户中心',
+        name: 'error',
+        icon: 'el-icon-takeaway-box',
+      }]
     }
   ]
 }]

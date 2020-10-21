@@ -371,7 +371,7 @@ export default {
         })
       } else if (res === 'q') {
         this.$router.push({
-          path: '/registeredF',
+          path: '/selectTheStore',
         })
       } else {
         this.$router.push({
@@ -404,15 +404,17 @@ export default {
 
   watch: {
     $route (to, from) {
+      // console.log(document.getElementsByTagName("body")[0].scrollTop)
+      document.getElementById('app').scrollTop = 0
       if (to.name === 'registeredQ') {
         this.activeQ = true
         this.activeF = false
         this.activeW = false
-      } else if (to.name === 'registeredF') {
+      } else if (to.name === 'selectTheStore') {
         this.activeQ = false
         this.activeF = true
         this.activeW = false
-      } else {
+      } else if (to.name === 'registeredW') {
         this.activeQ = false
         this.activeF = false
         this.activeW = true
@@ -481,7 +483,6 @@ export default {
 
 .home {
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   .titleBanner {

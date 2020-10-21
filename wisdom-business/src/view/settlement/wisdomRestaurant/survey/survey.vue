@@ -4,36 +4,59 @@
       <div class="left_top">
         <div class="left_top_left">
           <div class="title">
-            下午好，智慧零售！
+            经营数据
           </div>
           <div class="all">
             <div class="item">
-              <span>0</span>
-              <p>待付款订单</p>
+              <span>¥0.00</span>
+              <p>今日实收</p>
+            </div>
+            <div class="item">
+              <span>¥0.00</span>
+              <p>今日订单总额</p>
             </div>
             <div class="item">
               <span>0</span>
-              <p>待发货订单</p>
+              <p>今日订单量</p>
             </div>
             <div class="item">
               <span>0</span>
-              <p>待处理售后</p>
+              <p>今日新增会员</p>
             </div>
-          </div>
-        </div>
-        <div class="left_top_right">
-          <div class="title">
-            获取页面地址
-          </div>
-          <div class="con">
-            店铺还没有绑定小程序或公众号
-            <div>
-              去绑定
+            <div class="item">
+              <span>0</span>
+              <p>今日新增粉丝</p>
             </div>
           </div>
         </div>
       </div>
       <div class="tip bs">
+        <div class="text">
+          排行榜
+        </div>
+        <div class="all mt">
+          <p class="minText">商品销量（个）</p>
+          <div class="flexJC">
+            <div class="itemsList flexColumn mt"
+                 v-for="i in 3"
+                 style="width: 32%">
+              <div class="top flexJC"
+                   style="line-height: 50px;border-bottom: solid 1px #e3e2e5;box-sizing: border-box;padding: 0 20px;">
+                <p class="minText">菜品</p>
+                <p class="minText">昨日</p>
+              </div>
+
+              <div class="flexCC"
+                   style="flex: 1">
+                <img src="../../../../assets/img/none.jpg"
+                     style="width: 130px"
+                     alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="activity bs">
         <div class="text">
           常用功能
         </div>
@@ -49,42 +72,7 @@
           </div>
         </div>
       </div>
-      <div class="activity bs">
-        <div class="text flexJC">
-          <p>营销活动</p>
-          <p style="color: #2589ff">营销中心</p>
-        </div>
-        <div class="all flex">
-          <div class="item"
-               v-for="index in 6"
-               :key="index">
-            <div class="o flexC">
-              <div class="icon flexC">
-                <i class="el-icon-reading"></i>
-              </div>
-              <div class="right">
-                <p class="text"
-                   style="font-size: 15px; margin-bottom: 10px">评团</p>
-                <div class="boxs">
-                  拼单成团，裂变获客、促转化
-                </div>
-              </div>
-            </div>
-          </div>
 
-        </div>
-      </div>
-      <div class="footer bs flex">
-        <div class="item flex"
-             v-for="index in 5"
-             :key="index">
-          <div class="icon flexC">
-            <i class="el-icon-reading"></i>
-          </div>
-          <p class="text"
-             style="font-size:18px">新手开店</p>
-        </div>
-      </div>
     </div>
     <div class="s_right"
          style="margin-top: 0">
@@ -193,48 +181,34 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.itemsList {
+  border: 1px solid #e3e2e5;
+  border-radius: 5px;
+  background: #fff;
+  height: 292px;
+}
 .survey {
   display: flex;
   // height: 100%;
   .s_left {
     flex: 1;
     .activity {
-      height: 300px;
+      // height: 300px;
       .item {
-        width: 33.3%;
         padding: 20px 10px;
         box-sizing: border-box;
-        .o {
-          width: 100%;
-          height: 84px;
-          border: #e3e2e5 1px solid;
+      }
+      .all .item {
+        width: 130px;
+        text-align: center;
+        margin-top: 20px;
+        > div {
+          width: 64px;
+          height: 64px;
           border-radius: 4px;
-          flex-direction: inherit !important;
-          justify-content: left !important;
-          .icon {
-            min-width: 64px;
-            min-height: 64px;
-            border-radius: 4px;
-            background: #ff7d99;
-            color: #fff;
-            font-size: 40px;
-            margin: 0 10px;
-          }
-          .boxs {
-            width: 100%;
-            font-size: 12px;
-            line-height: 20px;
-            color: #a8a8b0;
-            margin: 0;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-          }
-        }
-        .right {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
+          background: #59a5ff;
+          color: #fff;
+          font-size: 40px;
         }
       }
     }
@@ -253,7 +227,7 @@ export default {
         border-radius: 4px;
       }
       .left_top_left {
-        width: 65%;
+        width: 100%;
         .title {
           color: #595961;
           font-size: 14px;
@@ -318,7 +292,7 @@ export default {
       }
     }
     .tip {
-      height: 158px;
+      // height: 158px;
       margin-top: 10px;
       .all .item {
         height: 85px;

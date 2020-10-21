@@ -1,6 +1,14 @@
 <template>
   <div class="registered">
     <div class="form">
+      <el-steps :active="2"
+                finish-status="success"
+                style="margin-top: 20px"
+                simple>
+        <el-step title="选择版本"></el-step>
+        <el-step title="填写信息"></el-step>
+        <el-step title="完成"></el-step>
+      </el-steps>
       <div class="tit"
            @click="goMaent">
         <i class="el-icon-tickets"></i>
@@ -203,7 +211,7 @@ export default {
     }
 
     return {
-
+      height: 0,
       service: {
         name: '',
         province: '',
@@ -293,7 +301,7 @@ export default {
         if (valid) {
           alert('submit!');
         } else {
-          this.$router.push('/selectTheStore')
+          this.$router.push('/success')
           return false;
         }
       });
@@ -301,7 +309,7 @@ export default {
   },
 
   created () {
-
+    this.height = window.innerHeight - 95
   },
 
   watch: {
@@ -318,10 +326,11 @@ export default {
 .registered {
   width: 100%;
   height: 100%;
+  overflow: auto;
   // background: #eeeeee;
   box-sizing: border-box;
   .form {
-    width: 1240px;
+    width: 1024px;
     height: 100%;
     margin: 20px auto 100px;
     background: #fff;
@@ -350,7 +359,7 @@ export default {
     }
     .con-form {
       box-sizing: border-box;
-      padding: 0 350px;
+      padding: 0 250px;
       padding-top: 40px;
       padding-bottom: 40px;
     }

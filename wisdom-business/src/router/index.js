@@ -88,6 +88,16 @@ let rootRouter = [
       component: (resolve) => require(['@/view/login/registeredQ.vue'], resolve)
     }, {
       // 注册页面
+      path: '/selectVersion',
+      name: 'selectVersion',
+      component: (resolve) => require(['@/view/login/selectVersion.vue'], resolve)
+    }, {
+      // 注册页面
+      path: '/success',
+      name: 'success',
+      component: (resolve) => require(['@/view/login/success.vue'], resolve)
+    }, {
+      // 注册页面
       path: '/registeredF',
       name: 'registeredF',
       component: (resolve) => require(['@/view/login/registeredF.vue'], resolve)
@@ -104,7 +114,7 @@ let rootRouter = [
       path: '/selectTheStore',
       name: 'selectTheStore',
       component: (resolve) => require(['@/view/settlement/smartRetail/selectTheStore.vue'], resolve)
-    }]
+    },]
   },
   {
     path: '/marketHome',

@@ -714,7 +714,7 @@ export default {
 
 .product {
   box-sizing: border-box;
-
+  position: relative;
   .rno-action-panel-bg-mobile {
     background-color: rgb(0, 137, 255);
     width: 100%;
@@ -1296,8 +1296,8 @@ export default {
   .content-title {
     width: 100%;
     height: 92px;
-    position: absolute;
-    top: 420px;
+    position: relative;
+    top: -43px;
     left: 0;
     z-index: 2;
     display: flex;

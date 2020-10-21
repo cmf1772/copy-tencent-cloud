@@ -170,14 +170,14 @@
       </div>
     </div>
 
-    <div :class="isFixed ? 'is_fixed' : 'tree'"
+    <!-- <div :class="isFixed ? 'is_fixed' : 'tree'"
          id="boxFixed">
       <p>产品类型</p>
       <el-tree :data="data"
                :props="defaultProps"
                @node-click="handleNodeClick">
       </el-tree>
-    </div>
+    </div> -->
   </div>
 </template>
 

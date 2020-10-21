@@ -133,4 +133,17 @@ export default {
   //一级菜单 智慧零售
   wisdomRestaurant: 'wisdomRestaurant/home.vue',
   r_survey: 'wisdomRestaurant/survey/survey.vue',
+  r_survey: 'wisdomRestaurant/survey/survey.vue',
+
+  // 门店 二级菜单
+  r_storeList: 'wisdomRestaurant/stores/storeList.vue',
+  r_storeTheTag: 'wisdomRestaurant/stores/storeTheTag.vue', // 门店标签
+  r_storeArea: 'wisdomRestaurant/stores/storeArea.vue', // 门店区域
+  r_storesGroup: 'wisdomRestaurant/stores/storesGroup.vue', // 门店分组
+  r_storeStting: 'wisdomRestaurant/stores/storeStting.vue', // 门店储值设置
+  r_valueAndPay: 'wisdomRestaurant/stores/valueAndPay.vue', // 储值并买单
+  r_thePrinter: 'wisdomRestaurant/stores/thePrinter.vue', // 打印机
+  r_POS: 'wisdomRestaurant/stores/POS.vue', // POS
+
+
 }

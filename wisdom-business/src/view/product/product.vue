@@ -1296,8 +1296,8 @@ export default {
   .content-title {
     width: 100%;
     height: 92px;
-    position: absolute;
-    top: 420px;
+    position: relative;
+    top: -43px;
     left: 0;
     z-index: 2;
     display: flex;

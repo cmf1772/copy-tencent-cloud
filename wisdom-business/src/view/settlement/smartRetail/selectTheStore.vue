@@ -4,20 +4,20 @@
       请选择需要创业的店铺
     </div>
     <div class="flexJC">
-      <div class="item flexColumn"
-           v-for="i in 5">
-        <div class="bg">
-
-        </div>
+      <div class="item flexColumn mt"
+           v-for="item in nameJson"
+           :key="item">
+        <div class="bg"></div>
         <div class="top">
-          <span>微商城</span>
+          <span>{{item.name}}</span>
           <p>解决网上开店的所有问题</p>
         </div>
         <div class="bottoms">
           适用于
           <p>需要搭建线上商城的商家</p>
         </div>
-        <div class="button">
+        <div class="button"
+             @click="goRegisteredF">
           立即开店
         </div>
       </div>
@@ -33,7 +33,39 @@
 
 <script>
 export default {
-  name: 'selectTheStore'
+  name: 'selectTheStore',
+
+  data () {
+    return {
+      nameJson: [{
+        name: '智慧零售'
+      }, {
+        name: '智慧餐厅'
+      }, {
+        name: '智慧美业'
+      }, {
+        name: '智慧旅游'
+      }, {
+        name: '智慧酒店'
+      }, {
+        name: '智慧教育'
+      }, {
+        name: '智慧娱乐'
+      }, {
+        name: '智慧医疗'
+      }, {
+        name: '智能家政'
+      }, {
+        name: '智慧房产'
+      }]
+    }
+  },
+
+  methods: {
+    goRegisteredF () {
+      this.$router.push('/selectVersion')
+    }
+  }
 }
 </script>
 
@@ -46,7 +78,7 @@ export default {
     font-size: 16px;
     font-weight: 400;
     text-align: center;
-    padding: 40px 0px;
+    padding: 40px 0px 30px 0;
   }
 
   .one {

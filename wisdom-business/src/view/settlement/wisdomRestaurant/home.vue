@@ -59,7 +59,15 @@ export default {
     // 通过路由判断 是否显示帮助  特殊特面不显示帮助
     showHelp () {
       let routerArray = [
-
+        '/r_survey',
+        '/r_storeList',
+        '/r_storeTheTag',
+        '/r_storeArea',
+        '/r_storesGroup',
+        '/r_storeStting',
+        '/r_valueAndPay',
+        '/r_thePrinter',
+        '/r_POS'
       ]
       // this.help = !routerArray.indexOf(this.$route.path) > -1
       this.help = routerArray.indexOf(this.$route.path) > -1 ? false : true
