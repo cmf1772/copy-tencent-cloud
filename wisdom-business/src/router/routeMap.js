@@ -155,6 +155,64 @@ export default {
   r_menuManagement: 'wisdomRestaurant/business/menuManagement.vue', // 菜单管理
   r_basicSetup: 'wisdomRestaurant/business/basicSetup.vue', // 基本设置
   r_tablesManagement: 'wisdomRestaurant/business/tablesManagement.vue', // 桌台管理
+  r_staffManagement: 'wisdomRestaurant/business/staffManagement.vue', // 菜单管理 —— 外卖
+  r_basicSetupT: 'wisdomRestaurant/business/basicSetupT.vue', // 基本设置 —— 外卖
+  r_staffManagementa: 'wisdomRestaurant/business/staffManagementa.vue', // 员工管理
+  r_marketingStaff: 'wisdomRestaurant/business/marketingStaff.vue', // 员工营销
 
+  //营销 二级菜单
+  r_marketingCenter: 'wisdomRestaurant/marketing/marketingCenter.vue', // 营销中心
+
+  // 推广 菜单
+  r_toPromote: 'wisdomRestaurant/toPromote/toPromote.vue', // 营销中心
+
+  // 慧付 二级菜单
+  r_payment: 'wisdomRestaurant/huiFu/payment.vue', // 支付账号
+  r_collection: 'wisdomRestaurant/huiFu/collection.vue', // 收款配置
+  r_paymentColl: 'wisdomRestaurant/huiFu/paymentColl.vue', // 付款配置
+  r_offlinePayment: 'wisdomRestaurant/huiFu/offlinePayment.vue', // 线下支付
+  r_revenueProfile: 'wisdomRestaurant/huiFu/revenueProfile.vue', // 营收概况'
+  r_financialDetails: 'wisdomRestaurant/huiFu/financialDetails.vue', // 财务明细
+  r_smartRetail: 'wisdomRestaurant/huiFu/smartRetail.vue', // 线上交易
+  r_onlineRefund: 'wisdomRestaurant/huiFu/onlineRefund.vue', // 线下交易
+  r_reconciliationStatement: 'wisdomRestaurant/huiFu/reconciliationStatement.vue', // 对账报表
+  r_businessSub: 'wisdomRestaurant/huiFu/businessSub.vue', // 业务分账
+  r_accountSplitting: 'wisdomRestaurant/huiFu/accountSplitting.vue', // 线上分账(直连服务商)
+  r_separateAccount: 'wisdomRestaurant/huiFu/separateAccount.vue', // 分账解冻(直连服务商模式)
+  r_billsPayable: 'wisdomRestaurant/huiFu/billsPayable.vue', // 应付账单
+  r_withdrawal: 'wisdomRestaurant/huiFu/withdrawal.vue', // 体现管理
+  r_paymentRecords: 'wisdomRestaurant/huiFu/paymentRecords.vue', // 付款记录
+  r_liveAccounts: 'wisdomRestaurant/huiFu/liveAccounts.vue', // 直播应收
+  r_splitOrder: 'wisdomRestaurant/huiFu/splitOrder.vue', // 分账订单
+  r_logisticsExpenses: 'wisdomRestaurant/huiFu/logisticsExpenses.vue', // 物流费用
+  r_creditDetails: 'wisdomRestaurant/huiFu/creditDetails.vue', // 积分明细
+  r_balanceDetails: 'wisdomRestaurant/huiFu/balanceDetails.vue', // 余额明细
+  r_rewardSubsidiary: 'wisdomRestaurant/huiFu/rewardSubsidiary.vue', //维客奖励
+  r_communityGroup: 'wisdomRestaurant/huiFu/communityGroup.vue', // 社区团购分账单
+  r_electronicInvoice: 'wisdomRestaurant/huiFu/electronicInvoice.vue', // 电子发票开通
+  r_orderFlow: 'wisdomRestaurant/huiFu/orderFlow.vue', // 发票订单流水
+  r_invoiceFinance: 'wisdomRestaurant/huiFu/invoiceFinance.vue', // 电子发票财务
+  r_myAccount: 'wisdomRestaurant/huiFu/myAccount.vue', // 我的账户
+  r_withdrawalOrder: 'wisdomRestaurant/huiFu/withdrawalOrder.vue', // 提现订单
+  r_balanceReconciliation: 'wisdomRestaurant/huiFu/balanceReconciliation.vue', // 余额对账报表
+  r_theInvoicenformation: 'wisdomRestaurant/huiFu/theInvoicenformation.vue', // 发票信息
+  r_exportManagement: 'wisdomRestaurant/huiFu/exportManagement.vue', // 导出管理
+
+  // 渠道 二级菜单
+  r_publicAccount: 'wisdomRestaurant/channel/publicAccount.vue', // 授权管理
+  r_customMenu: 'wisdomRestaurant/channel/customMenu.vue', // 自定义菜单
+  r_autoReply: 'wisdomRestaurant/channel/autoReply.vue', // 自动回复
+  r_appletSetup: 'wisdomRestaurant/channel/appletSetup.vue', // 小程序管理
+
+  // 设置 二级菜单
+  r_businessInformation: 'wisdomRestaurant/setting/businessInformation.vue', // 商户信息
+  r_shopCertification: 'wisdomRestaurant/setting/shopCertification.vue', // 商铺认证
+  r_storeSettings: 'wisdomRestaurant/setting/storeSettings.vue', // 网店设置
+  r_goodsSet: 'wisdomRestaurant/setting/goodsSet.vue', // 商品设置
+  r_orderISaet: 'wisdomRestaurant/setting/orderISaet.vue', // 订单设置
+  r_shippingSettings: 'wisdomRestaurant/setting/shippingSettings.vue', // 配送设置
+  r_theRaskList: 'wisdomRestaurant/setting/theRaskList.vue', // 任务列表
+  r_accountAccess: 'wisdomRestaurant/setting/accountAccess.vue', // 账号权限
+  r_operationLog: 'wisdomRestaurant/setting/operationLog.vue', // 操作设置
 
 }

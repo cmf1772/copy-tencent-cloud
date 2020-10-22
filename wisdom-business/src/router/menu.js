@@ -1,4 +1,5 @@
 export default [{
+  // 零售后台 菜单
   path: '/survey',
   name: 'settlement',
   text: '智慧零售',
@@ -563,7 +564,8 @@ export default [{
         name: 'exportManagement',
         icon: 'el-icon-toilet-paper',
       }]
-    }, {
+    },
+    {
       path: '/shop',
       text: '渠道',
       name: 'shop',
@@ -604,7 +606,8 @@ export default [{
         name: 'enterpriseWeChat',
         icon: 'el-icon-notebook-2',
       }]
-    }, {
+    },
+    {
       path: '/shop',
       text: '设置',
       name: 'shop',
@@ -663,6 +666,7 @@ export default [{
     }
   ]
 }, {
+  // 餐厅后台 菜单
   path: '/r_survey',
   name: 'wisdomRestaurant',
   icon: 'gongzuotai',
@@ -748,7 +752,7 @@ export default [{
       path: '/shop',
       text: '业务',
       name: 'shop',
-      icon: 'el-icon-collection',
+      icon: 'el-icon-mobile',
       children: [{
         path: '/r_checkPayment',
         text: '买单收款',
@@ -766,17 +770,17 @@ export default [{
         icon: 'el-icon-user',
       }, {
         path: '/r_menuManagement',
-        text: '菜单管理',
+        text: '菜单管理_食堂',
         name: 'r_menuManagement',
         icon: 'el-icon-user',
       }, {
         path: '/r_basicSetup',
-        text: '基本设置',
+        text: '基本设置_食堂',
         name: 'r_basicSetup',
         icon: 'el-icon-user',
       }, {
         path: '/r_error',
-        text: '菜品仓库',
+        text: '菜品仓库_食堂',
         name: 'r_error',
         icon: 'el-icon-user',
       }, {
@@ -790,35 +794,299 @@ export default [{
         name: 'r_error',
         icon: 'el-icon-takeaway-box',
       }, {
-        path: '/error',
-        text: '菜单管理',
-        name: 'error',
+        path: '/r_staffManagement',
+        text: '菜单管理_外卖',
+        name: 'r_staffManagement',
         icon: 'el-icon-takeaway-box',
       }, {
-        path: '/error',
-        text: '基本设置',
-        name: 'error',
+        path: '/r_basicSetupT',
+        text: '基本设置_外卖',
+        name: 'r_basicSetupT',
         icon: 'el-icon-takeaway-box',
       }, {
-        path: '/error',
-        text: '菜品仓库',
-        name: 'error',
+        path: '/r_error',
+        text: '菜品仓库_外卖',
+        name: 'r_error',
         icon: 'el-icon-takeaway-box',
       }, {
-        path: '/error',
+        path: '/r_error',
         text: '优惠规则',
-        name: 'error',
+        name: 'r_error',
         icon: 'el-icon-takeaway-box',
       }, {
-        path: '/error',
+        path: '/r_staffManagementa',
         text: '员工管理',
-        name: 'error',
+        name: 'r_staffManagementa',
         icon: 'el-icon-takeaway-box',
       }, {
-        path: '/error',
+        path: '/r_marketingStaff',
         text: '员工营销',
-        name: 'error',
+        name: 'r_marketingStaff',
         icon: 'el-icon-takeaway-box',
+      }]
+    },
+    {
+      path: '/shop',
+      text: '营销',
+      name: 'shop',
+      icon: 'el-icon-sell ',
+      children: [{
+        path: '/r_marketingCenter',
+        text: '营销中心',
+        name: 'r_marketingCenter',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/r_error',
+        text: '开发者中心',
+        name: 'r_error',
+        icon: 'el-icon-data-analysis',
+      }]
+    },
+    {
+      path: '/r_toPromote',
+      text: '推广',
+      name: 'r_toPromote',
+      icon: 'el-icon-sell ',
+    },
+    {
+      path: '/r_shop',
+      text: '慧付',
+      name: 'shop',
+      icon: 'el-icon-cpu',
+      children: [{
+        path: '/r_payment',
+        text: '支付账号',
+        name: 'r_payment',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/r_collection',
+        text: '收款配置',
+        name: 'r_collection',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/r_paymentColl',
+        text: '付款配置',
+        name: 'r_paymentColl',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/r_offlinePayment',
+        text: '线下收款',
+        name: 'r_offlinePayment',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/r_revenueProfile',
+        text: '营收概况',
+        name: 'r_revenueProfile',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/r_financialDetails',
+        text: '财务明细',
+        name: 'r_financialDetails',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/r_smartRetail',
+        text: '线上交易',
+        name: 'r_smartRetail',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/r_onlineRefund',
+        text: '线上退款 ',
+        name: 'r_onlineRefund',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/r_reconciliationStatement',
+        text: '对账报表',
+        name: 'r_reconciliationStatement',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/r_businessSub',
+        text: '业务分账',
+        name: 'r_businessSub',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/r_accountSplitting',
+        text: '线上分账',
+        name: 'r_accountSplitting',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/r_separateAccount',
+        text: '分账解冻',
+        name: 'r_separateAccount',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/r_billsPayable',
+        text: '应付账单',
+        name: 'r_billsPayable',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/r_withdrawal',
+        text: '提现管理',
+        name: 'r_withdrawal',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/r_paymentRecords',
+        text: '付款记录',
+        name: 'r_paymentRecords',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/r_liveAccounts',
+        text: '直播应收',
+        name: 'r_liveAccounts',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/r_splitOrder',
+        text: '分账订单',
+        name: 'r_splitOrder',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/r_logisticsExpenses',
+        text: '三方物流',
+        name: 'r_logisticsExpenses',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/r_creditDetails',
+        text: '积分明细',
+        name: 'r_creditDetails',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/r_balanceDetails',
+        text: '余额明细',
+        name: 'r_balanceDetails',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/r_rewardSubsidiary',
+        text: '微客奖励',
+        name: 'r_rewardSubsidiary',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/r_communityGroup',
+        text: '社区团购',
+        name: 'r_communityGroup',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/r_electronicInvoice',
+        text: '电票配置',
+        name: 'r_electronicInvoice',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/r_orderFlow',
+        text: '电票订单',
+        name: 'r_orderFlow',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/r_invoiceFinance',
+        text: '发票管理',
+        name: 'r_invoiceFinance',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/r_myAccount',
+        text: '我的账户',
+        name: 'r_myAccount',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/r_withdrawalOrder',
+        text: '提现订单',
+        name: 'r_withdrawalOrder',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/r_balanceReconciliation',
+        text: '余额对账',
+        name: 'r_balanceReconciliation',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/r_theInvoicenformation',
+        text: '发票管理',
+        name: 'r_theInvoicenformation',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/r_exportManagement',
+        text: '导出管理',
+        name: 'r_exportManagement',
+        icon: 'el-icon-toilet-paper',
+      }]
+    },
+    {
+      path: '/shop',
+      text: '渠道',
+      name: 'shop',
+      icon: 'el-icon-sunny ',
+      children: [{
+        path: '/r_publicAccount',
+        text: '公众号授权管理',
+        name: 'r_publicAccount',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/r_customMenu',
+        text: '自定义菜单',
+        name: 'r_customMenu',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/r_autoReply',
+        text: '自动回复',
+        name: 'r_autoReply',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/r_appletSetup',
+        text: '微信小程序授权管理',
+        name: 'r_appletSetup',
+        icon: 'el-icon-notebook-2',
+      }]
+    },
+    {
+      path: '/shop',
+      text: '设置',
+      name: 'shop',
+      icon: 'el-icon-sunny ',
+      children: [{
+        path: '/r_businessInformation',
+        text: '商户信息',
+        name: 'r_businessInformation',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/r_shopCertification',
+        text: '商户认证',
+        name: 'r_shopCertification',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/r_storeSettings',
+        text: '网店设置',
+        name: 'r_storeSettings',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/r_goodsSet',
+        text: '商品设置',
+        name: 'r_goodsSet',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/r_orderISaet',
+        text: '订单设置',
+        name: 'r_orderISaet',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/r_shippingSettings',
+        text: '配送设置',
+        name: 'r_shippingSettings',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/r_theRaskList',
+        text: '任务列表',
+        name: 'r_theRaskList',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/r_error',
+        text: '消息通知',
+        name: 'r_error',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/r_accountAccess',
+        text: '账号权限',
+        name: 'r_accountAccess',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/r_operationLog',
+        text: '操作日志',
+        name: 'r_operationLog',
+        icon: 'el-icon-notebook-2',
       }]
     }
   ]
