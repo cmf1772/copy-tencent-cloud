@@ -122,6 +122,7 @@
     <div class="c_box mt flexC">
       <el-button type="primary">保存</el-button>
     </div>
+
   </div>
 </template>
 
@@ -189,6 +190,10 @@ export default {
     resetForm (formName) {
       this.$refs[formName].resetFields();
     }
+  },
+
+  mounted () {
+
   }
 }
 </script>

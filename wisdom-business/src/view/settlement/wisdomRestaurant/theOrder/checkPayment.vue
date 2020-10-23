@@ -1,132 +1,99 @@
 <template>
-  <div class="thePrinter flexColumn">
+  <div class="checkPayment flexColumn">
     <el-tabs v-model="activeName"
              style="flex: 1"
              class="flexColumn"
              @tab-click="handleClick">
-      <el-tab-pane label="打印机管理"
+      <el-tab-pane label="订单管理"
                    name="first">
         <div class="conent_box flexColumn"
              style="height: 100%">
-          <div class="flexColumn "
+          <div class="flexColumn"
                ref="c_box"
                style="flex: 1">
-            <div class="c_box mb">
-              <div class="flexRC ">
-                <p class="mr minText">门店名称：</p>
-                <el-select v-model="shopValue"
-                           style="width: 150px"
-                           size="mini"
-                           slot="prepend"
-                           placeholder="请选择">
-                  <el-option label="全部门店"
-                             value="1"></el-option>
-                </el-select>
+            <div class="c_box">
+              <div class="flexJC ">
+                <div class="flexRC">
+                  <p class="mr ml minText">订单状态：</p>
+                  <el-select v-model="shopValue"
+                             style="width: 150px"
+                             size="mini"
+                             slot="prepend"
+                             placeholder="请选择">
+                    <el-option label="全部"
+                               value="1"></el-option>
+                    <el-option label="成功"
+                               value="2"></el-option>
+                    <el-option label="失败"
+                               value="3"></el-option>
+                  </el-select>
+                  <p class="mr ml minText">下单门店：</p>
+                  <el-select v-model="shopValue"
+                             style="width: 150px"
+                             size="mini"
+                             slot="prepend"
+                             placeholder="请选择">
+                    <el-option label="全部门店"
+                               value="1"></el-option>
+                  </el-select>
+                  <p class="mr minText">下单时间：</p>
+                  <el-date-picker v-model="value1"
+                                  size="mini"
+                                  style="width: 250px"
+                                  type="daterange"
+                                  range-separator="至"
+                                  start-placeholder="开始日期"
+                                  end-placeholder="结束日期">
+                  </el-date-picker>
+                </div>
+                <el-input placeholder="请输入内容"
+                          style="width: 300px"
+                          size="mini"
+                          v-model="search"
+                          class="input-with-select ml">
+
+                  <el-button slot="append"
+                             size="mini"
+                             icon="el-icon-search"></el-button>
+                </el-input>
+              </div>
+              <div class="flexJC mt">
+                <div class="flexRC">
+                  <p class="mr ml minText">下单渠道：</p>
+                  <el-select v-model="shopValue"
+                             style="width: 150px"
+                             size="mini"
+                             slot="prepend"
+                             placeholder="请选择">
+                    <el-option label="全部"
+                               value="1"></el-option>
+                    <el-option label="小程序"
+                               value="2"></el-option>
+                    <el-option label="公众号"
+                               value="3"></el-option>
+                  </el-select>
+                </div>
+                <el-button size="mini">导出订单</el-button>
               </div>
             </div>
-
-            <div class="table"
+            <div class="table flexC"
                  style="flex: 1">
-              <el-table :data="tableData"
-                        :style="{'width': width + 'px'}">
-                <el-table-column prop="name"
-                                 fixed
-                                 show-overflow-tooltip
-                                 label="分账时间"
-                                 width="180">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltips
-                                 label="分账金额">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="订单状态">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="备注">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="收款方名称">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="收款方WID/PID">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="收款方类型">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="业务类型">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="分账方式">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="原交易时间">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="原交易金额">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="原交易退款金额">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="业务订单号">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="三方分账单号">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="付款方名称">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 fixed="right"
-                                 show-overflow-tooltip
-                                 label="付款方类型">
-                </el-table-column>
-              </el-table>
+              <p class="text">暂无数据</p>
             </div>
 
-            <div class="btootm_paination c_box mt">
-              <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
-              <el-pagination @size-change="handleSizeChange"
-                             @current-change="handleCurrentChangeFun"
-                             :current-page="currentPage"
-                             :page-sizes="[100, 200, 300, 400]"
-                             :page-size="100"
-                             layout="total, sizes, prev, pager, next, jumper"
-                             :total="400">
-              </el-pagination>
-            </div>
           </div>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="精准查询"
+      <el-tab-pane label="退款设置"
                    name="second">
         <div class="conent_box flexColumn"
              style="height: 100%">
           <div class="flexJC">
             <p class="text">
-              自定义小票
+              对账报表
             </p>
           </div>
-          <div class="flexColumn "
+          <div class="flexColumn conent_box"
                style="flex: 1">
             <div class="c_box">
               <div class="flex">

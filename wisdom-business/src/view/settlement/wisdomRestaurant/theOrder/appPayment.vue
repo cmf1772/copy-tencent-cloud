@@ -1,43 +1,103 @@
 <template>
-  <div class="thePrinter flexColumn">
+  <div class="appPayment flexColumn">
     <el-tabs v-model="activeName"
              style="flex: 1"
              class="flexColumn"
              @tab-click="handleClick">
-      <el-tab-pane label="打印机管理"
+      <el-tab-pane label="订单管理"
                    name="first">
         <div class="conent_box flexColumn"
              style="height: 100%">
-          <div class="flexColumn "
+          <div class="flexColumn"
                ref="c_box"
                style="flex: 1">
-            <div class="c_box mb">
-              <div class="flexRC ">
-                <p class="mr minText">门店名称：</p>
-                <el-select v-model="shopValue"
-                           style="width: 150px"
-                           size="mini"
-                           slot="prepend"
-                           placeholder="请选择">
-                  <el-option label="全部门店"
-                             value="1"></el-option>
-                </el-select>
+            <div class="c_box">
+              <div class="flexJC ">
+                <div class="flexRC">
+                  <p class="mr ml minText">订单状态：</p>
+                  <el-select v-model="shopValue"
+                             style="width: 150px"
+                             size="mini"
+                             slot="prepend"
+                             placeholder="请选择">
+                    <el-option label="全部"
+                               value="1"></el-option>
+                    <el-option label="成功"
+                               value="2"></el-option>
+                    <el-option label="失败"
+                               value="3"></el-option>
+                  </el-select>
+                  <p class="mr minText">下单时间：</p>
+                  <el-date-picker v-model="value1"
+                                  size="mini"
+                                  style="width: 250px"
+                                  type="daterange"
+                                  range-separator="至"
+                                  start-placeholder="开始日期"
+                                  end-placeholder="结束日期">
+                  </el-date-picker>
+                  <p class="mr ml minText">下单门店：</p>
+                  <el-select v-model="shopValue"
+                             style="width: 150px"
+                             size="mini"
+                             slot="prepend"
+                             placeholder="请选择">
+                    <el-option label="全部门店"
+                               value="1"></el-option>
+                  </el-select>
+                </div>
+                <div class="flexRC">
+                  <el-input placeholder="请输入内容"
+                            style="width: 300px"
+                            size="mini"
+                            v-model="search"
+                            class="input-with-select ml">
+
+                    <el-button slot="append"
+                               size="mini"
+                               icon="el-icon-search"></el-button>
+                  </el-input>
+                  <el-button size="mini"
+                             class="ml">导出订单</el-button>
+                </div>
               </div>
             </div>
-
             <div class="table"
                  style="flex: 1">
-              <el-table :data="tableData"
-                        :style="{'width': width + 'px'}">
+              <el-table :data="tableData">
                 <el-table-column prop="name"
                                  fixed
                                  show-overflow-tooltip
-                                 label="分账时间"
+                                 label="订单编号"
                                  width="180">
                 </el-table-column>
                 <el-table-column prop="address"
                                  show-overflow-tooltips
-                                 label="分账金额">
+                                 label="下单时间">
+                </el-table-column>
+                <el-table-column prop="address"
+                                 show-overflow-tooltip
+                                 label="收款总额">
+                </el-table-column>
+                <el-table-column prop="address"
+                                 show-overflow-tooltip
+                                 label="收款实付">
+                </el-table-column>
+                <el-table-column prop="address"
+                                 show-overflow-tooltip
+                                 label="支付时间">
+                </el-table-column>
+                <el-table-column prop="address"
+                                 show-overflow-tooltip
+                                 label="用户昵称">
+                </el-table-column>
+                <el-table-column prop="address"
+                                 show-overflow-tooltip
+                                 label="手机号">
+                </el-table-column>
+                <el-table-column prop="address"
+                                 show-overflow-tooltip
+                                 label="下单门店">
                 </el-table-column>
                 <el-table-column prop="address"
                                  show-overflow-tooltip
@@ -45,56 +105,7 @@
                 </el-table-column>
                 <el-table-column prop="address"
                                  show-overflow-tooltip
-                                 label="备注">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="收款方名称">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="收款方WID/PID">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="收款方类型">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="业务类型">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="分账方式">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="原交易时间">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="原交易金额">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="原交易退款金额">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="业务订单号">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="三方分账单号">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 show-overflow-tooltip
-                                 label="付款方名称">
-                </el-table-column>
-                <el-table-column prop="address"
-                                 fixed="right"
-                                 show-overflow-tooltip
-                                 label="付款方类型">
+                                 label="操作">
                 </el-table-column>
               </el-table>
             </div>
@@ -114,19 +125,20 @@
                              :total="400">
               </el-pagination>
             </div>
+
           </div>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="精准查询"
+      <el-tab-pane label="退款设置"
                    name="second">
         <div class="conent_box flexColumn"
              style="height: 100%">
           <div class="flexJC">
             <p class="text">
-              自定义小票
+              对账报表
             </p>
           </div>
-          <div class="flexColumn "
+          <div class="flexColumn conent_box"
                style="flex: 1">
             <div class="c_box">
               <div class="flex">

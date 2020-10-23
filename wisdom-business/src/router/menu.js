@@ -727,24 +727,24 @@ export default [{
         name: 'r_POS',
         icon: 'el-icon-takeaway-box',
       }, {
-        path: '/error',
+        path: '/r_error',
         text: '首页装修',
-        name: 'error',
+        name: 'r_error',
         icon: 'el-icon-takeaway-box',
       }, {
-        path: '/error',
+        path: '/r_error',
         text: '导航装修',
-        name: 'error',
+        name: 'r_error',
         icon: 'el-icon-takeaway-box',
       }, {
-        path: '/error',
+        path: '/r_error',
         text: '列表装修',
-        name: 'error',
+        name: 'r_error',
         icon: 'el-icon-takeaway-box',
       }, {
-        path: '/error',
+        path: '/r_error',
         text: '用户中心',
-        name: 'error',
+        name: 'r_error',
         icon: 'el-icon-takeaway-box',
       }]
     },
@@ -821,6 +821,88 @@ export default [{
       }, {
         path: '/r_marketingStaff',
         text: '员工营销',
+        name: 'r_marketingStaff',
+        icon: 'el-icon-takeaway-box',
+      }]
+    },
+    {
+      path: '/shop',
+      text: '订单',
+      name: 'shop',
+      icon: 'el-icon-umbrella',
+      children: [{
+        path: '/r_checkPayments',
+        text: '买单收款',
+        name: 'r_checkPayments',
+        icon: 'el-icon-film',
+      }, {
+        path: '/r_posReceipt',
+        text: 'POS收款',
+        name: 'r_posReceipt',
+        icon: 'el-icon-film',
+      }, {
+        path: '/r_addedTrading',
+        text: '补充交易',
+        name: 'r_addedTrading',
+        icon: 'el-icon-user',
+      }, {
+        path: '/r_appPayment',
+        text: 'APP收款',
+        name: 'r_appPayment',
+        icon: 'el-icon-user',
+      }, {
+        path: '/r_eatIn',
+        text: '堂食',
+        name: 'r_eatIn',
+        icon: 'el-icon-user',
+      }, {
+        path: '/r_secondsToPay',
+        text: '秒付',
+        name: 'r_secondsToPay',
+        icon: 'el-icon-user',
+      }, {
+        path: '/r_takeOut',
+        text: '外卖',
+        name: 'r_takeOut',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/r_reservation',
+        text: '预订',
+        name: 'r_reservation',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/r_lntegralMall',
+        text: '积分商城',
+        name: 'r_lntegralMall',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/r_basicSetupT',
+        text: '第三方订单',
+        name: 'r_basicSetupT',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/r_error',
+        text: '会员开卡',
+        name: 'r_error',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/r_error',
+        text: '会员储值订单',
+        name: 'r_error',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/r_staffManagementa',
+        text: '门店储值订单',
+        name: 'r_staffManagementa',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/r_marketingStaff',
+        text: '券订单',
+        name: 'r_marketingStaff',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/r_marketingStaff',
+        text: '订单导出',
         name: 'r_marketingStaff',
         icon: 'el-icon-takeaway-box',
       }]

@@ -6,7 +6,7 @@
     </p>
     <div class="conent_box flexColumn"
          style="height: 100%">
-      <div class="flexColumn conent_box"
+      <div class="flexColumn"
            ref="c_box"
            style="flex: 1">
         <div class="c_box mb">

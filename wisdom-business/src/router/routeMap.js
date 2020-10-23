@@ -160,6 +160,19 @@ export default {
   r_staffManagementa: 'wisdomRestaurant/business/staffManagementa.vue', // 员工管理
   r_marketingStaff: 'wisdomRestaurant/business/marketingStaff.vue', // 员工营销
 
+  // 订单 二级菜单
+  r_checkPayments: 'wisdomRestaurant/theOrder/checkPayment.vue', // 员工营销
+  r_posReceipt: 'wisdomRestaurant/theOrder/posReceipt.vue', // 员工营销
+  r_addedTrading: 'wisdomRestaurant/theOrder/addedTrading.vue', // 员工营销
+  r_appPayment: 'wisdomRestaurant/theOrder/appPayment.vue', // 员工营销
+  r_eatIn: 'wisdomRestaurant/theOrder/eatIn.vue', // 食堂
+  r_secondsToPay: 'wisdomRestaurant/theOrder/secondsToPay.vue', // 秒付
+  r_takeOut: 'wisdomRestaurant/theOrder/takeOut.vue', // 外卖
+  r_reservation: 'wisdomRestaurant/theOrder/reservation.vue', // 预订
+  r_lntegralMall: 'wisdomRestaurant/theOrder/lntegralMall.vue', // 预订
+
+
+
   //营销 二级菜单
   r_marketingCenter: 'wisdomRestaurant/marketing/marketingCenter.vue', // 营销中心
 

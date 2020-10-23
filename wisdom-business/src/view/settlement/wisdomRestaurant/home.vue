@@ -5,7 +5,10 @@
       <leftMenu :menuData="menuData"></leftMenu>
     </div>
     <div class="right">
-      <div class="top">
+      <div class="top ">
+        <div style=" float: left"
+             @click="$router.push('/home/product')"
+             class="text blueColor s">智慧餐厅</div>
         <ul>
           <li v-for="(item, index) in topNav"
               :key="index">
