@@ -1,7 +1,7 @@
 <template>
-  <div class="lntegralMall flexColumn">
+  <div class="storageCard flexColumn">
     <p class="text">
-      积分商城订单
+      门店储值卡订单管理
     </p>
 
     <div class="conent_box flexColumn"
@@ -18,7 +18,7 @@
                        icon="el-icon-search"></el-button>
           </el-input>
           <div class="flexRC">
-            <p class="minText ml">下单时间：</p>
+            <p class="minText ml">支付时间：</p>
             <el-date-picker v-model="value1"
                             class="ml"
                             size="mini"
@@ -28,7 +28,7 @@
                             start-placeholder="开始日期"
                             end-placeholder="结束日期">
             </el-date-picker>
-            <p class="minText ml">订单状态：</p>
+            <p class="minText ml">交易门店：</p>
             <el-select v-model="shopValue"
                        class="ml"
                        style="width: 150px"
@@ -52,24 +52,22 @@
         </div>
       </div>
 
-      <div class="bg_color flexJC"
-           style="padding: 10px">
-        <span class="minText">本次共为您查询到 <span class="blueColor">0</span> 笔订单</span>
-        <el-button size="mini">导出数据</el-button>
-      </div>
-
       <div class="table"
            style="flex: 1">
         <el-table :data="tableData">
           <el-table-column prop="name"
                            fixed
                            show-overflow-tooltip
-                           label="订单编号"
+                           label="用户昵称"
                            width="180">
           </el-table-column>
           <el-table-column prop="address"
                            show-overflow-tooltips
-                           label="下单时间">
+                           label="手机号">
+          </el-table-column>
+          <el-table-column prop="address"
+                           show-overflow-tooltip
+                           label="储值卡卡号">
           </el-table-column>
           <el-table-column prop="address"
                            show-overflow-tooltip
@@ -77,27 +75,31 @@
           </el-table-column>
           <el-table-column prop="address"
                            show-overflow-tooltip
-                           label="商品名称">
+                           label="门店储值卡名称">
           </el-table-column>
           <el-table-column prop="address"
                            show-overflow-tooltip
-                           label="手机号">
+                           label="变动方式">
           </el-table-column>
           <el-table-column prop="address"
                            show-overflow-tooltip
-                           label="订单状态">
+                           label="支付时间">
           </el-table-column>
           <el-table-column prop="address"
                            show-overflow-tooltip
-                           label="核销时间">
+                           label="订单编号">
           </el-table-column>
           <el-table-column prop="address"
                            show-overflow-tooltip
-                           label="核销门店">
+                           label="交易门店">
           </el-table-column>
           <el-table-column prop="address"
                            show-overflow-tooltip
-                           label="操作">
+                           label="变动渠道">
+          </el-table-column>
+          <el-table-column prop="address"
+                           show-overflow-tooltip
+                           label="支付方式">
           </el-table-column>
         </el-table>
       </div>
@@ -123,7 +125,7 @@
 
 <script>
 export default {
-  name: 'lntegralMall',
+  name: 'storageCard',
   data () {
     return {
       search: ''

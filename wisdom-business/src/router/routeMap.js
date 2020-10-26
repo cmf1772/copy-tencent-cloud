@@ -169,9 +169,13 @@ export default {
   r_secondsToPay: 'wisdomRestaurant/theOrder/secondsToPay.vue', // 秒付
   r_takeOut: 'wisdomRestaurant/theOrder/takeOut.vue', // 外卖
   r_reservation: 'wisdomRestaurant/theOrder/reservation.vue', // 预订
-  r_lntegralMall: 'wisdomRestaurant/theOrder/lntegralMall.vue', // 预订
-
-
+  r_lntegralMall: 'wisdomRestaurant/theOrder/lntegralMall.vue', // 积分商城
+  r_partyOrder: 'wisdomRestaurant/theOrder/partyOrder.vue', // 第三方订单
+  r_orderManagement: 'wisdomRestaurant/theOrder/orderManagement.vue', // 会员开卡
+  r_valueOrder: 'wisdomRestaurant/theOrder/valueOrder.vue', // 会员储值订单
+  r_storageCard: 'wisdomRestaurant/theOrder/storageCard.vue', // 门店储值订单
+  r_orderManage: 'wisdomRestaurant/theOrder/orderManage.vue', // 券订单
+  r_orderExport: 'wisdomRestaurant/theOrder/orderExport.vue', // 订单导出
 
   //营销 二级菜单
   r_marketingCenter: 'wisdomRestaurant/marketing/marketingCenter.vue', // 营销中心
