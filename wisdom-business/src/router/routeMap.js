@@ -177,6 +177,17 @@ export default {
   r_orderManage: 'wisdomRestaurant/theOrder/orderManage.vue', // 券订单
   r_orderExport: 'wisdomRestaurant/theOrder/orderExport.vue', // 订单导出
 
+  // 会员 二级菜单
+  r_userList: 'wisdomRestaurant/member/userList.vue', // 用户列表
+  r_newcardview: 'wisdomRestaurant/member/newcardview.vue', // 会员卡设置
+  r_levelManage: 'wisdomRestaurant/member/levelManage.vue', // 等级设置
+  r_upgrade: 'wisdomRestaurant/member/upgrade.vue', // 升级规则
+  r_tagsManage: 'wisdomRestaurant/member/tagsManage.vue', // 标签管理
+  r_IntegralRules: 'wisdomRestaurant/member/IntegralRules.vue', // 标签管理
+  r_integralStrategy: 'wisdomRestaurant/member/integralStrategy.vue', // 积分规则
+  r_storedValueRules: 'wisdomRestaurant/member/storedValueRules.vue', // 储值规则
+  r_balanceStatement: 'wisdomRestaurant/member/balanceStatement.vue', // 余额流水
+
   //营销 二级菜单
   r_marketingCenter: 'wisdomRestaurant/marketing/marketingCenter.vue', // 营销中心
 

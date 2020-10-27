@@ -909,6 +909,63 @@ export default [{
     },
     {
       path: '/shop',
+      text: '会员',
+      name: 'shop',
+      icon: 'el-icon-refrigerator',
+      children: [{
+        path: '/r_userList',
+        text: '用户列表',
+        name: 'r_userList',
+        icon: 'el-icon-film',
+      }, {
+        path: '/r_newcardview',
+        text: '会员卡设置',
+        name: 'r_newcardview',
+        icon: 'el-icon-film',
+      }, {
+        path: '/r_levelManage',
+        text: '等级设置',
+        name: 'r_levelManage',
+        icon: 'el-icon-user',
+      }, {
+        path: '/r_upgrade',
+        text: '升级规则',
+        name: 'r_upgrade',
+        icon: 'el-icon-user',
+      }, {
+        path: '/r_tagsManage',
+        text: '标签管理',
+        name: 'r_tagsManage',
+        icon: 'el-icon-user',
+      }, {
+        path: '/r_IntegralRules',
+        text: '积分规则',
+        name: 'r_IntegralRules',
+        icon: 'el-icon-user',
+      }, {
+        path: '/r_integralStrategy',
+        text: '积分活动',
+        name: 'r_integralStrategy',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/r_error',
+        text: '商品管理',
+        name: 'r_error',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/r_storedValueRules',
+        text: '储值规则',
+        name: 'r_storedValueRules',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/r_balanceStatement',
+        text: '余额流水',
+        name: 'r_balanceStatement',
+        icon: 'el-icon-takeaway-box',
+      }]
+    },
+    {
+      path: '/shop',
       text: '营销',
       name: 'shop',
       icon: 'el-icon-sell ',
