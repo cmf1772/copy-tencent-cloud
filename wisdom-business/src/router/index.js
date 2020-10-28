@@ -744,6 +744,12 @@ let rootRouter = [
       meta: ['通证管理', '通证', '通证订单']
     }]
   },
+  {
+    path: '/settlement/switchProject',
+    name: 'switchProject',
+    component: (resolve) => require(['@/view/settlement/switchProject.vue'], resolve)
+
+  }
 ]
 // console.log(autoRouter[0])
 

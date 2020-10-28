@@ -98,7 +98,7 @@
       </div>
 
       <div class="c_box flexJC">
-        <p class="minText">本次共为您查询到 <span class="yellowColor">0</span> 笔流水</p>
+        <p class="minText">本次共为您查询到 <span class="yellowColor">0</span>笔流水</p>
         <el-button type="primary"
                    plain
                    size="mini">导出</el-button>

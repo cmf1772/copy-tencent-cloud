@@ -14,14 +14,14 @@
               :key="index">
             {{item.text}}
           </li>
-          <el-dropdown>
+          <el-dropdown @command="command">
             <i class="el-icon-s-operation"></i>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>切换店铺</el-dropdown-item>
-              <el-dropdown-item>账号信息</el-dropdown-item>
-              <el-dropdown-item>帮助中心</el-dropdown-item>
-              <el-dropdown-item>返回旧版</el-dropdown-item>
-              <el-dropdown-item>退出账号</el-dropdown-item>
+              <el-dropdown-item command="a">切换店铺</el-dropdown-item>
+              <el-dropdown-item command="b">账号信息</el-dropdown-item>
+              <el-dropdown-item command="c">帮助中心</el-dropdown-item>
+              <el-dropdown-item command="e">返回旧版</el-dropdown-item>
+              <el-dropdown-item command="d">退出账号</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </ul>
@@ -73,6 +73,14 @@ export default {
       ]
       // this.help = !routerArray.indexOf(this.$route.path) > -1
       this.help = routerArray.indexOf(this.$route.path) > -1 ? false : true
+    },
+
+    command (command) {
+      switch (command) {
+        case 'a':
+          this.$router.push('/settlement/switchProject')
+          break
+      }
     }
   },
 
