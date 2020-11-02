@@ -758,6 +758,7 @@ let rootRouter = [
 //   name: 'error',
 //   component: (resolve) => require(['@/view/settlement/error.vue'], resolve)
 // })
+console.log(autoRouters)
 autoRouters.forEach(rouer => {
   rootRouter.push(rouer)
 })

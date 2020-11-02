@@ -128,11 +128,10 @@ export default {
   // 注册选择店铺
   selectTheStore: 'smartRetail/selectTheStore.vue', // 选择店铺页面
 
-  // 智慧餐厅 ---------------------------------
+  // 智慧餐厅 -------------------------------------------------------------------------------------------------------------------------------------------------
 
   //一级菜单 智慧零售
   wisdomRestaurant: 'wisdomRestaurant/home.vue',
-  r_survey: 'wisdomRestaurant/survey/survey.vue',
   r_survey: 'wisdomRestaurant/survey/survey.vue',
 
   //暂无开发
@@ -242,5 +241,24 @@ export default {
   r_theRaskList: 'wisdomRestaurant/setting/theRaskList.vue', // 任务列表
   r_accountAccess: 'wisdomRestaurant/setting/accountAccess.vue', // 账号权限
   r_operationLog: 'wisdomRestaurant/setting/operationLog.vue', // 操作设置
+
+  // 智慧旅游 -------------------------------------------------------------------------------------------------------------------------------------------------
+  ofTourism: 'ofTourism/home.vue',
+  o_survey: 'ofTourism/survey/survey.vue',
+
+  //暂无开发
+  o_error: 'ofTourism/error.vue',
+
+  // 店铺二级菜单
+  o_storeList: 'ofTourism/shop/shop.vue', // 店铺页面
+
+  // 产品二级菜单
+  o_lineList: 'ofTourism/product/lineList.vue', // 线路列表
+  o_lineOrder: 'ofTourism/product/lineOrder.vue', // 线路订单
+  o_lineActivist: 'ofTourism/product/lineActivist.vue', // 线路维权
+  o_lineSetUp: 'ofTourism/product/lineSetUp.vue', // 线路维权
+  o_listOfAttractions: 'ofTourism/product/listOfAttractions.vue', // 景点列表
+  o_tickets: 'ofTourism/product/tickets.vue', // 门票订单
+  o_verification: 'ofTourism/product/verification.vue', // 门票订单
 
 }

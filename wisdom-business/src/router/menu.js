@@ -1229,4 +1229,105 @@ export default [{
       }]
     }
   ]
+}, {
+  //旅游后台 菜单
+  path: '/o_survey',
+  name: 'ofTourism',
+  icon: 'gongzuotai',
+  text: '智慧旅游',
+  component: '',
+  parent: true,
+  children: [
+    {
+      path: '/o_survey',
+      name: 'o_survey',
+      text: '概况',
+      component: '',
+      icon: 'el-icon-menu'
+    },
+    {
+      path: '/shop',
+      text: '店铺',
+      name: 'shop',
+      icon: 'el-icon-collection',
+      children: [{
+        path: '/o_storeList',
+        text: '店铺页面',
+        name: 'o_storeList',
+        icon: 'el-icon-film',
+      }, {
+        path: '/o_error',
+        text: '店铺导航',
+        name: 'o_error',
+        icon: 'el-icon-film',
+      }, {
+        path: '/o_error',
+        text: '分类模版',
+        name: 'o_error',
+        icon: 'el-icon-user',
+      }]
+    },
+    {
+      path: '/shop',
+      text: '产品',
+      name: 'shop',
+      icon: 'el-icon-s-help',
+      children: [{
+        path: '/o_lineList',
+        text: '线路列表',
+        name: 'o_lineList',
+        icon: 'el-icon-film',
+      }, {
+        path: '/o_lineOrder',
+        text: '线路订单',
+        name: 'o_lineOrder',
+        icon: 'el-icon-film',
+      }, {
+        path: '/o_lineActivist',
+        text: '线路维权',
+        name: 'o_lineActivist',
+        icon: 'el-icon-user',
+      }, {
+        path: '/o_lineSetUp',
+        text: '线路设置',
+        name: 'o_lineSetUp',
+        icon: 'el-icon-film',
+      }, {
+        path: '/o_listOfAttractions',
+        text: '景点列表',
+        name: 'o_listOfAttractions',
+        icon: 'el-icon-film',
+      }, {
+        path: '/o_tickets',
+        text: '门票订单',
+        name: 'o_tickets',
+        icon: 'el-icon-user',
+      }, {
+        path: '/o_verification',
+        text: '门票核销',
+        name: 'o_verification',
+        icon: 'el-icon-film',
+      }, {
+        path: '/o_error',
+        text: '门票维权',
+        name: 'o_error',
+        icon: 'el-icon-film',
+      }, {
+        path: '/o_error',
+        text: '保险产品',
+        name: 'o_error',
+        icon: 'el-icon-user',
+      }, {
+        path: '/o_storeList',
+        text: '商品分类',
+        name: 'o_storeList',
+        icon: 'el-icon-film',
+      }, {
+        path: '/o_error',
+        text: '附加产品',
+        name: 'o_error',
+        icon: 'el-icon-film',
+      }]
+    },
+  ]
 }]

@@ -5,10 +5,10 @@
       <leftMenu :menuData="menuData"></leftMenu>
     </div>
     <div class="right">
-      <div class="top ">
+      <div class="top">
         <div style=" float: left"
              @click="$router.push('/home/product')"
-             class="text blueColor s">{{$route.query.name === 'beautyindustry' ? '智慧美业' : '智慧餐厅'}}</div>
+             class="text blueColor s">智慧旅游</div>
         <ul>
           <li v-for="(item, index) in topNav"
               :key="index">
@@ -59,7 +59,7 @@ export default {
   },
 
   methods: {
-    // 通过路由判断 是否显示帮助  特殊特面显示帮助
+    // 通过路由判断 是否显示帮助  特殊特面不显示帮助
     showHelp () {
       let routerArray = [
 
@@ -88,7 +88,7 @@ export default {
   },
 
   created () {
-    this.menuData = menu[1].children
+    this.menuData = menu[2].children
     this.showHelp()
   }
 }

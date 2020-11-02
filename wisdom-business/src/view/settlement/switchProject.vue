@@ -56,6 +56,30 @@
           </div>
         </div>
       </div>
+
+      <div class="itemALL">
+        <p class="titleText">本地生活 <span>Local Life</span></p>
+        <div class="flexRC">
+          <div class="item">
+            <div style="font-size: 18px;margin: 20px 0 0 15px">智慧美业</div>
+            <div style="font-size: 12px;color: #81828a;height: 40px;margin-top: 6px;font-weight: 200;margin-left: 15px">拉新复购激员工，美业经营不用愁</div>
+            <div class="buttoms flexJC s"
+                 @click="$router.push('/r_survey?name=beautyindustry')">
+              <p>立即创建</p>
+              <i class="el-icon-arrow-right"></i>
+            </div>
+          </div>
+          <div class="item">
+            <div style="font-size: 18px;margin: 20px 0 0 15px">智慧旅游</div>
+            <div style="font-size: 12px;color: #81828a;height: 40px;margin-top: 6px;font-weight: 200;margin-left: 15px">旅游营销解决方案</div>
+            <div class="buttoms flexJC s"
+                 @click="$router.push('/o_survey')">
+              <p>立即创建</p>
+              <i class="el-icon-arrow-right"></i>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
