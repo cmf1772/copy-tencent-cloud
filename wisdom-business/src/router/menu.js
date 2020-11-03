@@ -1272,61 +1272,257 @@ export default [{
       text: '产品',
       name: 'shop',
       icon: 'el-icon-s-help',
+      children: [
+        {
+          path: '/o_lineList',
+          text: '线路列表',
+          name: 'o_lineList',
+          icon: 'el-icon-film',
+        }, {
+          path: '/o_lineOrder',
+          text: '线路订单',
+          name: 'o_lineOrder',
+          icon: 'el-icon-film',
+        }, {
+          path: '/o_lineActivist',
+          text: '线路维权',
+          name: 'o_lineActivist',
+          icon: 'el-icon-user',
+        }, {
+          path: '/o_lineSetUp',
+          text: '线路设置',
+          name: 'o_lineSetUp',
+          icon: 'el-icon-film',
+        }, {
+          path: '/o_listOfAttractions',
+          text: '景点列表',
+          name: 'o_listOfAttractions',
+          icon: 'el-icon-film',
+        }, {
+          path: '/o_tickets',
+          text: '门票订单',
+          name: 'o_tickets',
+          icon: 'el-icon-user',
+        }, {
+          path: '/o_verification',
+          text: '门票核销',
+          name: 'o_verification',
+          icon: 'el-icon-film',
+        }, {
+          path: '/o_theRights',
+          text: '门票维权',
+          name: 'o_theRights',
+          icon: 'el-icon-film',
+        }, {
+          path: '/o_setOfTickets',
+          text: '门票设置',
+          name: 'o_setOfTickets',
+          icon: 'el-icon-film',
+        }, {
+          path: '/o_lnsuranceProducts',
+          text: '保险产品',
+          name: 'o_lnsuranceProducts',
+          icon: 'el-icon-user',
+        }, {
+          path: '/o_ofGoods',
+          text: '商品分类',
+          name: 'o_ofGoods',
+          icon: 'el-icon-film',
+        }, {
+          path: '/o_additionalProduct',
+          text: '附加产品',
+          name: 'o_additionalProduct',
+          icon: 'el-icon-film',
+        }]
+    },
+    {
+      path: '/shop',
+      text: '会员',
+      name: 'shop',
+      icon: 'el-icon-brush',
       children: [{
-        path: '/o_lineList',
-        text: '线路列表',
-        name: 'o_lineList',
-        icon: 'el-icon-film',
-      }, {
-        path: '/o_lineOrder',
-        text: '线路订单',
-        name: 'o_lineOrder',
-        icon: 'el-icon-film',
-      }, {
-        path: '/o_lineActivist',
-        text: '线路维权',
-        name: 'o_lineActivist',
-        icon: 'el-icon-user',
-      }, {
-        path: '/o_lineSetUp',
-        text: '线路设置',
-        name: 'o_lineSetUp',
-        icon: 'el-icon-film',
-      }, {
-        path: '/o_listOfAttractions',
-        text: '景点列表',
-        name: 'o_listOfAttractions',
-        icon: 'el-icon-film',
-      }, {
-        path: '/o_tickets',
-        text: '门票订单',
-        name: 'o_tickets',
-        icon: 'el-icon-user',
-      }, {
-        path: '/o_verification',
-        text: '门票核销',
-        name: 'o_verification',
-        icon: 'el-icon-film',
-      }, {
         path: '/o_error',
-        text: '门票维权',
+        text: '会员列表',
         name: 'o_error',
         icon: 'el-icon-film',
       }, {
-        path: '/o_error',
-        text: '保险产品',
-        name: 'o_error',
+        path: '/o_theTagList',
+        text: '标签列表',
+        name: 'o_theTagList',
+        icon: 'el-icon-film',
+      }, {
+        path: '/o_membersM',
+        text: '会员卡管理',
+        name: 'o_membersM',
         icon: 'el-icon-user',
+      }]
+    },
+    {
+      path: '/shop',
+      text: '营销',
+      name: 'shop',
+      icon: 'el-icon-sell ',
+      children: [{
+        path: '/o_marketingCenter',
+        text: '营销中心',
+        name: 'o_marketingCenter',
+        icon: 'el-icon-data-analysis',
       }, {
-        path: '/o_storeList',
-        text: '商品分类',
-        name: 'o_storeList',
-        icon: 'el-icon-film',
+        path: '/o_promotionCenter',
+        text: '推广中心',
+        name: 'o_promotionCenter',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/o_advertisingPromotion',
+        text: '渠道追踪',
+        name: 'o_advertisingPromotion',
+        icon: 'el-icon-notebook-2',
       }, {
         path: '/o_error',
-        text: '附加产品',
+        text: '全部服务',
         name: 'o_error',
-        icon: 'el-icon-film',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/o_myApp',
+        text: '我的应用',
+        name: 'o_myApp',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/o_myOrder',
+        text: '我的订单',
+        name: 'o_myOrder',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/o_commodityAttributes',
+        text: '开发者中心',
+        name: 'o_commodityAttributes',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/price',
+        text: '开发指南 ',
+        // name: 'profileTemplate',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/price',
+        text: 'API指南',
+        // name: 'productList',
+        icon: 'el-icon-toilet-paper',
+      }]
+    },
+    {
+      path: '/shop',
+      text: '微信',
+      name: 'shop',
+      icon: 'el-icon-sunny ',
+      children: [{
+        path: '/o_publicAccount',
+        text: '公众号授权管理',
+        name: 'o_publicAccount',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/o_customMenu',
+        text: '自定义菜单',
+        name: 'o_customMenu',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/o_autoReply',
+        text: '自动回复',
+        name: 'o_autoReply',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/o_appletSetup',
+        text: '小程序设置',
+        name: 'o_appletSetup',
+        icon: 'el-icon-notebook-2',
+      }]
+    },
+    {
+      path: '/shop',
+      text: '供应商',
+      name: 'shop',
+      icon: 'el-icon-bank-card',
+      children: [{
+        path: '/o_supplierList',
+        text: '供应商列表',
+        name: 'o_supplierList',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/o_supplierData',
+        text: '供应商数据',
+        name: 'o_supplierData',
+        icon: 'el-icon-notebook-2',
+      }]
+    },
+    {
+      path: '/o_shop',
+      text: '慧付',
+      name: 'shop',
+      icon: 'el-icon-cpu',
+      children: [{
+        path: '/o_payment',
+        text: '支付账号',
+        name: 'o_payment',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/o_collection',
+        text: '收款配置',
+        name: 'o_collection',
+        icon: 'el-icon-data-analysis',
+      }, {
+        path: '/o_paymentColl',
+        text: '付款配置',
+        name: 'o_paymentColl',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/o_smartRetail',
+        text: '线上交易',
+        name: 'o_smartRetail',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/o_onlineRefund',
+        text: '线上退款 ',
+        name: 'o_onlineRefund',
+        icon: 'el-icon-notebook-2',
+      }, {
+        path: '/o_reconciliationStatement',
+        text: '对账报表',
+        name: 'o_reconciliationStatement',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/o_businessSub',
+        text: '业务分账',
+        name: 'o_businessSub',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/o_accountSplitting',
+        text: '线上分账',
+        name: 'o_accountSplitting',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/o_separateAccount',
+        text: '分账解冻',
+        name: 'o_separateAccount',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/o_billsPayable',
+        text: '应付账单',
+        name: 'o_billsPayable',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/o_withdrawal',
+        text: '提现管理',
+        name: 'o_withdrawal',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/o_paymentRecords',
+        text: '付款记录',
+        name: 'o_paymentRecords',
+        icon: 'el-icon-toilet-paper',
+      }, {
+        path: '/o_exportManagement',
+        text: '导出管理',
+        name: 'o_exportManagement',
+        icon: 'el-icon-toilet-paper',
       }]
     },
   ]

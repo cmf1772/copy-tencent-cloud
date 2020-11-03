@@ -258,7 +258,48 @@ export default {
   o_lineActivist: 'ofTourism/product/lineActivist.vue', // 线路维权
   o_lineSetUp: 'ofTourism/product/lineSetUp.vue', // 线路维权
   o_listOfAttractions: 'ofTourism/product/listOfAttractions.vue', // 景点列表
-  o_tickets: 'ofTourism/product/tickets.vue', // 门票订单
-  o_verification: 'ofTourism/product/verification.vue', // 门票订单
+  o_tickets: 'ofTourism/product/tickets.vue', // 保险产品
+  o_verification: 'ofTourism/product/verification.vue', // 门票核销
+  o_theRights: 'ofTourism/product/theRights.vue', // 门票核销
+  o_setOfTickets: 'ofTourism/product/setOfTickets.vue', // 门票设置
+  o_lnsuranceProducts: 'ofTourism/product/lnsuranceProducts.vue', // 保险产品
+  o_ofGoods: 'ofTourism/product/ofGoods.vue', // 商品分类
+  o_additionalProduct: 'ofTourism/product/additionalProduct.vue', // 商品分类
+
+  // 会员二级菜单
+  o_membersM: 'ofTourism/members/membersM.vue', // 会员卡管理
+  o_theTagList: 'ofTourism/members/theTagList.vue', // 会员卡管理
+
+  // 营销 二级菜单
+  o_marketingCenter: 'ofTourism/marketing/marketingCenter.vue', // 营销中心
+  o_promotionCenter: 'ofTourism/marketing/promotionCenter.vue', // 推广中心
+  o_advertisingPromotion: 'ofTourism/marketing/advertisingPromotion.vue', // 广告推广
+  o_myApp: 'ofTourism/marketing/myApp.vue', // 我的应用
+  o_myOrder: 'ofTourism/marketing/myOrder.vue', // 我的订单
+
+  // 微信 二级菜单
+  o_publicAccount: 'ofTourism/channel/publicAccount.vue', // 授权管理
+  o_customMenu: 'ofTourism/channel/customMenu.vue', // 自定义菜单
+  o_autoReply: 'ofTourism/channel/autoReply.vue', // 自动回复
+  o_appletSetup: 'ofTourism/channel/appletSetup.vue', // 小程序管理
+
+  // 慧付 二级菜单
+  o_payment: 'ofTourism/huiFu/payment.vue', // 支付账号
+  o_collection: 'ofTourism/huiFu/collection.vue', // 收款配置
+  o_paymentColl: 'ofTourism/huiFu/paymentColl.vue', // 付款配置
+  o_onlineRefund: 'ofTourism/huiFu/onlineRefund.vue', // 线下交易
+  o_reconciliationStatement: 'ofTourism/huiFu/reconciliationStatement.vue', // 对账报表
+  o_businessSub: 'ofTourism/huiFu/businessSub.vue', // 业务分账
+  o_accountSplitting: 'ofTourism/huiFu/accountSplitting.vue', // 线上分账(直连服务商)
+  o_separateAccount: 'ofTourism/huiFu/separateAccount.vue', // 分账解冻(直连服务商模式)
+  o_billsPayable: 'ofTourism/huiFu/billsPayable.vue', // 应付账单
+  o_withdrawal: 'ofTourism/huiFu/withdrawal.vue', // 体现管理
+  o_paymentRecords: 'ofTourism/huiFu/paymentRecords.vue', // 付款记录
+  o_exportManagement: 'ofTourism/huiFu/exportManagement.vue', // 导出管理
+
+  // 供应商 二级菜单
+  o_supplierList: 'ofTourism/supplier/supplierList.vue', // 供应商列表
+  o_supplierData: 'ofTourism/supplier/supplierData.vue', // 供应商列表
+
 
 }
