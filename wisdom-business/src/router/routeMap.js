@@ -130,7 +130,7 @@ export default {
 
   // 智慧餐厅 -------------------------------------------------------------------------------------------------------------------------------------------------
 
-  //一级菜单 智慧零售
+  //一级菜单 
   wisdomRestaurant: 'wisdomRestaurant/home.vue',
   r_survey: 'wisdomRestaurant/survey/survey.vue',
 
@@ -242,6 +242,116 @@ export default {
   r_accountAccess: 'wisdomRestaurant/setting/accountAccess.vue', // 账号权限
   r_operationLog: 'wisdomRestaurant/setting/operationLog.vue', // 操作设置
 
+  // 智慧美业 -------------------------------------------------------------------------------------------------------------------------------------------------
+
+  //一级菜单 
+  beautyIndustry: 'beautyIndustry/home.vue',
+  b_survey: 'beautyIndustry/survey/survey.vue',
+
+  //暂无开发
+  b_error: 'beautyIndustry/error.vue',
+
+  // 门店 二级菜单
+  b_storeList: 'beautyIndustry/stores/storeList.vue',
+  b_storeTheTag: 'beautyIndustry/stores/storeTheTag.vue', // 门店标签
+  b_storeArea: 'beautyIndustry/stores/storeArea.vue', // 门店区域
+  b_storesGroup: 'beautyIndustry/stores/storesGroup.vue', // 门店分组
+  b_storeStting: 'beautyIndustry/stores/storeStting.vue', // 门店储值设置
+  b_valueAndPay: 'beautyIndustry/stores/valueAndPay.vue', // 储值并买单
+  b_thePrinter: 'beautyIndustry/stores/thePrinter.vue', // 打印机
+  b_POS: 'beautyIndustry/stores/POS.vue', // POS
+
+  // 业务 二级菜单
+  b_checkPayment: 'beautyIndustry/business/checkPayment.vue', // 买单收款
+  b_stockCenter: 'beautyIndustry/business/stockCenter.vue', // 领劵中心
+  b_APPcollection: 'beautyIndustry/business/APPcollection.vue', // app收款
+  b_menuManagement: 'beautyIndustry/business/menuManagement.vue', // 菜单管理
+  b_basicSetup: 'beautyIndustry/business/basicSetup.vue', // 基本设置
+  b_tablesManagement: 'beautyIndustry/business/tablesManagement.vue', // 桌台管理
+  b_staffManagement: 'beautyIndustry/business/staffManagement.vue', // 菜单管理 —— 外卖
+  b_basicSetupT: 'beautyIndustry/business/basicSetupT.vue', // 基本设置 —— 外卖
+  b_staffManagementa: 'beautyIndustry/business/staffManagementa.vue', // 员工管理
+  b_marketingStaff: 'beautyIndustry/business/marketingStaff.vue', // 员工营销
+
+  // 订单 二级菜单
+  b_checkPayments: 'beautyIndustry/theOrder/checkPayment.vue', // 员工营销
+  b_posReceipt: 'beautyIndustry/theOrder/posReceipt.vue', // 员工营销
+  b_addedTrading: 'beautyIndustry/theOrder/addedTrading.vue', // 员工营销
+  b_lntegralMall: 'beautyIndustry/theOrder/lntegralMall.vue', // 积分商城
+  b_partyOrder: 'beautyIndustry/theOrder/partyOrder.vue', // 第三方订单
+  b_orderManagement: 'beautyIndustry/theOrder/orderManagement.vue', // 会员开卡
+  b_valueOrder: 'beautyIndustry/theOrder/valueOrder.vue', // 会员储值订单
+  b_storageCard: 'beautyIndustry/theOrder/storageCard.vue', // 门店储值订单
+  b_orderManage: 'beautyIndustry/theOrder/orderManage.vue', // 券订单
+  b_orderExport: 'beautyIndustry/theOrder/orderExport.vue', // 订单导出
+
+  // 会员 二级菜单
+  b_userList: 'beautyIndustry/member/userList.vue', // 用户列表
+  b_newcardview: 'beautyIndustry/member/newcardview.vue', // 会员卡设置
+  b_levelManage: 'beautyIndustry/member/levelManage.vue', // 等级设置
+  b_upgrade: 'beautyIndustry/member/upgrade.vue', // 升级规则
+  b_tagsManage: 'beautyIndustry/member/tagsManage.vue', // 标签管理
+  b_IntegralRules: 'beautyIndustry/member/IntegralRules.vue', // 标签管理
+  b_integralStrategy: 'beautyIndustry/member/integralStrategy.vue', // 积分规则
+  b_storedValueRules: 'beautyIndustry/member/storedValueRules.vue', // 储值规则
+  b_balanceStatement: 'beautyIndustry/member/balanceStatement.vue', // 余额流水
+
+  //营销 二级菜单
+  b_marketingCenter: 'beautyIndustry/marketing/marketingCenter.vue', // 营销中心
+
+  // 推广 菜单
+  b_toPromote: 'beautyIndustry/toPromote/toPromote.vue', // 营销中心
+
+  // 慧付 二级菜单
+  b_payment: 'beautyIndustry/huiFu/payment.vue', // 支付账号
+  b_collection: 'beautyIndustry/huiFu/collection.vue', // 收款配置
+  b_paymentColl: 'beautyIndustry/huiFu/paymentColl.vue', // 付款配置
+  b_offlinePayment: 'beautyIndustry/huiFu/offlinePayment.vue', // 线下支付
+  b_revenueProfile: 'beautyIndustry/huiFu/revenueProfile.vue', // 营收概况'
+  b_financialDetails: 'beautyIndustry/huiFu/financialDetails.vue', // 财务明细
+  b_smartRetail: 'beautyIndustry/huiFu/smartRetail.vue', // 线上交易
+  b_onlineRefund: 'beautyIndustry/huiFu/onlineRefund.vue', // 线下交易
+  b_reconciliationStatement: 'beautyIndustry/huiFu/reconciliationStatement.vue', // 对账报表
+  b_businessSub: 'beautyIndustry/huiFu/businessSub.vue', // 业务分账
+  b_accountSplitting: 'beautyIndustry/huiFu/accountSplitting.vue', // 线上分账(直连服务商)
+  b_separateAccount: 'beautyIndustry/huiFu/separateAccount.vue', // 分账解冻(直连服务商模式)
+  b_billsPayable: 'beautyIndustry/huiFu/billsPayable.vue', // 应付账单
+  b_withdrawal: 'beautyIndustry/huiFu/withdrawal.vue', // 体现管理
+  b_paymentRecords: 'beautyIndustry/huiFu/paymentRecords.vue', // 付款记录
+  b_liveAccounts: 'beautyIndustry/huiFu/liveAccounts.vue', // 直播应收
+  b_splitOrder: 'beautyIndustry/huiFu/splitOrder.vue', // 分账订单
+  b_logisticsExpenses: 'beautyIndustry/huiFu/logisticsExpenses.vue', // 物流费用
+  b_creditDetails: 'beautyIndustry/huiFu/creditDetails.vue', // 积分明细
+  b_balanceDetails: 'beautyIndustry/huiFu/balanceDetails.vue', // 余额明细
+  b_rewardSubsidiary: 'beautyIndustry/huiFu/rewardSubsidiary.vue', //维客奖励
+  b_communityGroup: 'beautyIndustry/huiFu/communityGroup.vue', // 社区团购分账单
+  b_electronicInvoice: 'beautyIndustry/huiFu/electronicInvoice.vue', // 电子发票开通
+  b_orderFlow: 'beautyIndustry/huiFu/orderFlow.vue', // 发票订单流水
+  b_invoiceFinance: 'beautyIndustry/huiFu/invoiceFinance.vue', // 电子发票财务
+  b_myAccount: 'beautyIndustry/huiFu/myAccount.vue', // 我的账户
+  b_withdrawalOrder: 'beautyIndustry/huiFu/withdrawalOrder.vue', // 提现订单
+  b_balanceReconciliation: 'beautyIndustry/huiFu/balanceReconciliation.vue', // 余额对账报表
+  b_theInvoicenformation: 'beautyIndustry/huiFu/theInvoicenformation.vue', // 发票信息
+  b_exportManagement: 'beautyIndustry/huiFu/exportManagement.vue', // 导出管理
+
+  // 渠道 二级菜单
+  b_publicAccount: 'beautyIndustry/channel/publicAccount.vue', // 授权管理
+  b_customMenu: 'beautyIndustry/channel/customMenu.vue', // 自定义菜单
+  b_autoReply: 'beautyIndustry/channel/autoReply.vue', // 自动回复
+  b_appletSetup: 'beautyIndustry/channel/appletSetup.vue', // 小程序管理
+
+  // 设置 二级菜单
+  b_businessInformation: 'beautyIndustry/setting/businessInformation.vue', // 商户信息
+  b_shopCertification: 'beautyIndustry/setting/shopCertification.vue', // 商铺认证
+  b_storeSettings: 'beautyIndustry/setting/storeSettings.vue', // 网店设置
+  b_goodsSet: 'beautyIndustry/setting/goodsSet.vue', // 商品设置
+  b_orderISaet: 'beautyIndustry/setting/orderISaet.vue', // 订单设置
+  b_shippingSettings: 'beautyIndustry/setting/shippingSettings.vue', // 配送设置
+  b_theRaskList: 'beautyIndustry/setting/theRaskList.vue', // 任务列表
+  b_accountAccess: 'beautyIndustry/setting/accountAccess.vue', // 账号权限
+  b_operationLog: 'beautyIndustry/setting/operationLog.vue', // 操作设置
+
+
   // 智慧旅游 -------------------------------------------------------------------------------------------------------------------------------------------------
   ofTourism: 'ofTourism/home.vue',
   o_survey: 'ofTourism/survey/survey.vue',
@@ -301,5 +411,15 @@ export default {
   o_supplierList: 'ofTourism/supplier/supplierList.vue', // 供应商列表
   o_supplierData: 'ofTourism/supplier/supplierData.vue', // 供应商列表
 
+  // 设置 二级菜单
+  o_businessInformation: 'ofTourism/setting/businessInformation.vue', // 商户信息
+  o_shopCertification: 'ofTourism/setting/shopCertification.vue', // 资质认证
+  o_accountAccess: 'ofTourism/setting/accountAccess.vue', // 账号
+  o_characterSet: 'ofTourism/setting/characterSet.vue', // 角色管理
+  o_operationLog: 'ofTourism/setting/operationLog.vue', // 操作日志
+
+  // 数据 二级菜单
+  o_downloadCenter: 'ofTourism/dataCenter/downloadCenter.vue', // 下载中心
+  o_ImportCenter: 'ofTourism/dataCenter/ImportCenter.vue', // 导入中心
 
 }

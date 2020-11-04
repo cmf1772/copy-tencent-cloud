@@ -1,65 +1,51 @@
 <template>
-  <div class="supplierList bs flexColumn"
+  <div class="myAccount bs flexColumn"
        style="margin: 0">
-    <div class="box">
-
-    </div>
     <div class="flexJC">
-      <p class="text">供应商列表</p>
+      <p class="text">导出管理</p>
     </div>
     <div class="flexColumn conent_box"
          style="flex: 1">
-      <div class="flexRC c_box">
-        <el-button type="primary"
-                   size="mini"
-                   plain>添加供应商 </el-button>
-        <el-input placeholder="请输入内容"
-                  style="width: 300px"
-                  size="mini"
-                  v-model="search"
-                  class="input-with-select ml">
-          <el-select v-model="sleValue"
-                     style="width: 100px"
-                     slot="prepend"
-                     placeholder="请选择">
-            <el-option label="供应商名称"
-                       value="1"></el-option>
-            <el-option label="联系人"
-                       value="2"></el-option>
-            <el-option label="联系人电话"
-                       value="3"></el-option>
-          </el-select>
-          <el-button slot="append"
-                     size="mini"
-                     icon="el-icon-search"></el-button>
-        </el-input>
+      <div class="c_box">
+        <div class="flexJC ">
+          <div class="flexRC">
+            <p class="minText mr">导出时间：</p>
+            <el-date-picker v-model="value1"
+                            size="mini"
+                            style="width: 250px"
+                            type="daterange"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期">
+            </el-date-picker>
+            <el-button class="ml"
+                       type="primary"
+                       size="mini">查询</el-button>
+          </div>
+        </div>
       </div>
 
       <div class="table">
+
         <el-table :data="tableData"
                   stripe
                   style="width: 100%">
           <el-table-column prop="name"
                            show-overflow-tooltip
-                           label="供应商名称"
+                           label="报表名称"
                            width="180">
           </el-table-column>
           <el-table-column prop="address"
                            show-overflow-tooltip
-                           label="联系人">
+                           label="导出状态">
           </el-table-column>
           <el-table-column prop="address"
                            show-overflow-tooltip
-                           label="联系电话">
+                           label="导出时间">
           </el-table-column>
           <el-table-column prop="address"
                            show-overflow-tooltip
-                           label="添加时间">
-          </el-table-column>
-          <el-table-column show-overflow-tooltip
-                           label="操作"
-                           width="120"
-                           min-width="60">
+                           label="操作">
           </el-table-column>
         </el-table>
       </div>
@@ -80,11 +66,21 @@
 
 <script>
 export default {
-  name: 'supplierList',
+  name: 'myAccount',
   data () {
     return {
+      acIndex: 0,
       stateValue: '1',
-      stateValue1: '',
+      label: [{
+        value: '1',
+        label: '页面标签'
+      }, {
+        value: '2',
+        label: '全部标签'
+      }],
+      labelValue: '1',
+      stateValue: '1',
+      sleValue: '1',
       search: '',
       tableData: [],
       currentPage: 1, //当前页数
@@ -93,6 +89,9 @@ export default {
   },
 
   methods: {
+    active (index) {
+      this.acIndex = index
+    },
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
@@ -107,8 +106,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.supplierList {
-  width: 100%;
-  height: 100%;
-}
 </style>

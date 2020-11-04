@@ -31,7 +31,7 @@ export function autoRouter (routes) {
           const subMenus = children.filter(c => c.menuType !== 2)
           if (subMenus.length) rt.redirect = subMenus[0].path
         }
-        console.log(cloneIndex)
+
         if (flag) {
           if (!routeList[cloneIndex].children) routeList[cloneIndex].children = []
           routeList[cloneIndex].children.push(rt)
