@@ -1689,15 +1689,35 @@ export default [{
         name: 'b_APPcollection',
         icon: 'el-icon-user',
       }, {
-        path: '/b_error',
-        text: '优惠规则',
-        name: 'b_error',
-        icon: 'el-icon-takeaway-box',
+        path: '/b_serviceManagement',
+        text: '服务管理',
+        name: 'b_serviceManagement',
+        icon: 'el-icon-user',
+      }, {
+        path: '/b_writeOff',
+        text: '售卖及核销',
+        name: 'b_writeOff',
+        icon: 'el-icon-user',
+      }, {
+        path: '/b_goodsWarehouse',
+        text: '商品仓库',
+        name: 'b_goodsWarehouse',
+        icon: 'el-icon-user',
       }, {
         path: '/b_error',
         text: '优惠规则',
         name: 'b_error',
         icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/b_buySet',
+        text: '购买设置',
+        name: 'b_buySet',
+        icon: 'el-icon-user',
+      }, {
+        path: '/b_setAppointmentt',
+        text: '预约设置',
+        name: 'b_setAppointmentt',
+        icon: 'el-icon-user',
       }, {
         path: '/b_staffManagementa',
         text: '员工管理',
@@ -2087,6 +2107,23 @@ export default [{
         name: 'b_operationLog',
         icon: 'el-icon-notebook-2',
       }]
+    }
+  ]
+}, {
+  // 智慧美业 菜单
+  path: 'h_survey',
+  name: 'wisdomHotel',
+  icon: 'gongzuotai',
+  text: '智慧美业',
+  component: '',
+  parent: true,
+  children: [
+    {
+      path: '/h_survey',
+      name: 'h_survey',
+      text: '概况',
+      component: '',
+      icon: 'el-icon-menu'
     }
   ]
 },]

@@ -32,7 +32,6 @@ export default {
   shippingIn: 'smartRetail/stock/shippingIn.vue', // 进货报告
   setting: 'smartRetail/stock/setting.vue', // 进货报告
 
-
   //门店二级菜单
   storeList: 'smartRetail/doorStore/storeList.vue', // 门店列表
   performanceSetting: 'smartRetail/doorStore/performanceSetting.vue', // 业绩设置
@@ -265,11 +264,12 @@ export default {
   b_checkPayment: 'beautyIndustry/business/checkPayment.vue', // 买单收款
   b_stockCenter: 'beautyIndustry/business/stockCenter.vue', // 领劵中心
   b_APPcollection: 'beautyIndustry/business/APPcollection.vue', // app收款
+  b_serviceManagement: 'beautyIndustry/business/serviceManagement', // 服务管理
+  b_goodsWarehouse: 'beautyIndustry/business/goodsWarehouse', // 服务管理
+  b_writeOff: 'beautyIndustry/business/writeOff', // 服务管理
+  b_buySet: 'beautyIndustry/business/buySet', // 购买设置
+  b_setAppointmentt: 'beautyIndustry/business/setAppointment', // 购买设置
   b_menuManagement: 'beautyIndustry/business/menuManagement.vue', // 菜单管理
-  b_basicSetup: 'beautyIndustry/business/basicSetup.vue', // 基本设置
-  b_tablesManagement: 'beautyIndustry/business/tablesManagement.vue', // 桌台管理
-  b_staffManagement: 'beautyIndustry/business/staffManagement.vue', // 菜单管理 —— 外卖
-  b_basicSetupT: 'beautyIndustry/business/basicSetupT.vue', // 基本设置 —— 外卖
   b_staffManagementa: 'beautyIndustry/business/staffManagementa.vue', // 员工管理
   b_marketingStaff: 'beautyIndustry/business/marketingStaff.vue', // 员工营销
 
@@ -421,5 +421,14 @@ export default {
   // 数据 二级菜单
   o_downloadCenter: 'ofTourism/dataCenter/downloadCenter.vue', // 下载中心
   o_ImportCenter: 'ofTourism/dataCenter/ImportCenter.vue', // 导入中心
+
+  // 智慧酒店 -------------------------------------------------------------------------------------------------------------------------------------------------
+
+  //一级菜单 智慧零售
+  wisdomHotel: 'wisdomHotel/home.vue',
+  h_survey: 'wisdomHotel/survey/survey.vue',
+
+  //暂无开发
+  h_error: 'wisdomHotel/error.vue',
 
 }

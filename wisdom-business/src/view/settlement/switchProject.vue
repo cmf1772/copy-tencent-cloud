@@ -78,6 +78,15 @@
               <i class="el-icon-arrow-right"></i>
             </div>
           </div>
+          <div class="item">
+            <div style="font-size: 18px;margin: 20px 0 0 15px">智慧酒店</div>
+            <div style="font-size: 12px;color: #81828a;height: 40px;margin-top: 6px;font-weight: 200;margin-left: 15px">酒店综合解决方案，助力精准直销</div>
+            <div class="buttoms flexJC s"
+                 @click="$router.push('/h_survey')">
+              <p>立即创建</p>
+              <i class="el-icon-arrow-right"></i>
+            </div>
+          </div>
         </div>
       </div>
     </div>
