@@ -2124,6 +2124,85 @@ export default [{
       text: '概况',
       component: '',
       icon: 'el-icon-menu'
-    }
+    },
+    {
+      path: '/h_toRoom',
+      name: 'h_toRoom',
+      text: '房态',
+      component: '',
+      icon: 'el-icon-s-home'
+    },
+    {
+      path: '/shop',
+      text: '订单',
+      name: 'shop',
+      icon: 'el-icon-mobile',
+      children: [{
+        path: '/h_bookingOrder',
+        text: '订房订单',
+        name: 'h_bookingOrder',
+        icon: 'el-icon-film',
+      }, {
+        path: '/h_accommodationRecord',
+        text: '住宿记录',
+        name: 'h_accommodationRecord',
+        icon: 'el-icon-film',
+      }, {
+        path: '/h_orderRecord',
+        text: '订单记录',
+        name: 'h_orderRecord',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_orderList',
+        text: '预约订单',
+        name: 'h_orderList',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_verification',
+        text: '核销记录',
+        name: 'h_verification',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_eat_inOrders',
+        text: '堂食订单',
+        name: 'h_eat_inOrders',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_rightsList',
+        text: '售后订单',
+        name: 'h_rightsList',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/h_error',
+        text: '售后设置',
+        name: 'h_error',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_refundList',
+        text: '押金退款列表',
+        name: 'h_refundList',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_cardOrder',
+        text: '会员开卡订单',
+        name: 'h_cardOrder',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/h_collection',
+        text: '收款码订单',
+        name: 'h_collection',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/h_qrcode',
+        text: '扫码核销',
+        name: 'h_qrcode',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/h_order',
+        text: '第三方订单',
+        name: 'h_order',
+        icon: 'el-icon-takeaway-box',
+      }]
+    },
   ]
 },]

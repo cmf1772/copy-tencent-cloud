@@ -431,4 +431,21 @@ export default {
   //暂无开发
   h_error: 'wisdomHotel/error.vue',
 
+  // 房态
+  h_toRoom: 'wisdomHotel/toRoom/toRoom.vue', // 房态
+
+  // 订单 二级菜单
+  h_bookingOrder: 'wisdomHotel/order/bookingOrder.vue', // 订房订单
+  h_accommodationRecord: 'wisdomHotel/order/accommodationRecord.vue', // 住宿记录
+  h_orderRecord: 'wisdomHotel/order/orderRecord.vue', // 订单记录
+  h_orderList: 'wisdomHotel/order/orderList.vue', // 预约订单
+  h_verification: 'wisdomHotel/order/verification.vue', // 核销记录
+  h_eat_inOrders: 'wisdomHotel/order/eat-inOrders.vue', // 堂食订单
+  h_rightsList: 'wisdomHotel/order/rightsList.vue', // 售后订单
+  h_refundList: 'wisdomHotel/order/refundList.vue', // 押金退款列表
+  h_cardOrder: 'wisdomHotel/order/cardOrder.vue', // 会员开卡订单
+  h_collection: 'wisdomHotel/order/collection.vue', // 收款码订单
+  h_qrcode: 'wisdomHotel/order/qrcode.vue', // 收款码订单
+  h_order: 'wisdomHotel/order/order.vue', // 第三方订单
+
 }

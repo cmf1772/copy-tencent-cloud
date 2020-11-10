@@ -9,23 +9,27 @@
           <div class="all">
             <div class="item">
               <span>0</span>
-              <p>待付款订单</p>
+              <p>今日在线预订</p>
             </div>
             <div class="item">
               <span>0</span>
-              <p>待发货订单</p>
+              <p>今日预计入住</p>
             </div>
             <div class="item">
               <span>0</span>
-              <p>待处理售后</p>
+              <p>今日新入住</p>
+            </div>
+            <div class="item">
+              <span>0</span>
+              <p>今日新顾客数</p>
             </div>
           </div>
         </div>
         <div class="left_top_right">
-          <div class="title">
+          <!-- <div class="title">
             获取页面地址
-          </div>
-          <div class="con">
+          </div> -->
+          <div class="con mt">
             店铺还没有绑定小程序或公众号
             <div>
               去绑定
@@ -45,7 +49,7 @@
               <i class="el-icon-reading"></i>
             </div>
             <p class="text"
-               style="color:#595961; font-size: 12px;margin-top: 5px">发布商品</p>
+               style="color:#595961;font-size: 12px;margin-top: 5px">发布商品</p>
           </div>
         </div>
       </div>
@@ -81,7 +85,7 @@
            style="margin-top: 0; align-items: baseline;">
         <p class="text"
            style="font-size: 17px; line-height: 40px">试用版</p>
-        <p class="minText">剩余 <span class="text"
+        <p class="minText">剩余<span class="text"
                 style="font-size: 16px">15</span>天（2020.9.29到期）</p>
         <p class="minText"
            style="margin-top: 20px">当前为免费试用版本</p>

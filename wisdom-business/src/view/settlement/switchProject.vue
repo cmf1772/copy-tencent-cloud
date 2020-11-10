@@ -28,7 +28,7 @@
     </div>
     <div class="content">
       <div class="itemALL">
-        <p class="titleText">电商零售 <span>E-commence&Retail</span></p>
+        <p class="titleText">电商零售<span>E-commence&Retail</span></p>
         <div class="flexRC">
           <div class="item">
             <div style="font-size: 18px;margin: 20px 0 0 15px">智慧零售</div>
@@ -43,7 +43,7 @@
       </div>
 
       <div class="itemALL">
-        <p class="titleText">餐饮外卖 <span>Restaurant&Takeaway</span></p>
+        <p class="titleText">餐饮外卖<span>Restaurant&Takeaway</span></p>
         <div class="flexRC">
           <div class="item">
             <div style="font-size: 18px;margin: 20px 0 0 15px">智慧餐厅</div>
@@ -58,7 +58,7 @@
       </div>
 
       <div class="itemALL">
-        <p class="titleText">本地生活 <span>Local Life</span></p>
+        <p class="titleText">本地生活<span>Local Life</span></p>
         <div class="flexRC">
           <div class="item">
             <div style="font-size: 18px;margin: 20px 0 0 15px">智慧美业</div>
