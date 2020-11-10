@@ -35,7 +35,7 @@
               <el-option label="全民营销"
                          value="2"></el-option>
               <el-option label="分销"
-                         value="6"></el-option>
+                         value="3"></el-option>
             </el-select>
             <el-select v-model="shopValue"
                        style="width: 150px"

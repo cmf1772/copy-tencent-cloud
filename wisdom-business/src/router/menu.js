@@ -2204,5 +2204,124 @@ export default [{
         icon: 'el-icon-takeaway-box',
       }]
     },
+    {
+      path: '/shop',
+      text: '业务',
+      name: 'shop',
+      icon: 'el-icon-mobile',
+      children: [{
+        path: '/h_bookingOrder',
+        text: '房态维护',
+        name: 'h_bookingOrder',
+        icon: 'el-icon-film',
+      }, {
+        path: '/h_accommodationRecord',
+        text: '房价管理',
+        name: 'h_accommodationRecord',
+        icon: 'el-icon-film',
+      }, {
+        path: '/h_orderRecord',
+        text: '住宿设置',
+        name: 'h_orderRecord',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_orderList',
+        text: '房型设置',
+        name: 'h_orderList',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_verification',
+        text: '房号管理',
+        name: 'h_verification',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_eat_inOrders',
+        text: '商品列表',
+        name: 'h_eat_inOrders',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_rightsList',
+        text: '预约列表',
+        name: 'h_rightsList',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/h_error',
+        text: '聚合商品',
+        name: 'h_error',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_refundList',
+        text: '商品标签',
+        name: 'h_refundList',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_cardOrder',
+        text: '分类管理',
+        name: 'h_cardOrder',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/h_collection',
+        text: '商户管理',
+        name: 'h_collection',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/h_qrcode',
+        text: '商品设置',
+        name: 'h_qrcode',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/h_order',
+        text: '菜品列表',
+        name: 'h_order',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/h_order',
+        text: '菜品分组',
+        name: 'h_order',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/h_order',
+        text: '菜品规格',
+        name: 'h_order',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/h_order',
+        text: '堂食设置',
+        name: 'h_order',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/h_order',
+        text: '桌号管理',
+        name: 'h_order',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/h_order',
+        text: '收款码列表',
+        name: 'h_order',
+        icon: 'el-icon-takeaway-box',
+      }]
+    },
+    {
+      path: '/shop',
+      text: '客户',
+      name: 'shop',
+      icon: 'el-icon-mobile',
+      children: [{
+        path: '/h_bookingOrder',
+        text: '客户列表',
+        name: 'h_bookingOrder',
+        icon: 'el-icon-film',
+      }, {
+        path: '/h_accommodationRecord',
+        text: '会员卡管理',
+        name: 'h_accommodationRecord',
+        icon: 'el-icon-film',
+      }, {
+        path: '/h_orderRecord',
+        text: '余额流水',
+        name: 'h_orderRecord',
+        icon: 'el-icon-user',
+      }]
+    },
   ]
 },]
