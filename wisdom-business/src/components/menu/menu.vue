@@ -64,7 +64,16 @@ export default {
     },
 
     goRightDetial (res, keyPath) {
-      this.$router.push(res.path)
+      if (res.type) {
+        this.$router.push({
+          path: res.path,
+          query: {
+            'type': res.type
+          }
+        })
+      } else {
+        this.$router.push(res.path)
+      }
       sessionStorage.setItem('index_menu', keyPath)
     },
 

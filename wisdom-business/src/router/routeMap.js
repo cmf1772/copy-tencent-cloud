@@ -448,4 +448,18 @@ export default {
   h_qrcode: 'wisdomHotel/order/qrcode.vue', // 收款码订单
   h_order: 'wisdomHotel/order/order.vue', // 第三方订单
 
+  // 业务 二级菜单
+  h_roomstatus: 'wisdomHotel/business/roomstatus.vue', // 第三方订单
+  h_manage: 'wisdomHotel/business/manage.vue', // 房价管理
+  h_acSet: 'wisdomHotel/business/acSet.vue', // 住宿设置
+  h_roomSetting: 'wisdomHotel/business/roomSetting.vue', // 房型设置
+  h_roomtype: 'wisdomHotel/business/roomtype.vue', // 房号管理
+  h_goods: 'wisdomHotel/business/goods.vue', // 商品列表
+  h_catalog: 'wisdomHotel/business/catalog.vue', // 分类管理
+  h_merchant: 'wisdomHotel/business/merchant.vue', // 商户管理
+  h_food: 'wisdomHotel/business/food.vue', // 商户管理
+  h_tableList: 'wisdomHotel/business/tableList.vue', // 菜品列表
+  h_collection: 'wisdomHotel/business/collection.vue', // 收款码列表
+
+
 }

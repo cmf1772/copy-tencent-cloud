@@ -2210,94 +2210,103 @@ export default [{
       name: 'shop',
       icon: 'el-icon-mobile',
       children: [{
-        path: '/h_bookingOrder',
+        path: '/h_roomstatus',
         text: '房态维护',
-        name: 'h_bookingOrder',
+        name: 'h_roomstatus',
         icon: 'el-icon-film',
       }, {
-        path: '/h_accommodationRecord',
+        path: '/h_manage',
         text: '房价管理',
-        name: 'h_accommodationRecord',
+        name: 'h_manage',
         icon: 'el-icon-film',
       }, {
-        path: '/h_orderRecord',
+        path: '/h_acSet',
         text: '住宿设置',
-        name: 'h_orderRecord',
+        name: 'h_acSet',
         icon: 'el-icon-user',
       }, {
-        path: '/h_orderList',
+        path: '/h_roomSetting',
         text: '房型设置',
-        name: 'h_orderList',
+        name: 'h_roomSetting',
         icon: 'el-icon-user',
       }, {
-        path: '/h_verification',
+        path: '/h_roomtype',
         text: '房号管理',
-        name: 'h_verification',
+        name: 'h_roomtype',
         icon: 'el-icon-user',
       }, {
-        path: '/h_eat_inOrders',
+        path: '/h_goods',
+        type: 'list',
         text: '商品列表',
-        name: 'h_eat_inOrders',
+        name: 'h_goods',
         icon: 'el-icon-user',
       }, {
-        path: '/h_rightsList',
+        path: '/h_goods',
+        type: 'appointList',
         text: '预约列表',
-        name: 'h_rightsList',
+        name: '/h_goods',
         icon: 'el-icon-takeaway-box',
       }, {
-        path: '/h_error',
+        path: '/h_goods',
+        type: 'gatherList',
         text: '聚合商品',
-        name: 'h_error',
+        name: '/h_goods',
         icon: 'el-icon-user',
       }, {
-        path: '/h_refundList',
+        path: '/h_goods',
+        type: 'labelList',
         text: '商品标签',
-        name: 'h_refundList',
+        name: '/h_goods',
         icon: 'el-icon-user',
       }, {
-        path: '/h_cardOrder',
+        path: '/h_catalog',
         text: '分类管理',
-        name: 'h_cardOrder',
+        name: 'h_catalog',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/h_merchant',
+        text: '商户管理',
+        name: 'h_merchant',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/h_goods',
+        text: '商品设置',
+        type: 'setting',
+        name: '/h_goods',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/h_food',
+        type: 'list',
+        text: '菜品列表',
+        name: 'h_food',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/h_food',
+        type: 'group',
+        text: '菜品分组',
+        name: 'h_food',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/h_food',
+        type: 'standard',
+        text: '菜品规格',
+        name: 'h_food',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/h_food',
+        type: 'setting',
+        text: '堂食设置',
+        name: 'h_food',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/h_tableList',
+        text: '桌号管理',
+        name: 'h_tableList',
         icon: 'el-icon-takeaway-box',
       }, {
         path: '/h_collection',
-        text: '商户管理',
-        name: 'h_collection',
-        icon: 'el-icon-takeaway-box',
-      }, {
-        path: '/h_qrcode',
-        text: '商品设置',
-        name: 'h_qrcode',
-        icon: 'el-icon-takeaway-box',
-      }, {
-        path: '/h_order',
-        text: '菜品列表',
-        name: 'h_order',
-        icon: 'el-icon-takeaway-box',
-      }, {
-        path: '/h_order',
-        text: '菜品分组',
-        name: 'h_order',
-        icon: 'el-icon-takeaway-box',
-      }, {
-        path: '/h_order',
-        text: '菜品规格',
-        name: 'h_order',
-        icon: 'el-icon-takeaway-box',
-      }, {
-        path: '/h_order',
-        text: '堂食设置',
-        name: 'h_order',
-        icon: 'el-icon-takeaway-box',
-      }, {
-        path: '/h_order',
-        text: '桌号管理',
-        name: 'h_order',
-        icon: 'el-icon-takeaway-box',
-      }, {
-        path: '/h_order',
         text: '收款码列表',
-        name: 'h_order',
+        name: 'h_collection',
         icon: 'el-icon-takeaway-box',
       }]
     },
@@ -2322,6 +2331,6 @@ export default [{
         name: 'h_orderRecord',
         icon: 'el-icon-user',
       }]
-    },
+    }
   ]
-},]
+}]
