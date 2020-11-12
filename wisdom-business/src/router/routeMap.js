@@ -461,5 +461,10 @@ export default {
   h_tableList: 'wisdomHotel/business/tableList.vue', // 菜品列表
   h_collection: 'wisdomHotel/business/collection.vue', // 收款码列表
 
+  // 客户 二级菜单
+  h_clist: 'wisdomHotel/custom/clist.vue', // 客户列表
+  h_restMoneyManageList: 'wisdomHotel/custom/restMoneyManageList.vue', // 客户列表
+  h_cardManage: 'wisdomHotel/custom/cardManage.vue', // 客户列表
+
 
 }

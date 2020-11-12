@@ -2316,19 +2316,19 @@ export default [{
       name: 'shop',
       icon: 'el-icon-mobile',
       children: [{
-        path: '/h_bookingOrder',
+        path: '/h_clist',
         text: '客户列表',
-        name: 'h_bookingOrder',
+        name: 'h_clist',
         icon: 'el-icon-film',
       }, {
-        path: '/h_accommodationRecord',
+        path: '/h_cardManage',
         text: '会员卡管理',
-        name: 'h_accommodationRecord',
+        name: 'h_cardManage',
         icon: 'el-icon-film',
       }, {
-        path: '/h_orderRecord',
+        path: '/h_restMoneyManageList',
         text: '余额流水',
-        name: 'h_orderRecord',
+        name: 'h_restMoneyManageList',
         icon: 'el-icon-user',
       }]
     }
