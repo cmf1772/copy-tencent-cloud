@@ -466,5 +466,36 @@ export default {
   h_restMoneyManageList: 'wisdomHotel/custom/restMoneyManageList.vue', // 客户列表
   h_cardManage: 'wisdomHotel/custom/cardManage.vue', // 客户列表
 
+  // 营销 二级菜单
+  h_marketingCenter: 'wisdomHotel/marketing/marketingCenter.vue', // 营销中心
+  h_myApp: 'wisdomHotel/marketing/myApp.vue', // 我的应用
+  h_myOrder: 'wisdomHotel/marketing/myOrder.vue', // 我的订单
+
+  // 装修 二级菜单
+  h_page: 'wisdomHotel/renovation/page.vue', // 店铺页面
+  h_hallfood: 'wisdomHotel/renovation/hallfood.vue', // 堂食页面
+
+  // 微信 二级菜单
+  h_officalAccountSet: 'wisdomHotel/wechat/officalAccountSet.vue', // 公众号设置
+  h_custommenu: 'wisdomHotel/wechat/custommenu.vue', // 自定义菜单
+  h_autoreply: 'wisdomHotel/wechat/autoreply.vue', // 自动回复
+  h_miniApp: 'wisdomHotel/wechat/miniApp.vue', // 小程序列表
+  h_entwechat: 'wisdomHotel/wechat/entwechat.vue', // 企业微信
+
+  // 慧付 二级菜单
+  h_fullScene: 'wisdomHotel/huiFu/fullScene.vue', // 支付账号
+  h_payment: 'wisdomHotel/huiFu/payment.vue', // 收款配置
+  h_payAbility: 'wisdomHotel/huiFu/payAbility.vue', // 付款配置
+  h_report: 'wisdomHotel/huiFu/report.vue', // 线上交易
+  h_onlineRefund: 'wisdomHotel/huiFu/onlineRefund.vue', // 线上退款
+  h_reconciliationStatement: 'wisdomHotel/huiFu/reconciliationStatement.vue', // 对账报表
+  h_businessSub: 'wisdomHotel/huiFu/businessSub.vue', // 业务分账
+  h_accountSplitting: 'wisdomHotel/huiFu/accountSplitting.vue', // 线上分账
+  h_separateAccount: 'wisdomHotel/huiFu/separateAccount.vue', // 分账解冻
+  h_billsPayable: 'wisdomHotel/huiFu/billsPayable.vue', // 应付账单
+  h_withdrawal: 'wisdomHotel/huiFu/withdrawal.vue', // 提现管理
+  h_paymentRecords: 'wisdomHotel/huiFu/paymentRecords.vue', // 付款记录
+  h_exportManagement: 'wisdomHotel/huiFu/exportManagement.vue', // 导出管理
+
 
 }

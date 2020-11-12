@@ -2208,7 +2208,7 @@ export default [{
       path: '/shop',
       text: '业务',
       name: 'shop',
-      icon: 'el-icon-mobile',
+      icon: 'el-icon-notebook-2',
       children: [{
         path: '/h_roomstatus',
         text: '房态维护',
@@ -2314,7 +2314,7 @@ export default [{
       path: '/shop',
       text: '客户',
       name: 'shop',
-      icon: 'el-icon-mobile',
+      icon: 'el-icon-files',
       children: [{
         path: '/h_clist',
         text: '客户列表',
@@ -2329,6 +2329,174 @@ export default [{
         path: '/h_restMoneyManageList',
         text: '余额流水',
         name: 'h_restMoneyManageList',
+        icon: 'el-icon-user',
+      }]
+    },
+    {
+      path: '/shop',
+      text: '营销',
+      name: 'shop',
+      icon: 'el-icon-notebook-1',
+      children: [{
+        path: '/h_marketingCenter',
+        text: '营销中心',
+        name: 'h_marketingCenter',
+        icon: 'el-icon-film',
+      }, {
+        path: '/h_error',
+        text: '服务市场',
+        name: 'h_error',
+        icon: 'el-icon-film',
+      }, {
+        path: '/h_myApp',
+        text: '我的应用',
+        name: 'h_myApp',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_myOrder',
+        text: '我的订单',
+        name: 'h_myOrder',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_error',
+        text: '开发者中心',
+        name: 'h_error',
+        icon: 'el-icon-user',
+      }]
+    },
+    {
+      path: '/shop',
+      text: '装修',
+      name: 'shop',
+      icon: 'el-icon-s-shop',
+      children: [{
+        path: '/h_page',
+        text: '店铺页面',
+        name: 'h_page',
+        icon: 'el-icon-film',
+      }, {
+        path: '/h_error',
+        text: '店铺导航',
+        name: 'h_error',
+        icon: 'el-icon-film',
+      }, {
+        path: '/h_error',
+        text: '店铺风格',
+        name: 'h_error',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_error',
+        text: '快捷导航',
+        name: 'h_error',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_hallfood',
+        text: '堂食页面',
+        name: 'h_hallfood',
+        icon: 'el-icon-user',
+      }]
+    },
+    {
+      path: '/shop',
+      text: '微信',
+      name: 'shop',
+      icon: 'el-icon-s-data',
+      children: [{
+        path: '/h_officalAccountSet',
+        text: '公众号设置',
+        name: 'h_officalAccountSet',
+        icon: 'el-icon-film',
+      }, {
+        path: '/h_custommenu',
+        text: '自定义菜单',
+        name: 'h_custommenu',
+        icon: 'el-icon-film',
+      }, {
+        path: '/h_autoreply',
+        text: '自动回复',
+        name: 'h_autoreply',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_miniApp',
+        text: '小程序列表',
+        name: 'h_miniApp',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_entwechat',
+        text: '企业微信',
+        name: 'h_entwechat',
+        icon: 'el-icon-user',
+      }]
+    },
+    {
+      path: '/shop',
+      text: '慧付',
+      name: 'shop',
+      icon: 'el-icon-pie-chart',
+      children: [{
+        path: '/h_fullScene',
+        text: '支付账号',
+        name: 'h_fullScene',
+        icon: 'el-icon-film',
+      }, {
+        path: '/h_payment',
+        text: '收款配置',
+        name: 'h_payment',
+        icon: 'el-icon-film',
+      }, {
+        path: '/h_payAbility',
+        text: '付款配置',
+        name: 'h_payAbility',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_report',
+        text: '线上交易',
+        name: 'h_report',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_onlineRefund',
+        text: '线上退款',
+        name: 'h_onlineRefund',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_reconciliationStatement',
+        text: '对账报表',
+        name: 'h_reconciliationStatement',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_businessSub',
+        text: '业务分账',
+        name: 'h_businessSub',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_accountSplitting',
+        text: '线上分账',
+        name: 'h_accountSplitting',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_separateAccount',
+        text: '分账解冻',
+        name: 'h_separateAccount',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_billsPayable',
+        text: '应付账单',
+        name: 'h_billsPayable',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_withdrawal',
+        text: '提现管理',
+        name: 'h_withdrawal',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_paymentRecords',
+        text: '付款记录',
+        name: 'h_paymentRecords',
+        icon: 'el-icon-user',
+      }, {
+        path: '/h_exportManagement',
+        text: '导出管理',
+        name: 'h_exportManagement',
         icon: 'el-icon-user',
       }]
     }
