@@ -497,5 +497,18 @@ export default {
   h_paymentRecords: 'wisdomHotel/huiFu/paymentRecords.vue', // 付款记录
   h_exportManagement: 'wisdomHotel/huiFu/exportManagement.vue', // 导出管理
 
+  // 门店 二级菜单
+  h_manageList: 'wisdomHotel/store/manageList.vue', // 导出管理
+
+  // 设置 二级菜单
+  h_businessInformation: 'wisdomHotel/setting/businessInformation.vue', // 店铺信息
+  h_employees: 'wisdomHotel/setting/employees.vue', // 通用设置
+  h_account: 'wisdomHotel/setting/account.vue', // 员工列表
+  h_role: 'wisdomHotel/setting/role.vue', // 角色管理
+  h_authority: 'wisdomHotel/setting/authority.vue', // 操作日志
+  h_progress: 'wisdomHotel/setting/progress.vue', // 资质申请
+  h_market: 'wisdomHotel/setting/market.vue', // 市场来源
+  h_customer: 'wisdomHotel/setting/customer.vue', // 客源渠道
+
 
 }

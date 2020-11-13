@@ -2499,6 +2499,80 @@ export default [{
         name: 'h_exportManagement',
         icon: 'el-icon-user',
       }]
+    },
+    {
+      path: '/shop',
+      text: '门店',
+      name: 'shop',
+      icon: 'el-icon-s-cooperation',
+      children: [{
+        path: '/h_manageList',
+        text: '门店列表',
+        name: 'h_manageList',
+        icon: 'el-icon-film',
+      }]
+    },
+    {
+      path: '/shop',
+      text: '设置',
+      name: 'shop',
+      icon: 'el-icon-s-tools',
+      children: [{
+        path: '/h_businessInformation',
+        text: '店铺信息',
+        name: 'h_businessInformation',
+        icon: 'el-icon-film'
+      }, {
+        path: '/h_employees',
+        text: '通用设置',
+        name: 'h_employees',
+        icon: 'el-icon-film'
+      }, {
+        path: '/h_employees',
+        text: '员工列表',
+        name: 'h_employees',
+        icon: 'el-icon-film'
+      }, {
+        path: '/h_account',
+        text: '账户管理',
+        name: 'h_account',
+        icon: 'el-icon-film'
+      }, {
+        path: '/h_role',
+        text: '角色管理',
+        name: 'h_role',
+        icon: 'el-icon-film'
+      }, {
+        path: '/h_authority',
+        text: '操作日志',
+        name: 'h_authority',
+        icon: 'el-icon-film'
+      }, {
+        path: '/h_error',
+        text: '消息管理',
+        name: 'h_error',
+        icon: 'el-icon-film'
+      }, {
+        path: '/h_progress',
+        text: '资质申请',
+        name: 'h_progress',
+        icon: 'el-icon-film'
+      }, {
+        path: '/h_error',
+        text: '手机端业务入口',
+        name: 'h_error',
+        icon: 'el-icon-film'
+      }, {
+        path: '/h_market',
+        text: '市场来源',
+        name: 'h_market',
+        icon: 'el-icon-film'
+      }, {
+        path: '/h_customer',
+        text: '客源渠道',
+        name: 'h_customer',
+        icon: 'el-icon-film'
+      }]
     }
   ]
 }]
