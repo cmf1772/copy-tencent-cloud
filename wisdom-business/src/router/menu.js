@@ -2575,4 +2575,77 @@ export default [{
       }]
     }
   ]
+}, {
+  // 智慧美业 菜单
+  path: 'h_survey',
+  name: 'education',
+  icon: 'gongzuotai',
+  text: '智慧美业',
+  component: '',
+  parent: true,
+  children: [
+    {
+      path: '/e_survey',
+      name: 'e_survey',
+      text: '概况',
+      component: '',
+      icon: 'el-icon-menu'
+    }, {
+      path: '/shop',
+      text: '店铺',
+      name: 'shop',
+      icon: 'el-icon-mobile',
+      children: [{
+        path: '/e_error',
+        text: '移动店铺',
+        name: 'e_error',
+        icon: 'el-icon-film',
+      }, {
+        path: '/e_error',
+        text: 'App开店',
+        name: 'e_error',
+        icon: 'el-icon-film',
+      }, {
+        path: '/e_error',
+        text: '微信',
+        name: 'e_error',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_error',
+        text: '百度',
+        name: 'e_error',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_error',
+        text: '微页面',
+        name: 'e_error',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_error',
+        text: '店铺笔记',
+        name: 'e_error',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_error',
+        text: '买家秀',
+        name: 'e_error',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/e_error',
+        text: '素材中心',
+        name: 'e_error',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_error',
+        text: '智能助手',
+        name: 'e_error',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_error',
+        text: '店铺设置',
+        name: 'e_error',
+        icon: 'el-icon-takeaway-box',
+      }]
+    },
+  ]
 }]

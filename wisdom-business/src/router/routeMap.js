@@ -510,5 +510,12 @@ export default {
   h_market: 'wisdomHotel/setting/market.vue', // 市场来源
   h_customer: 'wisdomHotel/setting/customer.vue', // 客源渠道
 
+  // 一级教育 二级菜单
+  education: 'education/home.vue',
+  e_survey: 'education/survey/survey.vue',
+
+  //暂无开发
+  e_error: 'education/error.vue',
+
 
 }

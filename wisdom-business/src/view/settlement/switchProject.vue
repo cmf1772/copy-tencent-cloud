@@ -89,6 +89,21 @@
           </div>
         </div>
       </div>
+
+      <div class="itemALL">
+        <p class="titleText">教育<span>Education</span></p>
+        <div class="flexRC">
+          <div class="item">
+            <div style="font-size: 18px;margin: 20px 0 0 15px">智慧教育</div>
+            <div style="font-size: 12px;color: #81828a;height: 40px;margin-top: 6px;font-weight: 200;margin-left: 15px">招生教学一站式解决方案</div>
+            <div class="buttoms flexJC s"
+                 @click="$router.push('/e_survey')">
+              <p>立即创建</p>
+              <i class="el-icon-arrow-right"></i>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -147,6 +162,7 @@ export default {
       font-weight: 700;
       > span {
         color: #ced1d6;
+        margin-left: 10px;
       }
     }
     .item {

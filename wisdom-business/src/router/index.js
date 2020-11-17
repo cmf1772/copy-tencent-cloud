@@ -52,16 +52,11 @@ export function autoRouter (routes) {
 let autoRouters = autoRouter(menu)
 
 let rootRouter = reactive
-// console.log(autoRouter[0])
 
-// autoRouters[0].children.push({
-//   path: '/error',
-//   name: 'error',
-//   component: (resolve) => require(['@/view/settlement/error.vue'], resolve)
-// })
 autoRouters.forEach(rouer => {
   rootRouter.push(rouer)
 })
+
 export const createRouter = new Router({
   routes: rootRouter
 })

@@ -26,8 +26,6 @@ const _axios = axios.create(config)
 // _axios.defaults.headers.post['Content-Type'] = "application/x-www-form-urlencoded"
 // _axios.defaults.headers.post['Content-Type'] = "application/json; charset=utf-8"
 // _axios.defaults.headers.common['token'] = localStorage.getItem('token')
-
-
 _axios.interceptors.request.use(
   function (config) {
     console.log(config);
