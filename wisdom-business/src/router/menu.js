@@ -2601,19 +2601,19 @@ export default [{
         name: 'e_error',
         icon: 'el-icon-film',
       }, {
-        path: '/e_error',
+        path: '/e_appStore',
         text: 'App开店',
-        name: 'e_error',
+        name: 'e_appStore',
         icon: 'el-icon-film',
       }, {
-        path: '/e_error',
+        path: '/e_weapp',
         text: '微信',
-        name: 'e_error',
+        name: 'e_weapp',
         icon: 'el-icon-user',
       }, {
-        path: '/e_error',
+        path: '/e_dashboard',
         text: '百度',
-        name: 'e_error',
+        name: 'e_dashboard',
         icon: 'el-icon-user',
       }, {
         path: '/e_error',
@@ -2621,30 +2621,137 @@ export default [{
         name: 'e_error',
         icon: 'el-icon-user',
       }, {
-        path: '/e_error',
+        path: '/e_shopnote',
         text: '店铺笔记',
-        name: 'e_error',
+        name: 'e_shopnote',
         icon: 'el-icon-user',
       }, {
-        path: '/e_error',
+        path: '/e_show',
         text: '买家秀',
-        name: 'e_error',
+        name: 'e_show',
         icon: 'el-icon-takeaway-box',
       }, {
-        path: '/e_error',
+        path: '/e_attachment',
         text: '素材中心',
-        name: 'e_error',
+        name: 'e_attachment',
         icon: 'el-icon-user',
       }, {
-        path: '/e_error',
+        path: '/e_assistant',
         text: '智能助手',
-        name: 'e_error',
+        name: 'e_assistant',
         icon: 'el-icon-user',
       }, {
         path: '/e_error',
         text: '店铺设置',
         name: 'e_error',
         icon: 'el-icon-takeaway-box',
+      }]
+    }, {
+      path: '/shop',
+      text: '课程',
+      name: 'shop',
+      icon: 'el-icon-reading',
+      children: [{
+        path: '/e_educourse',
+        text: '线下课程',
+        name: 'e_educourse',
+        icon: 'el-icon-film',
+      }, {
+        path: '/e_content',
+        text: '内容',
+        name: 'e_content',
+        icon: 'el-icon-film',
+      }, {
+        path: '/e_column',
+        text: '专栏',
+        name: 'e_column',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_live',
+        text: '直播',
+        name: 'e_live',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_groupList',
+        text: '课程分组',
+        name: 'e_groupList',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_evaluation',
+        text: '线下课评价',
+        name: 'e_evaluation',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_comment',
+        text: '线上课留言',
+        name: 'e_comment',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/e_attachment',
+        text: '办理报名',
+        name: 'e_attachment',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_assistant',
+        text: '课程设置',
+        name: 'e_assistant',
+        icon: 'el-icon-user',
+      }]
+    }, {
+      path: '/shop',
+      text: '学员',
+      name: 'shop',
+      icon: 'el-icon-box',
+      children: [{
+        path: '/e_mine',
+        text: '我的线索',
+        name: 'e_mine',
+        icon: 'el-icon-film',
+      }, {
+        path: '/e_allMine',
+        text: '全部线索',
+        name: 'e_allMine',
+        icon: 'el-icon-film',
+      }, {
+        path: '/e_pool',
+        text: '公海池',
+        name: 'e_pool',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_import',
+        text: '线索导入',
+        name: 'e_import',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_recycle',
+        text: '线索回收站',
+        name: 'e_recycle',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_student',
+        text: '学员查询',
+        name: 'e_student',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_stuimport',
+        text: '学员导入',
+        name: 'e_stuimport',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/e_enrollment',
+        text: '办理报名',
+        name: 'e_enrollment',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_adjustcourse',
+        text: '转课',
+        name: 'e_adjustcourse',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_refund',
+        text: '退课记录',
+        name: 'e_refund',
+        icon: 'el-icon-user',
       }]
     },
   ]

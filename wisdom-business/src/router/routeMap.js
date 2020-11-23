@@ -517,5 +517,35 @@ export default {
   //暂无开发
   e_error: 'education/error.vue',
 
+  // 店铺二级菜单
+  e_appStore: 'education/appdesc/appStore.vue', // app开店
+  e_weapp: 'education/appdesc/weapp.vue', // app开店
+  e_dashboard: 'education/appdesc/dashboard.vue', // 百度
+  e_shopnote: 'education/appdesc/shopnote.vue', // 店铺笔记
+  e_show: 'education/appdesc/show.vue', // 买家秀
+  e_attachment: 'education/appdesc/attachment.vue', // 素材中心
+  e_assistant: 'education/appdesc/assistant.vue', // 素材中心
+
+  // 课程 二级菜单
+  e_educourse: 'education/course/educourse.vue', // 线下课程
+  e_content: 'education/course/content.vue', // 内容
+  e_column: 'education/course/column.vue', // 专栏
+  e_live: 'education/course/live.vue', // 直播
+  e_groupList: 'education/course/groupList.vue', // 课程分组
+  e_evaluation: 'education/course/evaluation.vue', // 线下课评价
+  e_comment: 'education/course/comment.vue', // 线上课留言
+
+  // 学员二级菜单
+  e_mine: 'education/clue/mine.vue', // 我的线索
+  e_allMine: 'education/clue/allMine.vue', // 全部线索
+  e_pool: 'education/clue/pool.vue', // 公海池
+  e_import: 'education/clue/import.vue', // 线索导入
+  e_recycle: 'education/clue/recycle.vue', // 线索回收站
+  e_student: 'education/clue/student.vue', // 学员查询
+  e_stuimport: 'education/clue/stuimport.vue', // 学员导入
+  e_refund: 'education/clue/refund.vue', // 退课记录
+  e_enrollment: 'education/clue/enrollment.vue', // 办理报名
+  e_adjustcourse: 'education/clue/adjustcourse.vue', // 转课
+
 
 }
