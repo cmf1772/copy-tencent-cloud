@@ -69,7 +69,7 @@
               <div class="right">
                 <p class="text"
                    style="font-size: 15px; margin-bottom: 10px">评团</p>
-                <div class="boxs">
+                <div class="boxss">
                   拼单成团，裂变获客、促转化
                 </div>
               </div>
@@ -194,7 +194,7 @@ export default {
             font-size: 40px;
             margin: 0 10px;
           }
-          .boxs {
+          .boxss {
             width: 100%;
             font-size: 12px;
             line-height: 20px;
