@@ -2753,6 +2753,69 @@ export default [{
         name: 'e_refund',
         icon: 'el-icon-user',
       }]
+    }, {
+      path: '/shop',
+      text: '教务',
+      name: 'shop',
+      icon: 'el-icon-collection',
+      children: [{
+        path: '/e_schedule',
+        text: '课程表',
+        name: 'e_schedule',
+        icon: 'el-icon-film',
+      }, {
+        path: '/e_educlass',
+        text: '班级',
+        name: 'e_educlass',
+        icon: 'el-icon-film',
+      }, {
+        path: '/e_classroom',
+        text: '教室',
+        name: 'e_classroom',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_teachers',
+        text: '老师',
+        name: 'e_teachers',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_appointment',
+        text: '预约',
+        name: 'e_appointment',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_signin',
+        text: '签到码',
+        name: 'e_signin',
+        type: 'first',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_signin',
+        text: '签到记录',
+        type: 'second',
+        name: 'e_signin',
+        icon: 'el-icon-takeaway-box',
+      }, {
+        path: '/e_moments',
+        text: '家校圈',
+        name: 'e_moments',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_settings',
+        text: '预约设置',
+        name: 'e_settings',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_eliminate',
+        text: '消课设置',
+        name: 'e_eliminate',
+        icon: 'el-icon-user',
+      }, {
+        path: '/e_holiday',
+        text: '节假日设置',
+        name: 'e_holiday',
+        icon: 'el-icon-user',
+      }]
     },
   ]
 }]

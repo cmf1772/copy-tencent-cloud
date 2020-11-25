@@ -547,5 +547,17 @@ export default {
   e_enrollment: 'education/clue/enrollment.vue', // 办理报名
   e_adjustcourse: 'education/clue/adjustcourse.vue', // 转课
 
+  // 教育 二级菜单
+  e_schedule: 'education/administration/schedule.vue', // 课程表
+  e_educlass: 'education/administration/educlass.vue', // 班级
+  e_classroom: 'education/administration/classroom.vue', // 教室
+  e_teachers: 'education/administration/teachers.vue', // 老师
+  e_appointment: 'education/administration/appointment.vue', // 预约
+  e_signin: 'education/administration/signin.vue', // 签到码
+  e_moments: 'education/administration/moments.vue', // 签到码
+  e_settings: 'education/administration/settings.vue', // 预约设置
+  e_eliminate: 'education/administration/eliminate.vue', // 预约设置
+  e_holiday: 'education/administration/holiday.vue', // 节假日设置
+
 
 }
