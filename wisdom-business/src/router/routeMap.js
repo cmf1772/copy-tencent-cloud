@@ -559,5 +559,18 @@ export default {
   e_eliminate: 'education/administration/eliminate.vue', // 预约设置
   e_holiday: 'education/administration/holiday.vue', // 节假日设置
 
+  //商品 二级菜单
+  e_manage: 'education/goods/manage.vue', // 商品管理
+  e_category: 'education/goods/category.vue', // 类目参数
+
+  //订单 二级菜单
+  e_search: 'education/order/search.vue', // 订单查询
+  e_trade: 'education/order/trade.vue', // 分销采购单
+  e_fenxiao: 'education/order/fenxiao.vue', // 分销供货单
+  e_refunds: 'education/order/refunds.vue', // 售后维权
+  e_batch_refund: 'education/order/batch-refund.vue', // 售后维权
+  e_review: 'education/order/review.vue', // 售后维权
+
+
 
 }
