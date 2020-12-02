@@ -571,6 +571,18 @@ export default {
   e_batch_refund: 'education/order/batch-refund.vue', // 售后维权
   e_review: 'education/order/review.vue', // 售后维权
 
+  // 客户
+  e_manage: 'education/customer/manage.vue', // 客户查询
+  e_crowd: 'education/customer/crowd.vue', // 客户分群
+  e_import: 'education/customer/import.vue', // 客户导入
+  e_tag: 'education/customer/tag.vue', // 标签管理
+  e_behavior: 'education/customer/behavior.vue', // 人群运营
+  e_dashboard: 'education/customer/dashboard.vue', // 场景营销
+  e_membercard: 'education/customer/membercard.vue', // 积分权益
+  e_rule: 'education/customer/rule.vue', // 积分权益
+  e_benefit: 'education/customer/benefit.vue', // 自定义权益
+  e_prepaid: 'education/customer/prepaid.vue', // 储值规则
+  e_query: 'education/customer/query.vue', // 储值查询
 
 
 }
