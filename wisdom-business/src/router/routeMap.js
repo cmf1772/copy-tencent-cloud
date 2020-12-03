@@ -572,7 +572,7 @@ export default {
   e_review: 'education/order/review.vue', // 售后维权
 
   // 客户
-  e_manage: 'education/customer/manage.vue', // 客户查询
+  e_manages: 'education/customer/manage.vue', // 客户查询
   e_crowd: 'education/customer/crowd.vue', // 客户分群
   e_import: 'education/customer/import.vue', // 客户导入
   e_tag: 'education/customer/tag.vue', // 标签管理
@@ -584,5 +584,15 @@ export default {
   e_prepaid: 'education/customer/prepaid.vue', // 储值规则
   e_query: 'education/customer/query.vue', // 储值查询
 
+  // 资产
+  e_dashboard2: 'education/assets/dashboard.vue', // 储值查询
+  e_balance: 'education/assets/balance.vue', // 店铺余额
+  e_overview: 'education/assets/overview.vue', // 储值资金
+  e_fund: 'education/assets/fund.vue', // 礼品卡资金
+  e_deposit: 'education/assets/deposit.vue', // 保证金
+  e_recharges: 'education/assets/recharges.vue', // 充值
+  e_withdraw: 'education/assets/withdraw.vue', // 提现
+  e_assets: 'education/assets/assets.vue', // 对账单
+  e_records: 'education/assets/records.vue', // 对账单
 
 }
