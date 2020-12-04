@@ -156,7 +156,6 @@ export default {
       // this.$refs.ruleForm.validate((valid) => {
       //   if (valid) {
       var myreg = /^[1][3,4,5,7,8,9][0-9]{9}$/;
-
       if (!this.ruleForm.phe.length) {
         this.$message({
           message: '请填写手机号',
@@ -172,15 +171,18 @@ export default {
         return false;
       }
       if (!this.thenum) return false
-      this.thenum = false
-      let time = setInterval(() => {
-        if (this.num === 0) {
-          window.clearInterval(time)
-          this.thenum = true
-          this.num = 60
-        }
-        this.num--
-      }, 1000);
+      this.$api.get_loginverify_code({ mobile: this.ruleForm.phe }).then(res => {
+        this.thenum = false
+        let time = setInterval(() => {
+          if (this.num === 0) {
+            window.clearInterval(time)
+            this.thenum = true
+            this.num = 60
+          }
+          this.num--
+        }, 1000);
+      })
+
       // } else {
       //   console.log('error submit!!');
       //   return false;
@@ -191,9 +193,31 @@ export default {
     },
 
     submitForm (formName) {
+      this.$store.commit('CHANGE_TYPE')
+      console.log
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          // login_id	是	string	用户名
+          // login_pass	是	string	密码
+          // platform	否	string	来源平台，该字段值由客户端指定 如：ios
+          if (this.seleCtChange) {
+            this.$api.login({
+              login_id: this.ruleForm.pass,
+              login_pass: this.ruleForm.checkPass,
+              platform: this.$store.state.computerType
+            }).then(res => {
+
+            })
+          } else {
+            this.$api.phlogin({
+              login_id: this.ruleForm.phe,
+              mobile_code: this.ruleForm.getNum,
+              platform: this.$store.state.computerType
+            }).then(res => {
+
+            })
+          }
+
         } else {
           console.log('error submit!!');
           return false;

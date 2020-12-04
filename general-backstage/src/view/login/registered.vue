@@ -231,12 +231,14 @@ export default {
     },
 
     submitForm (formName) {
+      this.$store.commit('CHANGE_TYPE')
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.$api.sendRegister({
             mobile_code: this.ruleForm.getNum,
             pass1: this.ruleForm.newpwd,
-            login_id: this.ruleForm.user
+            login_id: this.ruleForm.phe,
+            platform: this.$store.state.computerType
           }).then(res => {
             console.log(res)
           })
