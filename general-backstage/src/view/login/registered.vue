@@ -35,7 +35,7 @@
                          style="width:40%">{{thenum ? '获取验证码' : num}}</el-button>
             </div>
           </el-form-item>
-          <el-form-item label="用户名"
+          <el-form-item label="用户昵称"
                         prop="user">
             <el-input v-model="ruleForm.user"
                       clearable
@@ -68,29 +68,37 @@
                       clearable
                       v-model="ruleForm.emial"></el-input>
           </el-form-item>
-          <el-form-item label="所在地区"
-                        prop="region">
-            <div style="width:100%; display: flex">
+          <div style="width:100%; display: flex">
+            <el-form-item label="所在地区"
+                          style="width: 50%"
+                          prop="province">
               <el-select v-model="ruleForm.province"
                          clearable
-                         style="width:50%"
+                         style="width:100%"
+                         @change="changeCity"
                          placeholder="所在省">
-                <el-option label="区域一"
-                           value="shanghai"></el-option>
-                <el-option label="区域二"
-                           value="beijing"></el-option>
+                <el-option v-for="(item, index) in $store.state.cityList"
+                           :key="index"
+                           :label="item.name"
+                           :value="item.id"></el-option>
               </el-select>
+
+            </el-form-item>
+            <el-form-item label=""
+                          style="width: 50%"
+                          prop="city">
               <el-select v-model="ruleForm.city"
                          clearable
-                         style="width:50%;margin-left:0"
+                         style="width:100%;margin-left:0"
                          placeholder="所在市">
-                <el-option label="区域一"
-                           value="shanghai"></el-option>
-                <el-option label="区域二"
-                           value="beijing"></el-option>
+                <el-option v-for="(item, index) in $store.state.areaList"
+                           :key="index"
+                           :label="item.name"
+                           :value="item.id"></el-option>
               </el-select>
-            </div>
-          </el-form-item>
+            </el-form-item>
+          </div>
+
           <el-form-item>
             <el-button type="primary"
                        style="width: 100%"
@@ -133,6 +141,7 @@ export default {
         callback();
       }
     }
+
     var region = (rule, value, callback) => {
       if (!this.ruleForm.province.length) {
         callback(new Error('请选择所在省'));
@@ -175,16 +184,19 @@ export default {
           { required: true, message: '请填写联系邮箱', trigger: 'blur' }
         ],
         newpwd: [
-          { type: 'date', required: true, message: '请填写二次密码', trigger: 'blur' }
+          { required: true, message: '请填写二次密码', trigger: 'blur' }
         ],
         pwd: [
-          { type: 'date', required: true, message: '请填写密码', trigger: 'blur' }
+          { required: true, message: '请填写密码', trigger: 'blur' }
         ],
+        // province: [
+        //   { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
+        // ],
         province: [
-          { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
+          { required: true, message: '请选择所在省', trigger: 'change' }
         ],
-        region: [
-          { required: true, validator: region, trigger: 'change' }
+        city: [
+          { required: true, message: '请选择所在市', trigger: 'change' }
         ]
         // desc: [
         //   { required: true, message: '请填写活动形式', trigger: 'blur' }
@@ -200,6 +212,11 @@ export default {
   },
 
   methods: {
+    changeCity () {
+      this.ruleForm.city = ''
+      this.$store.commit('GET_CITY', { id: this.ruleForm.province, name: 'areaList' })
+    },
+
     handleRemove (file, fileList) {
       console.log(file, fileList);
     },
@@ -214,9 +231,15 @@ export default {
     },
 
     submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          alert('submit!');
+          this.$api.sendRegister({
+            mobile_code: this.ruleForm.getNum,
+            pass1: this.ruleForm.newpwd,
+            login_id: this.ruleForm.user
+          }).then(res => {
+            console.log(res)
+          })
         } else {
           console.log('error submit!!');
           return false;
@@ -242,20 +265,26 @@ export default {
       }
       if (!this.thenum) return false
       this.thenum = false
-      let time = setInterval(() => {
-        if (this.num === 0) {
-          window.clearInterval(time)
-          this.thenum = true
-          this.num = 60
-        }
-        this.num--
-      }, 1000);
-
+      this.$api.get_registerverify_code({ mobile: this.ruleForm.phe }).then(res => {
+        let time = setInterval(() => {
+          if (this.num === 0) {
+            window.clearInterval(time)
+            this.thenum = true
+            this.num = 60
+          }
+          this.num--
+        }, 1000);
+      })
     },
   },
 
   created () {
 
+  },
+
+  mounted () {
+    console.log(this.$store)
+    this.$store.commit('GET_CITY')
   },
 
   watch: {
