@@ -212,11 +212,20 @@ export default {
       }, function (e) {
         _this.LocationCity = "定位失败"
       }, { provider: 'baidu' });
+    },
+
+    getInfo () {
+      this.$api.getMusicList().then(res => {
+        console.log(res)
+      }).catch(res => {
+        console.log(res)
+      })
     }
   },
 
   mounted () {
     this.city()
+    this.getInfo()
   }
 }
 </script>

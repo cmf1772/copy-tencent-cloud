@@ -8,6 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import Loading from './components/loading.js'
 import api from './request/api/index'
 import loading from './components/loading.js';
+import store from './store/store.js'
 
 import VueAMap from 'vue-amap'
 Vue.use(VueAMap)
@@ -41,6 +42,7 @@ Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  store,
   router,
   components: { App },
   template: '<App/>'
