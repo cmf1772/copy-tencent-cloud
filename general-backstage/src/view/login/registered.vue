@@ -68,9 +68,11 @@
                       clearable
                       v-model="ruleForm.emial"></el-input>
           </el-form-item>
-          <div style="width:100%; display: flex">
+          <div style="width:100%; display: flex"
+               class="boxxx">
             <el-form-item label="所在地区"
-                          style="width: 50%"
+                          class="boxOne"
+                          style="width: 40%"
                           prop="province">
               <el-select v-model="ruleForm.province"
                          clearable
@@ -85,13 +87,44 @@
 
             </el-form-item>
             <el-form-item label=""
-                          style="width: 50%"
+                          class="boxTwo"
+                          style="width: 20%"
                           prop="city">
               <el-select v-model="ruleForm.city"
                          clearable
+                         @change="changeAreaList"
                          style="width:100%;margin-left:0"
                          placeholder="所在市">
                 <el-option v-for="(item, index) in $store.state.areaList"
+                           :key="index"
+                           :label="item.name"
+                           :value="item.id"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label=""
+                          style="width: 20%"
+                          class="boxThree"
+                          prop="city">
+              <el-select v-model="ruleForm.platform"
+                         clearable
+                         @change="changeCounty"
+                         style="width:100%;margin-left:0"
+                         placeholder="所在县">
+                <el-option v-for="(item, index) in $store.state.county"
+                           :key="index"
+                           :label="item.name"
+                           :value="item.id"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label=""
+                          class="boxFore"
+                          style="width: 20%"
+                          prop="city">
+              <el-select v-model="ruleForm.district"
+                         clearable
+                         style="width:100%;margin-left:0"
+                         placeholder="所在乡">
+                <el-option v-for="(item, index) in $store.state.district"
                            :key="index"
                            :label="item.name"
                            :value="item.id"></el-option>
@@ -164,7 +197,9 @@ export default {
         newpwd: '',
         pwd: '',
         province: '',
-        city: ''
+        city: '',
+        district: '',
+        platform: '',
       },
 
       num: 60,
@@ -214,7 +249,19 @@ export default {
   methods: {
     changeCity () {
       this.ruleForm.city = ''
+      this.ruleForm.platform = ''
+      this.ruleForm.district = ''
       this.$store.commit('GET_CITY', { id: this.ruleForm.province, name: 'areaList' })
+    },
+
+    changeAreaList () {
+      this.ruleForm.platform = ''
+      this.ruleForm.district = ''
+      this.$store.commit('GET_CITY', { id: this.ruleForm.city, name: 'county' })
+    },
+    changeCounty () {
+      this.ruleForm.district = ''
+      this.$store.commit('GET_CITY', { id: this.ruleForm.platform, name: 'district' })
     },
 
     handleRemove (file, fileList) {
@@ -235,9 +282,16 @@ export default {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.$api.sendRegister({
-            mobile_code: this.ruleForm.getNum,
-            pass1: this.ruleForm.newpwd,
             login_id: this.ruleForm.phe,
+            mobile_code: this.ruleForm.getNum,
+            nick: this.ruleForm.user,
+            pass: this.ruleForm.pwd,
+            repass: this.ruleForm.newpwd,
+            email: this.ruleForm.emial,
+            province: this.ruleForm.province,
+            city: this.ruleForm.city,
+            district: this.ruleForm.district,
+            county: this.ruleForm.county,
             platform: this.$store.state.computerType
           }).then(res => {
             console.log(res)
@@ -300,6 +354,21 @@ export default {
   // }
 }
 </script>
+
+<style lang="scss">
+.boxxx {
+  .is-required {
+    .el-form-item__content {
+      margin-left: 0px !important;
+    }
+  }
+  .boxOne {
+    .el-form-item__content {
+      margin-left: 100px !important;
+    }
+  }
+}
+</style>
 
 <style lang="scss" scoped>
 .registered {

@@ -182,31 +182,29 @@ export default {
           this.num--
         }, 1000);
       })
-
-      // } else {
-      //   console.log('error submit!!');
-      //   return false;
-      // }
-      // });
-
-
     },
 
     submitForm (formName) {
       this.$store.commit('CHANGE_TYPE')
-      console.log
+      console.log(this.tool)
+      let _this = this
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          // login_id	是	string	用户名
-          // login_pass	是	string	密码
-          // platform	否	string	来源平台，该字段值由客户端指定 如：ios
           if (this.seleCtChange) {
             this.$api.login({
               login_id: this.ruleForm.pass,
               login_pass: this.ruleForm.checkPass,
               platform: this.$store.state.computerType
             }).then(res => {
-
+              _this.$message({
+                showClose: true,
+                message: '登陆成功',
+                type: 'success'
+              });
+              _this.tool.setCookie('token', JSON.stringify(res.data.token))
+              console.log(_this.tool.getCookie('token'))
+              _this.$router.push('/home/product')
+              _this.$store.commit('SET_TOKEN', JSON.stringify(res.data.token))
             })
           } else {
             this.$api.phlogin({
@@ -214,7 +212,14 @@ export default {
               mobile_code: this.ruleForm.getNum,
               platform: this.$store.state.computerType
             }).then(res => {
-
+              _this.$message({
+                showClose: true,
+                message: '登陆成功',
+                type: 'success'
+              });
+              _this.tool.setCookie('token', JSON.stringify(res.data.token))
+              _this.$store.commit('SET_TOKEN', JSON.stringify(res.data.token))
+              _this.$router.push('/home/product')
             })
           }
 

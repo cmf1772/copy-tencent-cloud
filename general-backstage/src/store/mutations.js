@@ -26,5 +26,16 @@ export default {//这里要注意不要在mutations里面进行异步操作
     if (isMac) {
       state.computerType = 'mac'
     }
+  },
+
+  SET_TOKEN (state, token) {
+    state.token = token
+  },
+
+  //  获取 文件地址接口
+  GET_UPLOAD_TOKEN (state, uptoken) {
+    article.getUploadToken().then(res => {
+      state.upToken = res.data.token.upload_url.upload_url
+    })
   }
 }

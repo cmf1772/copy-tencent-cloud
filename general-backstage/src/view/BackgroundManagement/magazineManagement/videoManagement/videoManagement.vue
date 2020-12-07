@@ -21,31 +21,35 @@
           <el-table-column prop="date"
                            show-overflow-tooltip
                            label="封面图">
-            <video src="../../../../assets/cs.mp4"></video>
+            <img slot-scope="scope"
+                 :src="scope.row.cover">
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="title"
                            show-overflow-tooltip
                            label="标题">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="member_name"
                            show-overflow-tooltip
                            label="用户">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="vlabel"
                            show-overflow-tooltip
                            label="标签">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="explain"
                            show-overflow-tooltip
                            label="简介">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="fabulous"
                            show-overflow-tooltip
                            label="点赞">
           </el-table-column>
-          <el-table-column prop="name"
-                           show-overflow-tooltip
+          <el-table-column show-overflow-tooltip
                            label="状态">
+            <div slot-scope="scope"
+                 v-html="scope.row.isps">
+
+            </div>
           </el-table-column>
           <el-table-column show-overflow-tooltip
                            label="操作"
@@ -60,32 +64,27 @@
                 <el-button size="medium"
                            type="text"
                            class="redColor right20"
-                           @click="checkTrackQueryFun(scope.$index, scope.row)">核准</el-button>
+                           @click="setPassItem(scope.$index, scope.row)">核准</el-button>
                 <el-button size="medium"
                            type="text"
                            class="redColor right20"
-                           @click="checkTrackQueryFun(scope.$index, scope.row)">设未审</el-button>
+                           @click="setRenewItem(scope.$index, scope.row)">设未审</el-button>
                 <el-button size="medium"
                            type="text"
                            class="redColor"
-                           @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
+                           @click="delShortVideoItem(scope.$index, scope.row)">删除</el-button>
               </div>
             </template>
           </el-table-column>
         </el-table>
         <div class="btootm_paination">
-          <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
+                         :page-sizes="[10, 20, 30, 40]"
                          :page-size="100"
                          layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
+                         :total="totalData">
           </el-pagination>
         </div>
       </div>
@@ -95,7 +94,7 @@
                :visible.sync="dialogVisible"
                width="500px"
                :before-close="handleClose">
-      <video src="../../../../assets/cs.mp4"
+      <video :src="oldkey"
              class="video"
              height='500px'
              width="400px"
@@ -113,45 +112,72 @@
 
 <script>
 export default {
+
   name: 'videoManagement',
 
   data () {
     return {
       dialogVisible: false,
-      time: [],
-      sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
+      page_size: 10,
+      oldkey: ''
     }
   },
 
   methods: {
-    // add () {
-    //   this.$router.push('/driver/edit?nameType=新建驱动')
+    look (index, row) {
+      this.$api.getShortVideoItem({
+        token: JSON.parse(this.$store.state.token).token,
+        uid: row.id
+      }).then(res => {
+        console.log(res)
+        this.oldkey = res.data.domian + res.data.key
+        this.dialogVisible = true
+      })
+    },
 
-    // },
-    // editor () {
-    //   this.$router.push('/driver/edit?nameType=修改驱动')
-    // },
-    look () {
-      this.dialogVisible = true
+    setPassItem (index, row) {
+      this.$api.setPassItem({
+        token: JSON.parse(this.$store.state.token).token,
+        uid: row.id
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.getShortVideoPageList()
+      })
+    },
+
+    setRenewItem (index, row) {
+      this.$api.setRenewItem({
+        token: JSON.parse(this.$store.state.token).token,
+        uid: row.id
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.getShortVideoPageList()
+      })
+    },
+
+    delShortVideoItem (index, row) {
+      this.$api.delShortVideoItem({
+        token: JSON.parse(this.$store.state.token).token,
+        uid: row.id
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.getShortVideoPageList()
+      })
     },
 
     handleClose (done) {
@@ -164,12 +190,30 @@ export default {
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.getShortVideoPageList()
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.getShortVideoPageList()
     },
+
+    getShortVideoPageList () {
+      this.$api.getShortVideoPageList({
+        order_type: 'asc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+        page: this.currentPage,
+        page_size: this.page_size
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
+    }
+  },
+
+  mounted () {
+    this.getShortVideoPageList()
   }
 }
 </script>

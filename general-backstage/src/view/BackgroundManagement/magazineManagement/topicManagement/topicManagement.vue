@@ -13,7 +13,7 @@
             {{scope.$index+1}}
           </template>
         </el-table-column>
-        <el-table-column prop="name"
+        <el-table-column prop="comment"
                          show-overflow-tooltip
                          width="180"
                          label="内容">
@@ -22,38 +22,25 @@
                          label="图片">
           <template slot-scope="scope">
             <div class="img">
-              <img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1714308978,576105142&fm=26&gp=0.jpg"
-                   alt="">
-              <img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1714308978,576105142&fm=26&gp=0.jpg"
-                   alt="">
-              <img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1714308978,576105142&fm=26&gp=0.jpg"
-                   alt="">
-              <img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1714308978,576105142&fm=26&gp=0.jpg"
-                   alt="">
-              <img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1714308978,576105142&fm=26&gp=0.jpg"
-                   alt="">
-              <img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1714308978,576105142&fm=26&gp=0.jpg"
-                   alt="">
-              <img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1714308978,576105142&fm=26&gp=0.jpg"
-                   alt="">
-              <img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1714308978,576105142&fm=26&gp=0.jpg"
-                   alt=""><img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1714308978,576105142&fm=26&gp=0.jpg"
-                   alt="">
+              <img v-for="item in scope.row.pics"
+                   :key="item"
+                   :src="$store.state.upToken + item + ''"
+                   :alt="item">
             </div>
           </template>
         </el-table-column>
 
-        <el-table-column prop="address"
+        <el-table-column prop="goods_name"
                          width="180"
                          show-overflow-tooltip
                          label="商品">
         </el-table-column>
-        <el-table-column prop="address"
+        <el-table-column prop="member_id"
                          width="180"
                          show-overflow-tooltip
                          label="会员ID">
         </el-table-column>
-        <el-table-column prop="address"
+        <el-table-column prop="register_date"
                          width="180"
                          show-overflow-tooltip
                          label="发布时间">
@@ -82,14 +69,13 @@
         <el-pagination @size-change="handleSizeChange"
                        @current-change="handleCurrentChangeFun"
                        :current-page="currentPage"
-                       :page-sizes="[100, 200, 300, 400]"
+                       :page-sizes="[10, 20, 30, 40]"
                        :page-size="100"
                        layout="total, sizes, prev, pager, next, jumper"
-                       :total="400">
+                       :total="total">
         </el-pagination>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -99,82 +85,59 @@ export default {
 
   data () {
     return {
-      time: [],
-      sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
-      totalData: 1, //总页数
+      total: 0,
+      page_size: '10'
     }
   },
 
   methods: {
-    add () {
-      this.$router.push('/commodity/editConventionalKnowledge?nameType=添加商品')
+    //删除
+    checkTrackQueryFun (index, row) {
+      this.$api.delShareItem({
+        uid: row.uid,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: '删除成功',
+          type: 'success'
+        });
+        this.getSharePageList()
+      })
     },
-    editor () {
-      this.$router.push('/marketHome/details')
-    },
+
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.getSharePageList()
+
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.getSharePageList()
     },
+
+    getSharePageList () {
+      this.$api.getSharePageList({
+        token: JSON.parse(this.$store.state.token).token,
+        page_size: this.page_size,
+        order_type: 'asc',
+        order_field: 'uid',
+        page: this.currentPage
+      }).then(res => {
+        this.tableData = res.data.items
+        this.total = res.data.total_result
+      })
+    }
+  },
+
+  created () {
+    this.$store.commit('GET_UPLOAD_TOKEN')
+
+    this.getSharePageList()
   }
 }
 </script>

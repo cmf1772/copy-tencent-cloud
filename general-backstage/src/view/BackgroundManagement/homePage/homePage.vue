@@ -17,10 +17,19 @@
         <div class="mess">
           <ul>
             <li>
-              <strong style="font-size: 16px">您好，谁谁谁</strong>
+              <strong style="font-size: 16px">您好，欢迎使用美城网管理后台！</strong>
               {{LocationProvince}} - {{LocationCity}}
             </li>
-            <li>积分购买商家信用：<strong style="color:#f30">0</strong> 买家信用：<strong style="color:#f30">0</strong></li>
+            <li>
+              会员总数 <strong style="color:#f30">{{json.member_total}}</strong> 今日新增会员 <strong style="color:#f30">{{json.member_today}}</strong>
+            </li>
+            <li>
+              当前商铺提示数据量 <strong style="color:#f30">{{json.shop_num}}</strong>
+            </li>
+            <li>
+              上次更新时间 <strong style="color:#f30">{{json.search_time}}</strong>
+            </li>
+            <!-- <li>积分购买商家信用：<strong style="color:#f30">0</strong> 买家信用：<strong style="color:#f30">0</strong></li>
             <li>商铺类型：<strong style="color:#f30">销售型</strong> </li>
             <li>商铺等级：旗舰商铺 特权：
               <el-tooltip class="item"
@@ -31,50 +40,77 @@
                 <span>详情</span>
               </el-tooltip>
             </li>
-            <li>到期时间：<strong style="color:#f30">2016-11-10</strong> 商铺到期不续费，将自动降级至免费商铺</li>
+            <li>到期时间：<strong style="color:#f30">2016-11-10</strong> 商铺到期不续费，将自动降级至免费商铺</li> -->
           </ul>
         </div>
       </div>
 
       <div class="hyzx-card-3">
-        <p style="font-size: 16px;font-family: MicrosoftYaHei; color: #333;font-weight: 600; ">交易提醒：</p>
+        <p style="font-size: 16px;font-family: MicrosoftYaHei; color: #333;font-weight: 600; ">实时统计数据：</p>
         <ul>
-          <li class="hovertext">等待买家付款(13)</li>
-          <li class="hovertext">等待您发货 <span style="color:#f30">（4）</span></li>
-          <li class="hovertext">退款中的商品 <span style="color:#f30">（4）</span></li>
-          <li class="hovertext">等待您评价 <span style="color:#f30">（4）</span></li>
+          <li class="hovertext">商铺总数 <span style="color:#f30">（{{json.goods_total}}）</span></li>
+          <li class="hovertext">今日新增商铺数 <span style="color:#f30">（{{json.shop_today}}）</span></li>
+          <li class="hovertext">待认证/审核商铺 <span style="color:#f30">（{{json.shop_to_certify}}）</span></li>
+          <li class="hovertext">下架商品总数 <span style="color:#f30">（{{json.downgoods_total}}）</span></li>
+          <li class="hovertext">销售商品总数 <span style="color:#f30">（{{json.goods_sell_total}}）</span></li>
+          <li class="hovertext">展示商品总数 <span style="color:#f30">（{{json.goods_show_total}}）</span></li>
+        </ul>
+        <ul>
+          <span>广告位：</span>
+          <li class="hovertext">广告位总数<span style="color:#f30">（{{json.ad_total}}）</span></li>
+          <li class="hovertext">已展示广告位<span style="color:#f30">（{{json.ad_shown}}）</span></li>
+          <li class="hovertext">待展示广告位<span style="color:#f30">（{{json.ad_apply_certified}}）</span></li>
+          <li class="hovertext">待审核广告位<span style="color:#f30">（{{json.ad_apply_uncertified}}）</span></li>
+          <li class="hovertext">三日内过期广告位<span style="color:#f30">（{{json.ad_expire}}）</span></li>
+        </ul>
+        <ul>
+          <span>团购：</span>
+          <li class="hovertext">团购总数<span style="color:#f30">（{{json.group_total}}）</span></li>
+          <li class="hovertext">待审核团购<span style="color:#f30">（{{json.group_uncertified}}）</span></li>
+        </ul>
+        <ul>
+          <span>拍卖：</span>
+          <li class="hovertext">拍卖总数<span style="color:#f30">（{{json.auction_total}}）</span></li>
+          <li class="hovertext">待审核拍卖<span style="color:#f30">（{{json.auction_uncertified}}）</span></li>
+        </ul>
+        <ul>
+          <span>秒杀：</span>
+          <li class="hovertext">秒杀总数<span style="color:#f30">（{{json.onsale_total}}）</span></li>
         </ul>
       </div>
 
       <div class="hyzx-card-2">
         <p style="font-size: 16px;font-family: MicrosoftYaHei; color: #333;font-weight: 600; ">商品提醒：</p>
         <ul>
-          <span>商品管理：</span>
-          <li class="hovertext">等待买家付款(13)</li>
-          <li class="hovertext">等待您发货 </li>
-          <li class="hovertext">等待您发货 </li>
-          <li class="hovertext">退款中的商品 </li>
-          <li class="hovertext">等待您评价 </li>
+          <span>订单管理：</span>
+          <li class="hovertext">总订单<span style="color:#f30">（{{json.order_total}}）</span></li>
+          <li class="hovertext">今日新增订单<span style="color:#f30">（{{json.order_today}}）</span></li>
+          <li class="hovertext">待付款订单<span style="color:#f30">（{{json.order_status_1}}）</span></li>
+          <li class="hovertext">已付款订单<span style="color:#f30">（{{json.order_status_3}}）</span></li>
+          <li class="hovertext">已发货订单<span style="color:#f30">（{{json.order_status_4}}）</span></li>
+          <li class="hovertext">已完成订单<span style="color:#f30">（{{json.order_status_5}}）</span></li>
+          <li class="hovertext">申请退货商品总数<span style="color:#f30">（{{json.order_back_total}}）</span></li>
         </ul>
         <ul>
-          <span>广告推荐：</span>
-          <li class="hovertext">等待买家付款(13)</li>
-          <li class="hovertext">等待您发货 </li>
-          <li class="hovertext">等待您发货 </li>
+          <span>商铺：</span>
+          <li class="hovertext">今日新增商铺树<span style="color:#f30">（{{json.shop_today}}）</span></li>
+          <li class="hovertext">总订单<span style="color:#f30">（{{json.order_total}}）</span></li>
+          <li class="hovertext">总订单<span style="color:#f30">（{{json.order_total}}）</span></li>
+          <li class="hovertext">总订单<span style="color:#f30">（{{json.order_total}}）</span></li>
+          <li class="hovertext">总订单<span style="color:#f30">（{{json.order_total}}）</span></li>
+          <li class="hovertext">总订单<span style="color:#f30">（{{json.order_total}}）</span></li>
+          <li class="hovertext">总订单<span style="color:#f30">（{{json.order_total}}）</span></li>
         </ul>
         <ul>
-          <span>商品留言：</span>
-          <li class="hovertext">等待买家付款(13)</li>
-          <li class="hovertext">等待您发货 </li>
-          <li class="hovertext">等待您发货 </li>
-          <li class="hovertext">退款中的商品 </li>
-          <li class="hovertext">等待您评价12312312 </li>
+          <span>优惠卷：</span>
+          <li class="hovertext">优惠卷总数<span style="color:#f30">（{{json.coupon_cat_total}}）</span></li>
+          <li class="hovertext">待审核优惠卷<span style="color:#f30">（{{json.coupon_total}}）</span></li>
         </ul>
       </div>
 
     </div>
 
-    <div class="console-card-col2">
+    <!-- <div class="console-card-col2">
       <div>
         <p style="font-size: 16px;font-family: MicrosoftYaHei; color: #333;font-weight: 600; ">认证专区：</p>
         <div class="b-c-con">
@@ -146,7 +182,7 @@
           </el-button>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="banner">
       <p style="font-size: 16px;font-family: MicrosoftYaHei; color: #333;font-weight: 600; ">您可能还需要以下产品开始：</p>
@@ -195,9 +231,10 @@ export default {
   name: 'Home page',
   data () {
     return {
-      LocationProvince: "正在定位所在省",    //给渲染层定义一个初始值
-      LocationCity: "正在定位所在市",    //给渲染层定义一个初始值
-      value: '3.3'
+      LocationProvince: "正在定位省",    //给渲染层定义一个初始值
+      LocationCity: "正在定位市",    //给渲染层定义一个初始值
+      value: '3.3',
+      json: {}
     }
   },
   methods: {
@@ -215,17 +252,22 @@ export default {
     },
 
     getInfo () {
-      this.$api.getMusicList().then(res => {
-        console.log(res)
+      this.$api.getMusicList({
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.json = res.data
       }).catch(res => {
         console.log(res)
       })
     }
   },
 
+  created () {
+    this.getInfo()
+  },
+
   mounted () {
     this.city()
-    this.getInfo()
   }
 }
 </script>
@@ -296,14 +338,14 @@ export default {
 
   .hyzx-card-col {
     width: 100%;
-    height: 231px;
+    height: 431px;
     display: flex;
     justify-content: space-between;
     > div {
       width: 32.5%;
       border-radius: 10px;
       background-color: #fff;
-      height: 231px;
+      height: 431px;
       box-sizing: border-box;
       padding: 20px;
       display: flex;
@@ -318,10 +360,17 @@ export default {
         width: 100%;
         display: flex;
         flex-wrap: wrap;
+
         margin-top: 10px;
         li {
           margin-right: 10px;
           line-height: 35px;
+        }
+        > span {
+          margin-right: 15px;
+          line-height: 35px;
+          color: #8f9297;
+          font-weight: bold;
         }
       }
     }
