@@ -18,21 +18,21 @@
                          label="封面">
           <template slot-scope="scope">
             <div class="img">
-              <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1595931844282&di=6ac86657f97337620a34b44fdf96b849&imgtype=0&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D1796398158%2C1408347181%26fm%3D214%26gp%3D0.jpg"
+              <img :src="scope.row.image"
                    alt="">
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="name"
+        <el-table-column prop="fmember_id"
                          show-overflow-tooltip
                          label="会员">
         </el-table-column>
 
-        <el-table-column prop="address"
+        <el-table-column prop="title"
                          show-overflow-tooltip
                          label="标题">
         </el-table-column>
-        <el-table-column prop="address"
+        <el-table-column prop="content"
                          width="180"
                          show-overflow-tooltip
                          label="内容">
@@ -41,28 +41,28 @@
                          show-overflow-tooltip
                          label="标签">
         </el-table-column>
-        <el-table-column prop="address"
+        <el-table-column prop="zan_count"
                          show-overflow-tooltip
                          label="点赞量">
         </el-table-column>
-        <el-table-column prop="address"
+        <el-table-column prop="comment_count"
                          show-overflow-tooltip
                          label="评论量">
         </el-table-column>
-        <el-table-column prop="address"
+        <el-table-column prop="money"
                          width="180"
                          show-overflow-tooltip
                          label="赞赏金额">
         </el-table-column>
-        <el-table-column prop="address"
+        <el-table-column prop="agree"
                          show-overflow-tooltip
                          label="赞同">
         </el-table-column>
-        <el-table-column prop="address"
+        <el-table-column prop="disagree"
                          show-overflow-tooltip
                          label="不赞同">
         </el-table-column>
-        <el-table-column prop="address"
+        <el-table-column prop="add_time"
                          width="180"
                          show-overflow-tooltip
                          label="关注时间">
@@ -78,10 +78,10 @@
         <el-pagination @size-change="handleSizeChange"
                        @current-change="handleCurrentChangeFun"
                        :current-page="currentPage"
-                       :page-sizes="[100, 200, 300, 400]"
-                       :page-size="100"
+                       :page-sizes="[10, 20, 30, 40]"
+                       :page-size="page_size"
                        layout="total, sizes, prev, pager, next, jumper"
-                       :total="400">
+                       :total="totalData">
         </el-pagination>
       </div>
     </div>
@@ -95,82 +95,41 @@ export default {
 
   data () {
     return {
-      time: [],
-      sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
+      page_size: 10
     }
   },
 
   methods: {
-    add () {
-      this.$router.push('/commodity/editConventionalKnowledge?nameType=添加商品')
-    },
-    editor () {
-      this.$router.push('/marketHome/details')
-    },
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.getAskPageList()
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.getAskPageList()
     },
+
+    getAskPageList () {
+      this.$api.getAskPageList({
+        token: JSON.parse(this.$store.state.token).token,
+        order_type: 'asc',
+        order_field: 'id',
+        page: this.currentPage,
+        page_size: this.page_size
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
+    }
+  },
+
+  mounted () {
+    this.getAskPageList()
   }
 }
 </script>

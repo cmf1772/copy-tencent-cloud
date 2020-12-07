@@ -37,5 +37,11 @@ export default {//这里要注意不要在mutations里面进行异步操作
     article.getUploadToken().then(res => {
       state.upToken = res.data.token.upload_url.upload_url
     })
-  }
+  },
+
+  // this.$message({
+  //   showClose: true,
+  //   message: '恭喜你，这是一条成功消息',
+  //   type: 'success'
+  // });
 }

@@ -14,20 +14,20 @@
               {{scope.$index+1}}
             </template>
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="uid"
                            show-overflow-tooltip
                            label="UID"
                            width="180">
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="member_id"
                            show-overflow-tooltip
                            label="会员ID">
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="member_uid"
                            show-overflow-tooltip
                            label="关注会员ID">
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="register_date"
                            show-overflow-tooltip
                            label="关注时间">
           </el-table-column>
@@ -37,9 +37,9 @@
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
                          :page-sizes="[10, 20, 30, 40]"
-                         :page-size="100"
+                         :page-size="page_size"
                          layout="total, sizes, prev, pager, next, jumper"
-                         :total="total">
+                         :total="totalData">
           </el-pagination>
         </div>
       </div>
@@ -81,7 +81,8 @@ export default {
         page: this.currentPage,
         page_size: this.page_size
       }).then(res => {
-
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
       })
     }
   },

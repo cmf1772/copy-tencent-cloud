@@ -16,7 +16,6 @@ const article = {
   // 登陆发送短信
   get_loginverify_code (params) { return axios.post('/common/get_loginverify_code', { ...params }) },
 
-
   // 登陆账号密码
   login (params) { return axios.post('/common/login', { ...params }) },
 
@@ -46,6 +45,24 @@ const article = {
 
   // 获取关注分页列表
   getFriendPageList (params) { return axios.post('/admin/friend/getFriendPageList', { ...params }) },
+
+  // 获取问答分页列表
+  getAskPageList (params) { return axios.post('/admin/ask/getAskPageList', { ...params }) },
+
+  // 获取问答评论分页列表
+  getCommentPageList (params) { return axios.post('/admin/ask/getCommentPageList', { ...params }) },
+
+  // 获取资讯一级分类分页列表
+  getBoardPageList (params) { return axios.post('/admin/board/getBoardPageList', { ...params }) },
+
+  // 删除一个资讯分类
+  delBoardItem (params) { return axios.post('/admin/board/delBoardItem', { ...params }) },
+
+  // 编辑一个资讯分类
+  setBoardItem (params) { return axios.post('/admin/board/setBoardItem', { ...params }) },
+
+  // 获取资讯分页列表
+  getArticlePageList (params) { return axios.post('/admin/board/getArticlePageList', { ...params }) },
 
   // 获取文件上传upToken
   getUploadToken () { return axios.post('/file/getUploadToken') },

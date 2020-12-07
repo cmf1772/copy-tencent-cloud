@@ -13,39 +13,34 @@
             {{scope.$index+1}}
           </template>
         </el-table-column>
-        <el-table-column prop="name"
+        <el-table-column prop="ask_title"
                          show-overflow-tooltip
                          label="问答标题">
         </el-table-column>
 
-        <el-table-column prop="address"
+        <el-table-column prop="fmember_id"
                          show-overflow-tooltip
                          label="评论会员">
         </el-table-column>
-        <el-table-column prop="address"
+        <el-table-column prop="content"
                          width="180"
                          show-overflow-tooltip
                          label="内容">
         </el-table-column>
-        <el-table-column prop="address"
+        <el-table-column prop="add_time"
                          width="180"
                          show-overflow-tooltip
                          label="评论时间">
         </el-table-column>
       </el-table>
       <div class="btootm_paination">
-        <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
         <el-pagination @size-change="handleSizeChange"
                        @current-change="handleCurrentChangeFun"
                        :current-page="currentPage"
-                       :page-sizes="[100, 200, 300, 400]"
-                       :page-size="100"
+                       :page-sizes="[10, 20, 30, 40]"
+                       :page-size="page_size"
                        layout="total, sizes, prev, pager, next, jumper"
-                       :total="400">
+                       :total="totalData">
         </el-pagination>
       </div>
     </div>
@@ -59,82 +54,41 @@ export default {
 
   data () {
     return {
-      time: [],
-      sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
+      page_size: 10
     }
   },
 
   methods: {
-    add () {
-      this.$router.push('/commodity/editConventionalKnowledge?nameType=添加商品')
-    },
-    editor () {
-      this.$router.push('/marketHome/details')
-    },
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.getCommentPageList()
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.getCommentPageList()
     },
+
+    getCommentPageList () {
+      this.$api.getCommentPageList({
+        token: JSON.parse(this.$store.state.token).token,
+        order_type: 'asc',
+        order_field: 'id',
+        page: this.currentPage,
+        page_size: this.page_size
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
+    }
+  },
+
+  mounted () {
+    this.getCommentPageList()
   }
 }
 </script>
