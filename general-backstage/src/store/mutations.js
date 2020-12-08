@@ -35,7 +35,14 @@ export default {//这里要注意不要在mutations里面进行异步操作
   //  获取 文件地址接口
   GET_UPLOAD_TOKEN (state, uptoken) {
     article.getUploadToken().then(res => {
-      state.upToken = res.data.token.upload_url.upload_url
+      state.upToken = res.data.token.token
+    })
+  },
+
+  // 上传地址
+  GET_UPLOAD_URL (state, uptoken) {
+    article.getUploadUrl().then(res => {
+      state.getUploadUrl = res.data.upload_url
     })
   },
 

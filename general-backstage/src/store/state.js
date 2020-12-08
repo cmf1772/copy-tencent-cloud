@@ -5,5 +5,6 @@ export default {
   district: [], // 乡
   computerType: '', //电脑型号
   token: document.cookie.match(new RegExp("(^| )token=([^;]*)(;|$)")) !== null ? document.cookie.match(new RegExp("(^| )token=([^;]*)(;|$)"))[2] : '',
-  upToken: ''
+  upToken: '',
+  getUploadUrl: ''
 }

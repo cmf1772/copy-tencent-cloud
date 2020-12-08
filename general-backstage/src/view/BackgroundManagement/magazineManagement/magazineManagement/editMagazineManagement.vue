@@ -188,12 +188,12 @@ export default {
   },
 
   methods: {
-    editor () {
-      this.$router.push('/magazineManagement/addMagazineManagement?nameType=修改资讯')
+    editor (index, row) {
+      this.$router.push(`/magazineManagement/addMagazineManagement?nameType=修改资讯&&uid=${row.uid}&&ps_name=${this.$route.query.ps_name}`)
     },
 
     add () {
-      this.$router.push('/magazineManagement/addMagazineManagement?nameType=添加资讯')
+      this.$router.push(`/magazineManagement/addMagazineManagement?nameType=添加资讯&&ps_name=${this.$route.query.ps_name}`)
     },
     // 分页
     handleCurrentChangeFun (val) {
@@ -218,7 +218,8 @@ export default {
         token: JSON.parse(this.$store.state.token).token,
         page: this.currentPage,
         page_size: this.page_size,
-        keyword: this.keyword
+        keyword: this.keyword,
+        ps_name: this.$route.query.ps_name
       }).then(res => {
         this.tableData = res.data.items
         this.totalData = res.data.total_result

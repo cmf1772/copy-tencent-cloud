@@ -1,90 +1,108 @@
 <template>
-  <div class="editConventionalKnowledge"
-       :style="{'height': height}">
+  <div class="editConventionalKnowledge">
     <el-form ref="form"
              :rules="rules"
              :model="form"
              label-width="130px">
       <el-form-item label="资讯名称："
-                    prop="displayName">
-        <el-input v-model="form.displayName"
+                    prop="board_subject">
+        <el-input v-model="form.board_subject"
                   placeholder=""></el-input>
       </el-form-item>
       <el-form-item label="是否置顶："
-                    prop="displayName">
-        <el-checkbox v-model="checked">置顶</el-checkbox>
+                    prop="is_top">
+        <el-checkbox v-model="form.is_top">置顶</el-checkbox>
       </el-form-item>
+
       <el-form-item label="选择地区："
                     prop="displayName">
         <div style="width:100%; display: flex">
           <el-select v-model="form.province"
+                     clearable
                      style="width:25%"
+                     @change="changeCity"
                      placeholder="所在省">
-            <el-option label="区域一"
-                       value="shanghai"></el-option>
-            <el-option label="区域二"
-                       value="beijing"></el-option>
+            <el-option v-for="(item, index) in $store.state.cityList"
+                       :key="index"
+                       :label="item.name"
+                       :value="item.id"></el-option>
           </el-select>
           <el-select v-model="form.city"
                      style="width:25%;margin-left:0"
+                     clearable
+                     @change="changeAreaList"
                      placeholder="所在市">
-            <el-option label="区域一"
-                       value="shanghai"></el-option>
-            <el-option label="区域二"
-                       value="beijing"></el-option>
+            <el-option v-for="(item, index) in $store.state.areaList"
+                       :key="index"
+                       :label="item.name"
+                       :value="item.id"></el-option>
           </el-select>
-          <el-select v-model="form.city"
+          <el-select v-model="form.xian"
+                     clearable
+                     @change="changeCounty"
                      style="width:25%;margin-left:0"
-                     placeholder="所在区">
-            <el-option label="区域一"
-                       value="shanghai"></el-option>
-            <el-option label="区域二"
-                       value="beijing"></el-option>
+                     placeholder="所在县">
+            <el-option v-for="(item, index) in $store.state.county"
+                       :key="index"
+                       :label="item.name"
+                       :value="item.id"></el-option>
           </el-select>
-          <el-select v-model="form.city"
+          <el-select v-model="form.zhen"
                      style="width:25%;margin-left:0"
-                     placeholder="所在街道">
-            <el-option label="区域一"
-                       value="shanghai"></el-option>
-            <el-option label="区域二"
-                       value="beijing"></el-option>
+                     placeholder="所在乡">
+            <el-option v-for="(item, index) in $store.state.district"
+                       :key="index"
+                       :label="item.name"
+                       :value="item.id"></el-option>
           </el-select>
         </div>
       </el-form-item>
       <el-form-item label="选择栏目："
-                    prop="displayName">
+                    prop="board_code">
         <div class="form-item">
-          <el-select v-model="form.province"
+          <el-select v-model="form.board_code"
+                     value-key="uid"
                      style="width: 50%"
+                     @change="changePageList"
                      clearable>
-            <el-option label="国际"
-                       value="shanghai"></el-option>
-            <el-option label="电器"
-                       value="beijing"></el-option>
+            <el-option v-for="item in pageList"
+                       :key="item.uid"
+                       :label="item.board_title"
+                       :value="item"></el-option>
           </el-select>
-          <el-select v-model="form.province"
+          <el-select v-model="form.board_name_code"
+                     value-key="uid"
                      style="width: 50%"
                      clearable>
-            <el-option label="品牌"
-                       value="shanghai"></el-option>
-            <el-option label="德国"
-                       value="beijing"></el-option>
+            <el-option v-for="item in pageSubList"
+                       :key='item'
+                       :label="item.board_title"
+                       :value="item"></el-option>
           </el-select>
         </div>
       </el-form-item>
       <el-form-item label="上传封面："
-                    prop="name">
-        <el-upload action="https://jsonplaceholder.typicode.com/posts/"
-                   list-type="picture-card"
-                   :on-preview="handlePictureCardPreview"
-                   :on-remove="handleRemove">
-          <i class="el-icon-plus"></i>
+                    prop="cover">
+        <el-upload class="upload-pic"
+                   :action="domain"
+                   :data="QiniuData"
+                   :on-remove="handleRemove"
+                   :on-error="uploadError"
+                   :on-success="uploadSuccess"
+                   :before-remove="beforeRemove"
+                   :before-upload="beforeAvatarUpload"
+                   :limit="3"
+                   multiple
+                   :on-exceed="handleExceed"
+                   :file-list="fileList">
+          <el-button size="small"
+                     type="primary">选择图片</el-button>
         </el-upload>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%"
-               :src="dialogImageUrl"
-               alt="">
-        </el-dialog>
+        <div>
+          <img class="pic-box"
+               :src="uploadPicUrl"
+               v-if="uploadPicUrl">
+        </div>
       </el-form-item>
       <el-form-item label="当前封面："
                     prop="name">
@@ -96,8 +114,8 @@
       </el-form-item>
       <el-form-item label="简介："
                     style="width: 100%"
-                    prop="displayName">
-        <el-input v-model="form.displayName"
+                    prop="jianjie">
+        <el-input v-model="form.jianjie"
                   type="textarea"
                   placeholder=""></el-input>
       </el-form-item>
@@ -109,42 +127,54 @@
       </el-form-item>
     </el-form>
     <el-button type="primary"
+               @click="right"
                style="float: right">确定</el-button>
   </div>
 </template>
 
 <script>
 import E from "wangeditor";
+import * as qiniu from "qiniu-js";
+
 export default {
   name: 'editConventionalKnowledge',
-
   data () {
     return {
-      dialogImageUrl: '',
-      dialogVisible: false,
+      loading: false,
+      QiniuData: {
+        key: "", //图片名字处理
+        token: this.$store.state.upToken,//七牛云token
+        data: {}
+      },
+      domain: this.$store.state.getUploadUrl, // 七牛云的上传地址（华东区）
+      qiniuaddr: 'http://img.meichengmall.com/', // 七牛云的图片外链地址 七牛云空间的外链地址
+      uploadPicUrl: "", //提交到后台图片地址
+      fileList: [],
+
       form: {
-        radio: '1',
-        displayName: '',
-        name: '',
-        type: '',
-        value: '',
-        driverId: '',
-        description: '',
+        board_subject: '',
+        is_top: false,
         province: '',
         city: '',
-        qu: ''
+        xian: '',
+        zhen: '',
+        board_code: {
+          board_name_code: '',
+          board_title: '',
+          uid: ''
+        },
+        cover: '',
+        jianjie: '',
+        board_name_code: {
+          board_name_code: '',
+          board_title: '',
+          uid: ''
+        },
       },
-      addCoumArray: [],
-      checkList: [],
-      pf: [{
-        name: '1'
-      }],
-      height: window.innerHeight - 180 + 'px',
-      drivers: [],
-      submitBtn: {
-        loading: false,
-        text: '提交'
-      },
+
+      pageList: [],
+      pageSubList: [],
+
       rules: {
         displayName: [
           { required: true, message: '请输入收货人', trigger: 'blur' }
@@ -167,6 +197,7 @@ export default {
   },
 
   mounted () {
+
     this.editor = new E(this.$refs.editorElem);
     // 编辑器的事件，每次改变会获取其html内容
     this.editor.customConfig.onchange = html => {
@@ -195,29 +226,148 @@ export default {
     this.editor.create(); // 创建富文本实例
   },
 
+  created () {
+    this.$api.getUploadToken().then(res => {
+      this.QiniuData.token = res.data.token.token
+    })
+    // this.$store.commit('GET_UPLOAD_TOKEN')
+    this.$store.commit('GET_UPLOAD_URL')
+    this.$store.commit('GET_CITY')
+    this.getBoardPageList()
+
+    if (this.$route.query.uid) {
+      this.getInfo()
+    }
+  },
+
   methods: {
-    addPf () {
-      this.pf.push({
-        name: '1'
+    getInfo () {
+      this.$api.getArticleItem({
+        token: JSON.parse(this.$store.state.token).token,
+        uid: this.$route.query.uid
+      }).then(res => {
+        let data = res.data.article
+
+        this.form = {
+          board_subject: data.board_subject,
+          is_top: data.is_top,
+          province: data.province,
+          city: data.city,
+          xian: data.xian,
+          zhen: data.zhen,
+          board_code: {
+            board_name_code: '',
+            board_title: data.board_title,
+            uid: ''
+          },
+          cover: '',
+          jianjie: '',
+          board_name_code: {
+            board_name_code: '',
+            board_title: '',
+            uid: ''
+          },
+        }
       })
     },
 
-    removePf () {
-      this.pf.splice(this.pf.length - 1, 1)
+    // 存储数据
+    right () {
+      this.$api.addArticleItem({
+        board_subject: this.form.board_subject,
+        is_top: this.form.is_top ? '1' : '0',
+        province: this.form.province + '',
+        city: this.form.city + '',
+        xian: this.form.xian + '',
+        zhen: (this.form.zhen + '').length ? this.form.zhen + '' : '暂无',
+        board_code: this.form.board_code.board_name_code,
+        board_name_code: this.form.board_name_code.board_name_code,
+        cover: this.uploadPicUrl,
+        jianjie: this.form.jianjie,
+        board_body: this.editor.txt.html(),
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.$router.push(`/magazineManagement/editMagazineManagement?nameType=资讯管理&&ps_name=${this.$route.query.ps_name}`)
+      })
     },
 
-    clearAll () {
-      this.addCoumArray = []
-    },
-    addCoum () {
-      this.addCoumArray.push({
-        "addRoumArray": ['1']
+    // 获取一级栏目
+    getBoardPageList () {
+      this.$api.getBoardList({
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.pageList = res.data
       })
-      console.log(this.addCoumArray)
     },
-    addroum (index) {
-      this.addCoumArray[index].addRoumArray.push(this.addCoumArray[index].addRoumArray.length + 1)
+
+    // 获取二级菜单
+    changePageList (res) {
+      this.form.board_name_code = ''
+      this.$api.getBoardSubList({
+        token: JSON.parse(this.$store.state.token).token,
+        uid: this.form.board_code.uid
+      }).then(res => {
+        this.pageSubList = res.data
+      })
     },
+
+    handleRemove (file, fileList) {
+      this.uploadPicUrl = "";
+    },
+
+    handleExceed (files, fileList) {
+      this.$message.warning(
+        `当前限制选择 3 张图片，如需更换，请删除上一张图片在重新选择！`
+      );
+    },
+
+    beforeAvatarUpload (file) {   //图片上传之前的方法
+      this.QiniuData.data = file;
+      this.QiniuData.key = `${'magazine/' + file.name}`;
+    },
+
+    uploadSuccess (response, file, fileList) {  //图片上传成功的方法
+      console.log(fileList);
+      console.log(response);
+      console.log(file);
+      this.uploadPicUrl = `${this.qiniuaddr}${response.key}`;
+    },
+
+    uploadError (err, file, fileList) {    //图片上传失败时调用
+      this.$message({
+        message: "上传出错，请重试！",
+        type: "error",
+        center: true
+      });
+    },
+
+    beforeRemove (file, fileList) {
+      // return this.$confirm(`确定移除 ${ file.name }？`);
+    },
+
+    changeCity () {
+      this.form.city = ''
+      this.form.zhen = ''
+      this.form.xian = ''
+      this.$store.commit('GET_CITY', { id: this.form.province, name: 'areaList' })
+    },
+
+    changeAreaList () {
+      this.form.xian = ''
+      this.form.zhen = ''
+      this.$store.commit('GET_CITY', { id: this.form.city, name: 'county' })
+    },
+
+    changeCounty () {
+      this.form.zhen = ''
+      this.$store.commit('GET_CITY', { id: this.form.xian, name: 'district' })
+    },
+
     getemplate () {
       this.$router.push('/shopManagement/templateToBuy')
     },
@@ -228,10 +378,12 @@ export default {
     handleRemove (file, fileList) {
       console.log(file, fileList);
     },
+
     handlePictureCardPreview (file) {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
     },
+
     changeFile (e) {
       function getObjectURL (file) {
         var url = null;
@@ -298,5 +450,20 @@ export default {
     opacity: 0;
     z-index: 2;
   }
+}
+
+#pickfiles {
+  padding: 10px;
+  background: #000;
+  border-radius: 5px;
+  color: #fff;
+}
+.link {
+  color: red;
+}
+.progress {
+  color: red;
+  font-size: 30px;
+  margin-top: 20px;
 }
 </style>

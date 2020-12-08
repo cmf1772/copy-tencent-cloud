@@ -155,8 +155,8 @@ export default {
         .catch(_ => { });
     },
 
-    look () {
-      this.$router.push('/magazineManagement/editMagazineManagement?nameType=资讯管理')
+    look (index, row) {
+      this.$router.push(`/magazineManagement/editMagazineManagement?nameType=资讯管理&&ps_name=${row.board_name_code}`)
     },
 
     editor (index, row) {
@@ -224,7 +224,8 @@ export default {
           page: this.currentPage,
           page_size: this.page_size,
           board_name: this.board_name,
-          board_code: this.board_code
+          board_code: this.board_code,
+          pid: this.$route.query.uid ? this.$route.query.uid : ''
         }
       } else {
         data = {
@@ -232,18 +233,39 @@ export default {
           order_field: 'uid',
           token: JSON.parse(this.$store.state.token).token,
           page: this.currentPage,
-          page_size: this.page_size
+          page_size: this.page_size,
+          pid: this.$route.query.uid ? this.$route.query.uid : ''
         }
       }
-      this.$api.getBoardPageList(data).then(res => {
-        this.tableData = res.data.items
-        this.totalData = res.data.total_result
-      })
+
+      if (this.$route.query.uid) {
+        this.$api.getBoardPageSubList(data).then(res => {
+          this.tableData = res.data.items
+          this.totalData = res.data.total_result
+        })
+      } else {
+        this.$api.getBoardPageList(data).then(res => {
+          this.tableData = res.data.items
+          this.totalData = res.data.total_result
+        })
+      }
     }
   },
 
   mounted () {
     this.getBoardPageList()
+  },
+
+  watch: {
+    $route: {
+      handler: function (val, oldVal) {
+        this.board_name = ''
+        this.board_code = ''
+        this.getBoardPageList()
+      },
+      // 深度观察监听
+      deep: true
+    }
   }
 }
 </script>

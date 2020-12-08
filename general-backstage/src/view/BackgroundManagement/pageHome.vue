@@ -156,12 +156,40 @@ export default {
       meta: [],
       flagtit: true,
       flagTttName: true,
-      menu: nav,
+      menu: [],
       index_menu: "0",
       titleName: ""
     };
   },
   methods: {
+    setMenu () {
+      let menu = nav[1].subset[4].actions,
+        data = {
+          order_type: 'desc',
+          order_field: 'od',
+          token: JSON.parse(this.$store.state.token).token,
+        }
+
+      nav[1].subset[4].actions = []
+      nav[1].subset[4].actions.push({
+        name: "资讯一级分类",
+        url: "/magazineManagement/magazineManagement?type=1"
+      })
+      this.$api.getBoardPageList(data).then(res => {
+        res.data.items.forEach(item => {
+          nav[1].subset[4].actions.push({
+            name: item.board_title,
+            url: "/magazineManagement/magazineManagement?type=2&&uid=" + item.uid
+          })
+        })
+        this.menu = nav
+
+        this.getTitleBox();
+        this.getTitleName();
+        this.getmenu();
+      })
+    },
+
     left () {
       this.isCollapse = true;
     },
@@ -506,9 +534,9 @@ export default {
   },
 
   mounted () {
-    this.getTitleBox();
-    this.getTitleName();
-    this.getmenu();
+    this.setMenu()
+
+
   },
 
   watch: {

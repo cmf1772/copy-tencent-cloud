@@ -55,6 +55,15 @@ const article = {
   // 获取资讯一级分类分页列表
   getBoardPageList (params) { return axios.post('/admin/board/getBoardPageList', { ...params }) },
 
+  // 获取资讯二级分类分页列表
+  getBoardPageSubList (params) { return axios.post('/admin/board/getBoardPageSubList', { ...params }) },
+
+  // 获取资讯一级分类列表
+  getBoardList (params) { return axios.post('/admin/board/getBoardList', { ...params }) },
+
+  // 获取资讯二级分类列表
+  getBoardSubList (params) { return axios.post('/admin/board/getBoardSubList', { ...params }) },
+
   // 删除一个资讯分类
   delBoardItem (params) { return axios.post('/admin/board/delBoardItem', { ...params }) },
 
@@ -64,11 +73,17 @@ const article = {
   // 获取资讯分页列表
   getArticlePageList (params) { return axios.post('/admin/board/getArticlePageList', { ...params }) },
 
+  // 添加一个资讯
+  addArticleItem (params) { return axios.post('/admin/board/addArticleItem', { ...params }) },
+
+  // 获取一个资讯
+  getArticleItem (params) { return axios.post('/admin/board/getArticleItem', { ...params }) },
+
   // 获取文件上传upToken
   getUploadToken () { return axios.post('/file/getUploadToken') },
 
   // 获取文件上传地址
-  getUploadUrl (parmas) { return axios.post('/front/file/getUploadUrl', { ...params }) }
+  getUploadUrl () { return axios.post('/file/getUploadUrl') }
 }
 
 export default article
