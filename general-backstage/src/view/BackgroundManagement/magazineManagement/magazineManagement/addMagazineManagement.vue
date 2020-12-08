@@ -241,39 +241,43 @@ export default {
   },
 
   methods: {
+    // 回读接口
     getInfo () {
       this.$api.getArticleItem({
         token: JSON.parse(this.$store.state.token).token,
         uid: this.$route.query.uid
       }).then(res => {
-        let data = res.data.article
+        let data = res.data
+        this.pageList = data.newscat
+        this.pageSubList = data.subcat
 
         this.form = {
-          board_subject: data.board_subject,
-          is_top: data.is_top,
-          province: data.province,
-          city: data.city,
-          xian: data.xian,
-          zhen: data.zhen,
+          board_subject: data.article.board_subject,
+          is_top: data.is_top_checked,
+          province: data.article.province,
+          city: data.article.city,
+          xian: data.article.xian,
+          zhen: data.article.zhen,
           board_code: {
-            board_name_code: '',
-            board_title: data.board_title,
-            uid: ''
+            board_name_code: data.hdd.board_name_code,
+            uid: data.hdd.uid
           },
-          cover: '',
-          jianjie: '',
+          cover: data.article.cover,
+          jianjie: data.article.jianjie,
           board_name_code: {
             board_name_code: '',
             board_title: '',
             uid: ''
-          },
+          }
         }
+        this.uploadPicUrl = data.article.cover
+        this.editor.txt.html(data.article.board_body)
       })
     },
 
     // 存储数据
     right () {
-      this.$api.addArticleItem({
+      let data = {
         board_subject: this.form.board_subject,
         is_top: this.form.is_top ? '1' : '0',
         province: this.form.province + '',
@@ -286,14 +290,28 @@ export default {
         jianjie: this.form.jianjie,
         board_body: this.editor.txt.html(),
         token: JSON.parse(this.$store.state.token).token
-      }).then(res => {
-        this.$message({
-          showClose: true,
-          message: res.data.msg,
-          type: 'success'
-        });
-        this.$router.push(`/magazineManagement/editMagazineManagement?nameType=资讯管理&&ps_name=${this.$route.query.ps_name}`)
-      })
+      }
+
+      // 判断是否编辑
+      if (this.$route.query.uid) {
+        this.$api.setArticleItem({ data }).then(res => {
+          this.$message({
+            showClose: true,
+            message: res.data.msg,
+            type: 'success'
+          });
+        })
+      } else {
+        this.$api.addArticleItem({ data }).then(res => {
+          this.$message({
+            showClose: true,
+            message: res.data.msg,
+            type: 'success'
+          });
+          this.$router.push(`/magazineManagement/editMagazineManagement?nameType=资讯管理&ps_name=${this.$route.query.ps_name}`)
+        })
+      }
+
     },
 
     // 获取一级栏目

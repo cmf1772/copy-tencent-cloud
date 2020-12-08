@@ -76,8 +76,44 @@ const article = {
   // 添加一个资讯
   addArticleItem (params) { return axios.post('/admin/board/addArticleItem', { ...params }) },
 
-  // 获取一个资讯
+  // 添加一个资讯
   getArticleItem (params) { return axios.post('/admin/board/getArticleItem', { ...params }) },
+
+  // 编辑一个资讯
+  setArticleItem (params) { return axios.post('/admin/board/setArticleItem', { ...params }) },
+
+  // 批量修改资讯所在地区
+  batModifyCity (params) { return axios.post('/admin/board/batModifyCity', { ...params }) },
+
+  // 批量修改资讯所在栏目
+  batModifyCode (params) { return axios.post('/admin/board/batModifyCode', { ...params }) },
+
+  // 资讯批量置顶/取消置顶操作
+  batIsTop (params) { return axios.post('/admin/board/batIsTop', { ...params }) },
+
+  // 批量删除资讯文章
+  batDel (params) { return axios.post('/admin/board/batDel', { ...params }) },
+
+  // 删除一个资讯
+  delArticleItem (params) { return axios.post('/admin/board/delArticleItem', { ...params }) },
+
+  /**
+   * 常规商品
+   */
+
+  // 获取分类分页列表
+  getCategoryPageList (params) { return axios.post('/admin/category/getCategoryPageList', { ...params }) },
+
+  /**
+   *  知识商品管理
+   */
+
+  // 获取课时分页列表
+  getTaskPageList (params) { return axios.post('/admin/egoods/getTaskPageList', { ...params }) },
+
+  /**
+   * 七牛云上传token 地址
+   */
 
   // 获取文件上传upToken
   getUploadToken () { return axios.post('/file/getUploadToken') },

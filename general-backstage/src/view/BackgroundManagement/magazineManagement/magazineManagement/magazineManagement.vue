@@ -156,7 +156,7 @@ export default {
     },
 
     look (index, row) {
-      this.$router.push(`/magazineManagement/editMagazineManagement?nameType=资讯管理&&ps_name=${row.board_name_code}`)
+      this.$router.push(`/magazineManagement/editMagazineManagement?nameType=资讯管理&ps_name=${row.board_name_code}`)
     },
 
     editor (index, row) {

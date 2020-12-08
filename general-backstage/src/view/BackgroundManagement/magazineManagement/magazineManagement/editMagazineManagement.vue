@@ -21,22 +21,24 @@
         <span>选择地区</span>
         <el-select v-model="province"
                    clearable
+                   @change="changeCity"
                    placeholder="所在省">
-          <el-option label="区域一"
-                     value="shanghai"></el-option>
-          <el-option label="区域二"
-                     value="beijing"></el-option>
+          <el-option v-for="(item, index) in $store.state.cityList"
+                     :key="index"
+                     :label="item.name"
+                     :value="item.id"></el-option>
         </el-select>
         <el-select v-model="city"
                    clearable
                    placeholder="所在市">
-          <el-option label="区域一"
-                     value="shanghai"></el-option>
-          <el-option label="区域二"
-                     value="beijing"></el-option>
+          <el-option v-for="(item, index) in $store.state.areaList"
+                     :key="index"
+                     :label="item.name"
+                     :value="item.id"></el-option>
         </el-select>
         <el-button slot="append"
                    type="primary"
+                   @click="batModifyCity"
                    icon="el-icon-search">
           批量修改地区
         </el-button>
@@ -50,24 +52,26 @@
         <br>
 
         <span style="margin-top: 10px">选择栏目</span>
-        <el-select v-model="province"
-                   style="margin-top: 10px"
+        <el-select v-model="board_code"
+                   value-key="uid"
+                   @change="changePageList"
                    clearable>
-          <el-option label="区域一"
-                     value="shanghai"></el-option>
-          <el-option label="区域二"
-                     value="beijing"></el-option>
+          <el-option v-for="item in pageList"
+                     :key="item.uid"
+                     :label="item.board_title"
+                     :value="item"></el-option>
         </el-select>
-        <el-select v-model="city"
-                   style="margin-top: 10px"
+        <el-select v-model="board_name_code"
+                   value-key="uid"
                    clearable>
-          <el-option label="区域一"
-                     value="shanghai"></el-option>
-          <el-option label="区域二"
-                     value="beijing"></el-option>
+          <el-option v-for="item in pageSubList"
+                     :key='item'
+                     :label="item.board_title"
+                     :value="item"></el-option>
         </el-select>
         <el-button slot="append"
                    type="primary"
+                   @click="batModifyCode"
                    style="margin-top: 10px"
                    icon="el-icon-search">
           批量修改栏目
@@ -75,28 +79,33 @@
         <el-button slot="append"
                    type="primary"
                    style="margin-top: 10px"
+                   @click="batIsTop(1)"
                    icon="el-icon-top">
           批量置顶
         </el-button>
         <el-button slot="append"
                    type="primary"
+                   @click="batIsTop(2)"
                    style="margin-right: 20px"
                    icon="el-icon-bottom">
           取消置顶
         </el-button>
         <el-button slot="append"
+                   @click="batIsTop(3)"
                    type="primary"
                    icon="el-icon-top">
-          批量总置顶
+          总置顶
         </el-button>
         <el-button slot="append"
                    type="primary"
+                   @click="batIsTop(4)"
                    icon="el-icon-bottom"
                    style="margin-right: 20px">
           取消总置顶
         </el-button>
         <el-button slot="append"
                    type="primary"
+                   @click="batDel"
                    icon="el-icon-close">
           批量删除
         </el-button>
@@ -105,7 +114,11 @@
       <div class="flex">
         <el-table :data="tableData"
                   stripe
+                  @selection-change="handleSelectionChange"
                   style="width: 100%">
+          <el-table-column type="selection"
+                           width="55">
+          </el-table-column>
           <el-table-column show-overflow-tooltip
                            type="index"
                            width="50"
@@ -151,11 +164,6 @@
           </el-table-column>
         </el-table>
         <div class="btootm_paination">
-          <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
@@ -183,17 +191,149 @@ export default {
       currentPage: 1, //当前页数
       totalData: 1, //总页数
       page_size: 10,
-      keyword: ''
+      keyword: '',
+      allUid: [],
+      pageList: [],
+      pageSubList: [],
+      board_code: '',
+      board_name_code: ''
     }
   },
 
   methods: {
+    // 单独删除
+    checkTrackQueryFun (index, row) {
+      this.$api.delArticleItem({
+        uid: row.uid,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.getArticlePageList()
+      })
+    },
+
+    // 批量删除
+    batDel () {
+      if (!this.allUid.length) {
+        this.$message({
+          message: '请选择数据',
+          type: 'warning'
+        });
+        return false
+      }
+
+      this.$api.batDel({
+        uid: this.allUid.join(','),
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.getArticlePageList()
+      })
+    },
+
+    // 置顶成功 取消置顶
+    batIsTop (tager) {
+      if (!this.allUid.length) {
+        this.$message({
+          message: '请选择数据',
+          type: 'warning'
+        });
+        return false
+      }
+
+      this.$api.batIsTop({
+        uid: this.allUid.join(','),
+        doit: tager,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.getArticlePageList()
+      })
+    },
+
+    //批量修改栏目
+    batModifyCode () {
+      this.$api.batModifyCode({
+        uid: this.allUid.join(','),
+        board_name_code: this.board_name_code.board_name_code + '',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.getArticlePageList()
+      })
+    },
+
+    // 批量修改地址
+    batModifyCity () {
+      if (!this.allUid.length) {
+        this.$message({
+          message: '请选择数据',
+          type: 'warning'
+        });
+        return false
+      }
+      this.$api.batModifyCity({
+        uid: this.allUid.join(','),
+        province: this.province + '',
+        city: this.city + '',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.getArticlePageList()
+      })
+    },
+
+    // 获取一级栏目
+    getBoardPageList () {
+      this.$api.getBoardList({
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.pageList = res.data
+      })
+    },
+
+    // 获取二级菜单
+    changePageList (res) {
+      this.board_name_code = ''
+      this.$api.getBoardSubList({
+        token: JSON.parse(this.$store.state.token).token,
+        uid: this.board_code.uid
+      }).then(res => {
+        this.pageSubList = res.data
+      })
+    },
+
+    changeCity () {
+      this.city = ''
+      this.$store.commit('GET_CITY', { id: this.province, name: 'areaList' })
+    },
+
     editor (index, row) {
-      this.$router.push(`/magazineManagement/addMagazineManagement?nameType=修改资讯&&uid=${row.uid}&&ps_name=${this.$route.query.ps_name}`)
+      this.$router.push(`/magazineManagement/addMagazineManagement?nameType=修改资讯&uid=${row.uid}&ps_name=${this.$route.query.ps_name}`)
     },
 
     add () {
-      this.$router.push(`/magazineManagement/addMagazineManagement?nameType=添加资讯&&ps_name=${this.$route.query.ps_name}`)
+      this.$router.push(`/magazineManagement/addMagazineManagement?nameType=添加资讯&ps_name=${this.$route.query.ps_name}`)
     },
     // 分页
     handleCurrentChangeFun (val) {
@@ -224,11 +364,17 @@ export default {
         this.tableData = res.data.items
         this.totalData = res.data.total_result
       })
+    },
+
+    handleSelectionChange (val) {
+      this.allUid = val.map(val => { return val.uid })
     }
   },
 
   mounted () {
     this.getArticlePageList()
+    this.getBoardPageList()
+    this.$store.commit('GET_CITY')
   }
 }
 </script>

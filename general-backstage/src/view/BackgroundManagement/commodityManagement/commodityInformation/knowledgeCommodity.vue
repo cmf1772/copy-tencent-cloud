@@ -1,15 +1,14 @@
 <template>
   <div class="knowledgeCommodity">
     <div class="top_button">
-
       <div class="top_left">
         <span>课程名称</span>
-        <el-input v-model="sName"
+        <el-input v-model="ps_subject"
                   style="width: 200px"
                   clearable>
         </el-input>
         <span>课程编码</span>
-        <el-input v-model="sName"
+        <el-input v-model="course_id"
                   style="width: 200px"
                   clearable>
         </el-input>
@@ -54,8 +53,7 @@
           </el-table-column>
           <el-table-column prop="date"
                            show-overflow-tooltip
-                           label="上架情况"
-                           width="180">
+                           label="上架情况">
           </el-table-column>
           <el-table-column show-overflow-tooltip
                            label="课程名称">
@@ -156,10 +154,10 @@
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
+                         :page-sizes="[10, 20, 30, 40]"
+                         :page-size="page_size"
                          layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
+                         :total="totalData">
           </el-pagination>
         </div>
       </div>
@@ -173,45 +171,13 @@ export default {
 
   data () {
     return {
-      time: [],
-      status: '',
-      options: [
-        { value: '', label: '全部' },
-        { value: 0, label: '离线' },
-        { value: 1, label: '在线' },
-        { value: 2, label: '维护' },
-        { value: 3, label: '故障' },
-        { value: 4, label: '失效' },
-      ],
-      sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
-      activeName: ''
+      activeName: '',
+      page_size: 10,
+      course_id: '',
+      ps_subject: ''
     }
   },
 
@@ -222,20 +188,38 @@ export default {
 
     release () {
       this.$router.push('/commodityInformation/releaseknowledgeCommodity?nameType=发布广告')
-
     },
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
     },
+
     handleClick (tab, event) {
       console.log(tab, event);
-    }
+    },
+
+    getTaskPageList () {
+      this.$api.getTaskPageList({
+        order_type: 'asc',
+        order_field: 'id',
+        token: JSON.parse(this.$store.state.token).token,
+        page: this.currentPage,
+        page_size: this.page_size,
+        course_id: this.course_id,
+        ps_subject: this.ps_subject
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
+    },
+  },
+
+  mounted () {
+    this.getTaskPageList()
   }
 }
 </script>
