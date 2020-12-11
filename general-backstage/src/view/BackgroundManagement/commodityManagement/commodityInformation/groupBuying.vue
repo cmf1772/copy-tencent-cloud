@@ -1,15 +1,16 @@
+   
 <template>
-  <div class="groupBuying">
+  <div class="groupGoods">
     <div class="top_button">
 
       <div class="top_left">
-        <span>商城名称</span>
-        <el-input v-model="sName"
+        <span>商品名称</span>
+        <el-input v-model="ps_subject"
                   style="width: 200px"
                   clearable>
         </el-input>
-        <span>商城编码</span>
-        <el-input v-model="sName"
+        <span>商品编码</span>
+        <el-input v-model="ps_code"
                   style="width: 200px"
                   clearable>
         </el-input>
@@ -23,11 +24,20 @@
     </div>
     <div class="table_bottom">
       <div class="form-item">
-        <el-button slot="append"
+        <!-- <el-button slot="append"
                    type="primary"
+                   @click="zsbatDown"
                    style="margin-right: 20px;width:130px;margin: 10px 0 10px 10px"
                    icon="el-icon-bottom">
           批量下架
+        </el-button> -->
+        <el-button slot="append"
+                   type="primary"
+                   @click="tgbatDelGoodsItem"
+                   @selection-change="handleSelectionChange"
+                   style="margin-right: 20px;width:130px;margin: 10px 0 10px 10px"
+                   icon="el-icon-close">
+          批量删除
         </el-button>
       </div>
       <el-tabs v-model="activeName"
@@ -41,8 +51,12 @@
       </el-tabs>
       <div class="flex">
         <el-table :data="tableData"
+                  @selection-change="handleSelectionChange"
                   stripe
                   style="width: 100%">
+          <el-table-column type="selection"
+                           width="55">
+          </el-table-column>
           <el-table-column show-overflow-tooltip
                            type="index"
                            width="50"
@@ -52,16 +66,18 @@
               {{scope.$index+1}}
             </template>
           </el-table-column>
-          <el-table-column prop="date"
-                           show-overflow-tooltip
+          <el-table-column show-overflow-tooltip
                            label="上架情况"
                            width="180">
+            <div slot-scope="scoped">
+              上架
+            </div>
           </el-table-column>
           <el-table-column show-overflow-tooltip
                            label="商城名称">
             <template slot-scope="scope">
               <div>
-                <el-input v-model=" scope.row.name"
+                <el-input v-model=" scope.row.goods_name"
                           style="width: 200px;border:none"
                           clearable>
                 </el-input>
@@ -72,14 +88,14 @@
                            label="商城编码">
             <template slot-scope="scope">
               <div>
-                <el-input v-model=" scope.row.name"
+                <el-input v-model=" scope.row.goods_code"
                           style="width: 200px;border:none"
                           clearable>
                 </el-input>
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="goods_category"
                            show-overflow-tooltip
                            label="所属分类"
                            width="180">
@@ -100,22 +116,25 @@
                            label="商城价格">
             <template slot-scope="scope">
               <div>
-                <el-input v-model=" scope.row.name"
+                <el-input v-model=" scope.row.goods_sale_price"
                           style="width: 200px;border:none"
                           clearable>
                 </el-input>
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="goods_stock"
                            show-overflow-tooltip
                            label="总库存"
                            width="180">
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="type"
                            show-overflow-tooltip
                            label="接受预定"
                            width="180">
+            <div slot-scope="scope">
+              {{scope.row.type == 9 ?  '接受预定 ' : ''}}
+            </div>
           </el-table-column>
           <el-table-column show-overflow-tooltip
                            label="操作"
@@ -131,11 +150,11 @@
                 <el-button size="medium"
                            type="text"
                            class="redColor  right20"
-                           @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
+                           @click="tgdelGoodsItem(scope.$index, scope.row)">删除</el-button>
                 <el-button size="medium"
                            type="text"
-                           @click="release"
-                           class="blueColor">发布</el-button>
+                           @click="tgapproval(scope.row)"
+                           class="blueColor">审核</el-button>
               </div>
             </template>
           </el-table-column>
@@ -144,10 +163,10 @@
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
+                         :page-sizes="[10, 20, 30, 40]"
+                         :page-size="page_size"
                          layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
+                         :total="totalData">
           </el-pagination>
         </div>
       </div>
@@ -157,79 +176,170 @@
 
 <script>
 export default {
-  name: 'groupBuying',
+  name: 'groupGoods',
 
   data () {
     return {
-      time: [],
-      status: '',
-      options: [
-        { value: '', label: '全部' },
-        { value: 0, label: '离线' },
-        { value: 1, label: '在线' },
-        { value: 2, label: '维护' },
-        { value: 3, label: '故障' },
-        { value: 4, label: '失效' },
-      ],
       sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
-      activeName: ''
+      activeName: '',
+      page_size: 10,
+      allUid: [],
+      ps_code: '',
+      ps_subject: ''
     }
   },
 
   methods: {
-    editor () {
-      this.$router.push('/commodityInformation/editgroupGoods?nameType=修改商城信息')
+    sesarchFun () {
+      this.tggetGoodsPageList()
     },
 
-    release () {
-      this.$router.push('/commodityInformation/releasegroupGoods?nameType=发布广告')
-
+    tgdelGoodsItem (i, r) {
+      this.$api.tgdelGoodsItem({
+        uid: r.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.tggetGoodsPageList()
+      })
     },
+
+    tgapproval (r) {
+      this.$api.tgapproval({
+        uid: r.uid,
+        approval: r.approval,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.tggetGoodsPageList()
+      })
+    },
+
+    tgbatDelGoodsItem () {
+      if (!this.allUid.length) {
+        this.$message({
+          message: '请选择数据',
+          type: 'warning'
+        });
+        return false
+      }
+
+      this.$api.tgbatDelGoodsItem({
+        uid: this.allUid.join(','),
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.tggetGoodsPageList()
+      })
+    },
+
+    zsbatDown () {
+      if (!this.allUid.length) {
+        this.$message({
+          message: '请选择数据',
+          type: 'warning'
+        });
+        return false
+      }
+
+      this.$api.zsbatDown({
+        uid: this.allUid.join(','),
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.tggetGoodsPageList()
+      })
+    },
+
+    editor (i, r) {
+      this.$router.push({
+        path: '/commodityInformation/editdisplayProducts',
+        query: {
+          nameType: "修改商城信息",
+          uid: r.uid
+        }
+      })
+    },
+
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.tggetGoodsPageList()
     },
 
     handleSizeChange (val) {
+      this.page_size = val
+      this.tggetGoodsPageList()
       console.log(`每页 ${val} 条`);
     },
+
     handleClick (tab, event) {
       console.log(tab, event);
+    },
+
+    tggetGoodsPageList () {
+      this.$api.tggetGoodsPageList({
+        order_type: 'asc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+        page: this.currentPage,
+        page_size: this.page_size,
+        ps_code: this.ps_code,
+        ps_subject: this.ps_subject
+      }).then(res => {
+        res.data.items.forEach(item => {
+          item.start_date = this.timestamp(item.start_date)
+          item.end_date = this.timestamp(item.end_date)
+        })
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
+    },
+
+    handleSelectionChange (val) {
+      this.allUid = val.map(val => { return val.uid })
+    },
+
+    timestamp (timestamp) {
+      var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      var Y = date.getFullYear() + '-';
+      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+      var D = date.getDate() + ' ';
+      var h = date.getHours() + ':';
+      var m = date.getMinutes() + ':';
+      var s = date.getSeconds();
+      return Y + M + D + h + m + s;
     }
-  }
+
+  },
+
+  mounted () {
+    this.tggetGoodsPageList()
+  },
 }
 </script>
 
 <style lang="scss" scoped>
-.groupBuying {
+.groupGoods {
   width: 100%;
   height: 100%;
   display: flex;

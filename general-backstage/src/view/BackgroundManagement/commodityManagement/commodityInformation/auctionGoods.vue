@@ -1,15 +1,16 @@
+   
 <template>
-  <div class="auctionGoods">
+  <div class="groupGoods">
     <div class="top_button">
 
       <div class="top_left">
         <span>商品名称</span>
-        <el-input v-model="sName"
+        <el-input v-model="ps_subject"
                   style="width: 200px"
                   clearable>
         </el-input>
         <span>商品编码</span>
-        <el-input v-model="sName"
+        <el-input v-model="ps_code"
                   style="width: 200px"
                   clearable>
         </el-input>
@@ -19,12 +20,38 @@
                    @click="sesarchFun()">
           搜索
         </el-button>
+        <el-select v-model="approval"
+                   clearable
+                   @change="sesarchFun"
+                   style="width: 200px"
+                   placeholder="请选择">
+          <el-option label="拒绝审核"
+                     value="-1">
+          </el-option>
+          <el-option label="审核中"
+                     value="0">
+          </el-option>
+          <el-option label="通过审核"
+                     value="1">
+          </el-option>
+          <el-option label="全部"
+                     value="-2">
+          </el-option>
+        </el-select>
       </div>
     </div>
     <div class="table_bottom">
       <div class="form-item">
+        <!-- <el-button slot="append"
+                   type="primary"
+                   @click="zsbatDown"
+                   style="margin-right: 20px;width:130px;margin: 10px 0 10px 10px"
+                   icon="el-icon-bottom">
+          批量下架
+        </el-button> -->
         <el-button slot="append"
                    type="primary"
+                   @click="pmbatDelGoodsItem"
                    style="margin-right: 20px;width:130px;margin: 10px 0 10px 10px"
                    icon="el-icon-close">
           批量删除
@@ -32,18 +59,23 @@
       </div>
       <el-tabs v-model="activeName"
                @tab-click="handleClick">
-        <el-tab-pane label="商品价格"
+        <el-tab-pane label="商城价格"
                      name="first"></el-tab-pane>
         <el-tab-pane label="上传时间"
                      name="second"></el-tab-pane>
-        <el-tab-pane label="商品库存"
+        <el-tab-pane label="商城库存"
                      name="third"></el-tab-pane>
       </el-tabs>
       <div class="flex">
         <el-table :data="tableData"
                   stripe
+                  @selection-change="handleSelectionChange"
                   style="width: 100%">
+          <el-table-column type="selection"
+                           width="55">
+          </el-table-column>
           <el-table-column show-overflow-tooltip
+                           @selection-change="handleSelectionChange"
                            type="index"
                            width="50"
                            label="序号">
@@ -57,46 +89,46 @@
                            label="商品信息">
             <template slot-scope="scope">
               <div>
-                <el-input v-model=" scope.row.name"
+                <el-input v-model=" scope.row.goods_name"
                           style="width: 200px;border:none"
                           clearable>
                 </el-input>
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="start_price"
                            show-overflow-tooltip
                            label="起拍价"
                            width="180">
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="end_price"
                            show-overflow-tooltip
                            label="终止价"
                            width="180">
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="start_date"
                            show-overflow-tooltip
                            label="开始时间"
                            width="180">
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="end_date"
                            show-overflow-tooltip
                            label="结束时间"
                            width="180">
           </el-table-column>
-          <el-table-column prop="date"
+          <!-- <el-table-column prop="date"
                            show-overflow-tooltip
                            label="参与人次"
                            width="180">
-          </el-table-column>
-          <el-table-column prop="date"
+          </el-table-column> -->
+          <el-table-column prop="status"
                            show-overflow-tooltip
                            label="状态"
                            width="180">
           </el-table-column>
           <el-table-column show-overflow-tooltip
                            label="操作"
-                           width="150"
+                           width="200"
                            min-width="60">
             <template slot-scope="scope">
               <div>
@@ -108,11 +140,14 @@
                 <el-button size="medium"
                            type="text"
                            class="redColor  right20"
-                           @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
+                           @click="pmdelGoodsItem(scope.$index, scope.row)">删除</el-button>
                 <!-- <el-button size="medium"
                            type="text"
                            @click="release"
                            class="blueColor">发布</el-button> -->
+                <span>
+                  {{scope.row.reject}}
+                </span>
               </div>
             </template>
           </el-table-column>
@@ -121,10 +156,10 @@
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
+                         :page-sizes="[10, 20, 30, 40]"
+                         :page-size="page_size"
                          layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
+                         :total="totalData">
           </el-pagination>
         </div>
       </div>
@@ -134,79 +169,168 @@
 
 <script>
 export default {
-  name: 'auctionGoods',
+  name: 'groupGoods',
 
   data () {
     return {
-      time: [],
-      status: '',
-      options: [
-        { value: '', label: '全部' },
-        { value: 0, label: '离线' },
-        { value: 1, label: '在线' },
-        { value: 2, label: '维护' },
-        { value: 3, label: '故障' },
-        { value: 4, label: '失效' },
-      ],
+      approval: '1',
       sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
-      activeName: ''
+      activeName: '',
+      page_size: 10,
+      allUid: [],
+      ps_code: '',
+      ps_subject: ''
     }
   },
 
   methods: {
-    editor () {
-      this.$router.push('/commodityInformation/editauctionGoods?nameType=修改商品信息')
+    sesarchFun () {
+      this.pmgetGoodsPageList()
     },
 
-    release () {
-      this.$router.push('/commodityInformation/releaseauctionGoods?nameType=发布广告')
-
+    pmdelGoodsItem (i, r) {
+      this.$api.pmdelGoodsItem({
+        uid: r.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.pmgetGoodsPageList()
+      })
     },
+
+    tgapproval (r) {
+      this.$api.tgapproval({
+        uid: r.uid,
+        approval: r.approval,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.pmgetGoodsPageList()
+      })
+    },
+
+    pmbatDelGoodsItem () {
+      if (!this.allUid.length) {
+        this.$message({
+          message: '请选择数据',
+          type: 'warning'
+        });
+        return false
+      }
+
+      this.$api.pmbatDelGoodsItem({
+        uid: this.allUid.join(','),
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.pmgetGoodsPageList()
+      })
+    },
+
+    zsbatDown () {
+      if (!this.allUid.length) {
+        this.$message({
+          message: '请选择数据',
+          type: 'warning'
+        });
+        return false
+      }
+
+      this.$api.zsbatDown({
+        uid: this.allUid.join(','),
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.pmgetGoodsPageList()
+      })
+    },
+
+    editor (i, r) {
+      this.$router.push({
+        path: '/commodityInformation/editauctionGoods',
+        query: {
+          nameType: "修改商城信息",
+          uid: r.uid
+        }
+      })
+    },
+
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.pmgetGoodsPageList()
     },
 
     handleSizeChange (val) {
+      this.page_size = val
+      this.pmgetGoodsPageList()
       console.log(`每页 ${val} 条`);
     },
+
     handleClick (tab, event) {
       console.log(tab, event);
+    },
+
+    pmgetGoodsPageList () {
+      this.$api.pmgetGoodsPageList({
+        order_type: 'asc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+        page: this.currentPage,
+        page_size: this.page_size,
+        ps_code: this.ps_code,
+        approval: this.approval,
+        ps_subject: this.ps_subject
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
+    },
+
+    handleSelectionChange (val) {
+      this.allUid = val.map(val => { return val.uid })
+    },
+
+    timestamp (timestamp) {
+      var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      var Y = date.getFullYear() + '-';
+      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+      var D = date.getDate() + ' ';
+      var h = date.getHours() + ':';
+      var m = date.getMinutes() + ':';
+      var s = date.getSeconds();
+      return Y + M + D + h + m + s;
     }
-  }
+
+  },
+
+  mounted () {
+    this.pmgetGoodsPageList()
+  },
 }
 </script>
 
 <style lang="scss" scoped>
-.auctionGoods {
+.groupGoods {
   width: 100%;
   height: 100%;
   display: flex;

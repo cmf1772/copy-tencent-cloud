@@ -99,7 +99,7 @@
           <el-checkbox-group v-model="product.goods_status">
             <el-checkbox label="1">热门</el-checkbox>
             <el-checkbox label="2">推荐</el-checkbox>
-            <el-checkbox label="3">免邮</el-checkbox>
+            <el-checkbox label="4">免邮</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="定金："
@@ -214,7 +214,7 @@
           </div>
         </el-form-item>
 
-        <el-form-item label="商品缩略图："
+        <el-form-item label="促销起止时间："
                       style="width: 100%"
                       prop="name">
           <el-date-picker v-model="time"
@@ -506,7 +506,7 @@ export default {
         end_date: this.time[1],
         token: JSON.parse(this.$store.state.token).token,
       }).then(res => {
-        this.$route.push('/commodityInformation/secondKill')
+        this.$router.push('/commodityInformation/secondKill')
       })
     },
 
@@ -612,6 +612,16 @@ export default {
         this.product.goods_brand = this.product.goods_brand + ''
         this.product.goods_category = this.product.goods_category + ''
         this.time = [this.product.start_date, this.product.end_date]
+        this.product.goods_status = []
+        if (this.product.hot_checked === 'checked') {
+          this.product.goods_status.push("1")
+        }
+        if (this.product.best_checked === 'checked') {
+          this.product.goods_status.push("2")
+        }
+        if (this.product.free_delivery_checked === 'checked') {
+          this.product.goods_status.push("4")
+        }
 
         if (this.product.goods_category.length) {
           this.$store.commit('GET_SUB_LIST', this.product.goods_category)

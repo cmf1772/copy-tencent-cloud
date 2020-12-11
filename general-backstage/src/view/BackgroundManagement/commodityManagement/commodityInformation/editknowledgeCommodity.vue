@@ -99,7 +99,7 @@
           <el-checkbox-group v-model="product.goods_status">
             <el-checkbox label="1">热门</el-checkbox>
             <el-checkbox label="2">推荐</el-checkbox>
-            <el-checkbox label="3">免邮</el-checkbox>
+            <el-checkbox label="4">免邮</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="定金："
@@ -657,6 +657,17 @@ export default {
         this.uploadPicUrl2 = res.data.product.goods_file1
         res.data.product.goods_status = res.data.product.goods_status + ''
         this.product.goods_status = res.data.product.goods_status.split(',')
+        this.product.goods_status = []
+        if (this.product.hot_checked === 'checked') {
+          this.product.goods_status.push("1")
+        }
+        if (this.product.best_checked === 'checked') {
+          this.product.goods_status.push("2")
+        }
+        if (this.product.free_delivery_checked === 'checked') {
+          this.product.goods_status.push("4")
+        }
+
 
         // this.pf = [{
         //   wholesale1: '',

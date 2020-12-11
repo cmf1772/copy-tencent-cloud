@@ -172,6 +172,57 @@ const article = {
   // 展示批量删除
   zsbatDelGoodsItem (params) { return axios.post('/admin/showgd/batDelGoodsItem', { ...params }) },
 
+  // 展示获取一个商品
+  zsgetGoodsItem (params) { return axios.post('/admin/showgd/getGoodsItem', { ...params }) },
+
+  // 展示编辑一个商品
+  zssetGoodsItem (params) { return axios.post('/admin/showgd/setGoodsItem', { ...params }) },
+
+  // 团购获取商品分页列表
+  tggetGoodsPageList (params) { return axios.post('/admin/groupgd/getGoodsPageList', { ...params }) },
+
+  // 团购删除一个商品
+  tgdelGoodsItem (params) { return axios.post('/admin/groupgd/delGoodsItem', { ...params }) },
+
+  // 团购批量删除商品
+  tgbatDelGoodsItem (params) { return axios.post('/admin/groupgd/batDelGoodsItem', { ...params }) },
+
+  // 团购审核商品
+  tgapproval (params) { return axios.post('/admin/groupgd/approval', { ...params }) },
+
+  // 获取拍卖商品分页列表
+  pmgetGoodsPageList (params) { return axios.post('/admin/auction/getGoodsPageList', { ...params }) },
+
+  // 删除一个拍卖商品
+  pmdelGoodsItem (params) { return axios.post('/admin/auction/delGoodsItem', { ...params }) },
+
+  // 批量删除拍卖商品
+  pmbatDelGoodsItem (params) { return axios.post('/admin/auction/batDelGoodsItem', { ...params }) },
+
+  // 编辑一个拍卖商品
+  pmsetGoodsItem (params) { return axios.post('/admin/auction/setGoodsItem', { ...params }) },
+
+  // 获取拍卖商品
+  pmgetGoodsItem (params) { return axios.post('/admin/auction/getGoodsItem', { ...params }) },
+
+  // 批发商品列表
+  pfgetGoodsPageList (params) { return axios.post('/admin/pfgoods/getGoodsPageList', { ...params }) },
+
+  // 批发删除一个商品
+  pfdelGoodsItem (params) { return axios.post('/admin/pfgoods/delGoodsItem', { ...params }) },
+
+  // 批发批量删除商品
+  pfbatDelGoodsItem (params) { return axios.post('/admin/pfgoods/batDelGoodsItem', { ...params }) },
+
+  // 批发批量下架商品
+  pfbatDown (params) { return axios.post('/admin/pfgoods/batDown', { ...params }) },
+
+  // 批发获取一个商品
+  pfgetGoodsItem (params) { return axios.post('/admin/pfgoods/getGoodsItem', { ...params }) },
+
+  // 编辑一个批发商品
+  pfsetGoodsItem (params) { return axios.post('/admin/pfgoods/setGoodsItem', { ...params }) },
+
 
   /**
    * 七牛云上传token 地址
