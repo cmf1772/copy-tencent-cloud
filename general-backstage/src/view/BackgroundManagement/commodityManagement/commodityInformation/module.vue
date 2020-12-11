@@ -1,16 +1,9 @@
-
 <template>
-  <div class="groupGoods">
+  <div class="knowledgeCommodity">
     <div class="top_button">
-
       <div class="top_left">
-        <span>商品名称</span>
+        <span>标题</span>
         <el-input v-model="ps_subject"
-                  style="width: 200px"
-                  clearable>
-        </el-input>
-        <span>商品编码</span>
-        <el-input v-model="ps_code"
                   style="width: 200px"
                   clearable>
         </el-input>
@@ -25,15 +18,8 @@
     <div class="table_bottom">
       <div class="form-item">
         <el-button slot="append"
+                   @click="batDelTaskItem"
                    type="primary"
-                   @click="zsbatDown"
-                   style="margin-right: 20px;width:130px;margin: 10px 0 10px 10px"
-                   icon="el-icon-bottom">
-          批量下架
-        </el-button>
-        <el-button slot="append"
-                   type="primary"
-                   @click="zsbatDelGoodsItem"
                    style="margin-right: 20px;width:130px;margin: 10px 0 10px 10px"
                    icon="el-icon-close">
           批量删除
@@ -41,11 +27,11 @@
       </div>
       <el-tabs v-model="activeName"
                @tab-click="handleClick">
-        <el-tab-pane label="商城价格"
+        <el-tab-pane label="课程价格"
                      name="first"></el-tab-pane>
         <el-tab-pane label="上传时间"
                      name="second"></el-tab-pane>
-        <el-tab-pane label="商城库存"
+        <el-tab-pane label="课程库存"
                      name="third"></el-tab-pane>
       </el-tabs>
       <div class="flex">
@@ -61,58 +47,25 @@
                            width="50"
                            label="序号">
             <template slot-scope="scope">
+              <!-- {{(currentPage-1)*10+scope.$index+1}} -->
               {{scope.$index+1}}
             </template>
           </el-table-column>
-          <el-table-column show-overflow-tooltip
-                           label="上架情况"
-                           width="180">
-            <div slot-scope="scope">
-              上架
-            </div>
-          </el-table-column>
-          <el-table-column show-overflow-tooltip
-                           label="商品信息">
-            <template slot-scope="scope">
-              <div>
-                <el-input v-model=" scope.row.goods_name"
-                          style="width: 200px;border:none"
-                          clearable>
-                </el-input>
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column show-overflow-tooltip
-                           label="商品编码">
-            <template slot-scope="scope">
-              <div>
-                <el-input v-model=" scope.row.goods_code"
-                          style="width: 200px;border:none"
-                          clearable>
-                </el-input>
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="goods_category"
+          <el-table-column prop="title"
                            show-overflow-tooltip
-                           label="所属分类"
-                           width="180">
+                           label="标题">
           </el-table-column>
           <el-table-column show-overflow-tooltip
-                           label="销售价格">
-            <template slot-scope="scope">
-              <div>
-                <el-input v-model=" scope.row.goods_sale_price"
-                          style="width: 200px;border:none"
-                          clearable>
-                </el-input>
-              </div>
-            </template>
+                           prop="type"
+                           label="类型">
           </el-table-column>
-          <el-table-column prop="goods_stock"
+          <el-table-column show-overflow-tooltip
+                           prop="length"
+                           label="时长">
+          </el-table-column>
+          <el-table-column prop="createdTime"
                            show-overflow-tooltip
-                           label="总库存"
-                           width="180">
+                           label="发布时间">
           </el-table-column>
           <el-table-column show-overflow-tooltip
                            label="操作"
@@ -120,19 +73,10 @@
                            min-width="60">
             <template slot-scope="scope">
               <div>
-
-                <el-button size="medium"
-                           type="text"
-                           class="yellowColor right20"
-                           @click="editor(scope.$index, scope.row)">修改</el-button>
                 <el-button size="medium"
                            type="text"
                            class="redColor  right20"
-                           @click="zsdelGoodsItem(scope.$index, scope.row)">删除</el-button>
-                <el-button size="medium"
-                           type="text"
-                           @click="release"
-                           class="blueColor">发布</el-button>
+                           @click="delTaskItem(scope.$index, scope.row)">删除</el-button>
               </div>
             </template>
           </el-table-column>
@@ -154,29 +98,49 @@
 
 <script>
 export default {
-  name: 'groupGoods',
+  name: 'knowledgeCommodity',
 
   data () {
     return {
-      sName: '',
       tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
       activeName: '',
       page_size: 10,
-      allUid: [],
-      ps_code: '',
-      ps_subject: ''
+      ps_subject: '',
+      allUid: []
     }
   },
 
   methods: {
     sesarchFun () {
-      this.zsgetGoodsPageList()
+      this.getTaskPageList()
     },
 
-    zsdelGoodsItem (i, r) {
-      this.$api.zsdelGoodsItem({
+    batDelTaskItem () {
+      if (!this.allUid.length) {
+        this.$message({
+          message: '请选择数据',
+          type: 'warning'
+        });
+        return false
+      }
+
+      this.$api.batDelTaskItem({
+        uid: this.allUid.join(','),
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.getTaskPageList()
+      })
+    },
+
+    delTaskItem (i, r) {
+      this.$api.delTaskItem({
         uid: r.uid,
         token: JSON.parse(this.$store.state.token).token,
       }).then(res => {
@@ -185,124 +149,53 @@ export default {
           message: res.data.msg,
           type: 'success'
         });
-        this.zsgetGoodsPageList()
-      })
-    },
-
-    zsbatDelGoodsItem () {
-      if (!this.allUid.length) {
-        this.$message({
-          message: '请选择数据',
-          type: 'warning'
-        });
-        return false
-      }
-
-      this.$api.zsbatDelGoodsItem({
-        uid: this.allUid.join(','),
-        token: JSON.parse(this.$store.state.token).token,
-      }).then(res => {
-        this.$message({
-          showClose: true,
-          message: res.data.msg,
-          type: 'success'
-        });
-        this.zsgetGoodsPageList()
-      })
-    },
-
-    zsbatDown () {
-      if (!this.allUid.length) {
-        this.$message({
-          message: '请选择数据',
-          type: 'warning'
-        });
-        return false
-      }
-
-      this.$api.zsbatDown({
-        uid: this.allUid.join(','),
-        token: JSON.parse(this.$store.state.token).token,
-      }).then(res => {
-        this.$message({
-          showClose: true,
-          message: res.data.msg,
-          type: 'success'
-        });
-        this.zsgetGoodsPageList()
-      })
-    },
-
-    editor (i, r) {
-      this.$router.push({
-        path: '/commodityInformation/editdisplayProducts',
-        query: {
-          nameType: "修改商城信息",
-          uid: r.uid
-        }
+        this.getGoodsPageList()
       })
     },
 
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      this.zsgetGoodsPageList()
+      this.getTaskPageList()
     },
 
     handleSizeChange (val) {
       this.page_size = val
-      this.zsgetGoodsPageList()
-      console.log(`每页 ${val} 条`);
+      this.getTaskPageList()
     },
 
     handleClick (tab, event) {
       console.log(tab, event);
     },
 
-    zsgetGoodsPageList () {
-      this.$api.zsgetGoodsPageList({
+    getTaskPageList () {
+      this.$api.getTaskPageList({
         order_type: 'asc',
-        order_field: 'uid',
+        order_field: 'id',
         token: JSON.parse(this.$store.state.token).token,
         page: this.currentPage,
         page_size: this.page_size,
-        ps_code: this.ps_code,
+        course_id: this.$route.query.uid,
         ps_subject: this.ps_subject
       }).then(res => {
-        res.data.items.forEach(item => {
-          item.start_date = this.timestamp(item.start_date)
-          item.end_date = this.timestamp(item.end_date)
-        })
         this.tableData = res.data.items
         this.totalData = res.data.total_result
-        console.log(this.tableData)
       })
     },
 
     handleSelectionChange (val) {
       this.allUid = val.map(val => { return val.uid })
-    },
-
-    timestamp (timestamp) {
-      var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-      var Y = date.getFullYear() + '-';
-      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-      var D = date.getDate() + ' ';
-      var h = date.getHours() + ':';
-      var m = date.getMinutes() + ':';
-      var s = date.getSeconds();
-      return Y + M + D + h + m + s;
     }
   },
 
   mounted () {
-    this.zsgetGoodsPageList()
-  },
+    this.getTaskPageList()
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-.groupGoods {
+.knowledgeCommodity {
   width: 100%;
   height: 100%;
   display: flex;

@@ -191,6 +191,11 @@ export default new Router({
           component: (resolve) => require(['@/view/BackgroundManagement/commodityManagement/commodityInformation/knowledgeCommodity.vue'], resolve),
           meta: ['商品管理', '商品信息', '知识商品管理']
         }, {
+          path: '/commodityInformation/module',
+          name: 'module',
+          component: (resolve) => require(['@/view/BackgroundManagement/commodityManagement/commodityInformation/module.vue'], resolve),
+          meta: ['商品管理', '商品信息', '课时任务列表']
+        }, {
           path: '/commodityInformation/editknowledgeCommodity',
           name: 'editknowledgeCommodity',
           component: (resolve) => require(['@/view/BackgroundManagement/commodityManagement/commodityInformation/editknowledgeCommodity.vue'], resolve),

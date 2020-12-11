@@ -46,6 +46,23 @@ export default {//这里要注意不要在mutations里面进行异步操作
     })
   },
 
+  GET_CATEGORY_LIST (state, token) {
+    article.getCategoryList({
+      token: JSON.parse(state.token).token
+    }).then(res => {
+      state.getCategoryList = res.data
+    })
+  },
+
+  GET_SUB_LIST (state, uid) {
+    article.getSubList({
+      uid: uid,
+      token: JSON.parse(state.token).token
+    }).then(res => {
+      state.getSubList = res.data
+    })
+  },
+
   // this.$message({
   //   showClose: true,
   //   message: '恭喜你，这是一条成功消息',

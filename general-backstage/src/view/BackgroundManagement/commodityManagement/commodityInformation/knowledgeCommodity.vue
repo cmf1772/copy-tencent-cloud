@@ -8,7 +8,7 @@
                   clearable>
         </el-input>
         <span>课程编码</span>
-        <el-input v-model="course_id"
+        <el-input v-model="ps_code"
                   style="width: 200px"
                   clearable>
         </el-input>
@@ -23,6 +23,7 @@
     <div class="table_bottom">
       <div class="form-item">
         <el-button slot="append"
+                   @click="batDown"
                    type="primary"
                    style="margin-right: 20px;width:130px;margin: 10px 0 10px 10px"
                    icon="el-icon-bottom">
@@ -41,7 +42,11 @@
       <div class="flex">
         <el-table :data="tableData"
                   stripe
+                  @selection-change="handleSelectionChange"
                   style="width: 100%">
+          <el-table-column type="selection"
+                           width="55">
+          </el-table-column>
           <el-table-column show-overflow-tooltip
                            type="index"
                            width="50"
@@ -51,15 +56,20 @@
               {{scope.$index+1}}
             </template>
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="if_up"
                            show-overflow-tooltip
                            label="上架情况">
+            <template slot-scope="scope">
+              <div>
+                {{scope.row.if_up === 0 ? '上架' : '下架'}}
+              </div>
+            </template>
           </el-table-column>
           <el-table-column show-overflow-tooltip
                            label="课程名称">
             <template slot-scope="scope">
               <div>
-                <el-input v-model=" scope.row.name"
+                <el-input v-model=" scope.row.goods_name"
                           style="width: 200px;border:none"
                           clearable>
                 </el-input>
@@ -70,14 +80,14 @@
                            label="课程编码">
             <template slot-scope="scope">
               <div>
-                <el-input v-model=" scope.row.name"
+                <el-input v-model=" scope.row.goods_code"
                           style="width: 200px;border:none"
                           clearable>
                 </el-input>
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="goods_category"
                            show-overflow-tooltip
                            label="所属分类">
           </el-table-column>
@@ -85,7 +95,7 @@
                            label="所属商铺">
             <template slot-scope="scope">
               <div>
-                <el-input v-model=" scope.row.name"
+                <el-input v-model=" scope.row.supplier_id"
                           style="width: 200px;border:none"
                           clearable>
                 </el-input>
@@ -96,22 +106,27 @@
                            label="课程价格">
             <template slot-scope="scope">
               <div>
-                <el-input v-model=" scope.row.name"
+                <el-input v-model=" scope.row.goods_sale_price"
                           style="width: 200px;border:none"
                           clearable>
                 </el-input>
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="date"
-                           show-overflow-tooltip
+          <el-table-column show-overflow-tooltip
                            label="课程有效期">
+            <template slot-scope="scope">
+              <div class="blueColor"
+                   @click="modu(scope.row)">
+                课程管理
+              </div>
+            </template>
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="course_teacher"
                            show-overflow-tooltip
                            label="授课教师">
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="language"
                            show-overflow-tooltip
                            label="语言">
           </el-table-column>
@@ -119,11 +134,11 @@
                            show-overflow-tooltip
                            label="课时管理">
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="goods_stock"
                            show-overflow-tooltip
                            label="总库存">
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="preorder"
                            show-overflow-tooltip
                            label="接受预定">
           </el-table-column>
@@ -141,7 +156,7 @@
                 <el-button size="medium"
                            type="text"
                            class="redColor  right20"
-                           @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
+                           @click="delGoodsItem(scope.$index, scope.row)">删除</el-button>
                 <el-button size="medium"
                            type="text"
                            @click="release"
@@ -176,18 +191,40 @@ export default {
       totalData: 1, //总页数
       activeName: '',
       page_size: 10,
-      course_id: '',
-      ps_subject: ''
+      ps_code: '',
+      ps_subject: '',
+      allUid: []
     }
   },
 
   methods: {
-    editor () {
-      this.$router.push('/commodityInformation/editknowledgeCommodity?nameType=修改课程信息')
+    modu (r) {
+
+      this.$router.push({
+        path: '/commodityInformation/module',
+        query: {
+          uid: r.uid
+        }
+      })
+    },
+
+    editor (i, r) {
+      // ?nameType=修改课程信息
+      this.$router.push({
+        path: '/commodityInformation/editknowledgeCommodity',
+        query: {
+          nameType: '修改课程信息',
+          uid: r.uid
+        }
+      })
     },
 
     release () {
       this.$router.push('/commodityInformation/releaseknowledgeCommodity?nameType=发布广告')
+    },
+
+    sesarchFun () {
+      this.getGoodsPageList()
     },
     // 分页
     handleCurrentChangeFun (val) {
@@ -202,24 +239,64 @@ export default {
       console.log(tab, event);
     },
 
-    getTaskPageList () {
-      this.$api.getTaskPageList({
+    batDown () {
+      if (!this.allUid.length) {
+        this.$message({
+          message: '请选择数据',
+          type: 'warning'
+        });
+        return false
+      }
+
+      this.$api.batDown({
+        uid: this.allUid.join(','),
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.getGoodsPageList()
+      })
+    },
+
+    delGoodsItem (i, r) {
+      this.$api.delGoodsItem({
+        uid: r.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.getGoodsPageList()
+      })
+    },
+
+    getGoodsPageList () {
+      this.$api.getGoodsPageList({
         order_type: 'asc',
-        order_field: 'id',
+        order_field: 'uid',
         token: JSON.parse(this.$store.state.token).token,
         page: this.currentPage,
         page_size: this.page_size,
-        course_id: this.course_id,
+        ps_code: this.ps_code,
         ps_subject: this.ps_subject
       }).then(res => {
         this.tableData = res.data.items
         this.totalData = res.data.total_result
       })
     },
+
+    handleSelectionChange (val) {
+      this.allUid = val.map(val => { return val.uid })
+    }
   },
 
   mounted () {
-    this.getTaskPageList()
+    this.getGoodsPageList()
   }
 }
 </script>

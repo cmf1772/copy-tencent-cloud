@@ -97,19 +97,81 @@ const article = {
   // 删除一个资讯
   delArticleItem (params) { return axios.post('/admin/board/delArticleItem', { ...params }) },
 
-  /**
-   * 常规商品
-   */
-
   // 获取分类分页列表
   getCategoryPageList (params) { return axios.post('/admin/category/getCategoryPageList', { ...params }) },
 
-  /**
-   *  知识商品管理
-   */
-
   // 获取课时分页列表
   getTaskPageList (params) { return axios.post('/admin/egoods/getTaskPageList', { ...params }) },
+
+  // 删除一个课时
+  delTaskItem (params) { return axios.post('/admin/egoods/delTaskItem', { ...params }) },
+
+  // 批量删除课程课时
+  batDelTaskItem (params) { return axios.post('/admin/egoods/batDelTaskItem', { ...params }) },
+
+  // 获取商品分页列表
+  getGoodsPageList (params) { return axios.post('/admin/egoods/getGoodsPageList', { ...params }) },
+
+  // 获取一个商品
+  getGoodsItem (params) { return axios.post('/admin/egoods/getGoodsItem', { ...params }) },
+
+  // 编辑一个商品
+  setGoodsItem (params) { return axios.post('/admin/egoods/setGoodsItem', { ...params }) },
+
+  // 获取一个商品销售属性图片
+  getAttPic (params) { return axios.post('/admin/egoods/getAttPic', { ...params }) },
+
+  // 获取批发商品分页列表
+  pgetGoodsPageList (params) { return axios.post('/admin/ptgoods/getGoodsPageList', { ...params }) },
+
+  // 拼团批量下架商品
+  ptbatDown (params) { return axios.post('/admin/ptgoods/batDown', { ...params }) },
+
+  // 拼团删除一个商品
+  ptdelGoodsItem (params) { return axios.post('/admin/ptgoods/delGoodsItem', { ...params }) },
+
+  // 搜索商品用于组合购买
+  searchCombine (params) { return axios.post('/admin/egoods/searchCombine', { ...params }) },
+
+  // 获取全部知识商品分类列表
+  getCategoryList (params) { return axios.post('/admin/ecategory/getCategoryList', { ...params }) },
+
+  // 获取指定分类的子分类列表
+  getSubList (params) { return axios.post('/admin/ecategory/getCategoryList', { ...params }) },
+
+  // 删除一个商品
+  delGoodsItem (params) { return axios.post('/admin/egoods/delGoodsItem', { ...params }) },
+
+  // 批量下架商品
+  batDown (params) { return axios.post('/admin/egoods/batDown', { ...params }) },
+
+  // 秒杀获取商品分页列表
+  msetGoodsPageList (params) { return axios.post('/admin/salegd/getGoodsPageList', { ...params }) },
+
+  // 秒杀批量删除商品
+  msbatDelGoodsItem (params) { return axios.post('/admin/salegd/batDelGoodsItem', { ...params }) },
+
+  // 秒杀删除一个商品
+  msdelGoodsItem (params) { return axios.post('/admin/salegd/delGoodsItem', { ...params }) },
+
+  // 秒杀获取一个商品
+  msgetGoodsItem (params) { return axios.post('/admin/salegd/getGoodsItem', { ...params }) },
+
+  // 秒杀编辑
+  mssetGoodsItem (params) { return axios.post('/admin/salegd/setGoodsItem', { ...params }) },
+
+  // 展示商品
+  zsgetGoodsPageList (params) { return axios.post('/admin/showgd/getGoodsPageList', { ...params }) },
+
+  // 展示删除一个商品
+  zsdelGoodsItem (params) { return axios.post('/admin/showgd/delGoodsItem', { ...params }) },
+
+  // 展示批量下架一个商品
+  zsbatDown (params) { return axios.post('/admin/showgd/batDown', { ...params }) },
+
+  // 展示批量删除
+  zsbatDelGoodsItem (params) { return axios.post('/admin/showgd/batDelGoodsItem', { ...params }) },
+
 
   /**
    * 七牛云上传token 地址

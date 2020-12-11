@@ -1,15 +1,16 @@
+
 <template>
-  <div class="secondKill">
+  <div class="groupGoods">
     <div class="top_button">
 
       <div class="top_left">
-        <span>商城名称</span>
-        <el-input v-model="sName"
+        <span>商品名称</span>
+        <el-input v-model="ps_subject"
                   style="width: 200px"
                   clearable>
         </el-input>
-        <span>商城编码</span>
-        <el-input v-model="sName"
+        <span>商品编码</span>
+        <el-input v-model="ps_code"
                   style="width: 200px"
                   clearable>
         </el-input>
@@ -25,9 +26,10 @@
       <div class="form-item">
         <el-button slot="append"
                    type="primary"
+                   @click="msbatDelGoodsItem"
                    style="margin-right: 20px;width:130px;margin: 10px 0 10px 10px"
                    icon="el-icon-bottom">
-          批量下架
+          批量删除
         </el-button>
       </div>
       <el-tabs v-model="activeName"
@@ -42,7 +44,11 @@
       <div class="flex">
         <el-table :data="tableData"
                   stripe
+                  @selection-change="handleSelectionChange"
                   style="width: 100%">
+          <el-table-column type="selection"
+                           width="55">
+          </el-table-column>
           <el-table-column show-overflow-tooltip
                            type="index"
                            width="50"
@@ -56,7 +62,7 @@
                            label="商品信息">
             <template slot-scope="scope">
               <div>
-                <el-input v-model=" scope.row.name"
+                <el-input v-model=" scope.row.goods_name"
                           style="width: 200px;border:none"
                           clearable>
                 </el-input>
@@ -67,7 +73,7 @@
                            label="商品编码">
             <template slot-scope="scope">
               <div>
-                <el-input v-model=" scope.row.name"
+                <el-input v-model="scope.row.goods_code"
                           style="width: 200px;border:none"
                           clearable>
                 </el-input>
@@ -79,33 +85,30 @@
                            width="180">
             <template slot-scope="scope">
               <div>
-                <el-input v-model=" scope.row.name"
+                <el-input v-model=" scope.row.goods_sale_price"
                           style="width: 200px;border:none"
                           clearable>
                 </el-input>
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="goods_stock"
                            show-overflow-tooltip
-                           label="所属分类"
-                           width="180">
+                           label="总库存">
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="start_date"
                            show-overflow-tooltip
-                           label="总库存"
-                           width="180">
+                           label="开始时间">
           </el-table-column>
-          <el-table-column prop="date"
+
+          <el-table-column prop="end_date"
                            show-overflow-tooltip
-                           label="开始时间"
-                           width="180">
+                           label="开始时间">
           </el-table-column>
-          <el-table-column prop="date"
+          <!-- <el-table-column prop="register_date"
                            show-overflow-tooltip
-                           label="结束时间"
-                           width="180">
-          </el-table-column>
+                           label="结束时间">
+          </el-table-column> -->
           <el-table-column show-overflow-tooltip
                            label="操作"
                            width="200"
@@ -120,7 +123,7 @@
                 <el-button size="medium"
                            type="text"
                            class="redColor  right20"
-                           @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
+                           @click="msdelGoodsItem(scope.$index, scope.row)">删除</el-button>
               </div>
             </template>
           </el-table-column>
@@ -129,10 +132,10 @@
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
+                         :page-sizes="[10, 20, 30, 40]"
+                         :page-size="10"
                          layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
+                         :total="totalData">
           </el-pagination>
         </div>
       </div>
@@ -142,79 +145,133 @@
 
 <script>
 export default {
-  name: 'secondKill',
+  name: 'groupGoods',
 
   data () {
     return {
-      time: [],
-      status: '',
-      options: [
-        { value: '', label: '全部' },
-        { value: 0, label: '离线' },
-        { value: 1, label: '在线' },
-        { value: 2, label: '维护' },
-        { value: 3, label: '故障' },
-        { value: 4, label: '失效' },
-      ],
       sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
-      activeName: ''
+      activeName: '',
+      page_size: 10,
+      allUid: [],
+      ps_code: '',
+      ps_subject: ''
     }
   },
 
   methods: {
-    editor () {
-      this.$router.push('/commodityInformation/editsecondKil?nameType=修改商城信息')
+    sesarchFun () {
+      this.msetGoodsPageList()
     },
 
-    release () {
-      this.$router.push('/commodityInformation/releasesecondKill?nameType=发布广告')
-
+    msdelGoodsItem (i, r) {
+      this.$api.msdelGoodsItem({
+        uid: r.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.msetGoodsPageList()
+      })
     },
+
+    msbatDelGoodsItem () {
+      if (!this.allUid.length) {
+        this.$message({
+          message: '请选择数据',
+          type: 'warning'
+        });
+        return false
+      }
+
+      this.$api.msbatDelGoodsItem({
+        uid: this.allUid.join(','),
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.msetGoodsPageList()
+      })
+    },
+
+    editor (i, r) {
+      this.$router.push({
+        path: '/commodityInformation/editsecondKil',
+        query: {
+          nameType: "修改商城信息",
+          uid: r.uid
+        }
+      })
+    },
+
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.msetGoodsPageList()
     },
 
     handleSizeChange (val) {
+      this.page_size = val
+      this.msetGoodsPageList()
       console.log(`每页 ${val} 条`);
     },
+
     handleClick (tab, event) {
       console.log(tab, event);
+    },
+
+    msetGoodsPageList () {
+      this.$api.msetGoodsPageList({
+        order_type: 'asc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+        page: this.currentPage,
+        page_size: this.page_size,
+        ps_code: this.ps_code,
+        ps_subject: this.ps_subject
+      }).then(res => {
+        res.data.items.forEach(item => {
+          item.start_date = this.timestamp(item.start_date)
+          item.end_date = this.timestamp(item.end_date)
+        })
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+        console.log(this.tableData)
+      })
+    },
+
+    handleSelectionChange (val) {
+      this.allUid = val.map(val => { return val.uid })
+    },
+
+    timestamp (timestamp) {
+      var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      var Y = date.getFullYear() + '-';
+      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+      var D = date.getDate() + ' ';
+      var h = date.getHours() + ':';
+      var m = date.getMinutes() + ':';
+      var s = date.getSeconds();
+      return Y + M + D + h + m + s;
     }
-  }
+  },
+
+  mounted () {
+    this.msetGoodsPageList()
+  },
 }
 </script>
 
 <style lang="scss" scoped>
-.secondKill {
+.groupGoods {
   width: 100%;
   height: 100%;
   display: flex;

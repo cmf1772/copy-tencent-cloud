@@ -6,5 +6,7 @@ export default {
   computerType: '', //电脑型号
   token: document.cookie.match(new RegExp("(^| )token=([^;]*)(;|$)")) !== null ? document.cookie.match(new RegExp("(^| )token=([^;]*)(;|$)"))[2] : '',
   upToken: '',
-  getUploadUrl: ''
+  getUploadUrl: '',
+  getCategoryList: [], // 商品分类列表
+  getSubList: [], // 商品子菜单
 }
