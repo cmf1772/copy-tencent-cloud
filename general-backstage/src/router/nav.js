@@ -199,10 +199,10 @@ let navArr = [
             name: '拼团商品管理',
             url: '/commodityInformation/groupGoods',
           },
-          {
-            name: '返利商品管理',
-            url: '/commodityInformation/rebateGoods',
-          },
+          // {
+          //   name: '返利商品管理',
+          //   url: '/commodityInformation/rebateGoods',
+          // },
           {
             name: '秒杀商品管理',
             url: '/commodityInformation/secondKill',

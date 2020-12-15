@@ -498,35 +498,69 @@ export default {
       wholesale.push(this.wholesale_p1)
       wholesale_price.push(this.wholesale_p2)
 
-      this.$api.pfsetGoodsItem({
-        uid: this.$route.query.uid,
-        goods_cat: this.product.goods_category + ',' + this.product.goods_category1,
-        goods_code: this.product.goods_code,
-        goods_name: this.product.goods_name,
-        goods_stock: this.product.goods_stock,
-        goods_key: this.product.goods_key,
-        goods_advance: this.product.goods_advance,
-        goods_cost: this.product.goods_cost,
-        goods_market_price: this.product.goods_market_price,
-        goods_sale_price: this.product.goods_sale_price,
-        type: this.product.type,
-        goods_status: this.product.goods_status.join(','),
-        down_payment: this.product.down_payment,
-        course_teacher: this.product.course_teacher,
-        teacher_desc: this.product.teacher_desc,
-        expiredays: this.product.expiredays,
-        language: this.product.language,
-        goods_kg: this.product.goods_kg + '',
-        goods_brand: this.product.goods_brand,
-        goods_file2: this.uploadPicUrl,
-        goods_file1: this.uploadPicUrl2,
-        goods_main: this.editor.txt.html(),
-        wholesale: wholesale.join(','),
-        wholesale_price: wholesale_price.join(','),
-        token: JSON.parse(this.$store.state.token).token,
-      }).then(res => {
-        this.$router.push('/commodityInformation/wholesaleGoods')
-      })
+      if (this.$route.query.parent !== 'consignmentGoods') {
+        this.$api.pfsetGoodsItem({
+          uid: this.$route.query.uid,
+          goods_cat: this.product.goods_category + ',' + this.product.goods_category1,
+          goods_code: this.product.goods_code,
+          goods_name: this.product.goods_name,
+          goods_stock: this.product.goods_stock,
+          goods_key: this.product.goods_key,
+          goods_advance: this.product.goods_advance,
+          goods_cost: this.product.goods_cost,
+          goods_market_price: this.product.goods_market_price,
+          goods_sale_price: this.product.goods_sale_price,
+          type: this.product.type,
+          goods_status: this.product.goods_status.join(','),
+          down_payment: this.product.down_payment,
+          course_teacher: this.product.course_teacher,
+          teacher_desc: this.product.teacher_desc,
+          expiredays: this.product.expiredays,
+          language: this.product.language,
+          goods_kg: this.product.goods_kg + '',
+          goods_brand: this.product.goods_brand,
+          goods_file2: this.uploadPicUrl,
+          goods_file1: this.uploadPicUrl2,
+          goods_main: this.editor.txt.html(),
+          wholesale: wholesale.join(','),
+          wholesale_price: wholesale_price.join(','),
+          token: JSON.parse(this.$store.state.token).token,
+        }).then(res => {
+          this.$router.push('/commodityInformation/wholesaleGoods')
+        })
+      } else {
+        this.$api.dxsetGoodsItem({
+          uid: this.$route.query.uid,
+          goods_cat: this.product.goods_category + ',' + this.product.goods_category1,
+          goods_code: this.product.goods_code,
+          goods_name: this.product.goods_name,
+          goods_stock: this.product.goods_stock,
+          goods_key: this.product.goods_key,
+          goods_advance: this.product.goods_advance,
+          goods_cost: this.product.goods_cost,
+          goods_market_price: this.product.goods_market_price,
+          goods_sale_price: this.product.goods_sale_price,
+          type: this.product.type,
+          goods_status: this.product.goods_status.join(','),
+          down_payment: this.product.down_payment,
+          course_teacher: this.product.course_teacher,
+          teacher_desc: this.product.teacher_desc,
+          expiredays: this.product.expiredays,
+          language: this.product.language,
+          goods_kg: this.product.goods_kg + '',
+          goods_brand: this.product.goods_brand,
+          goods_file2: this.uploadPicUrl,
+          goods_file1: this.uploadPicUrl2,
+          goods_main: this.editor.txt.html(),
+          wholesale: wholesale.join(','),
+          wholesale_price: wholesale_price.join(','),
+          token: JSON.parse(this.$store.state.token).token,
+        }).then(res => {
+          this.$router.push('/commodityInformation/consignmentGoods')
+        })
+      }
+
+
     },
 
     handleRemove (file, fileList) {
@@ -615,43 +649,73 @@ export default {
     },
 
     pfgetGoodsItem () {
-      this.$api.pfgetGoodsItem({
-        uid: this.$route.query.uid,
-        token: JSON.parse(this.$store.state.token).token,
-      }).then(res => {
-        this.product = res.data.product
-        this.brand_list = res.data.brand_list
-        this.photo = res.data.photo
-        this.editor.txt.html(res.data.product.goods_main)
+      if (this.$route.query.parent !== 'consignmentGoods') {
+        this.$api.pfgetGoodsItem({
+          uid: this.$route.query.uid,
+          token: JSON.parse(this.$store.state.token).token,
+        }).then(res => {
+          this.product = res.data.product
+          this.brand_list = res.data.brand_list
+          this.photo = res.data.photo
+          this.editor.txt.html(res.data.product.goods_main)
 
-        this.uploadPicUrl = res.data.product.goods_file2
-        this.uploadPicUrl2 = res.data.product.goods_file1
-        res.data.product.goods_status = res.data.product.goods_status + ''
-        this.product.goods_status = res.data.product.goods_status.split(',')
-        this.product.goods_status = []
-        if (this.product.hot_checked === 'checked') {
-          this.product.goods_status.push("1")
-        }
-        if (this.product.best_checked === 'checked') {
-          this.product.goods_status.push("2")
-        }
-        if (this.product.free_delivery_checked === 'checked') {
-          this.product.goods_status.push("4")
-        }
+          this.uploadPicUrl = res.data.product.goods_file2
+          this.uploadPicUrl2 = res.data.product.goods_file1
+          res.data.product.goods_status = res.data.product.goods_status + ''
+          this.product.goods_status = res.data.product.goods_status.split(',')
+          this.product.goods_status = []
+          if (this.product.hot_checked === 'checked') {
+            this.product.goods_status.push("1")
+          }
+          if (this.product.best_checked === 'checked') {
+            this.product.goods_status.push("2")
+          }
+          if (this.product.free_delivery_checked === 'checked') {
+            this.product.goods_status.push("4")
+          }
 
 
-        // this.pf = [{
-        //   wholesale1: '',
-        //   wholesale2: '',
-        //   wholesale3: ''
-        // }]
+          if (this.product.goods_category.length) {
+            this.$store.commit('GET_SUB_LIST', this.product.goods_category)
+          }
 
-        if (this.product.goods_category.length) {
-          this.$store.commit('GET_SUB_LIST', this.product.goods_category)
-        }
+          res.data.product.wholesale_price
+        })
+      } else {
+        this.$api.dxgetGoodsItem({
+          uid: this.$route.query.uid,
+          token: JSON.parse(this.$store.state.token).token,
+        }).then(res => {
+          this.product = res.data.product
+          this.brand_list = res.data.brand_list
+          this.photo = res.data.photo
+          this.editor.txt.html(res.data.product.goods_main)
 
-        res.data.product.wholesale_price
-      })
+          this.uploadPicUrl = res.data.product.goods_file2
+          this.uploadPicUrl2 = res.data.product.goods_file1
+          res.data.product.goods_status = res.data.product.goods_status + ''
+          this.product.goods_status = res.data.product.goods_status.split(',')
+          this.product.goods_status = []
+          if (this.product.hot_checked === 'checked') {
+            this.product.goods_status.push("1")
+          }
+          if (this.product.best_checked === 'checked') {
+            this.product.goods_status.push("2")
+          }
+          if (this.product.free_delivery_checked === 'checked') {
+            this.product.goods_status.push("4")
+          }
+
+
+          if (this.product.goods_category.length) {
+            this.$store.commit('GET_SUB_LIST', this.product.goods_category)
+          }
+
+          res.data.product.wholesale_price
+        })
+
+      }
+
     },
 
     addPf () {

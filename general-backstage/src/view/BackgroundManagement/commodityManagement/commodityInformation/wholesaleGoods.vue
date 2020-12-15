@@ -264,7 +264,8 @@ export default {
         path: '/commodityInformation/editwholesaleGoods',
         query: {
           nameType: "修改商城信息",
-          uid: r.uid
+          uid: r.uid,
+          parent: 'wholesaleGoods'
         }
       })
     },

@@ -223,6 +223,42 @@ const article = {
   // 编辑一个批发商品
   pfsetGoodsItem (params) { return axios.post('/admin/pfgoods/setGoodsItem', { ...params }) },
 
+  // 代销一个商品列表
+  dxgetGoodsPageList (params) { return axios.post('/admin/jhgoods/getGoodsPageList', { ...params }) },
+
+  // 代销批量下架商品
+  dxbatDown (params) { return axios.post('/admin/jhgoods/batDown', { ...params }) },
+
+  // 代销删除一个商品
+  dxdelGoodsItem (params) { return axios.post('/admin/jhgoods/delGoodsItem', { ...params }) },
+
+  // 代销批量删除商品
+  dxbatDelGoodsItem (params) { return axios.post('/admin/jhgoods/batDelGoodsItem', { ...params }) },
+
+  // 代销获取一个商品
+  dxgetGoodsItem (params) { return axios.post('/admin/jhgoods/getGoodsItem', { ...params }) },
+
+  // 代销编辑一个商品
+  dxsetGoodsItem (params) { return axios.post('/admin/jhgoods/setGoodsItem', { ...params }) },
+
+  // 未上架获取商品分页列表
+  wsjgetGoodsPageList (params) { return axios.post('/admin/downgd/getGoodsPageList', { ...params }) },
+
+  // 批量上架商品
+  wsjbatUp (params) { return axios.post('/admin/downgd/batUp', { ...params }) },
+
+  // 批量删除商品
+  wsjbatDelGoodsItem (params) { return axios.post('/admin/downgd/batDelGoodsItem', { ...params }) },
+
+  // 删除一个商品
+  wsjdelGoodsItem (params) { return axios.post('/admin/downgd/delGoodsItem', { ...params }) },
+
+  wsjgetGoodsItem (params) { return axios.post('/admin/downgd/getGoodsItem', { ...params }) },
+
+  wsjsetGoodsItem (params) { return axios.post('/admin/downgd/setGoodsItem', { ...params }) },
+
+
+
 
   /**
    * 七牛云上传token 地址
