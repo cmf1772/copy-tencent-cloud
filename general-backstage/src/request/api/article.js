@@ -257,7 +257,29 @@ const article = {
 
   wsjsetGoodsItem (params) { return axios.post('/admin/downgd/setGoodsItem', { ...params }) },
 
+  // 获取订单分页列表
+  getOrderPageList (params) { return axios.post('/admin/order/getOrderPageList', { ...params }) },
 
+  // 获取一个订单
+  getOrderItem (params) { return axios.post('/admin/order/getOrderItem', { ...params }) },
+
+  // 编辑一个订单
+  setOrderItem (params) { return axios.post('/admin/order/setOrderItem', { ...params }) },
+
+  // 删除一个订单
+  delOrderItem (params) { return axios.post('/admin/order/delOrderItem', { ...params }) },
+
+  // 获取知识订单
+  zsgetOrderPageList (params) { return axios.post('/admin/eorder/getOrderPageList', { ...params }) },
+
+  // 知识获取一个订单
+  zsgetOrderItem (params) { return axios.post('/admin/eorder/getOrderItem', { ...params }) },
+
+  // 知识编辑一个订单
+  zssetOrderItem (params) { return axios.post('/admin/eorder/setOrderItem', { ...params }) },
+
+  // 知识删除一个订单
+  zsdelOrderItem (params) { return axios.post('/admin/eorder/delOrderItem', { ...params }) },
 
 
   /**

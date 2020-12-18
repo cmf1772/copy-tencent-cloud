@@ -9,21 +9,22 @@
              label-width="130px">
       <el-form-item label="下单时间："
                     prop="name">
-        <el-date-picker v-model="value1"
+        <el-date-picker v-model="form.time"
                         style="width: 100%"
                         type="daterange"
                         range-separator="至"
+                        value-format="yyyy-MM-dd"
                         start-placeholder="开始日期"
                         end-placeholder="结束日期">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="订单号："
                     prop="name">
-        <el-input v-model="form.name"></el-input>
+        <el-input v-model="form.ordersn"></el-input>
       </el-form-item>
       <el-form-item label="收货人："
                     prop="name">
-        <el-input v-model="form.name"></el-input>
+        <el-input v-model="form.consignee"></el-input>
       </el-form-item>
       <el-form-item label="订单状态："
                     prop="name">
@@ -31,11 +32,12 @@
       </el-form-item>
       <el-form-item label="买家ID："
                     prop="name">
-        <el-input v-model="form.name"></el-input>
+        <el-input v-model="form.username"></el-input>
       </el-form-item>
       <el-form-item label=""
                     prop="name">
-        <el-button type="primary">订单查询</el-button>
+        <el-button type="primary"
+                   @click="selectFun">订单查询</el-button>
       </el-form-item>
     </el-form>
     <p style="font-size: 15px; margin-bottom: 10px;font-weight: 360; color:#000">
@@ -44,19 +46,19 @@
     </p>
     <div class="top-list">
       <ul>
-        <li>今日订单数：0个</li>
-        <li>周订单数：0个</li>
-        <li>月订单数：1个</li>
-        <li>今日交易金额：￥0.00元</li>
-        <li>周交易金额：￥0.00元</li>
-        <li>月交易金额：￥890.00元</li>
+        <li>今日订单数：{{protact.order_today}}个</li>
+        <li>周订单数：{{protact.order_week}}个</li>
+        <li>月订单数：{{protact.order_month}}个</li>
+        <li>今日交易金额：{{protact.order_today_amount}}元</li>
+        <li>周交易金额：{{protact.order_week}}元</li>
+        <li>月交易金额：{{protact.order_month_amount}}元</li>
       </ul>
     </div>
     <div class="table"
          ref="table">
       <el-table :data="tableData"
                 stripe
-                :style="{'height' : height}">
+                max-height="400px">
         <el-table-column show-overflow-tooltip
                          type="index"
                          width="50"
@@ -70,52 +72,46 @@
                          label="订单号">
           <template slot-scope="scope">
             <span class="blueColor"
-                  @click="goOrder"
-                  style="cursor: pointer;">{{scope.row.date}}</span>
+                  style="cursor: pointer;">{{scope.row.ordersn}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="username"
                          show-overflow-tooltip
                          label="买家">
         </el-table-column>
-        <el-table-column show-overflow-tooltip
+        <el-table-column prop="shop.shop_name"
+                         show-overflow-tooltip
                          label="商铺">
-          <template slot-scope="scope">
-            <span class="blueColor"
-                  style="cursor: pointer;">{{scope.row.date}}</span>
-          </template>
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="pay_name"
                          show-overflow-tooltip
                          label="付款方式">
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="goods_amount"
                          show-overflow-tooltip
                          label="金额">
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="goods_rest_amount"
                          show-overflow-tooltip
                          label="余款">
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="goods_point"
                          show-overflow-tooltip
                          label="订单积分">
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="status"
                          show-overflow-tooltip
                          label="订单状态">
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="addtime"
                          show-overflow-tooltip
                          label="下单时间">
         </el-table-column>
         <el-table-column show-overflow-tooltip
-                         label="操作"
-                         width="120"
-                         min-width="60">
+                         style="width: 200px"
+                         label="操作">
           <template slot-scope="scope">
             <div>
-
               <el-button size="medium"
                          type="text"
                          class="yellowColor right20"
@@ -123,7 +119,7 @@
               <el-button size="medium"
                          type="text"
                          class="redColor  right20"
-                         @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
+                         @click="delOrderItem(scope.$index, scope.row)">删除</el-button>
             </div>
           </template>
         </el-table-column>
@@ -133,10 +129,10 @@
       <el-pagination @size-change="handleSizeChange"
                      @current-change="handleCurrentChangeFun"
                      :current-page="currentPage"
-                     :page-sizes="[100, 200, 300, 400]"
-                     :page-size="100"
+                     :page-sizes="[10, 20, 30, 40]"
+                     :page-size="page_size"
                      layout="total, sizes, prev, pager, next, jumper"
-                     :total="400">
+                     :total="totalData">
       </el-pagination>
     </div>
 
@@ -150,7 +146,7 @@
           <i class="el-icon-edit"
              style="color: #f5a623 !important;font-weight: 360;margin-right: 10px"></i> 订单详情：
         </p>
-        <el-table :data="tableData"
+        <el-table :data="arrAll.arr_ship"
                   stripe
                   max-height="200px">
           <el-table-column show-overflow-tooltip
@@ -200,47 +196,47 @@
              style="color: #f5a623 !important;font-weight: 360;margin-right: 10px"></i> 收货人信息：
         </p>
         <el-form ref="form"
-                 :model="form"
+                 :model="arrAll.order_info"
                  label-width="130px">
           <el-form-item label="发货单号："
                         prop="name">
-            <el-input v-model="form.name"></el-input>
+            <el-input v-model="arrAll.order_info.delivery_code"></el-input>
           </el-form-item>
           <el-form-item label="收货人姓名："
-                        prop="name">
-            <el-input v-model="form.name"></el-input>
+                        prop="consignee">
+            <el-input v-model="arrAll.order_info.name"></el-input>
           </el-form-item>
           <el-form-item label="收货人手机："
                         prop="name">
-            <el-input v-model="form.name"></el-input>
+            <el-input v-model="arrAll.order_info.mobile"></el-input>
           </el-form-item>
           <el-form-item label="收货地址："
                         prop="name">
-            <el-input v-model="form.name"></el-input>
+            <el-input v-model="arrAll.order_info.address"></el-input>
           </el-form-item>
           <el-form-item label="配送方式："
                         prop="name">
-            <el-input v-model="form.name"></el-input>
+            <el-input v-model="arrAll.order_info.sh_uid"></el-input>
           </el-form-item>
           <el-form-item label="运费："
                         prop="name">
-            <el-input v-model="form.name"></el-input>
+            <el-input v-model="arrAll.order_info.sh_price"></el-input>
           </el-form-item>
           <el-form-item label="发票票头："
                         prop="name">
-            <el-input v-model="form.name"></el-input>
+            <el-input v-model="arrAll.order_info.invoice"></el-input>
           </el-form-item>
           <el-form-item label="买家："
                         prop="name">
-            <el-input v-model="form.name"></el-input>
+            <el-input v-model="arrAll.order_info.username"></el-input>
           </el-form-item>
           <el-form-item label="邮政编码："
                         prop="name">
-            <el-input v-model="form.name"></el-input>
+            <el-input v-model="arrAll.order_info.zipcode"></el-input>
           </el-form-item>
           <el-form-item label="客户留言："
                         prop="name">
-            <el-input v-model="form.name"
+            <el-input v-model="arrAll.order_info.remark"
                       type="textarea"></el-input>
           </el-form-item>
         </el-form>
@@ -253,15 +249,15 @@
                  label-width="130px">
           <el-form-item label="订单状态："
                         prop="name">
-            <el-input v-model="form.name"></el-input>
+            <el-input v-model="arrAll.order_info.status"></el-input>
           </el-form-item>
           <el-form-item label="折扣金额："
                         prop="name">
-            <el-input v-model="form.name"></el-input>
+            <el-input v-model="arrAll.order_info.discount"></el-input>
           </el-form-item>
           <el-form-item label="管理员笔记："
                         prop="name">
-            <el-input v-model="form.name"
+            <el-input v-model="arrAll.order_info.admin_memo"
                       type="textarea"></el-input>
           </el-form-item>
         </el-form>
@@ -270,7 +266,7 @@
             class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary"
-                   @click="dialogVisible = false">确 定</el-button>
+                   @click="right">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -282,58 +278,36 @@ export default {
   data () {
     return {
       form: {
-        name: ''
+        username: '',
+        consignee: '',
+        time: [],
+        ordersn: ''
+      },
+      protact: {
+        order_today: '',
+        order_today_amount: '',
+        order_week: '',
+        order_week_amount: '',
+        order_month: '',
+        order_month_amount: ''
       },
       dialogVisible: false,
       value1: [],
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
-      height: 0
+      height: 0,
+      page_size: 10,
+      arrAll: {
+        arr_goods: [],
+        order_info: [],
+        arr_ship: [],
+        order_menu: "",
+        order_status: [],
+        sel_ship: "",
+        total_goods_num: 1
+      },
+      uid: 0,
     }
   },
 
@@ -342,32 +316,111 @@ export default {
       this.$router.push('/shopOrder/orderDetails')
     },
 
-    editor () {
+    editor (i, r) {
+      this.uid = r.uid
+      this.$api.getOrderItem({
+        uid: r.uid,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.arrAll = res.data
+      })
       this.dialogVisible = true
+    },
+
+    delOrderItem (i, r) {
+      this.$api.delOrderItem({
+        token: JSON.parse(this.$store.state.token).token,
+        uid: r.uid
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.getOrderPageList()
+      })
+    },
+
+    right () {
+      this.$api.setOrderItem({
+        uid: this.uid,
+        delivery_code: this.arrAll.order_info.delivery_code,
+        consignee: this.arrAll.order_info.consignee,
+        mobile: this.arrAll.order_info.mobile,
+        address: this.arrAll.order_info.address,
+        sh_uid: this.arrAll.order_info.sh_uid,
+        sh_price: this.arrAll.order_info.sh_price.indexOf('￥') !== -1 ? this.arrAll.order_info.sh_price.slice(1) : this.arrAll.order_info.sh_price,
+        invoice: this.arrAll.order_info.invoice,
+        zipcode: this.arrAll.order_info.zipcode,
+        remark: this.arrAll.order_info.remark,
+        status: this.arrAll.order_info.status,
+        discount: this.arrAll.order_info.discount.lenght ? this.arrAll.order_info.discount.indexOf('￥') !== -1 ? this.arrAll.order_info.discount.slice(1) : this.arrAll.order_info.discount : '0.00',
+        admin_memo: this.arrAll.order_info.admin_memo,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.dialogVisible = false
+      })
     },
 
     release () {
       this.$router.push('/commodityInformation/releaseknowledgeCommodity?nameType=发布广告')
-
     },
 
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.getOrderPageList()
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.getOrderPageList()
     },
 
     handleClose () {
 
+    },
+
+    selectFun () {
+      this.getOrderPageList()
+    },
+
+    getOrderPageList () {
+      this.$api.getOrderPageList({
+        status: '1',
+        username: this.form.username,
+        consignee: this.form.consignee,
+        start_time: this.form.time[0],
+        end_time: this.form.time[1],
+        ordersn: this.form.ordersn,
+        order_type: 'asc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+        page: this.currentPage,
+        page_size: this.page_size,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+        this.protact = {
+          order_today: res.data.order_today,
+          order_today_amount: res.data.order_today_amount,
+          order_week: res.data.order_week,
+          order_week_amount: res.data.order_week_amount,
+          order_month: res.data.order_month,
+          order_month_amount: res.data.order_month_amount
+        }
+      })
     }
   },
 
   mounted () {
     this.height = this.$refs.table.clientHeight + 'px'
+    this.getOrderPageList()
   }
 }
 </script>
