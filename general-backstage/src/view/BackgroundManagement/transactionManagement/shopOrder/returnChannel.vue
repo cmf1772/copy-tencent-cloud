@@ -9,9 +9,10 @@
              label-width="130px">
       <el-form-item label="订购时间："
                     prop="name">
-        <el-date-picker v-model="value1"
+        <el-date-picker v-model="form.time"
                         style="width: 100%"
                         type="daterange"
+                        value-format="yyyy-MM-dd"
                         range-separator="至"
                         start-placeholder="开始日期"
                         end-placeholder="结束日期">
@@ -19,15 +20,16 @@
       </el-form-item>
       <el-form-item label="订单号："
                     prop="name">
-        <el-input v-model="form.name"></el-input>
+        <el-input v-model="form.ordersn"></el-input>
       </el-form-item>
       <el-form-item label="卖家："
                     prop="name">
-        <el-input v-model="form.name"></el-input>
+        <el-input v-model="form.m_id"></el-input>
       </el-form-item>
       <el-form-item label=""
                     prop="name">
-        <el-button type="primary">订单查询</el-button>
+        <el-button type="primary"
+                   @click="change">订单查询</el-button>
       </el-form-item>
     </el-form>
 
@@ -49,10 +51,10 @@
           <template slot-scope="scope">
             <span class="blueColor"
                   @click="goOrder"
-                  style="cursor: pointer;">{{scope.row.date}}</span>
+                  style="cursor: pointer;">{{scope.row.goods_code}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="shop_name"
                          show-overflow-tooltip
                          label="买家">
         </el-table-column>
@@ -60,7 +62,7 @@
                          label="商铺">
           <template slot-scope="scope">
             <span class="blueColor"
-                  style="cursor: pointer;">{{scope.row.date}}</span>
+                  style="cursor: pointer;">{{scope.row.shop_name}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="date"
@@ -111,10 +113,10 @@
       <el-pagination @size-change="handleSizeChange"
                      @current-change="handleCurrentChangeFun"
                      :current-page="currentPage"
-                     :page-sizes="[100, 200, 300, 400]"
-                     :page-size="100"
+                     :page-sizes="[10, 20, 30, 40]"
+                     :page-size="page_size"
                      layout="total, sizes, prev, pager, next, jumper"
-                     :total="400">
+                     :total="totalData">
       </el-pagination>
     </div>
 
@@ -267,57 +269,16 @@ export default {
     return {
       radio: '1',
       form: {
-        name: ''
+        time: [],
+        ordersn: '',
+        m_id: ''
       },
       dialogVisible: false,
       value1: [],
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
+      page_size: 10,
       height: 0
     }
   },
@@ -333,25 +294,46 @@ export default {
 
     release () {
       this.$router.push('/commodityInformation/releaseknowledgeCommodity?nameType=发布广告')
+    },
 
+    change () {
+      this.getBackOrderPageList()
     },
 
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.getBackOrderPageList()
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.getBackOrderPageList()
     },
 
     handleClose () {
 
+    },
+
+    getBackOrderPageList () {
+      this.$api.getBackOrderPageList({
+        start_time: this.form.time[0],
+        end_time: this.form.time[1],
+        ordersn: this.form.ordersn,
+        order_type: 'asc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+        page: this.currentPage,
+        page_size: this.page_size,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
     }
   },
 
   mounted () {
+    this.getBackOrderPageList()
     this.height = this.$refs.table.clientHeight + 'px'
   }
 }
