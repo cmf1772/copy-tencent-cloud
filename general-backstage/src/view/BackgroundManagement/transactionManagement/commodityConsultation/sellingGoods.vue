@@ -3,6 +3,7 @@
     <div class="table_bottom">
       <div class="flex">
         <el-table :data="tableData"
+                  class="table"
                   stripe
                   style="width: 100%">
           <el-table-column show-overflow-tooltip
@@ -10,7 +11,6 @@
                            width="50"
                            label="序号">
             <template slot-scope="scope">
-              <!-- {{(currentPage-1)*10+scope.$index+1}} -->
               {{scope.$index+1}}
             </template>
           </el-table-column>
@@ -18,18 +18,29 @@
                            show-overflow-tooltip
                            label="咨询内容"
                            width="180">
+            <template slot-scope="scope">
+              <div>
+                <p>{{scope.row.comment_body}}</p>
+                <p>店主回复: {{scope.row.reply}}</p>
+              </div>
+            </template>
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="m_id"
                            show-overflow-tooltip
                            label="咨询者">
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="register_date"
                            show-overflow-tooltip
                            label="咨询时间">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="app"
                            show-overflow-tooltip
                            label="状态">
+            <template slot-scope="scope">
+              <span class="colorBtn" @click="appClick(scope.row)">
+                {{scope.row.app}}
+              </span>
+            </template>      
           </el-table-column>
           <el-table-column show-overflow-tooltip
                            label="操作"
@@ -49,10 +60,10 @@
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
+                         :page-sizes="[10, 20, 30, 40]"
+                         :page-size="page_size"
                          layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
+                         :total="totalData">
           </el-pagination>
         </div>
       </div>
@@ -96,10 +107,29 @@ export default {
       }],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
+      page_size: 10
     }
   },
 
+  mounted() {
+    this.create()
+  },
+
   methods: {
+    create() {
+      this.$newApi.getCommentPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        keyword: "",
+        order_type: 'asc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
+    },
+
     add () {
       this.$router.push('/device/edit?nameType=新建设备')
 
@@ -107,20 +137,67 @@ export default {
     editor () {
       this.$router.push('/device/edit?nameType=修改设备')
     },
-    // 分页
+     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.create()
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.create()
     },
+
+    checkTrackQueryFun(index, row) {
+      this.$newApi.delCommentItem({
+        uid: row.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.create()
+      })
+    },
+
+    appClick(row) {
+      this.$newApi.setCommentItem({
+        uid: row.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.create()
+      })
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+/deep/ .table{
+  .el-table__row{
+    td{
+      height: 80px !important;
+      .cell {
+        height: 100% !important;
+      }
+      .el-table .cell.el-tooltip {
+        height: 100%;
+      }
+      div{
+        height: 100%;
+      }
+    }
+  }
+  .colorBtn{
+    color: #4bb3ff;
+    &:hover{
+      cursor: pointer;
+    }
+  }
+}
+
 .sellingGoods {
   width: 100%;
   height: 100%;

@@ -38,6 +38,7 @@ VueAMap.initAMapApiLoader({
 
 //axios
 Vue.prototype.$api = api.article
+Vue.prototype.$newApi = api.newData
 
 Vue.config.productionTip = false
 

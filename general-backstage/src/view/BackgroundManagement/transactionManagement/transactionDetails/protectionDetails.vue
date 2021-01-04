@@ -9,6 +9,8 @@
         </el-input>
         <span>时间：</span>
         <el-date-picker v-model="value1"
+                        format="yyyy-MM-dd"
+                        value-format="yyyy-MM-dd"
                         type="daterange"
                         range-separator="至"
                         start-placeholder="开始日期"
@@ -20,7 +22,7 @@
         <el-button slot="append"
                    type="primary"
                    icon="el-icon-search"
-                   @click="sesarchFun()">
+                   @click="create()">
           搜索
         </el-button>
       </div>
@@ -39,32 +41,32 @@
               {{scope.$index+1}}
             </template>
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="money_id"
                            show-overflow-tooltip
                            label="会员"
                            width="180">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="money_reason"
                            show-overflow-tooltip
                            label="交易类型">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="type"
                            show-overflow-tooltip
                            label="支付类别">
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="money_sess"
                            show-overflow-tooltip
                            label="交易单号">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="minus"
                            show-overflow-tooltip
                            label="收支">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="money_left"
                            show-overflow-tooltip
                            label="消保余额">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="register_date"
                            show-overflow-tooltip
                            label="创建时间">
           </el-table-column>
@@ -73,10 +75,10 @@
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
+                         :page-sizes="[10, 20, 30, 40]"
+                         :page-size="page_size"
                          layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
+                         :total="totalData">
           </el-pagination>
         </div>
       </div>
@@ -94,90 +96,34 @@ export default {
       status: '',
       value: '',
       value1: [],
-      options: [
-        { value: '', label: '注册赠送' },
-        { value: 0, label: '管理员设置' },
-        { value: 1, label: '商铺开张' },
-        { value: 2, label: '商铺升级' },
-        { value: 3, label: '商铺续费' },
-        { value: 4, label: '预付款充值' },
-      ],
-      options1: [
-        { value: '', label: '收入' },
-        { value: 0, label: '支出' }
-      ],
       sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
+      page_size: 10,
     }
   },
 
+  mounted() {
+    this.create()
+  },
+
   methods: {
+    create() {
+      this.$newApi.xbGetMoneyPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        money_id: this.sName,
+        b_time: this.value1[0],
+        e_time: this.value1[1],
+        order_type: 'desc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
+    },
     add () {
       this.$router.push('/device/edit?nameType=新建设备')
 
@@ -188,11 +134,11 @@ export default {
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.create()
     },
-
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.create()
     },
   }
 }

@@ -4,38 +4,37 @@
       <div class="flex">
         <el-table :data="tableData"
                   stripe
+                  class="table"
                   style="width: 100%">
-          <el-table-column show-overflow-tooltip
-                           type="index"
-                           width="50"
-                           label="序号">
-            <template slot-scope="scope">
-              <!-- {{(currentPage-1)*10+scope.$index+1}} -->
-              {{scope.$index+1}}
-            </template>
-          </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="shop_name"
                            show-overflow-tooltip
                            label="商铺名称"
                            width="180">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="shop_m_id"
                            show-overflow-tooltip
                            label="商铺管理员">
           </el-table-column>
           <el-table-column prop="address"
                            show-overflow-tooltip
                            label="账户信息">
+            <template slot-scope="scope">
+              <div>
+                <p>{{scope.row.type ? '银行卡' : '支付宝'}}: {{scope.row.account}}</p>
+                <p>{{scope.row.type ? '开户人' : '提现人'}}: {{scope.row.member_name}}</p>
+                <p v-if="scope.row.type">开户行: {{scope.row.bank}}</p>
+              </div>
+            </template>
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="money"
                            show-overflow-tooltip
                            label="提现金额">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="real_money"
                            show-overflow-tooltip
                            label="实收金额">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="reg_time"
                            show-overflow-tooltip
                            label="提现时间">
           </el-table-column>
@@ -52,7 +51,7 @@
                 <el-button size="medium"
                            type="text"
                            class="redColor"
-                           @click="checkTrackQueryFun(scope.$index, scope.row)">通过</el-button>
+                           @click="checkTrackQueryFun(scope.$index, scope.row)">驳回</el-button>
               </div>
             </template>
           </el-table-column>
@@ -61,10 +60,10 @@
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
+                         :page-sizes="[10, 20, 30, 40]"
+                         :page-size="page_size"
                          layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
+                         :total="totalData">
           </el-pagination>
         </div>
       </div>
@@ -108,10 +107,30 @@ export default {
       }],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
+      page_size: 10
     }
   },
 
+  mounted() {
+    this.create()
+  },
+  
   methods: {
+    create() {
+      this.$newApi.getWithdrawPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        member_name: "",
+        order_type: 'asc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        console.log(res)
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
+    },
+
     add () {
       this.$router.push('/device/edit?nameType=新建设备')
 
@@ -122,17 +141,36 @@ export default {
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.create()
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.create()
     },
   }
 }
 </script>
 
 <style lang="scss" scoped>
+
+/deep/ .table{
+  .el-table__row{
+    td{
+      height: 80px !important;
+      .cell {
+        height: 100% !important;
+      }
+      .el-table .cell.el-tooltip {
+        height: 100%;
+      }
+      div{
+        height: 100%;
+      }
+    }
+  }
+}
+
 .withdrawalApplication {
   width: 100%;
   height: 100%;

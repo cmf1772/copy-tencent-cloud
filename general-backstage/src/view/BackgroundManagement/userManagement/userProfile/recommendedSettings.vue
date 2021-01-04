@@ -150,7 +150,27 @@ export default {
     }
   },
 
+ mounted() {
+    this.create()
+  },
+
   methods: {
+    create() {
+      this.$newApi.getUserList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        money_id: this.sName,
+        b_time: this.value1[0],
+        e_time: this.value1[1],
+        order_type: 'desc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
+    },
+
     add () {
       this.$router.push('/device/edit?nameType=新建设备')
 

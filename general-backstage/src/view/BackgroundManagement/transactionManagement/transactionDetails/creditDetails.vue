@@ -12,20 +12,20 @@
         <el-button slot="append"
                    type="primary"
                    icon="el-icon-search"
-                   @click="sesarchFun()">
+                   @click="create()">
           搜索
         </el-button>
       </div>
     </div>
     <div class="table_bottom">
       <el-tabs v-model="activeName"
-               @tab-click="handleClick">
+               @tab-click="handleClick(activeName)">
         <el-tab-pane label="所有记录"
-                     name="first"></el-tab-pane>
+                     name="0"></el-tab-pane>
         <el-tab-pane label="获取记录"
-                     name="second"></el-tab-pane>
+                     name="1"></el-tab-pane>
         <el-tab-pane label="使用记录"
-                     name="third"></el-tab-pane>
+                     name="2"></el-tab-pane>
       </el-tabs>
       <div class="flex">
         <el-table :data="tableData"
@@ -40,32 +40,32 @@
               {{scope.$index+1}}
             </template>
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="point_id"
                            show-overflow-tooltip
                            label="会员"
                            width="180">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="type"
                            show-overflow-tooltip
                            label="交易类型">
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="point_sess"
                            show-overflow-tooltip
                            label="交易单号">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="point_add"
                            show-overflow-tooltip
                            label="收支">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="point_left"
                            show-overflow-tooltip
                            label="可用积分">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="reg_date"
                            show-overflow-tooltip
                            label="创建时间">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="status"
                            show-overflow-tooltip
                            label="状态">
           </el-table-column>
@@ -74,10 +74,10 @@
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
+                         :page-sizes="[10, 20, 30, 40]"
+                         :page-size="page_size"
                          layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
+                         :total="totalData">
           </el-pagination>
         </div>
       </div>
@@ -91,7 +91,7 @@ export default {
 
   data () {
     return {
-      activeName: 'second',
+      activeName: 0,
       time: [],
       status: '',
       options: [
@@ -103,44 +103,43 @@ export default {
         { value: 4, label: '失效' },
       ],
       sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
+      page_size: 10,
     }
+  },
+  mounted() {
+    this.create()
   },
 
   methods: {
-    add () {
-      this.$router.push('/device/edit?nameType=新建设备')
-
+    create() {
+      this.$newApi.getPointPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        t: this.activeName,
+        ps_member: this.sName,
+        order_type: 'desc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
     },
-    editor () {
-      this.$router.push('/device/edit?nameType=修改设备')
+    handleClick(val) {
+      this.currentPage = 1
+      this.create()
     },
-    // 分页
+     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.create()
     },
-
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.create()
     },
   }
 }

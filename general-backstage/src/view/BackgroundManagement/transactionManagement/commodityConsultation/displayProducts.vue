@@ -10,24 +10,23 @@
                            width="50"
                            label="序号">
             <template slot-scope="scope">
-              <!-- {{(currentPage-1)*10+scope.$index+1}} -->
               {{scope.$index+1}}
             </template>
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="name"
                            show-overflow-tooltip
                            label="联系人"
                            width="180">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="tel"
                            show-overflow-tooltip
                            label="电话/手机">
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="shop_name"
                            show-overflow-tooltip
                            label="询单商铺">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="reg_time"
                            show-overflow-tooltip
                            label="登记时间">
           </el-table-column>
@@ -53,10 +52,10 @@
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
+                         :page-sizes="[10, 20, 30, 40]"
+                         :page-size="page_size"
                          layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
+                         :total="totalData">
           </el-pagination>
         </div>
       </div>
@@ -71,51 +70,51 @@
                  label-width="130px">
           <el-form-item label="联系人："
                         prop="name">
-            测试
+            {{form.name}}
           </el-form-item>
           <el-form-item label="联系电话："
-                        prop="name">
-            1111111
+                        prop="mobile">
+            {{form.mobile}}
           </el-form-item>
           <el-form-item label="手机："
-                        prop="name">
-            *****
+                        prop="tel">
+            {{form.tel}}
           </el-form-item>
           <el-form-item label="email："
-                        prop="name">
-            *********
+                        prop="email">
+            {{form.email}}
           </el-form-item>
           <el-form-item label="联系地址："
-                        prop="name">
-            *************
+                        prop="address">
+            {{form.address}}
           </el-form-item>
           <el-form-item label="公司名称："
-                        prop="name">
-            **********
+                        prop="invoice">
+            {{form.invoice}}
           </el-form-item>
           <el-form-item label="留言："
-                        prop="name">
-            ************
+                        prop="msg">
+            {{form.msg}}
           </el-form-item>
           <el-form-item label="登记时间："
-                        prop="name">
-            *********
+                        prop="reg_time">
+            {{form.reg_time}}
           </el-form-item>
           <el-form-item label="IP："
-                        prop="name">
-            *************
+                        prop="ip">
+            {{form.ip}}
           </el-form-item>
           <el-form-item label="询单商铺："
-                        prop="name">
-            *********
+                        prop="shop_name">
+            {{form.shop_name}}
           </el-form-item>
         </el-form>
       </div>
       <span slot="footer"
             class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary"
-                   @click="dialogVisible = false">确 定</el-button>
+        <!-- <el-button type="primary"
+                   @click="dialogVisible = false">确 定</el-button> -->
       </span>
     </el-dialog>
   </div>
@@ -156,14 +155,54 @@ export default {
         name: '王小虎',
         address: '上海市普陀区516 弄'
       }],
+      form: {
+
+      },
       currentPage: 1, //当前页数
       totalData: 1, //总页数
+      page_size: 10
     }
+  },
+  mounted() {
+    this.create()
   },
 
   methods: {
-    look () {
+    create() {
+      this.$newApi.getAskOrderPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        keyword: "",
+        order_type: 'asc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
+    },
+    look (index, row) {
+      this.$newApi.getAskOrderItem({
+        uid: row.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.form = res.data
+      })
       this.dialogVisible = true
+    },
+
+    checkTrackQueryFun(index, row) {
+      this.$newApi.delAskOrderItem({
+        uid: row.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.create()
+      })
     },
 
     add () {
@@ -173,14 +212,20 @@ export default {
     editor () {
       this.$router.push('/device/edit?nameType=修改设备')
     },
-    // 分页
+
+    handleClose() {
+      
+    },
+
+     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.create()
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.create()
     },
   }
 }
