@@ -4,11 +4,11 @@
       <el-tabs v-model="activeName"
                @tab-click="handleClick">
         <el-tab-pane label="未审核"
-                     name="first"></el-tab-pane>
+                     name="0"></el-tab-pane>
         <el-tab-pane label="已审核"
-                     name="second"></el-tab-pane>
+                     name="1"></el-tab-pane>
         <el-tab-pane label="已删除"
-                     name="third"></el-tab-pane>
+                     name="2"></el-tab-pane>
       </el-tabs>
       <el-table :data="tableData"
                 stripe
@@ -23,23 +23,24 @@
           </template>
         </el-table-column>
         <el-table-column show-overflow-tooltip
+                          width="240"
                          label="生活圈名称">
           <template slot-scope="scope">
             <div style="display: flex">
               <div class="img">
-                <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1595931844282&di=6ac86657f97337620a34b44fdf96b849&imgtype=0&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D1796398158%2C1408347181%26fm%3D214%26gp%3D0.jpg"
+                <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1819216937,2118754409&fm=26&gp=0.jpg"
                      alt="">
               </div>
-              <p> 美诺思数据学院社区</p>
+              <p> {{scope.row.c_name}}</p>
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="name"
+        <el-table-column prop="c_cat"
                          show-overflow-tooltip
                          label="分类">
         </el-table-column>
 
-        <el-table-column prop="address"
+        <el-table-column prop="c_tag"
                          show-overflow-tooltip
                          label="标签">
         </el-table-column>
@@ -48,21 +49,21 @@
                          label="参与情况">
           <template slot-scope="scope">
             <div>
-              会员数量：1
+              会员数量：{{scope.row.member_num}}
             </div>
             <div>
-              话题数量：7
+              话题数量：{{scope.row.comment_num}}
             </div>
             <div>
-              评论数量：0
+              评论数量：{{scope.row.topic_num}}
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="address"
+        <el-table-column prop="status"
                          show-overflow-tooltip
                          label="状态">
         </el-table-column>
-        <el-table-column prop="address"
+        <el-table-column prop="od"
                          show-overflow-tooltip
                          label="权重">
         </el-table-column>
@@ -71,7 +72,7 @@
                          width="120"
                          min-width="60">
           <template slot-scope="scope">
-            <div>
+            <div style="white-space: normal;">
               <el-button size="medium"
                          type="text"
                          class="yellowColor"
@@ -80,27 +81,32 @@
                          type="text"
                          class="redColor"
                          @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
+              <el-button size="medium"
+                         type="text"
+                         class="redColor"
+                         @click="check(scope.$index, scope.row)"
+                         v-if="activeName == 1">审核</el-button>
+              <el-button size="medium"
+                         type="text"
+                         class="redColor"
+                         @click="reject(scope.$index, scope.row)"
+                         v-if="activeName == 1">驳回</el-button>
             </div>
           </template>
         </el-table-column>
       </el-table>
+
       <div class="btootm_paination">
-        <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
         <el-pagination @size-change="handleSizeChange"
                        @current-change="handleCurrentChangeFun"
                        :current-page="currentPage"
-                       :page-sizes="[100, 200, 300, 400]"
-                       :page-size="100"
+                       :page-sizes="[10, 20, 30, 40]"
+                       :page-size="page_size"
                        layout="total, sizes, prev, pager, next, jumper"
-                       :total="400">
+                       :total="totalData">
         </el-pagination>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -112,80 +118,96 @@ export default {
     return {
       time: [],
       sName: '',
-      activeName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      activeName: '0',
+      tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
+      page_size: 10,
+      type: 0
     }
   },
 
+  mounted() {
+    this.create()
+  },
+
   methods: {
+    create () {
+       this.$newApi.getCommunityPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        keyword: '',
+        t: this.activeName,
+        order_type: 'desc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
+    },
+    handleClick(val) {
+      this.create()
+    },
+    checkTrackQueryFun(index, row) {
+      this.$newApi.delCommunityItem({
+        uid: row.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          message:res.data.msg
+        })
+      })
+    },
+    
+    reject(index, row) {
+      this.$prompt('', '驳回原因', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+      }).then(({ value }) => {
+        this.$newApi.setBackItem({
+          uid: row.uid,
+          back_reason: value,
+          token: JSON.parse(this.$store.state.token).token,
+        }).then(res => {
+          this.$message({
+            message: res.data.msg
+          });  
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消'
+        });       
+      });
+    },
+    check(index, row) {
+      this.$newApi.setCheckItem({
+        uid: row.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          message:res.data.msg
+        })
+      })
+    },
     add () {
       this.$router.push('/commodity/editConventionalKnowledge?nameType=添加商品')
     },
-    editor () {
-      this.$router.push('/circleManagement/editCircleManagement?nameType=修改生活圈')
+    editor (index, row) {
+      this.$router.push({path: '/circleManagement/editCircleManagement', query: {
+        id: row.uid
+      }})
     },
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.create()
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.create()
     },
   }
 }

@@ -81,6 +81,11 @@ export default {
     }
   },
   mounted () {
+    this.$newApi.commGetCommunityItem({
+      uid: this.$route.query.id,
+      token: JSON.parse(this.$store.state.token).token,
+    }).then(res => {
+    })
     this.editor = new E(this.$refs.editorElem);
     // 编辑器的事件，每次改变会获取其html内容
     this.editor.customConfig.onchange = html => {
