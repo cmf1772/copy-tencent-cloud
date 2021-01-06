@@ -12,7 +12,7 @@
   "dependencies": {
     "@antv/l7": "latest",
     "@antv/l7-maps": "latest",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "echarts": "^4.8.0",
     "element-ui": "^2.13.0",
     "v-distpicker": "^1.2.7",
