@@ -9,9 +9,10 @@
              label-width="130px">
       <el-form-item label="订购时间："
                     prop="name">
-        <el-date-picker v-model="value1"
+        <el-date-picker v-model="form.time"
                         style="width: 100%"
                         type="daterange"
+                        value-format="yyyy-MM-dd"
                         range-separator="至"
                         start-placeholder="开始日期"
                         end-placeholder="结束日期">
@@ -19,15 +20,16 @@
       </el-form-item>
       <el-form-item label="订单号："
                     prop="name">
-        <el-input v-model="form.name"></el-input>
+        <el-input v-model="form.ordersn"></el-input>
       </el-form-item>
-      <el-form-item label="卖家："
+      <el-form-item label="买家"
                     prop="name">
-        <el-input v-model="form.name"></el-input>
+        <el-input v-model="form.m_id"></el-input>
       </el-form-item>
       <el-form-item label=""
                     prop="name">
-        <el-button type="primary">订单查询</el-button>
+        <el-button type="primary"
+                   @click="change">订单查询</el-button>
       </el-form-item>
     </el-form>
 
@@ -45,47 +47,52 @@
           </template>
         </el-table-column>
         <el-table-column show-overflow-tooltip
-                         label="订单号">
+                         label="退货商品">
           <template slot-scope="scope">
-            <span class="blueColor"
-                  @click="goOrder"
-                  style="cursor: pointer;">{{scope.row.date}}</span>
+            <!-- @click="goOrder" -->
+            <span  class="blueColor"
+                  style="cursor: pointer;">{{scope.row.goods_name}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column show-overflow-tooltip
+                         label="订单号">
+          <template slot-scope="scope">
+            <span style="cursor: pointer;">{{scope.row.ordersn}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="shop_name"
                          show-overflow-tooltip
                          label="买家">
+            <template slot-scope="scope">
+              <span style="cursor: pointer;">{{scope.row.m_id}}</span>
+            </template>
         </el-table-column>
         <el-table-column show-overflow-tooltip
                          label="商铺">
           <template slot-scope="scope">
-            <span class="blueColor"
-                  style="cursor: pointer;">{{scope.row.date}}</span>
+            <span class=""
+                  style="cursor: pointer;">{{scope.row.shop_name}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="date"
                          show-overflow-tooltip
-                         label="付款方式">
+                         label="退货信息">
+            <template slot-scope="scope">
+              <div class="height: 200px;">
+                <p>申请人：{{scope.row.m_id}}</p>
+                <p>退货原因：{{scope.row.info1.img}}</p>
+                <p>退货金额：{{scope.row.info1.money}}</p>
+                <p>退货说明：{{scope.row.info1.reason}}</p> 
+              </div>
+          </template>  
         </el-table-column>
-        <el-table-column prop="date"
-                         show-overflow-tooltip
-                         label="金额">
+        <el-table-column show-overflow-tooltip
+                         label="状态"
+                         prop="status_txt">
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="register_date"
                          show-overflow-tooltip
-                         label="余款">
-        </el-table-column>
-        <el-table-column prop="date"
-                         show-overflow-tooltip
-                         label="订单积分">
-        </el-table-column>
-        <el-table-column prop="date"
-                         show-overflow-tooltip
-                         label="订单状态">
-        </el-table-column>
-        <el-table-column prop="date"
-                         show-overflow-tooltip
-                         label="下单时间">
+                         label="申请时间">
         </el-table-column>
         <el-table-column show-overflow-tooltip
                          label="操作"
@@ -111,141 +118,129 @@
       <el-pagination @size-change="handleSizeChange"
                      @current-change="handleCurrentChangeFun"
                      :current-page="currentPage"
-                     :page-sizes="[100, 200, 300, 400]"
-                     :page-size="100"
+                     :page-sizes="[10, 20, 30, 40]"
+                     :page-size="page_size"
                      layout="total, sizes, prev, pager, next, jumper"
-                     :total="400">
+                     :total="totalData">
       </el-pagination>
     </div>
 
     <el-dialog title="订单详情"
                :visible.sync="dialogVisible"
                width="60%"
-               top="2hv"
-               :before-close="handleClose">
+               top="2hv">
       <div>
         <p style="font-size: 15px; margin-bottom: 10px;font-weight: 360; color:#000">
           <i class="el-icon-edit"
              style="color: #f5a623 !important;font-weight: 360;margin-right: 10px"></i> 订单详情：
         </p>
-        <el-table :data="tableData"
-                  stripe
-                  max-height="200px">
-          <el-table-column show-overflow-tooltip
-                           type="index"
-                           width="50"
-                           label="序号">
-            <template slot-scope="scope">
-              <!-- {{(currentPage-1)*10+scope.$index+1}} -->
-              {{scope.$index+1}}
-            </template>
-          </el-table-column>
+        <el-table :data="outData"
+                  stripe>
           <el-table-column show-overflow-tooltip
                            label="商品名称">
             <template slot-scope="scope">
               <span class="blueColor"
-                    style="cursor: pointer;">{{scope.row.date}}</span>
+                    style="cursor: pointer;">{{scope.row.goods_name}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="date"
-                           show-overflow-tooltip
-                           label="买家">
-          </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="goods_attr"
                            show-overflow-tooltip
                            label="属性">
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="buy_price"
                            show-overflow-tooltip
                            label="客户单价">
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="buy_point"
                            show-overflow-tooltip
                            label="销售积分">
+          </el-table-column>
+          
+          <el-table-column prop="buy_number"
+                           show-overflow-tooltip
+                           label="数量">
           </el-table-column>
         </el-table>
         <p style="font-size: 15px; margin-bottom: 10px;font-weight: 360; color:#000">
           <i class="el-icon-edit"
              style="color: #f5a623 !important;font-weight: 360;margin-right: 10px"></i> 退货信息：
         </p>
-        <el-form ref="form"
-                 :model="form"
+        <el-form ref="saleData"
+                 :model="saleData"
                  label-width="130px">
           <el-form-item label="退货原因："
-                        prop="name">
-            <span>不要</span>
+                        prop="">
+            <span>{{saleData.info1.reason}}</span>
           </el-form-item>
           <el-form-item label="退货金额："
-                        prop="name">
-            <span>￥1.00</span>
+                        prop="">
+            <span>{{saleData.info1.money}}</span>
           </el-form-item>
           <el-form-item label="图片："
-                        prop="name">
-            <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2800361346,2907707833&fm=26&gp=0.jpg"
+                        prop="">
+            <img :src="saleData.info1.img"
                  style="width: 200px;height: 200px"
                  alt="">
           </el-form-item>
           <el-form-item label="退货说明："
                         prop="name">
-            <!-- <el-input v-model="form.name"></el-input> -->
+            <span>{{saleData.info1.memo}}</span>
           </el-form-item>
           <el-form-item label="物流公司："
                         prop="name">
-            <!-- <el-input v-model="form.name"></el-input> -->
+            <span>{{saleData.info2.company}}</span>
           </el-form-item>
           <el-form-item label="	发货单号："
                         prop="name">
-            <!-- <el-input v-model="form.name"></el-input> -->
+              <span>{{saleData.info2.delivery_code}}</span>
           </el-form-item>
           <el-form-item label="发货凭证："
                         prop="name">
-            <!-- <el-input v-model="form.name"></el-input> -->
-            <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2833261185,1598448584&fm=26&gp=0.jpg"
+            <img :src="saleData.info2.img"
                  style="width: 200px;height: 200px"
                  alt="">
           </el-form-item>
-          <el-form-item label="	退货收件："
+          <el-form-item label="退货收件："
                         prop="name">
-            <!-- <el-input v-model="form.name"></el-input> -->
             <div>
-              地址：
+              地址：{{saleData.back_address}}
             </div>
             <div>
-              收件人：
+              收件人：{{saleData.consignee}}
             </div>
           </el-form-item>
           <el-form-item label="当前状态："
                         prop="name">
-            <!-- <el-input v-model="form.name"></el-input> -->
-            <span class="redColor">等待卖家审核</span>
+            <span class="redColor">{{saleData.consignee}}</span>
           </el-form-item>
         </el-form>
-        <p style="font-size: 15px; margin-bottom: 10px;font-weight: 360; color:#000">
+        <p style="font-size: 15px; margin-bottom: 10px;font-weight: 360; color:#000" v-if="saleData.status == 3">
           <i class="el-icon-edit"
              style="color: #f5a623 !important;font-weight: 360;margin-right: 10px"></i> 卖家意见：
         </p>
-        <el-form ref="form"
-                 :model="form"
+        <el-form ref="returnRquest"
+                 :model="returnRquest"
+                 v-if="saleData.status == 3"
                  label-width="130px">
           <el-form-item label="是否同意："
-                        prop="name">
-            <el-radio v-model="radio"
+                        prop="approval">
+            <el-radio v-model="returnRquest.approval"
                       label="1">同意</el-radio>
-            <el-radio v-model="radio"
+            <el-radio v-model="returnRquest.approval"
                       label="2">拒绝</el-radio>
           </el-form-item>
           <el-form-item label="退货地址："
-                        prop="name">
-            <el-input v-model="form.name"></el-input>
+                        prop="back_address">
+            <el-input v-model="returnRquest.back_address"></el-input>
           </el-form-item>
           <el-form-item label="收件人："
-                        prop="name">
-            <el-input v-model="form.name"
+                        prop="consignee">
+            <el-input v-model="returnRquest.consignee"
                       type="textarea"></el-input>
           </el-form-item>
           <el-form-item label="拒绝理由："
-                        prop="name">
-            <el-input v-model="form.name"
+                        prop="reject">
+            <el-input v-model="returnRquest.reject"
                       type="textarea"></el-input>
           </el-form-item>
         </el-form>
@@ -254,7 +249,8 @@
             class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary"
-                   @click="dialogVisible = false">确 定</el-button>
+                    v-if="saleData.status == 3"
+                   @click="save">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -266,98 +262,155 @@ export default {
   data () {
     return {
       radio: '1',
-      form: {
-        name: ''
-      },
+      form: {},
       dialogVisible: false,
       value1: [],
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
-      height: 0
+      page_size: 10,
+      height: 0,
+      outData: [],
+      saleData: {
+        info1: {},
+        info2: {}
+      },
+      returnRquest: {
+        approval: '1',
+        back_address: '',
+        consignee: '',
+        reject: ''
+      }
     }
   },
 
   methods: {
+    save() {
+      this.$newApi.FSsetBackOrderItem({
+        uid: this.saleData.uid,
+        approval: this.returnRquest.approval,
+        back_address: this.returnRquest.back_address,
+        consignee: this.returnRquest.consignee,
+        reject: this.returnRquest.reject,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        console.log(res)
+        this.dialogVisible = false
+      })
+    },
     goOrder () {
       this.$router.push('/shopOrder/orderDetails')
     },
 
-    editor () {
+    editor (index, row) {
+      this.outData = []
+      console.log(index, row)
+      this.$newApi.FSgetBackOrderItem({
+        uid: row.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        let obj = {}
+        console.log(res.data)
+        this.saleData = res.data.order_back
+        // console.log(this.saleData.order_back.info1)
+        obj = {
+          ...res.data.order_goods
+        }
+        obj.goods_name = res.data.product.goods_name
+        this.outData.push(obj)
+      })
       this.dialogVisible = true
     },
 
-    release () {
-      this.$router.push('/commodityInformation/releaseknowledgeCommodity?nameType=发布广告')
+    checkTrackQueryFun(index, row) {
+      this.$newApi.FSdelBackOrderItem({
+        uid: row.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.create()
+      })
+    },
 
+    change () {
+      this.create()
     },
 
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.create()
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.create()
     },
 
     handleClose () {
 
+    },
+
+    create () {
+      this.$newApi.FSgetBackOrderPageList({
+        start_time: this.form.time ? this.form.time[0] : '',
+        end_time: this.form.time ? this.form.time[1] : '',
+        ordersn: this.form.ordersn,
+        m_id:this.form.m_id,
+        order_type: 'asc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+        page: this.currentPage,
+        page_size: this.page_size,
+      }).then(res => {
+        this.tableData = res.data.items
+        console.log(this.tableData)
+        this.totalData = res.data.total_result
+      })
     }
   },
 
   mounted () {
+    this.create()
     this.height = this.$refs.table.clientHeight + 'px'
   }
 }
 </script>
 
 <style lang="scss" scoped>
+</style>
+
+<style lang="scss" scoped>
+/deep/ .table{
+  .el-table__row{
+    td{
+      height: 100px !important;
+      .cell {
+        height: 100% !important;
+      }
+      .el-table .cell.el-tooltip {
+        height: 100%;
+      }
+      div{
+        height: 100%;
+      }
+    }
+  }
+}
+
+
+/deep/ .customerOrder{
+  .table{
+    .el-table::after{
+      width: 0 !important;
+    }
+  } 
+} 
+
 .customerOrder {
   width: 100%;
   height: 100%;

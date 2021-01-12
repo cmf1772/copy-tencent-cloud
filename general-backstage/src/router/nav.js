@@ -50,7 +50,8 @@ let navArr = [
       {
         name: '动态类目删除',
         url: '/topicManagement/categoryDeletion',
-      }]
+      }
+      ]
     }, {
       id: 'PROVIDER_LIST',
       name: '视频管理', //我的资金
@@ -443,10 +444,10 @@ let navArr = [
             name: '动态话题管理',
             url: '/dynamicManagement/dynamicTopics'
           },
-          {
-            name: '动态类目删除',
-            url: '/dynamicManagement/dynamicCategory'
-          }
+          // {
+          //   name: '动态类目删除',
+          //   url: '/dynamicManagement/dynamicCategory'
+          // }
         ]
       }, {
         id: 'IOT_REPORT',

@@ -16,11 +16,9 @@
         <div ref="editorElem"
              style="text-align:left;width: 800px;"></div>
       </el-form-item>
-      <el-form-item label="标签"
-                    prop="title"
-                    required>
+      <el-form-item label="标签" prop="tags">
         <div class="form-item">
-          <el-input v-model="form.title"
+          <el-input v-model="form.tags"
                     style="width: 600px;" />
           <el-button>提取标签</el-button>
           <span>标签之间用空格隔开，限5个。</span>
@@ -47,7 +45,8 @@ export default {
         title: '',
         typeId: '',
         remark: '',
-        content: ''
+        content: '',
+        tags: ''
       },
       editor: null,
       types: [],
@@ -59,8 +58,8 @@ export default {
         title: [
           { required: true, message: '请输入标题', trigger: 'blur' }
         ],
-        typeId: [
-          { required: true, message: '请选择类型', trigger: 'blur' }
+        tags: [
+          { required: true, message: '请输入标签', trigger: 'blur' }
         ]
       }
     }
@@ -73,7 +72,19 @@ export default {
     onSubmit (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-
+          this.$newApi.setCommunityTopicItem({
+            uid: this.$route.query.id,
+            title: this.form.title,
+            detail: this.form.content,
+            tags: this.form.tags,
+            cover: '',
+            token: JSON.parse(this.$store.state.token).token,
+          }).then(res => {
+            this.$message({
+              message: res.data.msg
+            })
+            this.$router.go(-1);
+          })
         } else {
           return false;
         }
@@ -81,10 +92,14 @@ export default {
     }
   },
   mounted () {
-    this.$newApi.commGetCommunityItem({
+    this.$newApi.getCommunityTopicItem({
       uid: this.$route.query.id,
       token: JSON.parse(this.$store.state.token).token,
     }).then(res => {
+      this.form.title = res.data.t_name
+      this.form.tags = res.data.tags
+      this.editor.txt.html(res.data.content)
+      this.form.content = res.data.content
     })
     this.editor = new E(this.$refs.editorElem);
     // 编辑器的事件，每次改变会获取其html内容

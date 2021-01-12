@@ -399,12 +399,12 @@ export default new Router({
           component: (resolve) => require(['@/view/BackgroundManagement/communityManagement/dynamicManagement/dynamicTopics.vue'], resolve),
           meta: ['社区管理', '动态管理', '动态话题管理']
         },
-        {
-          path: '/dynamicManagement/dynamicCategory',
-          name: 'dynamicCategory',
-          component: (resolve) => require(['@/view/BackgroundManagement/communityManagement/dynamicManagement/dynamicCategory.vue'], resolve),
-          meta: ['社区管理', '动态管理', '动态类目删除']
-        },
+        // {
+        //   path: '/dynamicManagement/dynamicCategory',
+        //   name: 'dynamicCategory',
+        //   component: (resolve) => require(['@/view/BackgroundManagement/communityManagement/dynamicManagement/dynamicCategory.vue'], resolve),
+        //   meta: ['社区管理', '动态管理', '动态类目删除']
+        // },
         {
           path: '/shortVideoMa/shortVideo',
           name: 'shortVideo',

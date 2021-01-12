@@ -3,11 +3,11 @@
     <div class="flex">
       <el-tabs v-model="activeName"
                @tab-click="handleClick">
-        <el-tab-pane label="未审核"
-                     name="0"></el-tab-pane>
         <el-tab-pane label="已审核"
+                     name="0"></el-tab-pane>
+        <el-tab-pane label="未审核"
                      name="1"></el-tab-pane>
-        <el-tab-pane label="已删除"
+        <el-tab-pane label="已驳回"
                      name="2"></el-tab-pane>
       </el-tabs>
       <el-table :data="tableData"

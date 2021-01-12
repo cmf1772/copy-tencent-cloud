@@ -1,11 +1,11 @@
 <template>
   <div class="guestBook">
     <el-tabs v-model="activeName"
-             @tab-click="handleClick">
+             @tab-click="create()">
       <el-tab-pane label="供应留言"
-                   name="first"></el-tab-pane>
+                   name="0"></el-tab-pane>
       <el-tab-pane label="求购留言"
-                   name="second"></el-tab-pane>
+                   name="1"></el-tab-pane>
     </el-tabs>
     <div class="flex">
       <el-table :data="tableData"
@@ -20,27 +20,27 @@
             {{scope.$index+1}}
           </template>
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="name"
                          show-overflow-tooltip
                          label="发布者">
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="goods_name"
                          show-overflow-tooltip
                          label="项目名称">
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="msg"
                          show-overflow-tooltip
                          label="留言内容">
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="tel"
                          show-overflow-tooltip
                          label="联系方式">
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="status"
                          show-overflow-tooltip
                          label="状态">
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="register_date"
                          show-overflow-tooltip
                          label="留言时间">
         </el-table-column>
@@ -50,19 +50,10 @@
                          min-width="60">
           <template slot-scope="scope">
             <div>
-
-              <el-button size="medium"
-                         type="text"
-                         class="yellowColor right20"
-                         @click="editor(scope.$index, scope.row)">修改</el-button>
               <el-button size="medium"
                          type="text"
                          class="redColor  right20"
                          @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
-              <!-- <el-button size="medium"
-                           type="text"
-                           @click="release"
-                           class="blueColor">发布</el-button> -->
             </div>
           </template>
         </el-table-column>
@@ -71,10 +62,10 @@
         <el-pagination @size-change="handleSizeChange"
                        @current-change="handleCurrentChangeFun"
                        :current-page="currentPage"
-                       :page-sizes="[100, 200, 300, 400]"
-                       :page-size="100"
+                       :page-sizes="[10, 20, 30, 40]"
+                       :page-size="page_size"
                        layout="total, sizes, prev, pager, next, jumper"
-                       :total="400">
+                       :total="totalData">
         </el-pagination>
       </div>
     </div>
@@ -102,31 +93,52 @@ export default {
       tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
-      activeName: ''
+      page_size: 10,
+      activeName: 0
     }
   },
 
+  mounted() {
+    this.create()
+  },
+
   methods: {
-    editor () {
-      this.$router.push('/commodityInformation/editguestBook?nameType=修改商品信息')
+    create() {
+      this.$newApi.LRgetWantMsgPageListVIP({
+        page: this.currentPage,
+        page_size: this.page_size,
+        t: this.activeName,
+        order_type: 'asc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
     },
 
-    release () {
-      this.$router.push('/commodityInformation/releaseguestBook?nameType=发布广告')
-
+    checkTrackQueryFun(index, row) {
+      this.$newApi.LRdelWantMsgItemVIP({
+        uid: row.uid,
+        t: this.activeName,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          message: res.data.msg
+        })
+        this.create()
+      })
     },
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.create()
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.create()
     },
-    handleClick (tab, event) {
-      console.log(tab, event);
-    }
   }
 }
 </script>

@@ -5,15 +5,14 @@
         <el-tabs v-model="activeName"
                  @tab-click="handleClick">
           <el-tab-pane label="未审核"
-                       name="first"></el-tab-pane>
+                       name="100"></el-tab-pane>
           <el-tab-pane label="已审核"
-                       name="second"></el-tab-pane>
+                       name="1"></el-tab-pane>
           <el-tab-pane label="已删除"
-                       name="third"></el-tab-pane>
+                       name="2"></el-tab-pane>
         </el-tabs>
         <el-table :data="tableData"
                   stripe
-                  @selection-change="handleSelectionChange"
                   style="width: 100%">
           <el-table-column type="selection"
                            width="55">
@@ -30,31 +29,39 @@
           <el-table-column prop="date"
                            show-overflow-tooltip
                            label="封面图">
-            <video src="../../../../assets/cs.mp4"></video>
+            <!-- <video :src="cover"></video> -->
+            <template slot-scope="scope">
+              <img :src="scope.row.cover" alt="" style="width: 100px; height: 100px;">
+            </template>
+             <!-- ../../../../assets/cs.mp4 -->
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="title"
                            show-overflow-tooltip
                            label="标题">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="member_name"
                            show-overflow-tooltip
                            label="用户">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="vlabel"
                            show-overflow-tooltip
                            label="标签">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="explain"
                            show-overflow-tooltip
                            label="简介">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="fabulous"
                            show-overflow-tooltip
                            label="点赞">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="isps"
                            show-overflow-tooltip
                            label="状态">
+            <template slot-scope="scope">
+              <div v-html="scope.row.isps">
+              </div>
+            </template>
           </el-table-column>
           <el-table-column show-overflow-tooltip
                            label="操作"
@@ -69,15 +76,15 @@
                 <el-button size="medium"
                            type="text"
                            class="redColor right20"
-                           @click="checkTrackQueryFun(scope.$index, scope.row)">核准</el-button>
+                           @click="hzQueryFun(scope.$index, scope.row)">核准</el-button>
                 <el-button size="medium"
                            type="text"
                            class="redColor right20"
-                           @click="checkTrackQueryFun(scope.$index, scope.row)">设未审</el-button>
+                           @click="wsQueryFun(scope.$index, scope.row)">设未审</el-button>
                 <el-button size="medium"
                            type="text"
                            class="redColor"
-                           @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
+                           @click="delQueryFun(scope.$index, scope.row)">删除</el-button>
               </div>
             </template>
           </el-table-column>
@@ -89,13 +96,13 @@
                          layout="total, jumper,  ->, prev, pager, next"
                          :total="totalData"></el-pagination> -->
           <el-pagination @size-change="handleSizeChange"
-                         @current-change="handleCurrentChangeFun"
-                         :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
-                         layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
-          </el-pagination>
+                       @current-change="handleCurrentChangeFun"
+                       :current-page="currentPage"
+                       :page-sizes="[10, 20, 30, 40]"
+                       :page-size="page_size"
+                       layout="total, sizes, prev, pager, next, jumper"
+                       :total="totalData">
+        </el-pagination>
         </div>
       </div>
     </div>
@@ -104,7 +111,7 @@
                :visible.sync="dialogVisible"
                width="500px"
                :before-close="handleClose">
-      <video src="../../../../assets/cs.mp4"
+      <video :src="videoUrl"
              class="video"
              height='500px'
              width="400px"
@@ -126,42 +133,80 @@ export default {
 
   data () {
     return {
-      activeName: '',
+      activeName: '100',
       dialogVisible: false,
       time: [],
       sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
+      page_size: 10,
+      videoUrl: ''
     }
+  }, 
+  
+  mounted() {
+    this.create()
   },
 
   methods: {
-    // add () {
-    //   this.$router.push('/driver/edit?nameType=新建驱动')
+    create() {
+      this.$newApi.getShortVideoPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        title: '',
+        isps: this.activeName,
+        type: '0',
+        order_type: 'desc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
+    },
 
-    // },
-    // editor () {
-    //   this.$router.push('/driver/edit?nameType=修改驱动')
-    // },
-    look () {
+    hzQueryFun(index, row) {
+      this.$newApi.setPassItem({
+        uid: row.id,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          message: res.data.msg
+        })
+      })
+    },
+
+    wsQueryFun(index, row) {
+      this.$newApi.setPassItem({
+        uid: row.id,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          message: res.data.msg
+        })
+      })
+    },
+
+    delQueryFun(index, row) {
+      this.$newApi.setPassItem({
+        uid: row.id,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          message: res.data.msg
+        })
+        this.create()
+      })
+    },
+
+    look (index, row) {
       this.dialogVisible = true
+      this.videoUrl = row.domian + row.oldkey
+    },
+
+    handleClick() {
+      this.create()
     },
 
     handleClose (done) {
@@ -174,11 +219,12 @@ export default {
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.create()
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.create()
     },
   }
 }

@@ -1,14 +1,14 @@
 <template>
-  <div class="comment">
+  <div class="circleManagement">
     <div class="flex">
       <el-tabs v-model="activeName"
                @tab-click="handleClick">
-        <el-tab-pane label="未审核"
-                     name="first"></el-tab-pane>
         <el-tab-pane label="已审核"
-                     name="second"></el-tab-pane>
-        <el-tab-pane label="已删除"
-                     name="third"></el-tab-pane>
+                     name="0"></el-tab-pane>
+        <el-tab-pane label="未审核"
+                     name="1"></el-tab-pane>
+        <el-tab-pane label="已驳回"
+                     name="2"></el-tab-pane>
       </el-tabs>
       <el-table :data="tableData"
                 stripe
@@ -23,153 +23,143 @@
           </template>
         </el-table-column>
         <el-table-column show-overflow-tooltip
-                         prop="address"
-                         width="180"
+                          width="240"
+                          prop="title"
                          label="标题">
         </el-table-column>
-        <el-table-column prop="address"
+        <el-table-column prop="content"
                          show-overflow-tooltip
                          label="内容">
         </el-table-column>
-        <el-table-column show-overflow-tooltip
-                         label="话题">
-          <template slot-scope="scope">
-            <div>
-              <span class="blueColor">123123123</span>
-            </div>
-          </template>
-        </el-table-column>
 
-        <el-table-column prop="address"
+        <el-table-column prop="t_name"
+                         show-overflow-tooltip
+                         label="话题">
+        </el-table-column>
+        <el-table-column prop="member_id"
                          show-overflow-tooltip
                          label="会员ID">
         </el-table-column>
-        <el-table-column prop="address"
-                         width="180"
+        <el-table-column prop="register_date"
                          show-overflow-tooltip
                          label="发布时间">
         </el-table-column>
         <el-table-column show-overflow-tooltip
                          label="操作"
-                         width="70"
+                         width="120"
                          min-width="60">
           <template slot-scope="scope">
-            <div>
-
+            <div style="white-space: normal;">
               <el-button size="medium"
                          type="text"
                          class="redColor"
                          @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
+              
             </div>
           </template>
         </el-table-column>
       </el-table>
+
       <div class="btootm_paination">
-        <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
         <el-pagination @size-change="handleSizeChange"
                        @current-change="handleCurrentChangeFun"
                        :current-page="currentPage"
-                       :page-sizes="[100, 200, 300, 400]"
-                       :page-size="100"
+                       :page-sizes="[10, 20, 30, 40]"
+                       :page-size="page_size"
                        layout="total, sizes, prev, pager, next, jumper"
-                       :total="400">
+                       :total="totalData">
         </el-pagination>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'comment',
+  name: 'circleManagement',
 
   data () {
     return {
       time: [],
       sName: '',
-      activeName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      activeName: '0',
+      tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
+      page_size: 10,
+      type: 0
     }
   },
 
+  mounted() {
+    this.create()
+  },
+
   methods: {
-    add () {
-      this.$router.push('/commodity/editConventionalKnowledge?nameType=添加商品')
+    create () {
+       this.$newApi.getCommunityCommentPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        keyword: '',
+        t: this.activeName,
+        order_type: 'desc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
     },
-    editor () {
-      this.$router.push('/circleManagement/editcomment?nameType=修改供应信息')
+    handleClick(val) {
+      this.create()
+    },
+    checkTrackQueryFun(index, row) {
+      this.$newApi.delCommunityTopicItem({
+        uid: row.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          message:res.data.msg
+        })
+      })
     },
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.create()
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.create()
     },
   }
 }
 </script>
+
+
+<style lang="scss" scoped>
+/deep/ .el-table__body-wrapper {
+  .el-table__body {
+    .el-table__row {
+      .el-tooltip {
+        .img {
+          width: 100%;
+          height: 100%;
+          cursor: pointer;
+          display: flex;
+          overflow-x: auto;
+          > img {
+            width: 100px !important;
+            margin-right: 20px;
+            height: 100% !important;
+          }
+        }
+      }
+    }
+  }
+}
+</style>
 
 <style lang="scss" scoped>
 .top_button {
@@ -182,14 +172,13 @@ export default {
   justify-content: space-between;
 }
 
-.comment {
+.circleManagement {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   background: #fff;
   border-radius: 4px;
-
   .table_bottom {
     width: 100%;
     height: auto;

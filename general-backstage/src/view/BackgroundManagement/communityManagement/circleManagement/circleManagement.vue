@@ -3,11 +3,11 @@
     <div class="flex">
       <el-tabs v-model="activeName"
                @tab-click="handleClick">
-        <el-tab-pane label="未审核"
-                     name="0"></el-tab-pane>
         <el-tab-pane label="已审核"
+                     name="0"></el-tab-pane>
+        <el-tab-pane label="未审核"
                      name="1"></el-tab-pane>
-        <el-tab-pane label="已删除"
+        <el-tab-pane label="已驳回"
                      name="2"></el-tab-pane>
       </el-tabs>
       <el-table :data="tableData"
@@ -28,7 +28,7 @@
           <template slot-scope="scope">
             <div style="display: flex">
               <div class="img">
-                <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1819216937,2118754409&fm=26&gp=0.jpg"
+                <img :src="$store.state.getUploadUrl + scope.row.c_logo"
                      alt="">
               </div>
               <p> {{scope.row.c_name}}</p>

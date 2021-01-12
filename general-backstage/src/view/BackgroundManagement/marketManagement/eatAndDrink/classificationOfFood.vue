@@ -15,15 +15,15 @@
                 style="width: 100%"
                 :height="height"
                 @selection-change="handleSelectionChange"
-                row-key="id"
-                :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
+                row-key="uid"
+                :tree-props="{ children: 'children', hasChildren: 'hasChildren'}">
         <el-table-column type="selection"
                          width="55"> </el-table-column>
-        <el-table-column prop="id"
+        <el-table-column prop="category_name"
                          label="分类名称"
-                         width="100">
+                         width="150">
         </el-table-column>
-        <el-table-column prop="name"
+        <el-table-column prop="category_rank"
                          label="输出顺序"
                          align="center">
         </el-table-column>
@@ -55,14 +55,13 @@
         </el-table-column>
       </el-table>
       <el-pagination @size-change="handleSizeChange"
-                     @current-change="handleCurrentChangeFun"
-                     :current-page="currentPage"
-                     :page-sizes="[100, 200, 300, 400]"
-                     :page-size="100"
-                     layout="total, sizes, prev, pager, next, jumper"
-                     :total="400">
-      </el-pagination>
-
+                       @current-change="handleCurrentChangeFun"
+                       :current-page="currentPage"
+                       :page-sizes="[10, 20, 30, 40]"
+                       :page-size="page_size"
+                       layout="total, sizes, prev, pager, next, jumper"
+                       :total="totalData">
+        </el-pagination>
     </div>
 
     <el-dialog title="添加分类"
@@ -176,8 +175,7 @@
     <el-dialog title="添加价位"
                :visible.sync="priceDialogPrice"
                width="30%"
-               center
-               :before-close="handleClose">
+               center>
       <el-form :model="ruleForm"
                :rules="rules"
                ref="ruleForm"
@@ -212,65 +210,15 @@ export default {
     return {
       priceDialogPrice: false,
       height: window.innerHeight - 300,
-      tableData: [
-        {
-          id: 1,
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-          children: [
-            {
-              id: 21,
-              date: "2016-05-01",
-              name: "王小虎",
-              address: "上海市普陀区金沙江路 1519 弄"
-            },
-            {
-              id: 22,
-              date: "2016-05-01",
-              name: "王小虎",
-              address: "上海市普陀区金沙江路 1519 弄"
-            }
-          ]
-        },
-        {
-          id: 2,
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄"
-        },
-        {
-          id: 3,
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄",
-          children: [
-            {
-              id: 31,
-              date: "2016-05-01",
-              name: "王小虎",
-              address: "上海市普陀区金沙江路 1519 弄"
-            },
-            {
-              id: 32,
-              date: "2016-05-01",
-              name: "王小虎",
-              address: "上海市普陀区金沙江路 1519 弄"
-            }
-          ]
-        },
-        {
-          id: 4,
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        }
-      ],
+      tableData: [],
       dialogVisible: false,
       form: {},
       fileList: [],
       currentPage: 1,
       ruleForm: {},
+      page_size: 10,
+      rules: {},
+      totalData: 0,
       inputData: [
         {
           data: [
@@ -282,11 +230,52 @@ export default {
             }
           ]
         }
-      ]
+      ],
     };
   },
+  created() {
+
+      
+  },
+  mounted() {
+    this.create()
+  },
+
   methods: {
-    handleSelectionChange () { },
+    create () {
+      this.$newApi.getCategoryPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        category_name: '',
+        category_id: '',
+        order_type: 'desc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.totalData = res.data.total_result
+        res.data.items.forEach((item, index) => {
+          item.hasChildren = true
+          item.children = [
+            {}
+          ]
+        })
+        this.tableData = res.data.items
+        console.log(this.tableData)
+        // var data = res.data.items
+        // data.forEach(element => {
+        //   this.$newApi.getSubList({
+        //     uid: element.uid,
+        //     token: JSON.parse(this.$store.state.token).token,
+        //   }).then(val => {
+        //     element.children = val.data
+        //   })
+        // });
+        // this.$set(this, 'tableData', data)
+      })
+    },
+    handleSelectionChange (selection) {
+      console.log(selection)
+    },
     addDialog () {
       this.dialogVisible = true;
     },
@@ -294,8 +283,6 @@ export default {
     handleRemove () { },
     beforeRemove () { },
     handleExceed () { },
-    handleSizeChange () { },
-    handleCurrentChangeFun () { },
     addInput () {
       this.inputData.push({ data: [{}] });
     },
@@ -304,7 +291,17 @@ export default {
     },
     priceDialog () {
       this.priceDialogPrice = true;
-    }
+    },
+    // 分页
+    handleCurrentChangeFun (val) {
+      this.currentPage = val;
+      this.create()
+    },
+
+    handleSizeChange (val) {
+      this.page_size = val
+      this.create()
+    },
   }
 };
 </script>

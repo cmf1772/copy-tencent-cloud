@@ -1,13 +1,15 @@
 <template>
-  <div class="foodAndDrinkVIP">
+  <div class="foodAndDrink">
     <div class="navPage_top">
       <el-input placeholder="请输入标题关键字"
                 style="width: 200px"
+                v-model="title"
                 clearable>
       </el-input>
       <el-button slot="append"
                  type="primary"
-                 icon="el-icon-search">
+                 icon="el-icon-search"
+                 @click="create()">
         搜索
       </el-button>
     </div>
@@ -16,57 +18,67 @@
                 :height="height">
         <el-table-column type="selection"
                          width="55"> </el-table-column>
-        <el-table-column prop="column_name"
+        <el-table-column prop="member_id"
                          label="发布者">
         </el-table-column>
-        <el-table-column prop="superior_column"
+        <el-table-column prop="goods_name"
+                          width="240"
                          label="商品名称">
+          <template slot-scope="scope">
+            <div style="display: flex">
+              <div class="img">
+                <img :src="$store.state.getUploadUrl + scope.row.pic" alt="">
+              </div>
+              <p class="name_content">{{scope.row.goods_name}}</p>
+            </div>
+          </template>
         </el-table-column>
         <el-table-column prop="superior_column"
                          label="分类名称">
         </el-table-column>
-        <el-table-column prop="superior_column"
+        <el-table-column prop="price"
                          label="单价">
         </el-table-column>
-        <el-table-column prop="superior_column"
+        <el-table-column prop="num" 
                          label="数量">
         </el-table-column>
-        <el-table-column prop="order"
+        <el-table-column prop="od"
                          label="权重">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.order"></el-input>
+            <el-input v-model="scope.row.od" @blur="orderChange(scope.row, scope.row.od)"></el-input>
           </template>
         </el-table-column>
-        <el-table-column prop="superior_column"
+        <el-table-column prop="status"
                          label="状态">
         </el-table-column>
-        <el-table-column prop="superior_column"
+        <el-table-column prop="msg_num"
                          label="留言数量">
         </el-table-column>
         <el-table-column label="操作"
                          width="100">
           <template slot-scope="scope">
             <el-button type="text"
-                       @click="addNav"
+                       @click="addNav(scope.row)"
                        size="small">编辑</el-button>
             <el-button type="text"
                        size="small"
-                       style="color: #f00;">删除</el-button>
+                       style="color: #f00;"
+                       @click="del(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
 
-      <el-pagination @size-change="handleSizeChange"
-                     @current-change="handleCurrentChangeFun"
-                     :current-page="currentPage"
-                     :page-sizes="[100, 200, 300, 400]"
-                     :page-size="100"
-                     layout="total, sizes, prev, pager, next, jumper"
-                     :total="400">
-      </el-pagination>
+       <el-pagination @size-change="handleSizeChange"
+                       @current-change="handleCurrentChangeFun"
+                       :current-page="currentPage"
+                       :page-sizes="[10, 20, 30, 40]"
+                       :page-size="page_size"
+                       layout="total, sizes, prev, pager, next, jumper"
+                       :total="totalData">
+        </el-pagination>
     </div>
 
-    <el-dialog title="添加导航"
+    <el-dialog title="修改供应信息"
                :visible.sync="dialogVisible"
                width="65%"
                :before-close="handleClose"
@@ -76,90 +88,92 @@
                label-width="130px">
         <el-form-item label="商品名称："
                       style="width: 100%"
-                      prop="displayName">
-          <el-input v-model="form.displayName"
+                      prop="goods_name">
+          <el-input v-model="form.goods_name"
                     placeholder=""></el-input>
         </el-form-item>
         <el-form-item label="商品分类："
-                      prop="name">
+                      prop="goods_category">
           <div class="form-item">
-            <el-select v-model="form.province"
+            <el-select v-model="form.goods_category"
                        style="width: 100%;"
                        clearable>
-              <el-option label="美食"
-                         value="shanghai"></el-option>
-              <el-option label="娱乐"
-                         value="shanghai"></el-option>
+              <el-option v-for="(item, index) in categoryData" :key="index" :label="item.board_title" :value="item.uid"></el-option>
             </el-select>
           </div>
         </el-form-item>
         <el-form-item label="商品数量："
-                      prop="name">
-          <el-input v-model="form.name">
+                      prop="num">
+          <el-input v-model="form.num">
           </el-input>
         </el-form-item>
         <el-form-item label="商品单价："
-                      prop="name">
-          <el-input v-model="form.name">
+                      prop="price">
+          <el-input v-model="form.price">
             <span slot="suffix">元</span>
           </el-input>
           <p>（注：填0或不填表示价格面议）</p>
         </el-form-item>
         <el-form-item label="商品简介："
                       style="width: 100%"
-                      prop="name">
-          <el-input v-model="form.name"
+                      prop="intro">
+          <el-input v-model="form.intro"
                     type="textarea">
           </el-input>
         </el-form-item>
         <el-form-item label="所在地区："
                       prop="name">
           <div style="width:100%; display: flex">
-            <el-select v-model="form.name"
-                       style="width:33%"
-                       placeholder="所在省">
-              <el-option label="区域一"
-                         value="shanghai"></el-option>
-              <el-option label="区域二"
-                         value="beijing"></el-option>
-            </el-select>
-            <el-select v-model="form.name"
-                       style="width:33%;margin-left:0"
-                       placeholder="所在市">
-              <el-option label="区域一"
-                         value="shanghai"></el-option>
-              <el-option label="区域二"
-                         value="beijing"></el-option>
-            </el-select>
-            <el-select v-model="form.name"
-                       style="width:33%;margin-left:0"
-                       placeholder="所在市">
-              <el-option label="区域一"
-                         value="shanghai"></el-option>
-              <el-option label="区域二"
-                         value="beijing"></el-option>
-            </el-select>
+            <el-select v-model="form.province"
+                     clearable
+                     style="width:25%"
+                     @change="changeCity"
+                     placeholder="所在省">
+            <el-option v-for="(item, index) in $store.state.cityList"
+                       :key="index"
+                       :label="item.name"
+                       :value="item.id"></el-option>
+          </el-select>
+          <el-select v-model="form.city"
+                     style="width:25%;margin-left:0"
+                     clearable
+                     @change="changeAreaList"
+                     placeholder="所在市">
+            <el-option v-for="(item, index) in $store.state.areaList"
+                       :key="index"
+                       :label="item.name"
+                       :value="item.id"></el-option>
+          </el-select>
+          <el-select v-model="form.county"
+                     clearable
+                     style="width:25%;margin-left:0"
+                     placeholder="所在县">
+            <el-option v-for="(item, index) in $store.state.county"
+                       :key="index"
+                       :label="item.name"
+                       :value="item.id"></el-option>
+          </el-select>
           </div>
         </el-form-item>
         <el-form-item label="手机："
-                      prop="name">
-          <el-input v-model="form.name"></el-input>
+                      prop="tel">
+          <el-input v-model="form.tel"></el-input>
         </el-form-item>
         <el-form-item label="QQ："
-                      prop="name">
-          <el-input v-model="form.name"></el-input>
+                      prop="qq">
+          <el-input v-model="form.qq"></el-input>
         </el-form-item>
         <el-form-item label="旺旺："
-                      prop="name">
-          <el-input v-model="form.name"></el-input>
+                      prop="ww">
+          <el-input v-model="form.ww"></el-input>
         </el-form-item>
         <el-form-item label="权重："
-                      prop="name">
-          <el-input v-model="form.name"></el-input>
+                      prop="od">
+          <el-input v-model="form.od"></el-input>
         </el-form-item>
         <el-form-item label="当前展示图片："
                       prop="name">
-          <img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2800918334,2651401206&fm=26&gp=0.jpg"
+          <img :src="$store.state.getUploadUrl + form.pic"
                style="width: 200px; height: 200px"
                alt="">
         </el-form-item>
@@ -187,7 +201,7 @@
       <span slot="footer"
             class="dialog-footer">
         <el-button type="primary"
-                   @click="dialogVisible = false">确 定</el-button>
+                   @click="save">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -203,80 +217,12 @@ export default {
       fileList: [],
       dialogVisible: false,
       dialogVisible1: false,
-      tableData: [
-        {
-          windows_type: 1,
-          column_type: 1,
-          order: 1,
-          superior_column: "王小虎",
-          column_name: "导航管理"
-        },
-        {
-          windows_type: 2,
-          column_type: 2,
-          order: 2,
-          superior_column: "王小虎",
-          column_name: "导航管理"
-        },
-        {
-          windows_type: 1,
-          column_type: 5,
-          order: 3,
-          superior_column: "王小虎",
-          column_name: "导航管理"
-        }
-      ],
-      column_option: [
-        {
-          value: 1,
-          label: "头部导航"
-        },
-        {
-          value: 2,
-          label: "底部导航"
-        },
-        {
-          value: 3,
-          label: "中部导航"
-        },
-        {
-          value: 4,
-          label: "帮助"
-        }
-      ],
-      window_option: [
-        {
-          value: 1,
-          label: "本窗口"
-        },
-        {
-          value: 2,
-          label: "新窗口"
-        }
-      ],
-      options: [
-        {
-          value: "选项1",
-          label: "黄金糕"
-        },
-        {
-          value: "选项2",
-          label: "双皮奶"
-        },
-        {
-          value: "选项3",
-          label: "蚵仔煎"
-        },
-        {
-          value: "选项4",
-          label: "龙须面"
-        },
-        {
-          value: "选项5",
-          label: "北京烤鸭"
-        }
-      ],
+      title: '',
+      tableData: [],
+      categoryData: [],
       currentPage: 1,
+      page_size: 10,
+      totalData: 0,
       form: {
         type: []
       },
@@ -284,9 +230,28 @@ export default {
     };
   },
   mounted () {
-
+    this.$api.getBoardList({
+      token: JSON.parse(this.$store.state.token).token,
+    }).then(res => {
+      this.categoryData = res.data
+    })
+    this.create()
+    this.$store.commit('GET_CITY')
   },
   methods: {
+    create() {
+      this.$newApi.QCgetWantSupplyPageListVIP({
+        page: this.currentPage,
+        page_size: this.page_size,
+        title: this.title,
+        order_type: 'asc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
+    },
     handleRemove (file, fileList) {
       console.log(file, fileList);
     },
@@ -294,16 +259,108 @@ export default {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
     },
-    handleSizeChange () { },
-    handleCurrentChangeFun () { },
-    handleClose () { },
-    addNav () {
+    del(row) {
+      this.$newApi.QCdelPostItemVIP({
+        uid: row.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          message: res.data.msg
+        })
+        this.create()
+      })
+    },
+    // 权重
+    orderChange(row, val) {
+      this.$newApi.QCsetOdItemVIP({
+        uid: row.uid,
+        od: val,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          message: res.data.msg
+        })
+        this.create()
+      })
+    },
+    // 分页
+    handleCurrentChangeFun (val) {
+      this.currentPage = val;
+      this.create()
+    },
+
+    handleSizeChange (val) {
+      this.page_size = val
+      this.create()
+    },
+    save() {
+      this.$newApi.QCsetWantSupplyItemVIP({
+        uid: this.form.uid,
+        goods_name: this.form.goods_name,
+        goods_cat: String(this.form.goods_category),
+        num: this.form.num,
+        price: this.form.price,
+        intro: this.form.intro,
+        province: String(this.form.province),
+        city: String(this.form.city),
+        county: String(this.form.county),
+        tel: this.form.tel,
+        qq: this.form.qq,
+        ww: this.form.ww,
+        od: this.form.od,
+        pic: this.dialogImageUrl,
+        detail: this.form.detail,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.err_code) {
+          this.$message({
+            type: 'error',
+            message: res.data.err_msg
+          })
+        }
+        else{
+          this.create()
+          this.$message({
+            type: 'success',
+            message: '操作成功'
+          })
+          this.dialogVisible = false
+        }
+      })
+    },
+
+    changeCity () {
+      this.form.city = ''
+      this.form.county = ''
+      this.$store.commit('GET_CITY', { id: this.form.province, name: 'areaList' })
+    },
+
+    changeAreaList () {
+      this.form.county = ''
+      this.$store.commit('GET_CITY', { id: this.form.city, name: 'county' })
+    },
+
+    handleClose() {
+      this.dialogVisible = false
+      this.form = {}
+    },
+    addNav (row) {
+      this.$newApi.QCgetWantSupplyItemVIP({
+        uid: row.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.form = res.data
+        this.form.province = Number(this.form.province)
+        this.form.city = Number(this.form.city)
+        this.form.county = Number(this.form.county)
+        this.editor.txt.html(res.data.detail)
+      })
       this.dialogVisible = true;
       this.$nextTick(() => {
         this.editor = new E(this.$refs.editorElem);
         // 编辑器的事件，每次改变会获取其html内容
         this.editor.customConfig.onchange = html => {
-          this.form.description = html;
+          this.form.detail = html;
         };
         this.editor.customConfig.menus = [
           // 菜单配置
@@ -327,14 +384,33 @@ export default {
         this.editor.create(); // 创建富文本实例
       })
     },
-    handlePreview () { },
-    beforeRemove () { },
-    handleExceed () { }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+/deep/ .el-table  {
+    .el-table__row {
+        min-height: 100px;
+        .img {
+          width: 100px;
+          height: 100px;
+          cursor: pointer;
+          display: flex;
+          overflow-x: auto;
+          > img {
+            width: 100px !important;
+            margin-right: 20px;
+            height: 100px !important;
+          }
+        }
+        .name_content{
+          width: 100px;
+          height: 100px;
+          overflow-y: auto;
+        }
+  }
+}
 .el-form {
   display: flex;
   justify-content: space-between;
@@ -343,7 +419,7 @@ export default {
     width: 45%;
   }
 }
-.foodAndDrinkVIP {
+.foodAndDrink {
   width: 100%;
   height: 100%;
   display: flex;

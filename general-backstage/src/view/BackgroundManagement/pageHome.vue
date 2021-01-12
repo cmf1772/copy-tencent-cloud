@@ -394,6 +394,7 @@ export default {
         "/beauty/guestBook",
         "/beauty/customerOrder",
         "/beauty/returnChannel",
+        "/beauty/customerOrderVIP",
         "/departmentStores/customerOrderVIP", //----
         "/departmentStores/classificationOfFood",
         "/departmentStores/classificationOfFoodVip",

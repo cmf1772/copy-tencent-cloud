@@ -3,11 +3,11 @@
     <div class="flex">
       <el-tabs v-model="activeName"
                @tab-click="handleClick">
-        <el-tab-pane label="未审核"
-                     name="0"></el-tab-pane>
         <el-tab-pane label="已审核"
+                     name="0"></el-tab-pane>
+        <el-tab-pane label="未审核"
                      name="1"></el-tab-pane>
-        <el-tab-pane label="已删除"
+        <el-tab-pane label="已驳回"
                      name="2"></el-tab-pane>
       </el-tabs>
       <el-table :data="tableData"
@@ -28,27 +28,27 @@
           <template slot-scope="scope">
             <div style="display: flex">
               <div class="img">
-                <img src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1819216937,2118754409&fm=26&gp=0.jpg"
+                <img :src="$store.state.getUploadUrl + scope.row.member_image"
                      alt="">
               </div>
-              <p> {{scope.row.c_name}}</p>
+              <p> {{scope.row.member_id}}</p>
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="c_cat"
+        <el-table-column prop="c_name"
                          show-overflow-tooltip
                          label="生活圈">
         </el-table-column>
 
-        <el-table-column prop="c_tag"
+        <el-table-column prop="member_class"
                          show-overflow-tooltip
                          label="等级">
         </el-table-column>
-        <el-table-column prop="status"
+        <el-table-column prop="join_reason"
                          show-overflow-tooltip
                          label="加入审核">
         </el-table-column>
-        <el-table-column prop="od"
+        <el-table-column prop="register_date"
                          show-overflow-tooltip
                          label="加入时间">
         </el-table-column>
@@ -58,10 +58,10 @@
                          min-width="60">
           <template slot-scope="scope">
             <div style="white-space: normal;">
-              <el-button size="medium"
+              <!-- <el-button size="medium"
                          type="text"
                          class="yellowColor"
-                         @click="editor(scope.$index, scope.row)">修改</el-button>
+                         @click="editor(scope.$index, scope.row)">修改</el-button> -->
               <el-button size="medium"
                          type="text"
                          class="redColor"
@@ -126,7 +126,7 @@ export default {
       this.create()
     },
     checkTrackQueryFun(index, row) {
-      this.$newApi.delCommunityItem({
+      this.$newApi.delCommunityMemberItem({
         uid: row.uid,
         token: JSON.parse(this.$store.state.token).token,
       }).then(res => {
