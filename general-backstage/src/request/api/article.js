@@ -284,6 +284,17 @@ const article = {
   // 获取退货订单分页列表
   getBackOrderPageList (params) { return axios.post('/admin/backorder/getBackOrderPageList', { ...params }) },
 
+  // 后台菜单
+  getMenuPageList (params) { return axios.post('/admin/menu/getMenuPageList', { ...params }) },
+
+  // 获取子菜单
+  getMenuAuthList (params) { return axios.post('/admin/menu/getMenuAuthList', { ...params }) },
+
+  // 商铺设置
+  getSettingItem (params) { return axios.post('/admin/settings/getSettingItem', { ...params }) },
+
+
+
 
   /**
    * 七牛云上传token 地址

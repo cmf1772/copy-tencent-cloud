@@ -15,7 +15,7 @@ const domain = 'http'
 // const devHost = 'ydyss.cptchina.cn'
 const devHost = 'www.bjxmqy.com'
 const devPort = '9501'
-const localHost = '192.168.5.6'
+const localHost = '192.168.2.231'
 const localPort = '8080'
 // const proHost = 'ydyss.cptchina.cn'
 //
