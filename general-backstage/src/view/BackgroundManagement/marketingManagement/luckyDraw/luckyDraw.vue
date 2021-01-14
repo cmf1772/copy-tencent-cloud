@@ -26,28 +26,27 @@
                          show-overflow-tooltip
                          label="活动标题">
         </el-table-column>
-        <el-table-column prop="address"
-                         width="180"
+        <el-table-column prop="point"
                          show-overflow-tooltip
                          label="所需积分">
         </el-table-column>
-        <el-table-column prop="address"
+        <el-table-column prop="start_time"
                          show-overflow-tooltip
                          label="起始时间">
         </el-table-column>
-        <el-table-column prop="address"
+        <el-table-column prop="end_time"
                          show-overflow-tooltip
                          label="终止时间">
         </el-table-column>
-        <el-table-column prop="address"
+        <el-table-column prop="reg_date"
                          show-overflow-tooltip
                          label="发布时间">
         </el-table-column>
-        <el-table-column prop="address"
+        <el-table-column prop="join_num"
                          show-overflow-tooltip
                          label="参与人数">
         </el-table-column>
-        <el-table-column prop="address"
+        <el-table-column prop="lucky_num"
                          show-overflow-tooltip
                          label="中奖人数">
         </el-table-column>
@@ -70,18 +69,13 @@
         </el-table-column>
       </el-table>
       <div class="btootm_paination">
-        <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
         <el-pagination @size-change="handleSizeChange"
                        @current-change="handleCurrentChangeFun"
                        :current-page="currentPage"
-                       :page-sizes="[100, 200, 300, 400]"
-                       :page-size="100"
+                       :page-sizes="[10, 20, 30, 40]"
+                       :page-size="page_size"
                        layout="total, sizes, prev, pager, next, jumper"
-                       :total="400">
+                       :total="totalData">
         </el-pagination>
       </div>
     </div>
@@ -98,35 +92,68 @@ export default {
       time: [],
       sName: '',
       activeName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
+      page_size: 10,
     }
   },
 
+  mounted() {
+    this.create()
+  },
+
   methods: {
+    create() {
+      this.$newApi.getLuckyActPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        name: '',
+        order_type: 'asc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
+    },
+
     add () {
-      this.$router.push('/luckyDraw/editluckyDraw?nameType=添加抽奖活动')
+      this.$router.push('/luckyDraw/editluckyDraw')
     },
-    editor () {
-      this.$router.push('/luckyDraw/editluckyDraw?nameType=修改抽奖活动')
+    editor (index, row) {
+      this.$router.push('/luckyDraw/editluckyDraw?uid=' + row.uid)
     },
-    // 分页
+
+    checkTrackQueryFun(index, row) {
+      this.$newApi.delLuckyActItem({
+        uid: row.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.err_code) {
+          this.$message({
+            type: 'error',
+            message: res.data.msg
+          })
+        }
+        else{
+          this.$message({
+            type: 'success',
+            message: '删除成功'
+          })
+        }
+        this.create()
+      })
+    },
+     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.create()
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.create()
     },
   }
 }

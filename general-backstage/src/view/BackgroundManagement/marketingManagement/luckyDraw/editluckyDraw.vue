@@ -10,66 +10,72 @@
              :model="form"
              label-width="130px">
       <el-form-item label="活动名称："
-                    prop="displayName">
-        <el-input v-model="form.displayName"
+                    prop="name">
+        <el-input v-model="form.name"
                   placeholder></el-input>
       </el-form-item>
       <el-form-item label="所需积分："
-                    prop="displayName">
-        <el-input v-model="form.displayName"
+                    prop="point">
+        <el-input v-model="form.point"
                   placeholder></el-input>
       </el-form-item>
       <el-form-item label="起始时间："
-                    prop="displayName">
-        <el-input v-model="form.displayName"
+                    prop="start_time">
+        <el-input v-model="form.start_time"
                   placeholder></el-input>
         <p> (时间格式示例：2014-7-1 18:00)</p>
       </el-form-item>
       <el-form-item label="终止时间："
-                    prop="displayName">
-        <el-input v-model="form.displayName"
+                    prop="end_time">
+        <el-input v-model="form.end_time"
                   placeholder></el-input>
         <p>(时间格式示例：2014-7-2 18:00)</p>
 
       </el-form-item>
       <el-form-item label="无奖概率："
-                    prop="displayName">
-        <el-input v-model="form.displayName"
+                    prop="fail_rate">
+        <el-input v-model="form.fail_rate"
                   placeholder></el-input>
       </el-form-item>
-      <el-form-item label="无奖角度范围："
-                    prop="displayName">
+      <el-form-item label="无奖角度范围：">
         <div class="form-item">
-          <el-input v-model="form.displayName"
+          <el-input v-model="form.fail_degree_min"
                     style="width:45%"
                     placeholder></el-input>
           <p style="width:9%; text-aline:center">-</p>
-          <el-input v-model="form.displayName"
+          <el-input v-model="form.fail_degree_max"
                     style="width:45%"
                     placeholder></el-input>
         </div>
       </el-form-item>
-      <el-form-item label="当前转盘："
+      
+      <!-- <el-form-item label="当前转盘："
                     prop="displayName">
         <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596715099517&di=baab76f118586a673c47a1a6969795e4&imgtype=0&src=http%3A%2F%2Fwww.5tu.cn%2Fattachments%2Fmonth_1306%2F13062415125db0082fd56a0066.jpg"
              style="width: 200px; height: 200px"
              alt="">
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="转盘上传："
                     prop="displayName">
-        <el-upload action="https://jsonplaceholder.typicode.com/posts/"
-                   list-type="picture-card"
-                   :on-preview="handlePictureCardPreview"
-                   :on-remove="handleRemove">
-          <div slot="tip"
-               class="el-upload__tip">(长宽为 530*530 像素 ，一定要严格按照这个大小，建议格式为png)</div>
-          <i class="el-icon-plus"></i>
-        </el-upload>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%"
-               :src="dialogImageUrl"
-               alt="">
-        </el-dialog>
+        <el-upload class="upload-pic"
+                :action="domain"
+                :data="QiniuData"
+                :on-remove="handleRemove"
+                :on-error="uploadError"
+                :on-success="uploadSuccess"
+                :before-upload="beforeAvatarUpload"
+                :limit="1"
+                multiple
+                :on-exceed="handleExceed"
+                :file-list="fileList">
+        <el-button size="small"
+                  type="primary">选择图片</el-button>
+      </el-upload>
+      <el-dialog :visible.sync="dialogVisible">
+        <img width="100%"
+              :src="dialogImageUrl"
+              alt="">
+      </el-dialog>
       </el-form-item>
     </el-form>
     <p style="font-size: 15px; margin-bottom: 10px;font-weight: 360; color:#000">
@@ -79,56 +85,59 @@
     </p>
     <div class="form-item">
       <el-form ref="form"
-               :rules="rules"
-               :model="form"
                label-width="130px">
+        <el-form-item>
+          <el-button @click="addPrize">添加</el-button>
+          <el-button @click="delPrize">减少</el-button>
+        </el-form-item>
         <el-form-item label="活动奖品："
                       style="width: 100%"
-                      prop="displayName">
+                      prop="displayName"
+                      v-for="(item, index) in prizeData" :key="index">
           <span>奖项：</span>
-          <el-input v-model="form.displayName"
+          <el-input v-model="item.lucky_name"
                     style="width:150px;margin-right:10px"
                     placeholder=""></el-input>
           <span>奖品名称：</span>
-          <el-input v-model="form.displayName"
+          <el-input v-model="item.goods_name"
                     style="width:150px;margin-right:10px"
                     placeholder=""></el-input>
           <div class="form-item"
                style="margin: 10px 0">
             <span>奖品图样：</span>
-            <el-upload class="upload-demo"
-                       action="https://jsonplaceholder.typicode.com/posts/"
-                       :on-preview="handlePreview"
-                       :on-remove="handleRemove"
-                       :before-remove="beforeRemove"
-                       multiple
-                       :limit="3"
-                       :on-exceed="handleExceed"
-                       :file-list="fileList">
+            <el-upload class="upload-pic"
+                :action="domain"
+                :data="QiniuData"
+                :on-remove="handleRemoveTwo"
+                :on-error="uploadError"
+                :on-success="uploadSuccessTwo"
+                :before-upload="beforeAvatarUpload"
+                :limit="1"
+                multiple
+                :on-exceed="handleExceed"
+                :file-list="item.fileList">
               <el-button size="small"
-                         type="primary">点击上传</el-button>
-              <div slot="tip"
-                   class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                        type="primary">选择图片</el-button>
             </el-upload>
           </div>
           <span>概率权重：</span>
-          <el-input v-model="form.displayName"
+          <el-input v-model="item.rate"
                     style="width:150px;margin-right:10px"
                     placeholder=""></el-input>
           <span>URL：</span>
-          <el-input v-model="form.displayName"
+          <el-input v-model="item.url"
                     style="width:150px;margin-right:10px"
                     placeholder=""></el-input>
           <span>角度范围：</span>
-          <el-input v-model="form.displayName"
+          <el-input v-model="item.degree_min"
                     style="width:150px"
                     placeholder=""></el-input>
           -
-          <el-input v-model="form.displayName"
+          <el-input v-model="item.degree_max"
                     style="width:150px;margin-right:10px"
                     placeholder=""></el-input>
           <span>排序：</span>
-          <el-input v-model="form.displayName"
+          <el-input v-model="item.od"
                     style="width:150px;margin-right:10px"
                     placeholder=""></el-input>
         </el-form-item>
@@ -142,7 +151,8 @@
       </el-form>
     </div>
     <el-button type="primary"
-               style="float: right">确定</el-button>
+               style="float: right"
+               @click="save">确定</el-button>
   </div>
 </template>
 
@@ -167,6 +177,7 @@ export default {
         city: '',
         qu: ''
       },
+      prizeData: [{}],
       addCoumArray: [],
       checkList: [],
       pf: [{
@@ -196,39 +207,174 @@ export default {
         ]
       },
       imgData: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1121833438,3473430102&fm=26&gp=0.jpg',
+
+      fileList: [],
+      domain: this.$store.state.getUploadUrl, // 七牛云的上传地址（华东区）
+      qiniuaddr: 'http://img.meichengmall.com/', // 七牛云的图片外链地址 七牛云空间的外链地址
+      QiniuData: {
+        key: "", //图片名字处理
+        token: this.$store.state.upToken,//七牛云token
+        data: {}
+      },
+      uploadPicUrl: "", //提交到后台图片地址
+      fileListTwo:[]
     }
   },
 
   mounted () {
-    this.editor = new E(this.$refs.editorElem);
-    // 编辑器的事件，每次改变会获取其html内容
-    this.editor.customConfig.onchange = html => {
-      this.form.content = html;
-    };
-    this.editor.customConfig.zIndex = 1000;
-    this.editor.customConfig.menus = [
-      // 菜单配置
-      'head', // 标题
-      'bold', // 粗体
-      'fontSize', // 字号
-      'fontName', // 字体
-      'italic', // 斜体
-      'underline', // 下划线
-      'strikeThrough', // 删除线
-      'foreColor', // 文字颜色
-      'backColor', // 背景颜色
-      'link', // 插入链接
-      'list', // 列表
-      'justify', // 对齐方式
-      'quote', // 引用
-      'image', // 插入图片
-      'table', // 表格
-      'code' // 插入代码
-    ];
-    this.editor.create(); // 创建富文本实例
+    this.$api.getUploadToken().then(res => {
+      this.QiniuData.token = res.data.token.token
+    })
+    if(this.$route.query.uid) {
+      this.create()
+    }
   },
 
   methods: {
+    create() {
+      this.$newApi.getLuckyActItem({
+        uid: this.$route.query.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.form = res.data.lucky
+        let obj = {
+          name: res.data.lucky.img,
+          url: res.data.lucky.img
+        }
+        this.uploadPicUrl = res.data.lucky.img
+        this.fileList.push(obj)
+        res.data.lucky_goods.forEach((item, index) => {
+          console.log(item)
+          item.fileList = []
+          this.fileListTwo.push(item.goods_img)
+          let obj = {
+            name: item.goods_img,
+            url: item.goods_img
+          }
+          item.fileList.push(obj)
+        })
+        this.prizeData = res.data.lucky_goods
+      })
+    },
+    addPrize() {
+      this.prizeData.push({})
+    },
+    delPrize() {
+      if(this.fileListTwo.length == this.prizeData.length) {
+        this.fileListTwo.pop()
+      }
+      this.prizeData.pop()
+    },
+    save() {
+      console.log(this.prizeData)
+      console.log(this.fileList)
+      console.log(this.uploadPicUrl)
+      console.log(this.fileListTwo)
+
+      let lucky_name = ''
+      let goods_name = ''
+      let goods_img = ''
+      let rate = ''
+      let url = ''
+      let degree_min = ''
+      let degree_max = ''
+      let od = ''
+      this.prizeData.forEach((item, index) => {
+        if(index == 0) {
+          lucky_name = item.lucky_name
+          goods_name = item.goods_name
+          goods_img = this.fileListTwo[index]
+          rate = item.rate
+          url = item.url
+          degree_min = item.degree_min
+          degree_max = item.degree_max
+          od = item.od
+        }
+        else{
+          lucky_name += ',' + item.lucky_name
+          goods_name += ',' + item.goods_name
+          goods_img += ',' + this.fileListTwo[index]
+          rate += ',' + item.rate
+          url += ',' + item.url
+          degree_min += ',' + item.degree_min
+          degree_max += ',' + item.degree_max
+          od += ',' + item.od
+        }
+      })
+
+      if(this.$route.query.uid) {
+        this.$newApi.setLuckyActItem({
+          uid: this.$route.query.uid,
+          name: this.form.name,
+          point: String(this.form.point),
+          start_time: this.form.start_time,
+          end_time: this.form.end_time,
+          fail_rate: String(this.form.fail_rate),
+          fail_degree_min: String(this.form.fail_degree_min),
+          fail_degree_max: String(this.form.fail_degree_max),
+          img: this.uploadPicUrl,
+          lucky_name: String(lucky_name),
+          goods_name: String(goods_name),
+          goods_img: String(goods_img),
+          rate: String(rate),
+          url: url,
+          degree_min: String(degree_min),
+          degree_max: String(degree_max),
+          od: String(od),
+          token: JSON.parse(this.$store.state.token).token,
+        }).then(res => {
+          if(res.data.err_code) {
+            this.$message({
+              type: 'error',
+              message: res.data.msg
+            })
+          }
+          else{
+            this.$message({
+              type: 'success',
+              message: '添加成功'
+            })
+            this.$router.go(-1)
+          }
+        })
+      }
+      else{
+        this.$newApi.addLuckyActItem({
+          name: this.form.name,
+          point: this.form.point,
+          start_time: this.form.start_time,
+          end_time: this.form.end_time,
+          fail_rate: this.form.fail_rate,
+          fail_degree_min: this.form.fail_degree_min,
+          fail_degree_max: this.form.fail_degree_max,
+          img: this.uploadPicUrl,
+          lucky_name: lucky_name,
+          goods_name: goods_name,
+          goods_img: goods_img,
+          rate: rate,
+          url: url,
+          degree_min: degree_min,
+          degree_max: degree_max,
+          od: od,
+          token: JSON.parse(this.$store.state.token).token,
+        }).then(res => {
+          if(res.data.err_code) {
+            this.$message({
+              type: 'error',
+              message: res.data.msg
+            })
+          }
+          else{
+            this.$message({
+              type: 'success',
+              message: '添加成功'
+            })
+            this.$router.go(-1)
+          }
+        })
+      }
+    },
+
     addPf () {
       this.pf.push({
         name: '1'
@@ -258,8 +404,9 @@ export default {
       this.$router.push('/setUpShops/navigationStyleSettings?nameType=导航样式设置')
     },
 
-    handleRemove (file, fileList) {
-      console.log(file, fileList);
+    handleRemoveTwo (file, fileList) {
+      let index = this.fileListTwo.indexOf(`${this.qiniuaddr}${file.name}`)
+      this.fileListTwo.splice(index, 1)
     },
     handlePictureCardPreview (file) {
       this.dialogImageUrl = file.url;
@@ -284,6 +431,35 @@ export default {
       let imgData = e.target.files[0];
       this.imgFile = imgData;
       this.imgData = getObjectURL(imgData);
+    },
+
+    handleRemove (file, fileList) {
+      this.uploadPicUrl = "";
+    },
+    uploadError (err, file, fileList) {    //图片上传失败时调用
+      this.$message({
+        message: "上传出错，请重试！",
+        type: "error",
+        center: true
+      });
+    },
+    uploadSuccess (response, file, fileList) {  //图片上传成功的方法
+      console.log(response, file, fileList)
+      this.uploadPicUrl = `${this.qiniuaddr}${file.name}`;
+    },
+    uploadSuccessTwo(response, file, fileList) {
+      // console.log(response, file, fileList)
+      let url = `${this.qiniuaddr}${file.name}`;
+      this.fileListTwo.push(url)
+    },
+    beforeAvatarUpload (file) {   //图片上传之前的方法
+      this.QiniuData.data = file;
+      this.QiniuData.key = `${'knowledge/' + file.name}`;
+    },
+    handleExceed (files, fileList) {
+      this.$message.warning(
+        `当前限制选择 1 张图片，如需更换，请删除上一张图片在重新选择！`
+      );
     },
   }
 }

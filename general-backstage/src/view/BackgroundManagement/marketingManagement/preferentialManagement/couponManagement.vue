@@ -6,13 +6,10 @@
         <el-select clearable
                    style="width:200px;;margin-left:10px;"
                    class="first-child"
-                   placeholder="请选择">
-          <el-option label="普通"
-                     value="name"></el-option>
-          <el-option label="主站推广 已审核"
-                     value="code"></el-option>
-          <el-option label="主站推广 未审核"
-                     value="code"></el-option>
+                   placeholder="请选择"
+                   v-model="value"
+                   @change="create">
+          <el-option v-for="(item, index) in options" :key="index" :label="item.label" :value="item.value"></el-option>
         </el-select>
         <el-button slot="append"
                    type="primary"
@@ -21,12 +18,18 @@
           确定
         </el-button>
       </div>
+      <el-button @click="checkAduit">批量审核</el-button>
     </div>
     <div class="table_bottom">
       <div class="flex">
         <el-table :data="tableData"
+                  @selection-change="handleSelectionChange"
                   stripe
                   style="width: 100%">
+           <el-table-column
+            type="selection"
+            width="55">
+          </el-table-column>
           <el-table-column show-overflow-tooltip
                            type="index"
                            width="50"
@@ -41,29 +44,32 @@
                            label="优惠券名称"
                            width="180">
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="start_date"
                            show-overflow-tooltip
                            label="起始时间">
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="end_date"
                            show-overflow-tooltip
                            label="终止时间">
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="price_lbound"
                            show-overflow-tooltip
                            label="面额">
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="shop_name"
                            show-overflow-tooltip
                            label="所属商铺">
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="member_num"
                            show-overflow-tooltip
                            label="分发数量">
           </el-table-column>
           <el-table-column prop="address"
                            show-overflow-tooltip
                            label="状态">
+            <template slot-scope="scope">
+              <span v-html="scope.row.status"></span>
+            </template>
           </el-table-column>
           <el-table-column show-overflow-tooltip
                            label="操作"
@@ -84,18 +90,13 @@
           </el-table-column>
         </el-table>
         <div class="btootm_paination">
-          <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
           <el-pagination @size-change="handleSizeChange"
-                         @current-change="handleCurrentChangeFun"
-                         :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
-                         layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
+                        @current-change="handleCurrentChangeFun"
+                        :current-page="currentPage"
+                        :page-sizes="[10, 20, 30, 40]"
+                        :page-size="page_size"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="totalData">
           </el-pagination>
         </div>
       </div>
@@ -104,91 +105,126 @@
 </template>
 
 <script>
+import templateTobuy from "../../../PlatForm/BusinessCenter/templateTobuy.vue"
+
 export default {
+  components: { templateTobuy },
   name: 'couponManagement',
 
   data () {
     return {
       time: [],
       sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
+      page_size: 10,
+      value: 0,
+      options: [
+        {
+          value: 0,
+          label: '全部'
+        },
+        {
+          value: 1,
+          label: '普通券'
+        },
+        {
+          value: 2,
+          label: '主站推广,未审核'
+        },
+        {
+          value: 3,
+          label: '主站推广,已审核'
+        }
+      ]
     }
   },
 
+  mounted() {
+    this.create()
+  },
+
   methods: {
-    add () {
-      this.$router.push('/information/edit?nameType=新建资讯')
-
+    create() {
+      this.$newApi.getCouponPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        name: '',
+        status: this.value,
+        order_type: 'asc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
     },
-    edit () {
-      this.$router.push('/preferentialManagement/editcouponManagement?nameType=修改优惠券')
-
+    edit (index, row) {
+      this.$router.push('/preferentialManagement/editcouponManagement?uid=' + row.uid)
     },
-    look () {
-      this.$router.push('/marketHome/details')
+    checkTrackQueryFun(index, row) {
+      this.$newApi.delCouponItem({
+        uid: row.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.err_code >= 0) {
+          this.$message({
+            type: 'error',
+            message: res.data.err_msg
+          })
+        }
+        else{
+          this.$message({
+            type: 'success',  
+            message: res.data.msg
+          })
+          this.create()
+        }
+      })
+    },
+    handleSelectionChange(value) {
+      console.log(value)
+      this.checkData = value
+    },
+    checkAduit() {
+      let arr = ''
+      this.checkData.forEach((item, index) => {
+        if(index == 0) {
+          arr = item.uid
+        }
+        else {
+          arr += ',' + item.uid
+        }
+      })
+      this.$newApi.setBatCheckItem({
+        uid: arr,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.err_code >= 0) {
+          this.$message({
+            type: 'error',
+            message: res.data.err_msg
+          })
+        }
+        else{
+          this.$message({
+            type: 'success',  
+            message: res.data.msg
+          })
+          this.create()
+        }
+      })
     },
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.create()
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.create()
     },
   }
 }
