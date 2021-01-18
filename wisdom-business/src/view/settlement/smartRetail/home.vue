@@ -1,16 +1,42 @@
 <template>
-  <div class="home"
-       :style="{'height': height}">
-    <div class="left">
-      <leftMenu :menuData="menuData"></leftMenu>
-    </div>
-    <div class="right">
-      <div class="top">
-        <div style=" float: left"
+  <div>
+    <div class="top"
+         style="background: #262F3E">
+      <!-- <div style=" float: left"
+               @click="$router.push('/home/product')"
+               class="text blueColor s">美城智慧零售</div> -->
+      <div class="titleimg"
+           style=" float: left;">
+        <img src="@/assets/img/favicon.png"
+             alt="">
+        <div style=" float: left; color: #fff"
              @click="$router.push('/home/product')"
-             class="text blueColor s">美城智慧零售</div>
-
-        <el-popover placement="bottom"
+             class="text s">美城智慧零售</div>
+      </div>
+      <div style="float: left; margin-left: 30px"
+           class="flex text">
+        <div v-for="item in topMenu"
+             class="ml parent s"
+             :key="item.id">
+          <span style="color: #fff; margin-right: 25px; font-size: 13px"> {{item.name}}</span>
+          <ul class="children s"
+              :style="{'width': item.width + 'px'}">
+            <li v-for="(children, index) in item.children"
+                :key="index">
+              <span @click="goDetial(children)"
+                    :style="{'color': children.name === clearName ? '#2589ff' : ''}">{{children.name}}</span>
+              <ol class="childrenItem ml"
+                  v-if="children.children"
+                  v-for="(childrenI, indexC) in children.children"
+                  :key="indexC">
+                <li @click="goDetial(childrenI)"
+                    :style="{'color': childrenI.name === clearName ? '#2589ff' : ''}">{{indexC + 1}}.{{childrenI.name}}</li>
+              </ol>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- <el-popover placement="bottom"
                     @show="show"
                     width="1000"
                     style="height: 600px"
@@ -57,7 +83,6 @@
                 <div class="tip">
                   <span>产品</span>
                 </div>
-
                 <div class="list">
                   <ul>
                     <li>产品概览</li>
@@ -210,36 +235,52 @@
           <div style=" float: left"
                slot="reference"
                class="text blueColor s ml">产品</div>
-        </el-popover>
-        <ul>
-          <li v-for="(item, index) in topNav"
-              :key="index">
-            {{item.text}}
-          </li>
-          <el-dropdown @command="command">
-            <i class="el-icon-s-operation"></i>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="a">切换店铺</el-dropdown-item>
-              <el-dropdown-item command="b">账号信息</el-dropdown-item>
-              <el-dropdown-item command="c">帮助中心</el-dropdown-item>
-              <el-dropdown-item command="e">返回旧版</el-dropdown-item>
-              <el-dropdown-item command="d">退出账号</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </ul>
+        </el-popover> -->
+      <ul class="parentB">
+        <li v-for="(item, index) in topNav"
+            style="color: #fff"
+            :key="index">
+          {{item.text}}
+        </li>
+        <el-dropdown @command="command"
+                     style="color: #fff">
+          <i class="el-icon-s-operation"></i>
+          <el-dropdown-menu slot="dropdown">
+            <!-- <el-dropdown-item command="a">切换店铺</el-dropdown-item> -->
+            <el-dropdown-item command="b">1.消息</el-dropdown-item>
+            <el-dropdown-item command="c">2.邮件</el-dropdown-item>
+            <el-dropdown-item command="e">3.操作日志</el-dropdown-item>
+            <el-dropdown-item command="f">4.服务</el-dropdown-item>
+            <el-dropdown-item command="g">5.帮助</el-dropdown-item>
+            <el-dropdown-item command="h">6.个人中心</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </ul>
+    </div>
+    <div class="home"
+         :style="{'height': height}">
+      <div class="left"
+           v-if="menuData.length">
+        <leftMenu :menuData="menuData"
+                  :topMenuName='clearName'></leftMenu>
       </div>
-      <div class="content"
-           :style="{'height': contentHeight}">
-        <router-view style="flex: 1; margin: 0"
-                     class="bs"></router-view>
-        <help v-if="help"></help>
+      <div class="right">
+
+        <div class="content"
+             :style="{'height': contentHeight}">
+          <router-view style="flex: 1; margin: 0"
+                       class="bs"></router-view>
+          <help v-if="help"></help>
+        </div>
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
 import menu from '@/router/menu'
+import topMenu from '@/components/JS/menuJson'
 export default {
   name: 'home',
   data () {
@@ -253,14 +294,25 @@ export default {
       }, {
         text: '帮助指引'
       }],
-      height: window.innerHeight + 'px',
+      height: window.innerHeight - 50 + 'px',
       menuData: [],
       contentHeight: window.innerHeight + 'px',
       help: true,
+      topMenu: topMenu,
+      clearName: sessionStorage.getItem('clearName'),
     }
   },
 
   methods: {
+    goDetial (row) {
+      if (row.children) return false
+      if (!row.path.length) return false
+      sessionStorage.setItem('clearName', row.name)
+      this.clearName = sessionStorage.getItem('clearName')
+      this.$router.push(row.path)
+      this.changeMenu()
+    },
+
     // 通过路由判断 是否显示帮助  特殊特面不显示帮助
     showHelp () {
       let routerArray = [
@@ -275,6 +327,16 @@ export default {
       ]
       // this.help = !routerArray.indexOf(this.$route.path) > -1
       this.help = routerArray.indexOf(this.$route.path) > -1 ? false : true
+    },
+
+    // 暂时通过名字判断 *****
+    changeMenu () {
+      menu[0].children.forEach(item => {
+        if (item.text === sessionStorage.getItem('clearName')) {
+          this.menuData = item.children ? item.children : []
+          sessionStorage.setItem('index_menu', 1)
+        }
+      })
     },
 
     command (command) {
@@ -311,60 +373,106 @@ export default {
   },
 
   created () {
-    this.menuData = menu[0].children
     this.showHelp()
+    this.changeMenu()
+    // this.menuData = menu[0].children
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.titleimg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  > img {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+  }
+}
+
+.top {
+  width: 100%;
+  height: 50px;
+  box-sizing: border-box;
+  line-height: 50px;
+  -webkit-box-shadow: 0 2px 20px 0 rgba(15, 12, 70, 0.1);
+  box-shadow: 0 2px 20px 0 rgba(15, 12, 70, 0.1);
+  padding: 0 20px;
+  .parentB {
+    float: right;
+    display: flex;
+    align-items: center;
+    li {
+      padding: 0 10px;
+      color: #595961;
+      text-decoration: none;
+      background-color: transparent;
+      outline: none;
+      cursor: pointer;
+      -webkit-transition: color 0.3s;
+      transition: color 0.3s;
+      -webkit-text-decoration-skip: objects;
+      font-size: 12px;
+    }
+    .el-dropdown {
+      cursor: pointer;
+      padding: 0 10px;
+    }
+    li:hover {
+      color: #2589ff;
+    }
+  }
+}
+.parent {
+  position: relative;
+  box-sizing: border-box;
+  .children {
+    padding: 0 20px;
+    position: absolute;
+    background: #fff;
+    width: 100px;
+    display: none;
+    border-radius: 5px;
+    max-height: 700px;
+    overflow: auto;
+    left: -20px;
+    z-index: 99999999999999;
+    > li:hover {
+      span {
+        color: #2589ff;
+      }
+      .childrenItem {
+        > li:hover {
+          color: #2589ff;
+        }
+      }
+    }
+  }
+}
+
+.parent:hover {
+  .children {
+    display: block;
+  }
+}
+
 .home {
   width: 100%;
   display: flex;
   background: #fafafa;
   .left {
-    width: 120px;
+    // width: 120px;
     height: 100%;
-    background: #22242f;
+    background: #1e222d;
     color: #fff;
   }
   .right {
     display: flex;
     flex-direction: column;
     flex: 1;
-    .top {
-      width: 100%;
-      height: 50px;
-      box-sizing: border-box;
-      line-height: 50px;
-      -webkit-box-shadow: 0 2px 20px 0 rgba(15, 12, 70, 0.1);
-      box-shadow: 0 2px 20px 0 rgba(15, 12, 70, 0.1);
-      padding: 0 20px;
-      ul {
-        float: right;
-        display: flex;
-        align-items: center;
-        li {
-          padding: 0 10px;
-          color: #595961;
-          text-decoration: none;
-          background-color: transparent;
-          outline: none;
-          cursor: pointer;
-          -webkit-transition: color 0.3s;
-          transition: color 0.3s;
-          -webkit-text-decoration-skip: objects;
-          font-size: 12px;
-        }
-        .el-dropdown {
-          cursor: pointer;
-          padding: 0 10px;
-        }
-        li:hover {
-          color: #2589ff;
-        }
-      }
-    }
+
     .content {
       // flex: 1;
       display: flex;

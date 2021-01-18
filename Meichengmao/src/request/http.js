@@ -4,9 +4,8 @@
  */
 import axios from 'axios'
 import router from '../router'
-import globalApi from '../request/globalApi'
 // import store from '../store/index'
-// import { message } from 'element-ui'
+import { message } from 'element-ui'
 
 /**
  * 提示函数
@@ -21,7 +20,7 @@ const tip = msg => {
   alert(msg)
 }
 
-axios.defaults.baseURL = '/api'
+axios.defaults.baseURL = ''
 
 /**
  * 跳转登录页
@@ -44,6 +43,9 @@ const errorHandle = (status, other) => {
   // 状态码判断
   switch (status) {
     // 401: 未登录状态，跳转登录页
+    case 200:
+      this.$message('这是一条消息提示');
+      break
     case 401:
       toLogin()
       break
@@ -62,7 +64,7 @@ const errorHandle = (status, other) => {
       tip('请求的资源不存在')
       break
     default:
-    // console.log(other)
+      console.log(other)
   }
 }
 

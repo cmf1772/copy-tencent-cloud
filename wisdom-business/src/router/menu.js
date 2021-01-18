@@ -10,13 +10,13 @@ export default [{
     {
       path: '/survey',
       name: 'survey',
-      text: '概况',
+      text: '总揽',
       component: '',
       icon: 'el-icon-menu'
     },
     {
       path: '/shop',
-      text: '店铺',
+      text: '店铺管理',
       name: 'shop',
       icon: 'el-icon-collection',
       children: [{
@@ -58,7 +58,7 @@ export default [{
     },
     {
       path: '/shop',
-      text: '商品',
+      text: '商品管理',
       name: 'shop',
       icon: 'el-icon-magic-stick',
       children: [{
@@ -120,7 +120,7 @@ export default [{
     },
     {
       path: '/shop',
-      text: '库存',
+      text: '库存管理',
       name: 'shop',
       icon: 'el-icon-s-goods',
       children: [{
@@ -177,7 +177,7 @@ export default [{
     },
     {
       path: '/shop',
-      text: '门店',
+      text: '门店管理',
       name: 'shop',
       icon: 'el-icon-shopping-cart-1',
       children: [{
@@ -239,7 +239,7 @@ export default [{
     },
     {
       path: '/shop',
-      text: '订单',
+      text: '订单管理',
       name: 'shop',
       icon: 'el-icon-box',
       children: [{
@@ -306,7 +306,7 @@ export default [{
     },
     {
       path: '/shop',
-      text: '客户',
+      text: '客户管理',
       name: 'shop',
       icon: 'el-icon-magic-stick',
       children: [{
@@ -358,7 +358,7 @@ export default [{
     },
     {
       path: '/shop',
-      text: '营销',
+      text: '营销应用',
       name: 'shop',
       icon: 'el-icon-sell ',
       children: [{
@@ -410,7 +410,7 @@ export default [{
     },
     {
       path: '/shop',
-      text: '慧付',
+      text: '财务概况',
       name: 'shop',
       icon: 'el-icon-cpu',
       children: [{
@@ -567,7 +567,7 @@ export default [{
     },
     {
       path: '/shop',
-      text: '渠道',
+      text: '渠道管理',
       name: 'shop',
       icon: 'el-icon-sunny ',
       children: [{
@@ -609,7 +609,7 @@ export default [{
     },
     {
       path: '/shop',
-      text: '设置',
+      text: '系统设置',
       name: 'shop',
       icon: 'el-icon-sunny ',
       children: [{

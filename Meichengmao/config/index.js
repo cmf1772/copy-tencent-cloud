@@ -18,7 +18,7 @@ module.exports = {
         changeOrigin: true,
         secure: false,
         pathRewrite: {
-          '/api': globalApi.localUrl
+          '': globalApi.localUrl
         }
       }
     },

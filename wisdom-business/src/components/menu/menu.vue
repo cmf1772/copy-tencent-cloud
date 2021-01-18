@@ -1,12 +1,10 @@
 <template>
   <div class="menus">
-    <div class="titleimg">
-      <img src="@/assets/img/favicon.png"
-           alt="">
-    </div>
+    <p style=" font-size: 18px;margin-left: 22px"
+       v-if="!isCollapse">{{topMenuName}}</p>
     <el-menu :default-active="index_menu"
              class="el-menu-vertical-demo"
-             background-color="#22242f"
+             background-color="#1e222d"
              :unique-opened='true'
              active-text-color="#fff"
              text-color="#757993"
@@ -18,7 +16,7 @@
                       @click="goRightDetial(menu_one, index_one + 1 + '')"
                       :index="index_one + 1 + ''">
           <i :class="menu_one.icon"></i>
-          <span>{{menu_one.text}}</span>
+          <span v-if="!isCollapse">{{menu_one.text}}</span>
         </el-menu-item>
         <!-- 一级菜单 -->
         <el-submenu v-if="menu_one.children"
@@ -26,7 +24,8 @@
                     :index="index_one + 1 + ''">
           <template slot="title">
             <i :class="menu_one.icon"></i>
-            <span slot="title">{{menu_one.text}}</span>
+            <span slot="title"
+                  v-if="!isCollapse">{{menu_one.text}}</span>
           </template>
           <el-menu-item v-for="(menu_two, index_two) in menu_one.children"
                         :key="index_two"
@@ -34,12 +33,21 @@
                         :index="index_one + 1 + '-' +  (index_two + 1)">
             <template slot="title">
               <i :class="menu_two.icon"></i>
-              <span slot="title">{{menu_two.text}}</span>
+              <span slot="title"
+                    v-if="!isCollapse">{{menu_two.text}}</span>
             </template>
           </el-menu-item>
         </el-submenu>
       </div>
     </el-menu>
+    <div class="bottoms">
+      <i class="el-icon-s-fold s icon"
+         v-if="!isCollapse"
+         @click="shrink"></i>
+      <i class="el-icon-s-unfold s icon"
+         @click="shrink"
+         v-if="isCollapse"></i>
+    </div>
   </div>
 </template>
 
@@ -47,17 +55,21 @@
 export default {
   name: 'menu_da',
 
-  props: ['menuData'],
+  props: ['menuData', 'topMenuName'],
 
   data () {
     return {
       activeIndex: 0,
-      isCollapse: true,
+      isCollapse: false,
       index_menu: '0',
     }
   },
 
   methods: {
+    shrink () {
+      this.isCollapse = !this.isCollapse
+    },
+
     changeRight (index, item) {
       this.activeIndex = index
       this.$router.push(item.path)
@@ -110,61 +122,29 @@ export default {
 </script>
 
 <style lang="scss">
-.el-menu--vertical .el-menu--popup-right-start {
-  max-height: 800px;
-  overflow: auto;
-}
 .el-menu-vertical-demo {
-  width: 120px !important;
-  .el-submenu__icon-arrow {
-    display: none;
-  }
+  overflow: auto;
+  border-right: solid 1px #1e222d;
+  flex: 1;
 }
 </style>
 
 <style lang="scss" scoped>
-.titleimg {
-  width: 100%;
-  height: 84px;
+.menus {
+  box-sizing: border-box;
+  padding-top: 30px;
+  position: relative;
+  height: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  > img {
-    width: 40px;
-    height: 40px;
-  }
+  flex-direction: column;
 }
-.menuItem {
-  width: 100%;
-  height: 42px;
-  display: flex;
-  font-size: 14px;
-  color: #757993;
-  font-weight: 400;
-  cursor: pointer;
-  div {
-    height: 42px;
-    position: absolute;
-    line-height: 42px;
-    width: 120px;
-    text-align: center;
-    i {
-      margin-right: 4px;
-    }
-  }
-}
-
-.active {
-  color: #ffffff;
-  :after {
-    content: "";
-    width: 4px;
-    background: #fff;
-    border-radius: 2px;
-    position: absolute;
-    right: 10px;
-    top: 25%;
-    bottom: 25%;
+.bottoms {
+  height: 70px;
+  box-sizing: border-box;
+  padding-top: 20px;
+  .icon {
+    float: right;
+    margin-right: 20px;
   }
 }
 </style>
