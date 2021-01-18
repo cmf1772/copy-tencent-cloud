@@ -355,7 +355,7 @@ export default {
     },
 
     goOrder (row) {
-      this.$router.push('/shopOrder/orderDetails?uid=' + row.uid)
+      this.$router.push('/shopOrder/orderDetails?uid=' + row.uid + '&api=QCgetOrderItem')
     },
 
     editor (index, row) {

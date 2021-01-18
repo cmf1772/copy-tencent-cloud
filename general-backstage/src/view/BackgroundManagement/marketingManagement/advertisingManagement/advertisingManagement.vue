@@ -4,13 +4,13 @@
       <div class="top_left">
         <span>按类型：</span>
         <el-radio v-model="radio"
-                  label="1">全部</el-radio>
+                  label="-1">全部</el-radio>
         <el-radio v-model="radio"
-                  label="2">商品广告</el-radio>
+                  label="0">商品广告</el-radio>
         <el-radio v-model="radio"
-                  label="3">商铺广告</el-radio>
+                  label="1">商铺广告</el-radio>
         <el-radio v-model="radio"
-                  label="4">其它类型广告</el-radio>
+                  label="2">其它类型广告</el-radio>
         <span>按位置：</span>
         <el-select clearable
                    style="width:100px;;margin-left:10px;"
@@ -142,67 +142,41 @@ export default {
   data () {
     return {
       time: [],
-      radio: '1',
+      radio: '-1',
       sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
+      page_size: 10
     }
   },
 
+  mounted() {
+    this.create()
+    this.$newApi.getInitData({
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+      })
+  },
+
   methods: {
+    create() {
+      this.$newApi.getAdPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        ad_type: this.radio,
+        module: '',
+        other_param: '',
+        pos: '',
+        act: '',
+        order_type: 'asc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
+    },
     add () {
       this.$router.push('/advertisingManagement/editadvertisingManagement?nameType=添加广告')
 

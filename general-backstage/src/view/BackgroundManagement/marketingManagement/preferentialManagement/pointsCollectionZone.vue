@@ -3,12 +3,12 @@
     <div class="top_button">
       <div class="top_left">
         <span>商品名称</span>
-        <el-input v-model="sName"
+        <el-input v-model="ps_subject"
                   style="width: 200px"
                   clearable>
         </el-input>
         <span>商品编码</span>
-        <el-input v-model="sName"
+        <el-input v-model="ps_code"
                   style="width: 200px"
                   clearable>
         </el-input>
@@ -16,13 +16,16 @@
         <el-select clearable
                    style="width:200px;;margin-left:10px;"
                    class="first-child"
+                   v-model="approval"
                    placeholder="请选择">
-          <el-option label="审核"
-                     value="name"></el-option>
+          <el-option label="全部"
+                     value="-2"></el-option>
           <el-option label="审核中"
-                     value="code"></el-option>
+                     value="0"></el-option>
           <el-option label="通过审核"
-                     value="code"></el-option>
+                     value="1"></el-option>
+          <el-option label="拒绝审核"
+                     value="-1"></el-option>
         </el-select>
         <el-button slot="append"
                    type="primary"
@@ -139,6 +142,9 @@ export default {
     return {
       time: [],
       status: '',
+      ps_subject: '',
+      ps_code: '',
+      approval: '-2',
       options: [
         { value: '', label: '全部' },
         { value: 0, label: '离线' },
@@ -148,38 +154,34 @@ export default {
         { value: 4, label: '失效' },
       ],
       sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
+      page_size: 10,
       activeName: ''
     }
   },
+  mounted() {
+    this.create()
+  },
 
   methods: {
+    create() {
+      this.$newApi.getChangeGdPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        ps_subject: this.ps_subject,
+        ps_code: this.ps_code,
+        approval: this.approval,
+        supplier_id: '',
+        order_type: 'asc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
+    },
     editor () {
       this.$router.push('/preferentialManagement/editpointsCollectionZone?nameType=修改积分汇专区')
     },

@@ -1517,5 +1517,115 @@ const newData =  {
    delCouponItem (params) { return axios.post('/admin/coupon/delCouponItem', params) },
    // 批量审核优惠券
    setBatCheckItem (params) { return axios.post('/admin/coupon/setBatCheckItem', params) },
-}
+
+   // 获取积分商品分页列表
+   getChangeGdPageList (params) { return axios.post('/admin/changegd/getChangeGdPageList', params) },
+
+   // 获取广告分页列表
+   getAdPageList (params) { return axios.post('/admin/rcmad/getAdPageList', params) },
+    // 获取广告初始化数据
+    getInitData (params) { return axios.post('/admin/rcmad/getInitData', params) },
+
+   // -----------------------   服务管理  --------------------
+   // 获取供应信息分页列表
+   FWgetWantSupplyPageList (params) { return axios.post('/admin/wantsupply/getWantSupplyPageList', params) },
+   // 编辑一个供应权重排序
+   FWsetOdItem (params) { return axios.post('/admin/wantsupply/setOdItem', params) },
+   // 获取一个供应信息
+   FWgetWantSupplyItem (params) { return axios.post('/admin/wantsupply/getWantSupplyItem', params) },
+   // 编辑一个供应信息
+   FWsetWantSupplyItem (params) { return axios.post('/admin/wantsupply/setWantSupplyItem', params) },
+   // 删除一个供应信息
+   FWdelPostItem (params) { return axios.post('/admin/wantsupply/delPostItem', params) },
+   // 审核一个供应信息
+   FWsetCheckItem (params) { return axios.post('/admin/wantsupply/setCheckItem', params) },
+   // 驳回一个供应信息
+   FWsetBackItem (params) { return axios.post('/admin/wantsupply/setBackItem', params) },
+
+    // 获取求购信息分页列表
+    QGgetWantBuyPageList (params) { return axios.post('/admin/wantbuy/getWantBuyPageList', params) },
+    // 编辑一个求购权重排序
+    QGsetOdItem (params) { return axios.post('/admin/wantbuy/setOdItem', params) },
+    // 获取一个供应信息
+    QGgetWantBuyItem (params) { return axios.post('/admin/wantbuy/getWantBuyItem', params) },
+    // 编辑一个求购信息
+    QGsetWantBuyItem (params) { return axios.post('/admin/wantbuy/setWantBuyItem', params) },
+    // 删除一个求购信息
+    QGdelWantBuyItem (params) { return axios.post('/admin/wantbuy/delWantBuyItem', params) },
+    // 审核一个求购信息
+    QGsetCheckItem (params) { return axios.post('/admin/wantbuy/setCheckItem', params) },
+    // 驳回一个求购信息
+    QGsetBackItem (params) { return axios.post('/admin/wantbuy/setBackItem', params) },
+    
+   // 获取留言信息分页列表
+   LYgetWantMsgPageList (params) { return axios.post('/admin/wantmsg/getWantMsgPageList', params) },
+   // 删除留言信息
+   LYdelWantMsgItem (params) { return axios.post('/admin/wantmsg/delWantMsgItem', params) },
+   // 批量删除留言信息
+   LYbatDelWantMsgItem (params) { return axios.post('/admin/wantmsg/batDelWantMsgItem', params) },
+
+  // --------- 拼车订单-客户订单 -----------
+   // 获取订单分页列表
+   PCgetOrderPageList (params) { return axios.post('/admin/ordersupply/getOrderPageList', params) },
+   // 获取一个订单
+   PCgetOrderItem (params) { return axios.post('/admin/ordersupply/getOrderItem', params) },
+   // 编辑一个订单
+   PCsetOrderItem (params) { return axios.post('/admin/ordersupply/setOrderItem', params) },
+   // 删除一个订单
+   PCdelOrderItem (params) { return axios.post('/admin/ordersupply/delOrderItem', params) },
+
+    // 获取供应退货订单分页列表
+    PCgetBackOrderPageList (params) { return axios.post('/admin/backordersupply/getBackOrderPageList', params) },
+    // 获取一个供应退货订单
+    PCgetBackOrderItem (params) { return axios.post('/admin/backordersupply/getBackOrderItem', params) },
+    // 审核一个供应退货订单
+    PCsetBackOrderItem (params) { return axios.post('/admin/backordersupply/setBackOrderItem', params) },
+    // 删除一个供应退货订单
+    PCdelBackOrderItem (params) { return axios.post('/admin/backordersupply/delBackOrderItem', params) },
+
+   // 获取供应信息分页列表
+   FWgetWantSupplyPageListVIP (params) { return axios.post('/admin/wantsupplyvip/getWantSupplyPageList', params) },
+   // 编辑一个供应权重排序
+   FWsetOdItemVIP (params) { return axios.post('/admin/wantsupplyvip/setOdItem', params) },
+   // 获取一个供应信息
+   FWgetWantSupplyItemVIP (params) { return axios.post('/admin/wantsupplyvip/getWantSupplyItem', params) },
+   // 编辑一个供应信息
+   FWsetWantSupplyItemVIP (params) { return axios.post('/admin/wantsupplyvip/setWantSupplyItem', params) },
+   // 删除一个供应信息
+   FWdelPostItemVIP (params) { return axios.post('/admin/wantsupplyvip/delPostItem', params) },
+   // 审核一个供应信息
+   FWsetCheckItemVIP (params) { return axios.post('/admin/wantsupplyvip/setCheckItem', params) },
+   // 驳回一个供应信息
+   FWsetBackItemVIP (params) { return axios.post('/admin/wantsupplyvip/setBackItem', params) },
+
+   // 获取求购信息分页列表
+   QGgetWantBuyPageListVIP (params) { return axios.post('/admin/wantbuyvip/getWantBuyPageList', params) },
+   // 编辑一个求购权重排序
+   QGsetOdItemVIP (params) { return axios.post('/admin/wantbuyvip/setOdItem', params) }, // 未完成
+   // 获取一个供应信息
+   QGgetWantBuyItemVIP (params) { return axios.post('/admin/wantbuyvip/getWantBuyItem', params) }, // 未完成
+   // 编辑一个求购信息
+   QGsetWantBuyItemVIP (params) { return axios.post('/admin/wantbuyvip/setWantBuyItem', params) },
+   // 删除一个求购信息
+   QGdelWantBuyItemVIP (params) { return axios.post('/admin/wantbuyvip/delWantBuyItem', params) },
+   // 审核一个求购信息
+   QGsetCheckItemVIP (params) { return axios.post('/admin/wantbuyvip/setCheckItem', params) },
+   // 驳回一个求购信息
+   QGsetBackItemVIP (params) { return axios.post('/admin/wantbuyvip/setBackItem', params) },
+
+   // 获取留言信息分页列表
+   LYgetWantMsgPageListVIP (params) { return axios.post('/admin/wantmsgvip/getWantMsgPageList', params) },
+   // 删除留言信息
+   LYdelWantMsgItemVIP (params) { return axios.post('/admin/wantmsgvip/delWantMsgItem', params) },
+   // 批量删除留言信息
+   LYbatDelWantMsgItemVIP (params) { return axios.post('/admin/wantmsgvip/batDelWantMsgItem', params) },
+   
+
+
+
+
+   // 获取商品分类
+   getBoardPageList (params) { return axios.post('/admin/board/getBoardPageList', params) }, // order_field: "od",  order_type: "desc"
+   getBoardSubList (params) { return axios.post('/admin/board/getBoardSubList', params) }, // uid
+  }
 export default newData

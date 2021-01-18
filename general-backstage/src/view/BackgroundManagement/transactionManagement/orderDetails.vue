@@ -122,7 +122,8 @@ export default {
   },
   mounted() {
     console.log(this.$route.query.uid)
-    this.$newApi.getOrderItem({
+    let apis = this.$route.query.api
+    this.$newApi[apis]({
       uid: this.$route.query.uid,
       token: JSON.parse(this.$store.state.token).token,
     }).then(res => {

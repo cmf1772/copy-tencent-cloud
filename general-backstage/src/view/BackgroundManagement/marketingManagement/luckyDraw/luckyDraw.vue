@@ -80,7 +80,6 @@
       </div>
     </div>
   </div>
-  </div>
 </template>
 
 <script>
@@ -133,13 +132,13 @@ export default {
         if(res.data.err_code) {
           this.$message({
             type: 'error',
-            message: res.data.msg
+            message: res.data.err_msg
           })
         }
         else{
           this.$message({
             type: 'success',
-            message: '删除成功'
+            message: '操作成功'
           })
         }
         this.create()
