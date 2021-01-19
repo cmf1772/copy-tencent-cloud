@@ -94,9 +94,13 @@ export default [{
   id: 3,
   width: 280,
   children: [{
-    name: '商品管理',
+    name: '产品管理',
     icon: '',
     path: '/listOfUnit'
+  }, {
+    name: '商品管理',
+    icon: '',
+    path: '/commodity/conventionalKnowledge'
   }, {
     name: '库存管理',
     icon: '',
@@ -107,10 +111,6 @@ export default [{
     path: ''
   }, {
     name: '产品分类',
-    icon: '',
-    path: ''
-  }, {
-    name: '产品管理',
     icon: '',
     path: ''
   }, {
@@ -144,9 +144,13 @@ export default [{
     icon: '',
     path: '/customMenu'
   }, {
-    name: '订单管理',
+    name: '商品订单',
     icon: '',
     path: '/allOrders'
+  }, {
+    name: '订单管理',
+    icon: '',
+    path: '/transactionManagement/magazineManagement'
   }, {
     name: '销售概览',
     icon: '',
@@ -210,6 +214,10 @@ export default [{
     icon: '',
     path: '',
     children: [{
+      name: '营销助手',
+      icon: '',
+      path: '/marketingManagement/couponManagement'
+    }, {
       name: '短信群发',
       icon: '',
       path: ''
@@ -314,6 +322,14 @@ export default [{
     name: '系统设置',
     icon: '',
     path: '/businessInformation'
+  }, {
+    name: '商铺设置',
+    icon: '',
+    path: '/shopManagement/shopManagement'
+  }, {
+    name: '内容管理',
+    icon: '',
+    path: '/contentManagement/magazineManagement'
   }, {
     name: '运营监测',
     icon: '',
@@ -597,9 +613,13 @@ export default [{
   id: 9,
   width: 130,
   children: [{
+    name: '设备管理',
+    icon: '',
+    path: '/report/main'
+  }, {
     name: '收银管理',
     icon: '',
-    path: ''
+    path: '/checkstand'
   }, {
     name: '财务管理',
     icon: '',
@@ -695,6 +715,10 @@ export default [{
   id: 10,
   width: 80,
   children: [{
+    name: '通证管理',
+    icon: '',
+    path: '/throughTheManagement/throughTheManagement'
+  }, {
     name: '应用中心',
     icon: '',
     path: ''

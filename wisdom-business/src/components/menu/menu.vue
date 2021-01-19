@@ -117,7 +117,17 @@ export default {
 
   mounted () {
     this.getmenu()
-  }
+  },
+
+  watch: {
+    $route: {
+      handler: function (val, oldVal) {
+        if (sessionStorage.getItem('index_menu')) this.index_menu = sessionStorage.getItem('index_menu') + ''
+      },
+      // 深度观察监听
+      deep: true
+    }
+  },
 }
 </script>
 

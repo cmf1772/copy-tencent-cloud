@@ -1,147 +1,149 @@
 let navArr = [
   {
     id: 'PROVIDER',
-    name: '用户中心',
+    text: '用户中心',
     icon: 'el-icon-box',
+    menu: '1-1',
     // 1、账号管理  2、资金管理  3、收货地址  4、短消息
     subset: [{
       id: 'PROVIDER_LIST',
-      name: '账号管理',  //我的账号
+      text: '账号管理',  //我的账号
       icon: 'el-icon-menu',
-      url: '/provider/list',
+      path: '/provider/list',
       menu: true,
-      actions: [{
-        name: '修改资料',
-        url: '/shopManagement/shippingAddress'
+      children: [{
+        text: '修改资料',
+        path: '/shopManagement/shippingAddress'
       },
       {
-        name: '收货地址',
-        url: '/shopManagement/modifyTheData',
+        text: '收货地址',
+        path: '/shopManagement/modifyTheData',
       }, {
-        name: '短消息',
-        url: '/provider/list',
+        text: '短消息',
+        path: '/provider/list',
       }
         // {
-        //   name: '短消息',
-        //   url: '/company/edit',
+        //   text: '短消息',
+        //   path: '/company/edit',
         //   parent: '/company/list'
         // }
       ]
     }, {
       id: 'PROVIDER_LIST',
-      name: '资金管理', //我的资金
+      text: '资金管理', //我的资金
       icon: 'el-icon-menu',
-      url: '/provider/list',
+      path: '/provider/list',
       menu: true,
-      actions: [{
-        name: '账户概览',
-        // url: '/shopManagement/shippingAddress'
+      children: [{
+        text: '账户概览',
+        // path: '/shopManagement/shippingAddress'
       },
       {
-        name: '积分明细',
-        // url: '/shopManagement/modifyTheData',
+        text: '积分明细',
+        // path: '/shopManagement/modifyTheData',
       }, {
-        name: '资金明细',
-        // url: '/provider/list',
+        text: '资金明细',
+        // path: '/provider/list',
       }
       ]
     },]
   },
   {
     id: 'PROVIDER',
-    name: '商铺管理',
+    text: '商铺设置',
     icon: 'el-icon-box',
+    menu: '1-1',
     subset: [
       {
         id: 'PROVIDER_LIST',
-        name: '商铺装修',
+        text: '商铺装修',
         icon: 'el-icon-menu',
-        // url: '/provider/list',
+        // path: '/provider/list',
         menu: true,
-        actions: [
+        children: [
           {
-            name: '页面管理',
-            url: '/shopManagement/shopManagement',
+            text: '页面管理',
+            path: '/shopManagement/shopManagement',
             // parent: '/company/list'
           },
           // {
-          //   name: '商铺地图',
-          //   url: '/company/edit',
+          //   text: '商铺地图',
+          //   path: '/company/edit',
           //   // parent: '/company/list'
           // },
           {
-            name: '手机轮转广告',
-            url: '/shopManagement/mobilePhoneBy',
+            text: '手机轮转广告',
+            path: '/shopManagement/mobilePhoneBy',
           },
           {
-            name: '轮转广告',
-            url: '/shopManagement/phoneBy',
+            text: '轮转广告',
+            path: '/shopManagement/phoneBy',
           },
           {
-            name: '图片广告',
-            url: '/shopManagement/imageAds',
+            text: '图片广告',
+            path: '/shopManagement/imageAds',
           },
           {
-            name: '弹窗广告',
-            url: '/shopManagement/popUpAds',
+            text: '弹窗广告',
+            path: '/shopManagement/popUpAds',
           },
           {
-            name: '商家展示',
-            url: '/shopManagement/showMerchants'
+            text: '商家展示',
+            path: '/shopManagement/showMerchants'
           },
           {
-            name: '模版购买',
-            url: '/shopManagement/templateToBuy',
+            text: '模版购买',
+            path: '/shopManagement/templateToBuy',
           },
           {
-            name: '友情连接',
-            url: '/shopManagement/friendshipConnection',
+            text: '友情连接',
+            path: '/shopManagement/friendshipConnection',
           }
         ]
       }, {
         id: 'PROVIDER_LIST',
-        name: '商铺设置',
+        text: '商铺设置',
         icon: 'el-icon-menu',
-        url: '/provider/list',
+        path: '/provider/list',
         menu: true,
-        actions: [{
-          name: '导航管理',
-          url: '/setUpShops/navigationManagement'
+        children: [{
+          text: '导航管理',
+          path: '/setUpShops/navigationManagement'
         }, {
-          name: '基础信息',
-          url: '/setUpShops/information'
+          text: '基础信息',
+          path: '/setUpShops/information'
         }, {
-          name: '客服设置',
-          url: '/setUpShops/settingService'
+          text: '客服设置',
+          path: '/setUpShops/settingService'
         }, {
-          name: '短信设置',
-          url: '/setUpShops/SMSSettings',
+          text: '短信设置',
+          path: '/setUpShops/SMSSettings',
         }, {
-          name: '商铺认证',
-          url: '/setUpShops/shopCertification'
+          text: '商铺认证',
+          path: '/setUpShops/shopCertification'
         }, {
-          name: '域名设置',
-          url: '/setUpShops/theHttp'
+          text: '域名设置',
+          path: '/setUpShops/theHttp'
         }]
       }, {
         id: 'PROVIDER_LIST',
-        name: '拓展管理',
+        text: '拓展管理',
         icon: 'el-icon-menu',
-        url: '/provider/list',
+        path: '/provider/list',
         menu: true,
-        actions: [{
-          name: '图片管理',
-          url: '/developManagement/imageManagement'
+        children: [{
+          text: '图片管理',
+          path: '/developManagement/imageManagement'
         }, {
-          name: '淘宝转换',
-          url: '/developManagement/taobaoConversion'
+          text: '淘宝转换',
+          path: '/developManagement/taobaoConversion'
         }, {
-          name: '托管管理',
-          url: '/developManagement/trustManagement'
+          text: '托管管理',
+          path: '/developManagement/trustManagement'
         },
           // {
-          //   name: '微信菜单管理',
-          //   url: '/company/edit',
+          //   text: '微信菜单管理',
+          //   path: '/company/edit',
           //   parent: '/company/list'
           // }
         ]
@@ -150,87 +152,88 @@ let navArr = [
   },
   // {
   //   id: 'COMPANY',
-  //   name: '企业户管理',
+  //   text: '企业户管理',
   //   icon: 'el-icon-box',
   //   subset: [
   //     {
   //       id: 'PROVIDER_LIST',
-  //       name: '企业户列表',
+  //       text: '企业户列表',
   //       icon: 'el-icon-menu',
-  //       url: '/company/list',
+  //       path: '/company/list',
   //       menu: true,
   //     }
   //   ]
   // },
   {
     id: 'PRODUCT',
-    name: '商品管理',
+    text: '商品管理',
     icon: 'el-icon-box',
+    menu: '1-1',
     subset: [
       {
         id: 'PRODUCT_LIST',
-        name: '商品管理',
+        text: '商品管理',
         icon: 'el-icon-menu',
-        url: '/product/list',
+        path: '/product/list',
         menu: true,
-        actions: [{
-          name: '常规商品管理',
-          url: '/commodity/conventionalKnowledge'
+        children: [{
+          text: '常规商品管理',
+          path: '/commodity/conventionalKnowledge'
         }, {
-          name: '知识商品管理',
-          url: '/commodity/productsKnowledge'
+          text: '知识商品管理',
+          path: '/commodity/productsKnowledge'
         }, {
-          name: '拼团商品管理',
-          url: '/commodity/spellMassGoods'
+          text: '拼团商品管理',
+          path: '/commodity/spellMassGoods'
         }, {
-          name: '返利商品管理',
-          url: '/commodity/rebateGoods'
+          text: '返利商品管理',
+          path: '/commodity/rebateGoods'
         }, {
-          name: '秒杀商品管理',
-          url: '/commodity/secondsKillGoods'
+          text: '秒杀商品管理',
+          path: '/commodity/secondsKillGoods'
         }, {
-          name: '团购商品管理',
-          url: '/commodity/bulkGoods'
+          text: '团购商品管理',
+          path: '/commodity/bulkGoods'
         }, {
-          name: '拍卖商品管理',
-          url: '/commodity/auctionGoods'
+          text: '拍卖商品管理',
+          path: '/commodity/auctionGoods'
         }, {
-          name: '分销商品管理',
-          url: '/commodity/distributionGoods'
+          text: '分销商品管理',
+          path: '/commodity/distributionGoods'
         }, {
-          name: '批发商品管理',
-          url: '/commodity/wholesaleGoods'
+          text: '批发商品管理',
+          path: '/commodity/wholesaleGoods'
         }, {
-          name: '未上架商品',
-          url: '/commodity/notGoods'
+          text: '未上架商品',
+          path: '/commodity/notGoods'
         }]
       },
       {
         id: 'PRODUCT_LIST',
-        name: '分类设置',
+        text: '分类设置',
         icon: 'el-icon-menu',
-        url: '/product/category/list',
+        path: '/product/category/list',
         menu: true,
-        actions: [{
-          name: '常规商品分类',
-          url: '/conventionalProducts/conventionalProducts'
+        children: [{
+          text: '常规商品分类',
+          path: '/conventionalProducts/conventionalProducts'
         }]
       },
       // {
       //   id: 'PRODUCT_CATEGORY_LIST',
-      //   name: '产品分类列表',
+      //   text: '产品分类列表',
       //   icon: 'el-icon-menu',
-      //   url: '/product/category/list',
+      //   path: '/product/category/list',
       //   menu: true,
-      //   actions: [
+      //   children: [
       //     {
-      //       name: '新增产品分类',
-      //       url: '/product/category/add',
+      //       text: '新增产品分类',
+      //       path: '/product/category/add',
       //       parent: '/product/category/list'
       //     },
       //     {
-      //       name: '修改产品分类',
-      //       url: '/product/category/edit',
+      //       text: '修改产品分类',
+      //       path: '/product/category/edit',
       //       parent: '/product/category/list'
       //     }
       //   ]
@@ -239,43 +242,44 @@ let navArr = [
   },
   {
     id: 'INFORMATION',
-    name: '内容管理',
+    text: '内容管理',
     icon: 'el-icon-box',
+    menu: '1',
     subset: [
       {
         id: 'INFORMATION_LIST',
-        name: '杂志管理',
+        text: '杂志管理',
         icon: 'el-icon-menu',
-        url: '/contentManagement/magazineManagement',
+        path: '/contentManagement/magazineManagement',
         menu: true,
-        // actions: [
+        // children: [
         //   {
-        //     name: '新增资讯',
-        //     url: '/information/add',
+        //     text: '新增资讯',
+        //     path: '/information/add',
         //     parent: '/information/list'
         //   },
         //   {
-        //     name: '修改资讯',
-        //     url: '/information/edit',
+        //     text: '修改资讯',
+        //     path: '/information/edit',
         //     parent: '/information/list'
         //   }
         // ]
       },
       // {
       // id: 'INFORMATION_TYPE_LIST',
-      // name: '资讯类型列表',
+      // text: '资讯类型列表',
       // icon: 'el-icon-menu',
-      // url: '/information/type/list',
+      // path: '/information/type/list',
       // menu: true,
-      // actions: [
+      // children: [
       //   {
-      //     name: '新增资讯类型',
-      //     url: '/information/type/add',
+      //     text: '新增资讯类型',
+      //     path: '/information/type/add',
       //     parent: '/information/type/list'
       //   },
       //   {
-      //     name: '修改资讯类型',
-      //     url: '/information/type/edit',
+      //     text: '修改资讯类型',
+      //     path: '/information/type/edit',
       //     parent: '/information/type/list'
       //   }
       // ]
@@ -284,110 +288,111 @@ let navArr = [
   },
   {
     id: 'IOT',
-    name: '订单管理',
+    text: '订单管理',
     icon: 'el-icon-s-platform',
+    menu: '1-1',
     subset: [
       {
         id: 'IOT_REPORT',
-        name: '交易管理',
+        text: '交易管理',
         icon: 'el-icon-link',
-        url: '/report/main',
+        path: '/report/main',
         menu: true,
-        actions: [
+        children: [
           {
-            name: '知识订单',
-            url: '/transactionManagement/magazineManagement'
+            text: '知识订单',
+            path: '/transactionManagement/magazineManagement'
           },
           {
-            name: '客户订单',
-            url: '/transactionManagement/customerOrder'
+            text: '客户订单',
+            path: '/transactionManagement/customerOrder'
           },
           {
-            name: '退货通道',
-            url: '/transactionManagement/returnsChannel'
+            text: '退货通道',
+            path: '/transactionManagement/returnsChannel'
           },
           {
-            name: '拼团订单',
-            url: '/transactionManagement/spellGroupOrder'
+            text: '拼团订单',
+            path: '/transactionManagement/spellGroupOrder'
           },
           {
-            name: '体现申请',
-            url: '/transactionManagement/toApplyFor'
+            text: '体现申请',
+            path: '/transactionManagement/toApplyFor'
           },
           {
-            name: '拼团退货',
-            url: '/transactionManagement/spellGroupReturns'
+            text: '拼团退货',
+            path: '/transactionManagement/spellGroupReturns'
           },
           {
-            name: '物流工具',
-            url: '/transactionManagement/logisticsTools'
+            text: '物流工具',
+            path: '/transactionManagement/logisticsTools'
           },
           {
-            name: '销售商品咨询',
-            url: '/transactionManagement/consultation'
+            text: '销售商品咨询',
+            path: '/transactionManagement/consultation'
           },
           {
-            name: '评价买家',
-            url: '/transactionManagement/evaluationOfTheBuyer'
+            text: '评价买家',
+            path: '/transactionManagement/evaluationOfTheBuyer'
           },
           {
-            name: '消保明细',
-            url: '/transactionManagement/fromTheDetail'
+            text: '消保明细',
+            path: '/transactionManagement/fromTheDetail'
           },
           // {
-          //   name: '信用管理',
-          //   url: '/group/edit',
+          //   text: '信用管理',
+          //   path: '/group/edit',
           //   parent: '/group/list'
           // },
           {
-            name: '我的返佣订单',
-            url: '/transactionManagement/orderManagement'
+            text: '我的返佣订单',
+            path: '/transactionManagement/orderManagement'
           }
         ]
       }
       // ,
       // {
       //   id: 'GROUP_LIST',
-      //   name: '设备分组列表',
+      //   text: '设备分组列表',
       //   icon: 'el-icon-link',
-      //   url: '/group/list',
+      //   path: '/group/list',
       //   menu: true,
 
       // },
       // {
       //   id: 'DEVICE_LIST',
-      //   name: '设备列表',
+      //   text: '设备列表',
       //   icon: 'el-icon-link',
-      //   url: '/device/list',
+      //   path: '/device/list',
       //   menu: true,
-      //   // actions: [
+      //   // children: [
       //   //   {
-      //   //     name: '新增设备',
-      //   //     url: '/device/add',
+      //   //     text: '新增设备',
+      //   //     path: '/device/add',
       //   //     parent: '/device/list'
       //   //   },
       //   //   {
-      //   //     name: '修改设备',
-      //   //     url: '/device/edit',
+      //   //     text: '修改设备',
+      //   //     path: '/device/edit',
       //   //     parent: '/device/list'
       //   //   }
       //   // ]
       // },
       // {
       //   id: 'DRIVER_LIST',
-      //   name: '驱动列表',
+      //   text: '驱动列表',
       //   icon: 'el-icon-link',
-      //   url: '/driver/list',
+      //   path: '/driver/list',
       //   menu: true,
-      //   // actions: [
+      //   // children: [
       //   //   {
-      //   //     name: '新增驱动',
-      //   //     url: '/driver/add',
+      //   //     text: '新增驱动',
+      //   //     path: '/driver/add',
       //   //     parent: '/driver/list'
       //   //   },
       //   //   {
-      //   //     name: '修改驱动',
-      //   //     url: '/driver/edit',
+      //   //     text: '修改驱动',
+      //   //     path: '/driver/edit',
       //   //     parent: '/driver/list'
       //   //   }
       //   // ]
@@ -395,38 +400,38 @@ let navArr = [
 
       // {
       //   id: 'DRIVER_ATTRIBUTE_LIST',
-      //   name: '驱动属性列表',
+      //   text: '驱动属性列表',
       //   icon: 'el-icon-link',
-      //   url: '/driverAttribute/list',
+      //   path: '/driverAttribute/list',
       //   menu: true,
-      //   // actions: [
+      //   // children: [
       //   //   {
-      //   //     name: '新增驱动属性',
-      //   //     url: '/driverAttribute/add',
+      //   //     text: '新增驱动属性',
+      //   //     path: '/driverAttribute/add',
       //   //     parent: '/driverAttribute/list'
       //   //   },
       //   //   {
-      //   //     name: '修改驱动属性',
-      //   //     url: '/driverAttribute/edit',
+      //   //     text: '修改驱动属性',
+      //   //     path: '/driverAttribute/edit',
       //   //     parent: '/driverAttribute/list'
       //   //   }
       //   // ]
       // },
       // {
       //   id: 'DRIVER_INFO_LIST',
-      //   name: '驱动配置列表',
+      //   text: '驱动配置列表',
       //   icon: 'el-icon-link',
-      //   url: '/driverInfo/list',
+      //   path: '/driverInfo/list',
       //   menu: true,
-      //   // actions: [
+      //   // children: [
       //   //   {
-      //   //     name: '新增驱动配置',
-      //   //     url: '/driverInfo/add',
+      //   //     text: '新增驱动配置',
+      //   //     path: '/driverInfo/add',
       //   //     parent: '/driverInfo/list'
       //   //   },
       //   //   {
-      //   //     name: '修改驱动配置',
-      //   //     url: '/driverInfo/edit',
+      //   //     text: '修改驱动配置',
+      //   //     path: '/driverInfo/edit',
       //   //     parent: '/driverInfo/list'
       //   //   }
       //   // ]
@@ -434,19 +439,19 @@ let navArr = [
 
       // {
       //   id: 'POINT_ATTRIBUTE_LIST',
-      //   name: '位号属性列表',
+      //   text: '位号属性列表',
       //   icon: 'el-icon-link',
-      //   url: '/pointAttribute/list',
+      //   path: '/pointAttribute/list',
       //   menu: true,
-      //   // actions: [
+      //   // children: [
       //   //   {
-      //   //     name: '新增位号属性',
-      //   //     url: '/pointAttribute/add',
+      //   //     text: '新增位号属性',
+      //   //     path: '/pointAttribute/add',
       //   //     parent: '/pointAttribute/list'
       //   //   },
       //   //   {
-      //   //     name: '修改位号属性',
-      //   //     url: '/pointAttribute/edit',
+      //   //     text: '修改位号属性',
+      //   //     path: '/pointAttribute/edit',
       //   //     parent: '/pointAttribute/list'
       //   //   }
       //   // ]
@@ -454,19 +459,19 @@ let navArr = [
 
       // {
       //   id: 'PROFILE_LIST',
-      //   name: '模板列表',
+      //   text: '模板列表',
       //   icon: 'el-icon-link',
-      //   url: '/profile/list',
+      //   path: '/profile/list',
       //   menu: true,
-      //   // actions: [
+      //   // children: [
       //   //   {
-      //   //     name: '新增模板',
-      //   //     url: '/profile/add',
+      //   //     text: '新增模板',
+      //   //     path: '/profile/add',
       //   //     parent: '/profile/list'
       //   //   },
       //   //   {
-      //   //     name: '修改模板',
-      //   //     url: '/profile/edit',
+      //   //     text: '修改模板',
+      //   //     path: '/profile/edit',
       //   //     parent: '/profile/list'
       //   //   }
       //   // ]
@@ -474,19 +479,19 @@ let navArr = [
 
       // {
       //   id: 'POINT_LIST',
-      //   name: '位号列表',
+      //   text: '位号列表',
       //   icon: 'el-icon-link',
-      //   url: '/point/list',
+      //   path: '/point/list',
       //   menu: true,
-      //   // actions: [
+      //   // children: [
       //   //   {
-      //   //     name: '新增位号',
-      //   //     url: '/point/add',
+      //   //     text: '新增位号',
+      //   //     path: '/point/add',
       //   //     parent: '/point/list'
       //   //   },
       //   //   {
-      //   //     name: '修改位号',
-      //   //     url: '/point/edit',
+      //   //     text: '修改位号',
+      //   //     path: '/point/edit',
       //   //     parent: '/point/list'
       //   //   }
       //   // ]
@@ -494,19 +499,19 @@ let navArr = [
 
       // {
       //   id: 'POINT_INFO_LIST',
-      //   name: '位号配置列表',
+      //   text: '位号配置列表',
       //   icon: 'el-icon-link',
-      //   url: '/pointInfo/list',
+      //   path: '/pointInfo/list',
       //   menu: true,
-      //   // actions: [
+      //   // children: [
       //   //   {
-      //   //     name: '新增位号配置',
-      //   //     url: '/pointInfo/add',
+      //   //     text: '新增位号配置',
+      //   //     path: '/pointInfo/add',
       //   //     parent: '/pointInfo/list'
       //   //   },
       //   //   {
-      //   //     name: '修改位号配置',
-      //   //     url: '/pointInfo/edit',
+      //   //     text: '修改位号配置',
+      //   //     path: '/pointInfo/edit',
       //   //     parent: '/pointInfo/list'
       //   //   }
       //   // ]
@@ -515,85 +520,86 @@ let navArr = [
   },
   {
     id: "SYSTEM",
-    name: "营销管理",
+    text: "营销助手",
     icon: "el-icon-s-cooperation",
+    menu: '1-1',
     subset: [
       {
         id: 'ADMIN_LIST',
-        name: "营销管理",
+        text: "营销管理",
         icon: "el-icon-user",
-        url: "/admin/list",
+        path: "/admin/list",
         menu: true,
-        actions: [
+        children: [
           {
-            name: "优惠卷管理",
-            url: "/marketingManagement/couponManagement"
+            text: "优惠卷管理",
+            path: "/marketingManagement/couponManagement"
           },
           {
-            name: "积分汇专区",
-            url: "/marketingManagement/bonusPointArea"
+            text: "积分汇专区",
+            path: "/marketingManagement/bonusPointArea"
           },
           {
-            name: "广告管理",
-            url: "/marketingManagement/advertisingManagement"
+            text: "广告管理",
+            path: "/marketingManagement/advertisingManagement"
           },
           {
-            name: "自定义区域",
-            url: "/marketingManagement/customArea"
+            text: "自定义区域",
+            path: "/marketingManagement/customArea"
           },
           {
-            name: "商品排行",
-            url: "/marketingManagement/commodityList"
+            text: "商品排行",
+            path: "/marketingManagement/commodityList"
           },
           {
-            name: "品牌管理",
-            url: "/marketingManagement/brandManagement"
+            text: "品牌管理",
+            path: "/marketingManagement/brandManagement"
           },
           {
-            name: "水印设置",
-            url: "/marketingManagement/watermarkIsSet"
+            text: "水印设置",
+            path: "/marketingManagement/watermarkIsSet"
           }
         ]
       },
       // {
       //   id: 'ROLE_LIST',
-      //   name: "角色列表",
+      //   text: "角色列表",
       //   icon: "el-icon-edit",
-      //   url: "/role/list",
+      //   path: "/role/list",
       //   menu: true,
-      //   // actions: [
+      //   // children: [
       //   //   {
-      //   //     name: "新增角色",
-      //   //     url: "/role/add",
+      //   //     text: "新增角色",
+      //   //     path: "/role/add",
       //   //     parent: '/role/list'
       //   //   },
       //   //   {
-      //   //     name: "修改角色",
-      //   //     url: "/role/edit",
+      //   //     text: "修改角色",
+      //   //     path: "/role/edit",
       //   //     parent: '/role/list'
       //   //   },
       //   //   {
-      //   //     name: "菜单功能权限",
-      //   //     url: "/role/menus",
+      //   //     text: "菜单功能权限",
+      //   //     path: "/role/menus",
       //   //     parent: '/role/list'
       //   //   }
       //   // ]
       // },
       // {
       //   id: 'MENU_LIST',
-      //   name: "菜单列表",
+      //   text: "菜单列表",
       //   icon: "el-icon-edit",
-      //   url: "/menu/list",
+      //   path: "/menu/list",
       //   menu: true,
-      //   // actions: [
+      //   // children: [
       //   //   {
-      //   //     name: "新增菜单",
-      //   //     url: "/menu/add",
+      //   //     text: "新增菜单",
+      //   //     path: "/menu/add",
       //   //     parent: '/menu/list'
       //   //   },
       //   //   {
-      //   //     name: "修改菜单",
-      //   //     url: "/menu/edit",
+      //   //     text: "修改菜单",
+      //   //     path: "/menu/edit",
       //   //     parent: '/menu/list'
       //   //   }
       //   // ]
@@ -603,69 +609,70 @@ let navArr = [
   },
   {
     id: "SYSTEM",
-    name: "智能零售",
+    text: "设备管理",
     icon: "el-icon-s-cooperation",
+    menu: '1',
     subset: [
       {
         id: 'IOT_REPORT',
-        name: '数据报表',
+        text: '数据报表',
         icon: 'el-icon-link',
-        url: '/report/main',
+        path: '/report/main',
         menu: true,
       },
       {
         id: 'GROUP_LIST',
-        name: '设备分组列表',
+        text: '设备分组列表',
         icon: 'el-icon-link',
-        url: '/group/list',
+        path: '/group/list',
         menu: true,
-        // actions: [
+        // children: [
         //   {
-        //     name: '新增分组',
-        //     url: '/group/add',
+        //     text: '新增分组',
+        //     path: '/group/add',
         //     parent: '/group/list'
         //   },
         //   {
-        //     name: '修改分组',
-        //     url: '/group/edit',
+        //     text: '修改分组',
+        //     path: '/group/edit',
         //     parent: '/group/list'
         //   }
         // ]
       },
       {
         id: 'DEVICE_LIST',
-        name: '设备列表',
+        text: '设备列表',
         icon: 'el-icon-link',
-        url: '/device/list',
+        path: '/device/list',
         menu: true,
-        // actions: [
+        // children: [
         //   {
-        //     name: '新增设备',
-        //     url: '/device/add',
+        //     text: '新增设备',
+        //     path: '/device/add',
         //     parent: '/device/list'
         //   },
         //   {
-        //     name: '修改设备',
-        //     url: '/device/edit',
+        //     text: '修改设备',
+        //     path: '/device/edit',
         //     parent: '/device/list'
         //   }
         // ]
       },
       {
         id: 'DRIVER_LIST',
-        name: '驱动列表',
+        text: '驱动列表',
         icon: 'el-icon-link',
-        url: '/driver/list',
+        path: '/driver/list',
         menu: true,
-        // actions: [
+        // children: [
         //   {
-        //     name: '新增驱动',
-        //     url: '/driver/add',
+        //     text: '新增驱动',
+        //     path: '/driver/add',
         //     parent: '/driver/list'
         //   },
         //   {
-        //     name: '修改驱动',
-        //     url: '/driver/edit',
+        //     text: '修改驱动',
+        //     path: '/driver/edit',
         //     parent: '/driver/list'
         //   }
         // ]
@@ -673,38 +680,38 @@ let navArr = [
 
       {
         id: 'DRIVER_ATTRIBUTE_LIST',
-        name: '驱动属性列表',
+        text: '驱动属性列表',
         icon: 'el-icon-link',
-        url: '/driverAttribute/list',
+        path: '/driverAttribute/list',
         menu: true,
-        // actions: [
+        // children: [
         //   {
-        //     name: '新增驱动属性',
-        //     url: '/driverAttribute/add',
+        //     text: '新增驱动属性',
+        //     path: '/driverAttribute/add',
         //     parent: '/driverAttribute/list'
         //   },
         //   {
-        //     name: '修改驱动属性',
-        //     url: '/driverAttribute/edit',
+        //     text: '修改驱动属性',
+        //     path: '/driverAttribute/edit',
         //     parent: '/driverAttribute/list'
         //   }
         // ]
       },
       {
         id: 'DRIVER_INFO_LIST',
-        name: '驱动配置列表',
+        text: '驱动配置列表',
         icon: 'el-icon-link',
-        url: '/driverInfo/list',
+        path: '/driverInfo/list',
         menu: true,
-        // actions: [
+        // children: [
         //   {
-        //     name: '新增驱动配置',
-        //     url: '/driverInfo/add',
+        //     text: '新增驱动配置',
+        //     path: '/driverInfo/add',
         //     parent: '/driverInfo/list'
         //   },
         //   {
-        //     name: '修改驱动配置',
-        //     url: '/driverInfo/edit',
+        //     text: '修改驱动配置',
+        //     path: '/driverInfo/edit',
         //     parent: '/driverInfo/list'
         //   }
         // ]
@@ -712,19 +719,19 @@ let navArr = [
 
       {
         id: 'POINT_ATTRIBUTE_LIST',
-        name: '位号属性列表',
+        text: '位号属性列表',
         icon: 'el-icon-link',
-        url: '/pointAttribute/list',
+        path: '/pointAttribute/list',
         menu: true,
-        // actions: [
+        // children: [
         //   {
-        //     name: '新增位号属性',
-        //     url: '/pointAttribute/add',
+        //     text: '新增位号属性',
+        //     path: '/pointAttribute/add',
         //     parent: '/pointAttribute/list'
         //   },
         //   {
-        //     name: '修改位号属性',
-        //     url: '/pointAttribute/edit',
+        //     text: '修改位号属性',
+        //     path: '/pointAttribute/edit',
         //     parent: '/pointAttribute/list'
         //   }
         // ]
@@ -732,19 +739,19 @@ let navArr = [
 
       {
         id: 'PROFILE_LIST',
-        name: '模板列表',
+        text: '模板列表',
         icon: 'el-icon-link',
-        url: '/profile/list',
+        path: '/profile/list',
         menu: true,
-        // actions: [
+        // children: [
         //   {
-        //     name: '新增模板',
-        //     url: '/profile/add',
+        //     text: '新增模板',
+        //     path: '/profile/add',
         //     parent: '/profile/list'
         //   },
         //   {
-        //     name: '修改模板',
-        //     url: '/profile/edit',
+        //     text: '修改模板',
+        //     path: '/profile/edit',
         //     parent: '/profile/list'
         //   }
         // ]
@@ -752,19 +759,19 @@ let navArr = [
 
       {
         id: 'POINT_LIST',
-        name: '位号列表',
+        text: '位号列表',
         icon: 'el-icon-link',
-        url: '/point/list',
+        path: '/point/list',
         menu: true,
-        // actions: [
+        // children: [
         //   {
-        //     name: '新增位号',
-        //     url: '/point/add',
+        //     text: '新增位号',
+        //     path: '/point/add',
         //     parent: '/point/list'
         //   },
         //   {
-        //     name: '修改位号',
-        //     url: '/point/edit',
+        //     text: '修改位号',
+        //     path: '/point/edit',
         //     parent: '/point/list'
         //   }
         // ]
@@ -772,19 +779,19 @@ let navArr = [
 
       {
         id: 'POINT_INFO_LIST',
-        name: '位号配置列表',
+        text: '位号配置列表',
         icon: 'el-icon-link',
-        url: '/pointInfo/list',
+        path: '/pointInfo/list',
         menu: true,
-        // actions: [
+        // children: [
         //   {
-        //     name: '新增位号配置',
-        //     url: '/pointInfo/add',
+        //     text: '新增位号配置',
+        //     path: '/pointInfo/add',
         //     parent: '/pointInfo/list'
         //   },
         //   {
-        //     name: '修改位号配置',
-        //     url: '/pointInfo/edit',
+        //     text: '修改位号配置',
+        //     path: '/pointInfo/edit',
         //     parent: '/pointInfo/list'
         //   }
         // ]
@@ -793,55 +800,56 @@ let navArr = [
   },
   {
     id: "SYSTEM",
-    name: "收银管理",
+    text: "收银管理",
     icon: "el-icon-s-cooperation",
+    menu: '1',
     subset: [
       {
         id: 'ADMIN_LIST',
-        name: "收银台",
+        text: "收银台",
         icon: "el-icon-user",
-        url: "/checkstand",
+        path: "/checkstand",
         menu: true,
       },
       // {
       //   id: 'ROLE_LIST',
-      //   name: "角色列表",
+      //   text: "角色列表",
       //   icon: "el-icon-edit",
-      //   url: "/role/list",
+      //   path: "/role/list",
       //   menu: true,
-      //   // actions: [
+      //   // children: [
       //   //   {
-      //   //     name: "新增角色",
-      //   //     url: "/role/add",
+      //   //     text: "新增角色",
+      //   //     path: "/role/add",
       //   //     parent: '/role/list'
       //   //   },
       //   //   {
-      //   //     name: "修改角色",
-      //   //     url: "/role/edit",
+      //   //     text: "修改角色",
+      //   //     path: "/role/edit",
       //   //     parent: '/role/list'
       //   //   },
       //   //   {
-      //   //     name: "菜单功能权限",
-      //   //     url: "/role/menus",
+      //   //     text: "菜单功能权限",
+      //   //     path: "/role/menus",
       //   //     parent: '/role/list'
       //   //   }
       //   // ]
       // },
       // {
       //   id: 'MENU_LIST',
-      //   name: "菜单列表",
+      //   text: "菜单列表",
       //   icon: "el-icon-edit",
-      //   url: "/menu/list",
+      //   path: "/menu/list",
       //   menu: true,
-      //   // actions: [
+      //   // children: [
       //   //   {
-      //   //     name: "新增菜单",
-      //   //     url: "/menu/add",
+      //   //     text: "新增菜单",
+      //   //     path: "/menu/add",
       //   //     parent: '/menu/list'
       //   //   },
       //   //   {
-      //   //     name: "修改菜单",
-      //   //     url: "/menu/edit",
+      //   //     text: "修改菜单",
+      //   //     path: "/menu/edit",
       //   //     parent: '/menu/list'
       //   //   }
       //   // ]
@@ -850,92 +858,92 @@ let navArr = [
   },
   // {
   //   id: "SYSTEM",
-  //   name: "财务管理",
+  //   text: "财务管理",
   //   icon: "el-icon-s-cooperation",
   //   subset: [
   //     {
   //       id: 'ADMIN_LIST',
-  //       name: "营销管理",
+  //       text: "营销管理",
   //       icon: "el-icon-user",
-  //       url: "/admin/list",
+  //       path: "/admin/list",
   //       menu: true,
-  //       actions: [
+  //       children: [
   //         {
-  //           name: "优惠卷管理",
-  //           url: "/admin/add",
+  //           text: "优惠卷管理",
+  //           path: "/admin/add",
   //           parent: '/admin/list'
   //         },
   //         {
-  //           name: "积分汇专区",
-  //           url: "/admin/edit",
+  //           text: "积分汇专区",
+  //           path: "/admin/edit",
   //           parent: '/admin/list'
   //         },
   //         {
-  //           name: "广告管理",
-  //           url: "/admin/edit",
+  //           text: "广告管理",
+  //           path: "/admin/edit",
   //           parent: '/admin/list'
   //         },
   //         {
-  //           name: "自定义区域",
-  //           url: "/admin/edit",
+  //           text: "自定义区域",
+  //           path: "/admin/edit",
   //           parent: '/admin/list'
   //         },
   //         {
-  //           name: "商品排行",
-  //           url: "/admin/edit",
+  //           text: "商品排行",
+  //           path: "/admin/edit",
   //           parent: '/admin/list'
   //         },
   //         {
-  //           name: "品牌管理",
-  //           url: "/admin/edit",
+  //           text: "品牌管理",
+  //           path: "/admin/edit",
   //           parent: '/admin/list'
   //         },
   //         {
-  //           name: "水印设置",
-  //           url: "/admin/edit",
+  //           text: "水印设置",
+  //           path: "/admin/edit",
   //           parent: '/admin/list'
   //         }
   //       ]
   //     },
   //     // {
   //     //   id: 'ROLE_LIST',
-  //     //   name: "角色列表",
+  //     //   text: "角色列表",
   //     //   icon: "el-icon-edit",
-  //     //   url: "/role/list",
+  //     //   path: "/role/list",
   //     //   menu: true,
-  //     //   // actions: [
+  //     //   // children: [
   //     //   //   {
-  //     //   //     name: "新增角色",
-  //     //   //     url: "/role/add",
+  //     //   //     text: "新增角色",
+  //     //   //     path: "/role/add",
   //     //   //     parent: '/role/list'
   //     //   //   },
   //     //   //   {
-  //     //   //     name: "修改角色",
-  //     //   //     url: "/role/edit",
+  //     //   //     text: "修改角色",
+  //     //   //     path: "/role/edit",
   //     //   //     parent: '/role/list'
   //     //   //   },
   //     //   //   {
-  //     //   //     name: "菜单功能权限",
-  //     //   //     url: "/role/menus",
+  //     //   //     text: "菜单功能权限",
+  //     //   //     path: "/role/menus",
   //     //   //     parent: '/role/list'
   //     //   //   }
   //     //   // ]
   //     // },
   //     // {
   //     //   id: 'MENU_LIST',
-  //     //   name: "菜单列表",
+  //     //   text: "菜单列表",
   //     //   icon: "el-icon-edit",
-  //     //   url: "/menu/list",
+  //     //   path: "/menu/list",
   //     //   menu: true,
-  //     //   // actions: [
+  //     //   // children: [
   //     //   //   {
-  //     //   //     name: "新增菜单",
-  //     //   //     url: "/menu/add",
+  //     //   //     text: "新增菜单",
+  //     //   //     path: "/menu/add",
   //     //   //     parent: '/menu/list'
   //     //   //   },
   //     //   //   {
-  //     //   //     name: "修改菜单",
-  //     //   //     url: "/menu/edit",
+  //     //   //     text: "修改菜单",
+  //     //   //     path: "/menu/edit",
   //     //   //     parent: '/menu/list'
   //     //   //   }
   //     //   // ]
@@ -945,65 +953,66 @@ let navArr = [
   // },
   {
     id: "SYSTEM",
-    name: "通证管理",
+    text: "通证管理",
     icon: "el-icon-s-cooperation",
+    menu: '1-1',
     subset: [
       {
         id: 'ADMIN_LIST',
-        name: "通证",
+        text: "通证",
         icon: "el-icon-user",
-        url: "/admin/list",
+        path: "/admin/list",
         menu: true,
-        actions: [
+        children: [
           {
-            name: "通证管理",
-            url: "/throughTheManagement/throughTheManagement"
+            text: "通证管理",
+            path: "/throughTheManagement/throughTheManagement"
           },
           {
-            name: "通证订单",
-            url: "/throughTheManagement/throughDd"
+            text: "通证订单",
+            path: "/throughTheManagement/throughDd"
           }
         ]
       },
       // {
       //   id: 'ROLE_LIST',
-      //   name: "角色列表",
+      //   text: "角色列表",
       //   icon: "el-icon-edit",
-      //   url: "/role/list",
+      //   path: "/role/list",
       //   menu: true,
-      //   // actions: [
+      //   // children: [
       //   //   {
-      //   //     name: "新增角色",
-      //   //     url: "/role/add",
+      //   //     text: "新增角色",
+      //   //     path: "/role/add",
       //   //     parent: '/role/list'
       //   //   },
       //   //   {
-      //   //     name: "修改角色",
-      //   //     url: "/role/edit",
+      //   //     text: "修改角色",
+      //   //     path: "/role/edit",
       //   //     parent: '/role/list'
       //   //   },
       //   //   {
-      //   //     name: "菜单功能权限",
-      //   //     url: "/role/menus",
+      //   //     text: "菜单功能权限",
+      //   //     path: "/role/menus",
       //   //     parent: '/role/list'
       //   //   }
       //   // ]
       // },
       // {
       //   id: 'MENU_LIST',
-      //   name: "菜单列表",
+      //   text: "菜单列表",
       //   icon: "el-icon-edit",
-      //   url: "/menu/list",
+      //   path: "/menu/list",
       //   menu: true,
-      //   // actions: [
+      //   // children: [
       //   //   {
-      //   //     name: "新增菜单",
-      //   //     url: "/menu/add",
+      //   //     text: "新增菜单",
+      //   //     path: "/menu/add",
       //   //     parent: '/menu/list'
       //   //   },
       //   //   {
-      //   //     name: "修改菜单",
-      //   //     url: "/menu/edit",
+      //   //     text: "修改菜单",
+      //   //     path: "/menu/edit",
       //   //     parent: '/menu/list'
       //   //   }
       //   // ]
@@ -1013,92 +1022,92 @@ let navArr = [
   },
   {
     id: "SYSTEM",
-    name: "会员管理",
+    text: "会员管理",
     icon: "el-icon-setting",
     subset: [
       {
         id: 'ADMIN_LIST',
-        name: "营销管理",
+        text: "营销管理",
         icon: "el-icon-user",
-        url: "/admin/list",
+        path: "/admin/list",
         menu: true,
-        actions: [
+        children: [
           {
-            name: "优惠卷管理",
-            url: "/admin/add",
+            text: "优惠卷管理",
+            path: "/admin/add",
             parent: '/admin/list'
           },
           {
-            name: "积分汇专区",
-            url: "/admin/edit",
+            text: "积分汇专区",
+            path: "/admin/edit",
             parent: '/admin/list'
           },
           {
-            name: "广告管理",
-            url: "/admin/edit",
+            text: "广告管理",
+            path: "/admin/edit",
             parent: '/admin/list'
           },
           {
-            name: "自定义区域",
-            url: "/admin/edit",
+            text: "自定义区域",
+            path: "/admin/edit",
             parent: '/admin/list'
           },
           {
-            name: "商品排行",
-            url: "/admin/edit",
+            text: "商品排行",
+            path: "/admin/edit",
             parent: '/admin/list'
           },
           {
-            name: "品牌管理",
-            url: "/admin/edit",
+            text: "品牌管理",
+            path: "/admin/edit",
             parent: '/admin/list'
           },
           {
-            name: "水印设置",
-            url: "/admin/edit",
+            text: "水印设置",
+            path: "/admin/edit",
             parent: '/admin/list'
           }
         ]
       },
       // {
       //   id: 'ROLE_LIST',
-      //   name: "角色列表",
+      //   text: "角色列表",
       //   icon: "el-icon-edit",
-      //   url: "/role/list",
+      //   path: "/role/list",
       //   menu: true,
-      //   // actions: [
+      //   // children: [
       //   //   {
-      //   //     name: "新增角色",
-      //   //     url: "/role/add",
+      //   //     text: "新增角色",
+      //   //     path: "/role/add",
       //   //     parent: '/role/list'
       //   //   },
       //   //   {
-      //   //     name: "修改角色",
-      //   //     url: "/role/edit",
+      //   //     text: "修改角色",
+      //   //     path: "/role/edit",
       //   //     parent: '/role/list'
       //   //   },
       //   //   {
-      //   //     name: "菜单功能权限",
-      //   //     url: "/role/menus",
+      //   //     text: "菜单功能权限",
+      //   //     path: "/role/menus",
       //   //     parent: '/role/list'
       //   //   }
       //   // ]
       // },
       // {
       //   id: 'MENU_LIST',
-      //   name: "菜单列表",
+      //   text: "菜单列表",
       //   icon: "el-icon-edit",
-      //   url: "/menu/list",
+      //   path: "/menu/list",
       //   menu: true,
-      //   // actions: [
+      //   // children: [
       //   //   {
-      //   //     name: "新增菜单",
-      //   //     url: "/menu/add",
+      //   //     text: "新增菜单",
+      //   //     path: "/menu/add",
       //   //     parent: '/menu/list'
       //   //   },
       //   //   {
-      //   //     name: "修改菜单",
-      //   //     url: "/menu/edit",
+      //   //     text: "修改菜单",
+      //   //     path: "/menu/edit",
       //   //     parent: '/menu/list'
       //   //   }
       //   // ]
@@ -1108,92 +1117,92 @@ let navArr = [
   },
   {
     id: "SYSTEM",
-    name: "智能终端",
+    text: "智能终端",
     icon: "el-icon-setting",
     subset: [
       {
         id: 'ADMIN_LIST',
-        name: "营销管理",
+        text: "营销管理",
         icon: "el-icon-user",
-        url: "/admin/list",
+        path: "/admin/list",
         menu: true,
-        actions: [
+        children: [
           {
-            name: "优惠卷管理",
-            url: "/admin/add",
+            text: "优惠卷管理",
+            path: "/admin/add",
             parent: '/admin/list'
           },
           {
-            name: "积分汇专区",
-            url: "/admin/edit",
+            text: "积分汇专区",
+            path: "/admin/edit",
             parent: '/admin/list'
           },
           {
-            name: "广告管理",
-            url: "/admin/edit",
+            text: "广告管理",
+            path: "/admin/edit",
             parent: '/admin/list'
           },
           {
-            name: "自定义区域",
-            url: "/admin/edit",
+            text: "自定义区域",
+            path: "/admin/edit",
             parent: '/admin/list'
           },
           {
-            name: "商品排行",
-            url: "/admin/edit",
+            text: "商品排行",
+            path: "/admin/edit",
             parent: '/admin/list'
           },
           {
-            name: "品牌管理",
-            url: "/admin/edit",
+            text: "品牌管理",
+            path: "/admin/edit",
             parent: '/admin/list'
           },
           {
-            name: "水印设置",
-            url: "/admin/edit",
+            text: "水印设置",
+            path: "/admin/edit",
             parent: '/admin/list'
           }
         ]
       },
       // {
       //   id: 'ROLE_LIST',
-      //   name: "角色列表",
+      //   text: "角色列表",
       //   icon: "el-icon-edit",
-      //   url: "/role/list",
+      //   path: "/role/list",
       //   menu: true,
-      //   // actions: [
+      //   // children: [
       //   //   {
-      //   //     name: "新增角色",
-      //   //     url: "/role/add",
+      //   //     text: "新增角色",
+      //   //     path: "/role/add",
       //   //     parent: '/role/list'
       //   //   },
       //   //   {
-      //   //     name: "修改角色",
-      //   //     url: "/role/edit",
+      //   //     text: "修改角色",
+      //   //     path: "/role/edit",
       //   //     parent: '/role/list'
       //   //   },
       //   //   {
-      //   //     name: "菜单功能权限",
-      //   //     url: "/role/menus",
+      //   //     text: "菜单功能权限",
+      //   //     path: "/role/menus",
       //   //     parent: '/role/list'
       //   //   }
       //   // ]
       // },
       // {
       //   id: 'MENU_LIST',
-      //   name: "菜单列表",
+      //   text: "菜单列表",
       //   icon: "el-icon-edit",
-      //   url: "/menu/list",
+      //   path: "/menu/list",
       //   menu: true,
-      //   // actions: [
+      //   // children: [
       //   //   {
-      //   //     name: "新增菜单",
-      //   //     url: "/menu/add",
+      //   //     text: "新增菜单",
+      //   //     path: "/menu/add",
       //   //     parent: '/menu/list'
       //   //   },
       //   //   {
-      //   //     name: "修改菜单",
-      //   //     url: "/menu/edit",
+      //   //     text: "修改菜单",
+      //   //     path: "/menu/edit",
       //   //     parent: '/menu/list'
       //   //   }
       //   // ]
@@ -1204,72 +1213,72 @@ let navArr = [
 
   // {
   //   id: "SYSTEM",
-  //   name: "我的资金",
+  //   text: "我的资金",
   //   icon: "el-icon-s-cooperation",
   //   subset: [
   //     {
   //       id: 'ADMIN_LIST',
-  //       name: "我的资金",
+  //       text: "我的资金",
   //       icon: "el-icon-user",
-  //       url: "/admin/list",
+  //       path: "/admin/list",
   //       menu: true,
-  //       actions: [
+  //       children: [
   //         {
-  //           name: "账号概览",
-  //           url: "/admin/add",
+  //           text: "账号概览",
+  //           path: "/admin/add",
   //           parent: '/admin/list'
   //         },
   //         {
-  //           name: "积分明细",
-  //           url: "/admin/edit",
+  //           text: "积分明细",
+  //           path: "/admin/edit",
   //           parent: '/admin/list'
   //         },
   //         {
-  //           name: "资金明细",
-  //           url: "/admin/edit",
+  //           text: "资金明细",
+  //           path: "/admin/edit",
   //           parent: '/admin/list'
   //         }
   //       ]
   //     },
   //     // {
   //     //   id: 'ROLE_LIST',
-  //     //   name: "角色列表",
+  //     //   text: "角色列表",
   //     //   icon: "el-icon-edit",
-  //     //   url: "/role/list",
+  //     //   path: "/role/list",
   //     //   menu: true,
-  //     //   // actions: [
+  //     //   // children: [
   //     //   //   {
-  //     //   //     name: "新增角色",
-  //     //   //     url: "/role/add",
+  //     //   //     text: "新增角色",
+  //     //   //     path: "/role/add",
   //     //   //     parent: '/role/list'
   //     //   //   },
   //     //   //   {
-  //     //   //     name: "修改角色",
-  //     //   //     url: "/role/edit",
+  //     //   //     text: "修改角色",
+  //     //   //     path: "/role/edit",
   //     //   //     parent: '/role/list'
   //     //   //   },
   //     //   //   {
-  //     //   //     name: "菜单功能权限",
-  //     //   //     url: "/role/menus",
+  //     //   //     text: "菜单功能权限",
+  //     //   //     path: "/role/menus",
   //     //   //     parent: '/role/list'
   //     //   //   }
   //     //   // ]
   //     // },
   //     // {
   //     //   id: 'MENU_LIST',
-  //     //   name: "菜单列表",
+  //     //   text: "菜单列表",
   //     //   icon: "el-icon-edit",
-  //     //   url: "/menu/list",
+  //     //   path: "/menu/list",
   //     //   menu: true,
-  //     //   // actions: [
+  //     //   // children: [
   //     //   //   {
-  //     //   //     name: "新增菜单",
-  //     //   //     url: "/menu/add",
+  //     //   //     text: "新增菜单",
+  //     //   //     path: "/menu/add",
   //     //   //     parent: '/menu/list'
   //     //   //   },
   //     //   //   {
-  //     //   //     name: "修改菜单",
-  //     //   //     url: "/menu/edit",
+  //     //   //     text: "修改菜单",
+  //     //   //     path: "/menu/edit",
   //     //   //     parent: '/menu/list'
   //     //   //   }
   //     //   // ]

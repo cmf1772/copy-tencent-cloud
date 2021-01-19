@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import routeMap from '@/router/routeMap'
 import menu from './menu';
 import reactive from './reactive'
+import shop from './shop'
 
 Vue.use(Router)
 
@@ -56,6 +57,14 @@ let rootRouter = reactive
 autoRouters.forEach(rouer => {
   rootRouter.push(rouer)
 })
+
+//  判读啊是否零售 -》 将商铺后台合并
+rootRouter.forEach(router => {
+  if (router.text === "智慧零售") {
+    router.children = router.children.concat(shop)
+  }
+})
+console.log(rootRouter)
 
 export const createRouter = new Router({
   routes: rootRouter

@@ -58,7 +58,7 @@ export default [{
     },
     {
       path: '/shop',
-      text: '商品管理',
+      text: '产品管理',
       name: 'shop',
       icon: 'el-icon-magic-stick',
       children: [{
@@ -239,7 +239,7 @@ export default [{
     },
     {
       path: '/shop',
-      text: '订单管理',
+      text: '商品订单',
       name: 'shop',
       icon: 'el-icon-box',
       children: [{

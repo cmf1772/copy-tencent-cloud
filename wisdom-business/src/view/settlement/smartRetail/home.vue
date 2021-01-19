@@ -22,9 +22,9 @@
           <ul class="children s"
               :style="{'width': item.width + 'px'}">
             <li v-for="(children, index) in item.children"
+                @click="goDetial(children)"
                 :key="index">
-              <span @click="goDetial(children)"
-                    :style="{'color': children.name === clearName ? '#2589ff' : ''}">{{children.name}}</span>
+              <span :style="{'color': children.name === clearName ? '#2589ff' : ''}">{{children.name}}</span>
               <ol class="childrenItem ml"
                   v-if="children.children"
                   v-for="(childrenI, indexC) in children.children"
@@ -281,6 +281,9 @@
 <script>
 import menu from '@/router/menu'
 import topMenu from '@/components/JS/menuJson'
+import nav from '@/router/nav'
+import { shopMenu } from '@/components/JS/selectMenu'
+
 export default {
   name: 'home',
   data () {
@@ -306,11 +309,18 @@ export default {
   methods: {
     goDetial (row) {
       if (row.children) return false
-      if (!row.path.length) return false
+      if (!row.path.length) {
+        this.$message.error('暂无路径');
+        return false
+      }
+      // 存储 防止数据丢失 页面展示不对
       sessionStorage.setItem('clearName', row.name)
+      if (!sessionStorage.getItem('clearName')) {
+        this.$router.push('/survey')
+      }
       this.clearName = sessionStorage.getItem('clearName')
       this.$router.push(row.path)
-      this.changeMenu()
+      this.changeMenu(row)
     },
 
     // 通过路由判断 是否显示帮助  特殊特面不显示帮助
@@ -330,13 +340,25 @@ export default {
     },
 
     // 暂时通过名字判断 *****
-    changeMenu () {
-      menu[0].children.forEach(item => {
-        if (item.text === sessionStorage.getItem('clearName')) {
-          this.menuData = item.children ? item.children : []
-          sessionStorage.setItem('index_menu', 1)
-        }
-      })
+    changeMenu (row) {
+      // 区分 商铺 和 6大商铺
+      if (shopMenu.indexOf(this.clearName) > -1 && sessionStorage.getItem('type')) {
+        sessionStorage.setItem('type', true)
+        nav.forEach(item => {
+          if (item.text === sessionStorage.getItem('clearName')) {
+            this.menuData = item.subset ? item.subset : []
+            sessionStorage.setItem('index_menu', item.menu)
+          }
+        })
+      } else {
+        sessionStorage.setItem('type', false)
+        menu[0].children.forEach(item => {
+          if (item.text === sessionStorage.getItem('clearName')) {
+            this.menuData = item.children ? item.children : []
+            sessionStorage.setItem('index_menu', 1)
+          }
+        })
+      }
     },
 
     command (command) {
