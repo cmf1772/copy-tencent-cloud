@@ -1,38 +1,40 @@
 <template>
   <div class="addPage_ment" :style="{ height: heights }">
     <el-form ref="form" :model="form" label-width="80px">
-      <el-form-item label="英文名称" prop="ename">
-        <el-input v-model="form.ename"></el-input>
+      <el-form-item label="英文名称" prop="page_name">
+        <el-input v-model="form.page_name"></el-input>
       </el-form-item>
-      <el-form-item label="中文名称" prop="name">
-        <el-input v-model="form.name"></el-input>
+      <el-form-item label="中文名称" prop="page_subject">
+        <el-input v-model="form.page_subject"></el-input>
       </el-form-item>
-      <el-form-item label="关键字" prop="keyword">
+      <el-form-item label="关键字" prop="page_key">
         <el-input
           type="textarea"
           :rows="3"
           placeholder="请输入内容"
-          v-model="form.keyword"
+          v-model="form.page_key"
         >
         </el-input>
       </el-form-item>
-      <el-form-item label="页面描述" prop="describe">
+      <el-form-item label="页面描述" prop="page_desc">
         <el-input
           type="textarea"
           :rows="3"
           placeholder="请输入内容"
-          v-model="form.describe"
+          v-model="form.page_desc"
         >
         </el-input>
       </el-form-item>
-      <el-form-item label="页面内容" prop="editor_value">
-        <vue-ueditor
+      <el-form-item label="页面内容" prop="page_body">
+        <!-- <vue-ueditor
           @ready="ready"
           v-model="form.editor_value"
           :key="1"
           :config="myConfig"
           @beforeInit="addCustomDialog"
-        ></vue-ueditor>
+        ></vue-ueditor> -->
+          <div ref="editorElem"
+               style="width: 100%;"></div>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">确定</el-button>
@@ -44,6 +46,7 @@
 
 <script>
 import vueEditorWrap from "vue-ueditor-wrap";
+import E from "wangeditor";
 import file from "./../../../../static/file.png";
 
 export default {
@@ -74,107 +77,107 @@ export default {
         // UEditor 资源文件的存放路径，如果你使用的是 vue-cli 生成的项目，通常不需要设置该选项，vue-ueditor-wrap 会自动处理常见的情况，如果需要特殊配置，参考下方的常见问题2
         UEDITOR_HOME_URL: "./../../../../static/static1/"
       },
-      ueditor: ""
+      ueditor: "",
+      editor: null,
     };
   },
   components: {
     VueUeditor: vueEditorWrap
   },
+  mounted() {
+    this.editor = new E(this.$refs.editorElem);
+    // 编辑器的事件，每次改变会获取其html内容
+    this.editor.customConfig.onchange = html => {
+      this.form.page_body = html;
+    };
+    this.editor.customConfig.menus = [
+      // 菜单配置
+      'head', // 标题
+      'bold', // 粗体
+      'fontSize', // 字号
+      'fontName', // 字体
+      'italic', // 斜体
+      'underline', // 下划线
+      'strikeThrough', // 删除线
+      'foreColor', // 文字颜色
+      'backColor', // 背景颜色
+      'link', // 插入链接
+      'list', // 列表
+      'justify', // 对齐方式
+      'quote', // 引用
+      'image', // 插入图片
+      'table', // 表格
+      'code' // 插入代码
+    ];
+    this.editor.create(); // 创建富文本实例
+    if(this.$route.query.uid) {
+      this.create()
+    }
+  },
   methods: {
-    ready(editorInstance) {
-      this.ueditor = editorInstance;
+    create() {
+      this.$newApi.getPageItem({
+        uid: this.$route.query.uid,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.form = res.data
+        this.editor.txt.html(res.data.page_body)
+      })
     },
-    addCustomDialog() {},
     resetForm() {
       this.$refs["form"].resetFields();
+      this.editor.txt.html('')
     },
     onSubmit() {
-      console.log("submit!");
-    },
-    addCustomDialog() {
-      let that = this;
-
-      UE.registerUI(
-        "button",
-        function(editor, uiName) {
-          //注册按钮执行时的command命令，使用命令默认就会带有回退操作
-          editor.registerCommand(uiName, {
-            execCommand: function() {
-              alert("execCommand:" + uiName);
-            }
-          });
-          //创建一个button
-          var btn = new UE.ui.Button({
-            //按钮的名字
-            name: uiName,
-            //提示
-            title: "插入图片",
-            //添加额外样式，指定icon图标，这里默认使用一个重复的icon
-            cssRules: `background-image: url(${file}) !important;background-size: 100% 100%;`,
-            //点击时执行的命令
-            onclick: function() {
-              var input = document.createElement("input");
-              input.type = "file";
-              input.style.display = "none";
-              document.body.appendChild(input);
-              input.click();
-              let files = [];
-              input.addEventListener("change", e => {
-                files = e.target.files;
-                // 利用 AJAX 上传，上传成功之后销毁 DOM
-                let formData = new FormData();
-                let index = 0;
-                for (let i in files) {
-                  !!(Number(i) + 1)
-                    ? formData.append(`image[${Number(i)}]`, files[i])
-                    : null;
-                  console.log(files[i], i);
-                }
-
-                // e.target.files.forEach((i,k)=>{
-                //  formData.append(`image[${k}]`,i)
-                // })
-                // that.$axios
-                //   .post('p/DrillPlan/imgUpload', formData)
-                //   .then((res) => {
-                //     if (res.data.code == 0) {
-                //       res.data.data.forEach((i, k) => {
-                //         editor.execCommand('insertimage', {
-                //           src: `${that.$store.state.url}/${i}`,
-                //         });
-                //         // insert(`${that.$store.state.url}/${i}`)
-                //       });
-                //     } else {
-                //       that.$utils.message({
-                //         type: 'error',
-                //         message: res.data.message,
-                //       });
-                //     }
-                //   });
-              });
-
-              // editor.execCommand('insertimage',{src:'/static/file.png'});
-
-              //这里可以不用执行命令,做你自己的操作也可
-              // editor.execCommand(uiName);
-            }
-          });
-          //当点到编辑内容上时，按钮要做的状态反射
-          editor.addListener("selectionchange", function() {
-            var state = editor.queryCommandState(uiName);
-            if (state == -1) {
-              btn.setDisabled(true);
-              btn.setChecked(false);
-            } else {
-              btn.setDisabled(false);
-              btn.setChecked(state);
-            }
-          });
-          //因为你是添加button,所以需要返回这个button
-          return btn;
-        },
-        45
-      );
+      if(this.$route.query.uid) {
+        this.$newApi.setPageItem({
+          uid: this.form.uid,
+          page_name: this.form.page_name,
+          page_subject: this.form.page_subject,
+          page_key: this.form.page_key,
+          page_desc: this.form.page_desc,
+          page_body: this.form.page_body,
+          token: JSON.parse(this.$store.state.token).token
+        }).then(res => {
+          if(res.data.err_code) {
+            this.$message({
+              type: 'error',
+              message: res.data.err_msg
+            })
+          }
+          else{
+            this.$message({
+              type: 'success',
+              message: '操作成功'
+            })
+            this.$router.go(-1)
+          }
+        })
+      }
+      else{
+        this.$newApi.addPageItem({
+          page_name: this.form.page_name,
+          page_subject: this.form.page_subject,
+          page_key: this.form.page_key,
+          page_desc: this.form.page_desc,
+          page_body: this.form.page_body,
+          token: JSON.parse(this.$store.state.token).token
+        }).then(res => {
+          if(res.data.err_code) {
+            this.$message({
+              type: 'error',
+              message: res.data.err_msg
+            })
+          }
+          else{
+            this.$message({
+              type: 'success',
+              message: '操作成功'
+            })
+            this.$router.go(-1)
+          }
+        })
+      }
     }
   }
 };

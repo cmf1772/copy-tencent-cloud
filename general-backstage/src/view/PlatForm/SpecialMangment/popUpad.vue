@@ -2,31 +2,26 @@
   <div class="addPage_ment" :style="{ height: heights }">
     <el-form ref="form" :model="form" label-width="100px">
       <el-form-item label="清除弹窗内容">
-        <span>点击清除弹窗内容</span>
+        <el-button @click="resetForm" type="primary">点击清除弹窗内容</el-button>
       </el-form-item>
-      <el-form-item label="弹窗标题" prop="title">
-        <el-input v-model="form.title"></el-input>
+      <el-form-item label="弹窗标题" prop="subject">
+        <el-input v-model="form.subject"></el-input>
       </el-form-item>
-      <el-form-item label="弹窗位置" prop="name">
+      <el-form-item label="弹窗位置" prop="left">
         <div class="con_input">
-          左侧 <el-input v-model="form.name" size="small"></el-input>px 顶部
-          <el-input v-model="form.name" size="small"></el-input>px
+          左侧 <el-input v-model="form.left" size="small"></el-input>px 顶部
+          <el-input v-model="form.top" size="small"></el-input>px
         </div>
       </el-form-item>
-      <el-form-item label="弹窗大小" prop="name">
+      <el-form-item label="弹窗大小" prop="width">
         <div class="con_input">
-          宽度 <el-input v-model="form.name" size="small"></el-input>px 高度
-          <el-input v-model="form.name" size="small"></el-input>px
+          宽度 <el-input v-model="form.width" size="small"></el-input>px 高度
+          <el-input v-model="form.height" size="small"></el-input>px
         </div>
       </el-form-item>
       <el-form-item label="内容" prop="editor_value">
-        <vue-ueditor
-          @ready="ready"
-          v-model="form.editor_value"
-          :key="1"
-          :config="myConfig"
-          @beforeInit="addCustomDialog"
-        ></vue-ueditor>
+        <div ref="editorElem"
+               style="width: 50%;"></div>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">确定</el-button>
@@ -37,7 +32,7 @@
 </template>
 
 <script>
-import vueEditorWrap from "vue-ueditor-wrap";
+import E from "wangeditor";
 import file from "./../../../../static/file.png";
 
 export default {
@@ -54,25 +49,35 @@ export default {
         resource: "",
         desc: ""
       },
-      myConfig: {
-        // 编辑器不自动被内容撑高
-        autoHeightEnabled: false,
-        //是否启用元素路径
-        elementPathEnabled: false,
-        // 初始容器高度
-        initialFrameHeight: 300,
-        // 初始容器宽度
-        initialFrameWidth: "80%",
-        // 上传文件接口（这个地址是我为了方便各位体验文件上传功能搭建的临时接口，请勿在生产环境使用！！！）
-        // serverUrl: 'http://35.201.165.105:8000/controller.php',
-        // UEditor 资源文件的存放路径，如果你使用的是 vue-cli 生成的项目，通常不需要设置该选项，vue-ueditor-wrap 会自动处理常见的情况，如果需要特殊配置，参考下方的常见问题2
-        UEDITOR_HOME_URL: "./../../../../static/static1/"
-      },
-      ueditor: ""
+      editor: null
     };
   },
-  components: {
-    VueUeditor: vueEditorWrap
+  mounted() {
+    this.editor = new E(this.$refs.editorElem);
+    // 编辑器的事件，每次改变会获取其html内容
+    this.editor.customConfig.onchange = html => {
+      this.form.body = html;
+    };
+    this.editor.customConfig.menus = [
+      // 菜单配置
+      'head', // 标题
+      'bold', // 粗体
+      'fontSize', // 字号
+      'fontName', // 字体
+      'italic', // 斜体
+      'underline', // 下划线
+      'strikeThrough', // 删除线
+      'foreColor', // 文字颜色
+      'backColor', // 背景颜色
+      'link', // 插入链接
+      'list', // 列表
+      'justify', // 对齐方式
+      'quote', // 引用
+      'image', // 插入图片
+      'table', // 表格
+      'code' // 插入代码
+    ];
+    this.editor.create(); // 创建富文本实例
   },
   methods: {
     ready(editorInstance) {
@@ -81,95 +86,36 @@ export default {
     addCustomDialog() {},
     resetForm() {
       this.$refs["form"].resetFields();
+      this.editor.txt.html('')
+      this.form.top = ''
+      this.form.height = ''
     },
     onSubmit() {
-      console.log("submit!");
+      this.$newApi.addPopupItem({
+        subject: this.form.subject,
+        left: this.form.left,
+        top: this.form.top,
+        width: this.form.width,
+        height: this.form.height,
+        body: this.form.body,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.err_code) {
+          this.$message({
+            type: 'error',
+            message: res.data.err_msg
+          })
+        }
+        else{
+          this.$message({
+            type: 'success',
+            message: '操作成功'
+          })
+          this.form = {}
+          this.editor.txt.html('')
+        }
+      })  
     },
-    addCustomDialog() {
-      let that = this;
-
-      UE.registerUI(
-        "button",
-        function(editor, uiName) {
-          //注册按钮执行时的command命令，使用命令默认就会带有回退操作
-          editor.registerCommand(uiName, {
-            execCommand: function() {
-              alert("execCommand:" + uiName);
-            }
-          });
-          //创建一个button
-          var btn = new UE.ui.Button({
-            //按钮的名字
-            name: uiName,
-            //提示
-            title: "插入图片",
-            //添加额外样式，指定icon图标，这里默认使用一个重复的icon
-            cssRules: `background-image: url(${file}) !important;background-size: 100% 100%;`,
-            //点击时执行的命令
-            onclick: function() {
-              var input = document.createElement("input");
-              input.type = "file";
-              input.style.display = "none";
-              document.body.appendChild(input);
-              input.click();
-              let files = [];
-              input.addEventListener("change", e => {
-                files = e.target.files;
-                // 利用 AJAX 上传，上传成功之后销毁 DOM
-                let formData = new FormData();
-                let index = 0;
-                for (let i in files) {
-                  !!(Number(i) + 1)
-                    ? formData.append(`image[${Number(i)}]`, files[i])
-                    : null;
-                  console.log(files[i], i);
-                }
-
-                // e.target.files.forEach((i,k)=>{
-                //  formData.append(`image[${k}]`,i)
-                // })
-                // that.$axios
-                //   .post('p/DrillPlan/imgUpload', formData)
-                //   .then((res) => {
-                //     if (res.data.code == 0) {
-                //       res.data.data.forEach((i, k) => {
-                //         editor.execCommand('insertimage', {
-                //           src: `${that.$store.state.url}/${i}`,
-                //         });
-                //         // insert(`${that.$store.state.url}/${i}`)
-                //       });
-                //     } else {
-                //       that.$utils.message({
-                //         type: 'error',
-                //         message: res.data.message,
-                //       });
-                //     }
-                //   });
-              });
-
-              // editor.execCommand('insertimage',{src:'/static/file.png'});
-
-              //这里可以不用执行命令,做你自己的操作也可
-              // editor.execCommand(uiName);
-            }
-          });
-          //当点到编辑内容上时，按钮要做的状态反射
-          editor.addListener("selectionchange", function() {
-            var state = editor.queryCommandState(uiName);
-            if (state == -1) {
-              btn.setDisabled(true);
-              btn.setChecked(false);
-            } else {
-              btn.setDisabled(false);
-              btn.setChecked(state);
-            }
-          });
-          //因为你是添加button,所以需要返回这个button
-          return btn;
-        },
-        45
-      );
-    }
   }
 };
 </script>

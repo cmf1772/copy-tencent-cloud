@@ -333,7 +333,9 @@ export default {
       }).then(res => {
         this.form = res.data
         this.inputData = []
-        this.fileList.push(res.data.category_file1)
+        if(res.data.category_file1 !== '') {
+          this.fileList.push({name: res.data.category_file1, url: res.data.category_file1})
+        }
         for(let i in res.data.att_list) {
           let obj = {
             data: []

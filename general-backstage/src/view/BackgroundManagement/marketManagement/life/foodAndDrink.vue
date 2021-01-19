@@ -92,13 +92,19 @@
           <el-input v-model="form.goods_name"
                     placeholder=""></el-input>
         </el-form-item>
-        <el-form-item label="商品分类："
-                      prop="goods_category">
+        <el-form-item label="商品分类：">
           <div class="form-item">
-            <el-select v-model="form.goods_category"
+            <!-- <el-select v-model="form.goods_category"
                        style="width: 100%;"
                        clearable>
               <el-option v-for="(item, index) in categoryData" :key="index" :label="item.board_title" :value="item.uid"></el-option>
+            </el-select> -->
+
+             <el-select v-model="flOne" placeholder="请选择" @change="flChange">
+              <el-option v-for="item in onoptions" :key="item.value" :label="item.board_title" :value="item.uid" > </el-option>
+            </el-select>
+            <el-select v-model="flTwo" placeholder="请选择">
+              <el-option v-for="item in twoptions" :key="item.value" :label="item.board_title" :value="item.uid"> </el-option>
             </el-select>
           </div>
         </el-form-item>
@@ -124,9 +130,9 @@
         <el-form-item label="所在地区："
                       prop="name">
           <div style="width:100%; display: flex">
-            <el-select v-model="form.province"
+            <el-select v-model="province"
                      clearable
-                     style="width:25%"
+                     style=""
                      @change="changeCity"
                      placeholder="所在省">
             <el-option v-for="(item, index) in $store.state.cityList"
@@ -134,8 +140,8 @@
                        :label="item.name"
                        :value="item.id"></el-option>
           </el-select>
-          <el-select v-model="form.city"
-                     style="width:25%;margin-left:0"
+          <el-select v-model="city"
+                     style="margin-left:0"
                      clearable
                      @change="changeAreaList"
                      placeholder="所在市">
@@ -144,9 +150,9 @@
                        :label="item.name"
                        :value="item.id"></el-option>
           </el-select>
-          <el-select v-model="form.county"
+          <el-select v-model="county"
                      clearable
-                     style="width:25%;margin-left:0"
+                     style="margin-left:0"
                      placeholder="所在县">
             <el-option v-for="(item, index) in $store.state.county"
                        :key="index"
@@ -227,6 +233,13 @@ export default {
         type: []
       },
       editor: null,
+      flOne: '',
+      flTwo: '',
+      onoptions: [],
+      twoptions: [],
+      province: '',
+      city: '',
+      county: ''
     };
   },
   mounted () {
@@ -237,6 +250,13 @@ export default {
     })
     this.create()
     this.$store.commit('GET_CITY')
+    this.$newApi.getBoardPageList({
+      order_field: "od",  
+      order_type: "desc",
+      token: JSON.parse(this.$store.state.token).token,
+    }).then(res => {
+      this.onoptions = res.data.items
+    })
   },
   methods: {
     create() {
@@ -250,6 +270,16 @@ export default {
       }).then(res => {
         this.tableData = res.data.items
         this.totalData = res.data.total_result
+      })
+    },
+    flChange() {
+      this.flTwo = ''
+      if(this.flOne == '') return
+      this.$newApi.getBoardSubList({
+        uid: this.flOne,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.twoptions = res.data
       })
     },
     handleRemove (file, fileList) {
@@ -297,13 +327,14 @@ export default {
       this.$newApi.SHsetWantSupplyItem({
         uid: this.form.uid,
         goods_name: this.form.goods_name,
-        goods_cat: String(this.form.goods_category),
+        goods_category_pid: String(this.flOne),
+        goods_cat: String(this.flTwo),
         num: this.form.num,
         price: this.form.price,
         intro: this.form.intro,
-        province: String(this.form.province),
-        city: String(this.form.city),
-        county: String(this.form.county),
+        province: String(this.province),
+        city: String(this.city),
+        county: String(this.county),
         tel: this.form.tel,
         qq: this.form.qq,
         ww: this.form.ww,
@@ -330,14 +361,14 @@ export default {
     },
 
     changeCity () {
-      this.form.city = ''
-      this.form.county = ''
-      this.$store.commit('GET_CITY', { id: this.form.province, name: 'areaList' })
+      this.city = ''
+      this.county = ''
+      this.$store.commit('GET_CITY', { id: this.province, name: 'areaList' })
     },
 
     changeAreaList () {
-      this.form.county = ''
-      this.$store.commit('GET_CITY', { id: this.form.city, name: 'county' })
+      this.county = ''
+      this.$store.commit('GET_CITY', { id: this.city, name: 'county' })
     },
 
     handleClose() {
@@ -350,9 +381,19 @@ export default {
         token: JSON.parse(this.$store.state.token).token,
       }).then(res => {
         this.form = res.data
-        this.form.province = Number(this.form.province)
-        this.form.city = Number(this.form.city)
-        this.form.county = Number(this.form.county)
+        this.province = Number(this.form.province)
+        this.changeCity()
+        this.city = Number(this.form.city)
+        this.changeAreaList()
+        this.county = Number(this.form.county)
+        this.flOne = res.data.goods_category_pid
+        this.$set(this, 'flTwo', res.data.goods_category)
+        this.$newApi.getBoardSubList({
+          uid: this.flOne,
+          token: JSON.parse(this.$store.state.token).token,
+        }).then(res => {
+          this.twoptions = res.categoryData
+        })
         this.editor.txt.html(res.data.detail)
       })
       this.dialogVisible = true;

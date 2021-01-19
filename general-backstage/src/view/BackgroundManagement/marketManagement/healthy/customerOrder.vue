@@ -366,6 +366,7 @@ export default {
       }).then(res => {
         this.formData = res.data
         this.orderData = res.data.order_info
+        this.orderData.status = String(this.orderData.status)
         this.arr_goods.push(res.data.arr_goods[92])
       })
     },

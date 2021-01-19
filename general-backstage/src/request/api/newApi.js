@@ -1619,7 +1619,81 @@ const newData =  {
    LYdelWantMsgItemVIP (params) { return axios.post('/admin/wantmsgvip/delWantMsgItem', params) },
    // 批量删除留言信息
    LYbatDelWantMsgItemVIP (params) { return axios.post('/admin/wantmsgvip/batDelWantMsgItem', params) },
+
+   // ------------- 平台装修 - 导航信息 --------------------
+   // 获取导航分页列表
+   getNavPageList (params) { return axios.post('/admin/navigation/getNavPageList', params) },
+   // 获取上级导航列表
+   getUpNavItem (params) { return axios.post('/admin/navigation/getUpNavItem', params) },
+   // 添加一个导航栏目
+   addNavItem (params) { return axios.post('/admin/navigation/addNavItem', params) },
+   // 获取一个导航栏目
+   getNavItem (params) { return axios.post('/admin/navigation/getNavItem', params) },
+   // 编辑一个导航栏目
+   setNavItem (params) { return axios.post('/admin/navigation/setNavItem', params) },
+   // 删除一个导航栏目
+   delNavItem (params) { return axios.post('/admin/navigation/delNavItem', params) },
+   // 批量删除导航栏目
+   batDelNavItem (params) { return axios.post('/admin/navigation/batDelNavItem', params) },
+
+   // 获取页面分页列表
+   getPagePageList (params) { return axios.post('/admin/page/getPagePageList', params) },
+   // 添加一个页面
+   addPageItem (params) { return axios.post('/admin/page/addPageItem', params) },
+   // 获取一个页面
+   getPageItem (params) { return axios.post('/admin/page/getPageItem', params) },
+   // 编辑一个页面
+   setPageItem (params) { return axios.post('/admin/page/setPageItem', params) },
+   // 删除一个页面
+   delPageItem (params) { return axios.post('/admin/page/delPageItem', params) },
+   // 批量删除页面
+   batDelPageItem (params) { return axios.post('/admin/page/batDelPageItem', params) },
    
+   // 获取模板购买分页列表
+   getTplPageList (params) { return axios.post('/admin/tpl/getTplPageList', params) },
+   // 获取一个模板信息
+   getTplItem (params) { return axios.post('/admin/tpl/getTplItem', params) },
+   // 编辑一个模板信息
+   setTplItem (params) { return axios.post('/admin/tpl/setTplItem', params) },
+
+   // 获取友情链接分页列表
+   getLinkPageList (params) { return axios.post('/admin/links/getLinkPageList', params) },
+   // 添加一个友情链接
+   addLinkItem (params) { return axios.post('/admin/links/addLinkItem', params) },
+   // 编辑一个友情链接
+   setLinkItem (params) { return axios.post('/admin/links/setLinkItem', params) },
+   // 获取一个友情链接
+   getLinkItem (params) { return axios.post('/admin/links/getLinkItem', params) },
+   // 删除一个友情链接
+   delLinkItem (params) { return axios.post('/admin/links/delLinkItem', params) },
+   // 批量删除友情链接
+   batDelLinkItem (params) { return axios.post('/admin/links/batDelLinkItem', params) },
+
+   // 获取轮转广告分页列表
+   getCyclePageList (params) { return axios.post('/admin/cycle/getCyclePageList', params) },
+   // 获取一个轮转广告
+   getCycleItem (params) { return axios.post('/admin/cycle/getCycleItem', params) },
+   // 编辑一个轮转广告
+   setCycleItem (params) { return axios.post('/admin/cycle/setCycleItem', params) },
+   // 添加一个轮转广告
+   addCycleItem (params) { return axios.post('/admin/cycle/addCycleItem', params) },
+   // 删除一个轮转广告
+   delCycleItem (params) { return axios.post('/admin/cycle/delCycleItem', params) },
+
+   // -------- 手机轮转广告 ---------
+   // 获取轮转广告分页列表
+   SJgetCyclePageList (params) { return axios.post('/admin/wapcycle/getCyclePageList', params) },
+   // 获取一个轮转广告
+   SJgetCycleItem (params) { return axios.post('/admin/wapcycle/getCycleItem', params) },
+   // 编辑一个轮转广告
+   SJsetCycleItem (params) { return axios.post('/admin/wapcycle/setCycleItem', params) },
+   // 添加一个轮转广告
+   SJaddCycleItem (params) { return axios.post('/admin/wapcycle/addCycleItem', params) },
+   // 删除一个轮转广告
+   SJdelCycleItem (params) { return axios.post('/admin/wapcycle/delCycleItem', params) },
+
+   // 添加一个弹窗广告
+   addPopupItem (params) { return axios.post('/admin/popup/addPopupItem', params) },
 
 
 

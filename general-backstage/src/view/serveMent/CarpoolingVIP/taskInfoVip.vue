@@ -334,7 +334,7 @@ export default {
         this.onoptions = res.data.items
       })
       this.uid = row.uid
-      this.dialogVisible = true;
+      this.dialogVisible = true ;
       this.$newApi.QGgetWantBuyItemVIP({
         uid: row.uid,
         token: JSON.parse(this.$store.state.token).token,

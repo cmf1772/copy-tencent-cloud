@@ -1,83 +1,84 @@
 <template>
-  <div class="webDev_page">
+  <div class="webDev_page" :style="{ height: heights }">
     <div class="webPage_flash">
       <h3>Flash 编辑</h3>
       <ul>
-        <li>
-          <el-button type="text" style="color: #f00;">[删除]</el-button>
-          <el-button type="text" @click="amendClick">[修改]</el-button>
+        <li  v-for="(item, index) in tableData" :key="index">
+          <el-button type="text" style="color: #f00;" @click="del(item)">[删除]</el-button>
+          <el-button type="text" @click="amendClick(item)">[修改]</el-button>
           <img
-            src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1596709737157&di=9b6e54f7a666550c7d06f844195afd50&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201111%2F21%2F205700txzuacubbcy91u99.jpg"
+            :src="qiniuaddr + item.img"
             alt=""
           />
           <p>
             标题:
             <el-input
-              v-model="input"
+              v-model="item.title"
               placeholder="请输入内容"
               size="small"
+              disabled
             ></el-input>
           </p>
           <p>
             链接:
             <el-input
-              v-model="input"
+              v-model="item.link"
               placeholder="请输入内容"
               size="small"
+              disabled
             ></el-input>
           </p>
           <p>
             排序:
             <el-input
-              v-model="input"
+              v-model="item.cat_tag"
               placeholder="请输入内容"
               size="small"
+              disabled
             ></el-input>
           </p>
         </li>
       </ul>
     </div>
-    <div class="webPage_bot">
+    <div class="webPage_bot" :height="tableHeight">
       <h3>上传轮转广告</h3>
       <div class="bot_con">
         <p>
           标题
-          <el-input size="medium"></el-input>
+          <el-input size="medium" v-model="addForm.title"></el-input>
         </p>
         <p>
           链接
-          <el-input size="medium"></el-input>
+          <el-input size="medium" v-model="addForm.link"></el-input>
         </p>
         <p>
           排序
-          <el-input size="medium"></el-input>
+          <el-input size="medium" v-model="addForm.cat_tag"></el-input>
         </p>
         <p>
           大图
-          <el-upload
-            class="upload-demo"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            multiple
-            :limit="3"
-            :on-exceed="handleExceed"
-            :file-list="fileList"
-          >
-            <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">
-              只能上传jpg/png文件，且不超过500kb
-            </div>
-          </el-upload>
+          <el-upload class="upload-pic"
+                      :action="domain"
+                      :data="QiniuData"
+                      :on-remove="handleRemove"
+                      :on-error="uploadError"
+                      :on-success="uploadSuccess"
+                      :before-upload="beforeAvatarUpload"
+                      :limit="1"
+                      multiple
+                      :on-exceed="handleExceed"
+                      :file-list="fileList">
+              <el-button size="small"
+                        type="primary">选择图片</el-button>
+            </el-upload>
         </p>
         <p>
           资讯ID
-          <el-input size="medium"></el-input>
+          <el-input size="medium" v-model="addForm.art_id"></el-input>
         </p>
         <p>
-          <el-button type="primary" size="medium">提交</el-button>
-          <el-button size="medium">重置</el-button>
+          <el-button type="primary" size="medium" @click="addSave">提交</el-button>
+          <el-button size="medium" @click="czFormData">重置</el-button>
         </p>
       </div>
     </div>
@@ -90,39 +91,37 @@
       center
     >
       <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="标题">
-          <el-input v-model="form.name"></el-input>
+        <el-form-item label="标题" prop="title">
+          <el-input v-model="form.title"></el-input>
         </el-form-item>
-        <el-form-item label="链接">
-          <el-input v-model="form.url"></el-input>
+        <el-form-item label="链接" prop="link">
+          <el-input v-model="form.link"></el-input>
         </el-form-item>
-        <el-form-item label="排序">
-          <el-input v-model="form.order"></el-input>
+        <el-form-item label="排序" prop="cat_tag">
+          <el-input v-model="form.cat_tag"></el-input>
         </el-form-item>
-        <el-form-item label="资讯ID">
-          <el-input v-model="form.id"></el-input>
+        <el-form-item label="资讯ID" prop="art_id">
+          <el-input v-model="form.art_id"></el-input>
         </el-form-item>
         <el-form-item label="轮转图片">
-          <el-upload
-            class="upload-demo"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            multiple
-            :limit="3"
-            :on-exceed="handleExceed"
-            :file-list="fileList"
-          >
-            <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">
-              只能上传jpg/png文件，且不超过500kb
-            </div>
-          </el-upload>
+          <el-upload class="upload-pic"
+                      :action="domain"
+                      :data="QiniuData"
+                      :on-remove="handleRemove"
+                      :on-error="uploadError"
+                      :on-success="uploadSuccess"
+                      :before-upload="beforeAvatarUpload"
+                      :limit="1"
+                      multiple
+                      :on-exceed="handleExceed"
+                      :file-list="fileList">
+              <el-button size="small"
+                        type="primary">选择图片</el-button>
+            </el-upload>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogVisible = false"
+        <el-button type="primary" @click="save"
           >提交</el-button
         >
       </span>
@@ -134,30 +133,164 @@
 export default {
   data() {
     return {
+      heights: window.innerHeight - 160 + "px",
+      tableHeight: null,
       fileList: [],
       input: "",
+      form: {},
       dialogVisible: false,
-      form: {
-        name: "",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: ""
-      }
+      tableData: [],
+      domain: this.$store.state.getUploadUrl, // 七牛云的上传地址（华东区）
+      qiniuaddr: 'http://img.meichengmall.com/', // 七牛云的图片外链地址 七牛云空间的外链地址
+      QiniuData: {
+        key: "", //图片名字处理
+        token: this.$store.state.upToken,//七牛云token
+        data: {}
+      },
+      uploadPicUrl: "", //提交到后台图片地址
+      addForm: {}
     };
   },
+  mounted() {
+    this.$nextTick(() => {
+      var inHeight = document.getElementsByClassName("navPage_top");
+      this.tableHeight =
+        window.innerHeight - 210 - inHeight[0].clientHeight + "px";
+    });
+    this.create()
+  },
   methods: {
-    handlePreview() {},
-    handleRemove() {},
-    beforeRemove() {},
-    handleExceed() {},
-    amendClick() {
-      this.dialogVisible = true;
+    create() {
+      this.$newApi.SJgetCyclePageList({
+        page: 1,
+        page_size: '',
+        title: '',
+        order_type: 'asc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+      })
     },
-    handleClose() {}
+    del(value) {
+      this.$newApi.SJdelCycleItem({
+        uid: value.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.err_code) {
+          this.$message({
+            type: 'error',
+            message: res.data.err_msg
+          })
+        }
+        else{
+          this.$message({
+            type: 'success',
+            message: '操作成功'
+          })
+          this.create() 
+        }
+      })
+    },
+    czFormData() {
+      this.addForm = {}
+      this.fileList = []
+      this.uploadPicUrl = ''
+    },
+    addSave() {
+      this.$newApi.SJaddCycleItem({
+        title: this.addForm.title,
+        link: this.addForm.link,
+        img: this.uploadPicUrl,
+        cat_tag: this.addForm.cat_tag,
+        art_id: this.addForm.art_id,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.err_code) {
+          this.$message({
+            type: 'error',
+            message: res.data.err_msg
+          })
+        }
+        else{
+          this.$message({
+            type: 'success',
+            message: '操作成功'
+          })
+          this.create() 
+          this.czFormData()
+        }
+      })  
+    },
+    save() {
+      this.$newApi.SJsetCycleItem({
+        uid: this.form.uid,
+        title: this.form.title,
+        link: this.form.link,
+        img: this.uploadPicUrl,
+        cat_tag: this.form.cat_tag,
+        art_id: this.form.art_id,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.err_code) {
+          this.$message({
+            type: 'error',
+            message: res.data.err_msg
+          })
+        }
+        else{
+          this.$message({
+            type: 'success',
+            message: '操作成功'
+          })
+          this.create() 
+          this.handleClose()
+          this.dialogVisible = false
+        }
+      })
+    },
+    handleRemove (file,   ) {
+      this.uploadPicUrl = "";
+    },
+    uploadError (err, file, fileList) {    //图片上传失败时调用
+      this.$message({
+        message: "上传出错，请重试！",
+        type: "error",
+        center: true
+      });
+    },
+    uploadSuccess (response, file, fileList) {  //图片上传成功的方法
+      this.uploadPicUrl = `${this.qiniuaddr}${file.name}`;
+    },
+    beforeAvatarUpload (file) {   //图片上传之前的方法
+      this.QiniuData.data = file;
+      this.QiniuData.key = `${'knowledge/' + file.name}`;
+    },
+    handleExceed (files, fileList) {
+      this.$message.warning(
+        `当前限制选择 1 张图片，如需更换，请删除上一张图片在重新选择！`
+      );
+    },
+    amendClick(value) {
+      this.dialogVisible = true;
+      this.fileList = []
+      this.$newApi.SJgetCycleItem({
+        uid: value.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.form = res.data
+        if(res.data.img !== '') {
+          this.uploadPicUrl = res.data.img;
+          this.fileList.push({name: res.data.img, url: res.data.img})
+        }  
+      })
+    },
+    handleClose() {
+      this.form = {}
+      this.uploadPicUrl = ''
+      this.fileList = []
+      this.dialogVisible = false
+    }
   }
 };
 </script>
@@ -178,10 +311,13 @@ export default {
     ul {
       display: flex;
       padding: 5px;
+      flex-wrap: wrap;
       li {
-        width: 25%;
+        width: 24%;
         border: 1px solid #cccccc;
         text-align: center;
+        margin-right: 10px;
+        margin-bottom: 10px;
         img {
           width: 80%;
           height: 100px;
@@ -210,6 +346,7 @@ export default {
     width: 100%;
     border: 1px solid #cccccc;
     margin-top: 5px;
+
     h3 {
       padding-left: 5px;
       background: rgb(64, 167, 226);
