@@ -1,7 +1,7 @@
 let navArr = [
   {
     id: 'PROVIDER',
-    text: '用户中心',
+    text: '个人中心',
     icon: 'el-icon-box',
     menu: '1-1',
     // 1、账号管理  2、资金管理  3、收货地址  4、短消息

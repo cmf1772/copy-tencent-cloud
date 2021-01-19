@@ -8,11 +8,27 @@ export default [{
   component: '',
   children: [
     {
-      path: '/survey',
-      name: 'survey',
+      path: '/shop',
+      name: 'shop',
       text: '总揽',
       component: '',
-      icon: 'el-icon-menu'
+      icon: 'el-icon-menu',
+      children: [{
+        path: '/survey',
+        text: '总揽',
+        name: 'survey',
+        icon: 'el-icon-film',
+      }, {
+        path: '',
+        text: '菜单-1',
+        name: 'shop',
+        icon: 'el-icon-film',
+      }, {
+        path: '',
+        text: '菜单-2',
+        name: 'shop',
+        icon: 'el-icon-film',
+      }]
     },
     {
       path: '/shop',

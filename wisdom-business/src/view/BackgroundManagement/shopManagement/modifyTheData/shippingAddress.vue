@@ -256,7 +256,7 @@ export default {
         city: '',
         qu: ''
       },
-      height: window.innerHeight - 180 + 'px',
+      height: window.innerHeight - 90 + 'px',
       drivers: [],
       submitBtn: {
         loading: false,

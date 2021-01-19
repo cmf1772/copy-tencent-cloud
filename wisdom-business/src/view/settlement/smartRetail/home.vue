@@ -10,29 +10,46 @@
         <img src="@/assets/img/favicon.png"
              alt="">
         <div style=" float: left; color: #fff"
-             @click="$router.push('/home/product')"
+             @click="goDetial({
+                name: '总揽',
+                icon: '',
+                path: '/survey'
+              })"
              class="text s">美城智慧零售</div>
       </div>
-      <div style="float: left; margin-left: 30px"
+      <div style="float: left; margin-left: 60px"
            class="flex text">
         <div v-for="item in topMenu"
              class="ml parent s"
              :key="item.id">
           <span style="color: #fff; margin-right: 25px; font-size: 13px"> {{item.name}}</span>
           <ul class="children s"
-              :style="{'width': item.width + 'px'}">
-            <li v-for="(children, index) in item.children"
-                @click="goDetial(children)"
-                :key="index">
-              <span :style="{'color': children.name === clearName ? '#2589ff' : ''}">{{children.name}}</span>
-              <ol class="childrenItem ml"
-                  v-if="children.children"
-                  v-for="(childrenI, indexC) in children.children"
-                  :key="indexC">
-                <li @click="goDetial(childrenI)"
-                    :style="{'color': childrenI.name === clearName ? '#2589ff' : ''}">{{indexC + 1}}.{{childrenI.name}}</li>
-              </ol>
-            </li>
+              style="width: 900px">
+            <el-input placeholder="请输入搜索标题"
+                      style="margin: 20px 0; width: 430px; "
+                      v-model="input3"
+                      size="mini"
+                      class="input-with-select">
+              <el-button slot="append"
+                         icon="el-icon-search"></el-button>
+            </el-input>
+            <div class="grid">
+              <li v-for="(children, index) in item.children"
+                  class="item"
+                  style="width: 200px"
+                  @click="goDetial(children)"
+                  :key="index">
+                <span :style="{'color': children.name === clearName ? '#2589ff' : '',}">{{children.name}}</span>
+                <ol class="childrenItem ml"
+                    v-if="children.children"
+                    v-for="(childrenI, indexC) in children.children"
+                    :key="indexC">
+                  <li @click="goDetial(childrenI)"
+                      :style="{'color': childrenI.name === clearName ? '#2589ff' : ''}">{{childrenI.name}}</li>
+                </ol>
+              </li>
+            </div>
+
           </ul>
         </div>
       </div>
@@ -239,20 +256,30 @@
       <ul class="parentB">
         <li v-for="(item, index) in topNav"
             style="color: #fff"
+            @click="parentB(item)"
             :key="index">
+          <i :class="item.icon"></i>
           {{item.text}}
         </li>
+        <el-image src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1444227567,1356642267&fm=11&gp=0.jpg"
+                  style="width: 30px;height: 30px; border-radius: 100%; margin-left: 30px; margin-right: 10px">
+          <div slot="error"
+               class="image-slot">
+            <i class="el-icon-picture-outline"
+               style="color: #fff"></i>
+          </div>
+        </el-image>
+        <!-- <li style="color: #fff;  padding-right: 0">
+
+        </li> -->
         <el-dropdown @command="command"
-                     style="color: #fff">
-          <i class="el-icon-s-operation"></i>
+                     style="color: #fff;">
+          <span class="el-dropdown-link">
+            陈！！<i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
           <el-dropdown-menu slot="dropdown">
             <!-- <el-dropdown-item command="a">切换店铺</el-dropdown-item> -->
-            <el-dropdown-item command="b">1.消息</el-dropdown-item>
-            <el-dropdown-item command="c">2.邮件</el-dropdown-item>
-            <el-dropdown-item command="e">3.操作日志</el-dropdown-item>
-            <el-dropdown-item command="f">4.服务</el-dropdown-item>
-            <el-dropdown-item command="g">5.帮助</el-dropdown-item>
-            <el-dropdown-item command="h">6.个人中心</el-dropdown-item>
+            <el-dropdown-item command="b">个人中心</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </ul>
@@ -265,7 +292,6 @@
                   :topMenuName='clearName'></leftMenu>
       </div>
       <div class="right">
-
         <div class="content"
              :style="{'height': contentHeight}">
           <router-view style="flex: 1; margin: 0"
@@ -289,13 +315,22 @@ export default {
   data () {
     return {
       topNav: [{
-        text: '套餐升级'
+        text: '首页',
+        path: '/home/product',
+        icon: 'el-icon-s-home'
       }, {
-        text: '客服消息'
+        text: '消息',
+        icon: 'el-icon-s-comment'
       }, {
-        text: '系统通知'
+        text: '邮件',
+        icon: 'el-icon-message'
       }, {
-        text: '帮助指引'
+        text: '操作日志',
+        icon: 'el-icon-chat-line-square'
+      }, {
+        text: '服务',
+      }, {
+        text: '帮助',
       }],
       height: window.innerHeight - 50 + 'px',
       menuData: [],
@@ -307,6 +342,9 @@ export default {
   },
 
   methods: {
+    parentB (row) {
+      this.$router.push(row.path)
+    },
     goDetial (row) {
       if (row.children) return false
       if (!row.path.length) {
@@ -333,7 +371,9 @@ export default {
         '/advertisingPromotion',
         '/myApp',
         '/myOrder',
-        '/orderFlow'
+        '/orderFlow',
+        '/shopManagement/shippingAddress',
+        '/shopManagement/modifyTheData'
       ]
       // this.help = !routerArray.indexOf(this.$route.path) > -1
       this.help = routerArray.indexOf(this.$route.path) > -1 ? false : true
@@ -366,11 +406,19 @@ export default {
         case 'a':
           this.$router.push('/settlement/switchProject')
           break
+        case 'b':
+          this.goDetial({
+            name: '个人中心',
+            icon: '',
+            path: '/shopManagement/shippingAddress'
+          })
+          break
       }
     },
 
     show () {
       this.$nextTick(() => {
+
         let elem = document.querySelector(".grid")
         var msnry = new Masonry(elem, {
           itemSelector: '.item',
@@ -402,7 +450,20 @@ export default {
 }
 </script>
 
+<style lang="scss">
+.el-input__inner,
+.el-input-group__append {
+  background: #151822;
+  border: solid #595961 1px;
+}
+</style>
+
 <style lang="scss" scoped>
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .titleimg {
   display: flex;
   align-items: center;
@@ -440,10 +501,10 @@ export default {
     }
     .el-dropdown {
       cursor: pointer;
-      padding: 0 10px;
+      // padding: 0 10px;
     }
     li:hover {
-      color: #2589ff;
+      color: #2589ff !important;
     }
   }
 }
@@ -453,21 +514,26 @@ export default {
   .children {
     padding: 0 20px;
     position: absolute;
-    background: #fff;
+    background: #151822;
     width: 100px;
     display: none;
     border-radius: 5px;
     max-height: 700px;
     overflow: auto;
-    left: -20px;
+    left: -80px;
     z-index: 99999999999999;
-    > li:hover {
-      span {
-        color: #2589ff;
-      }
-      .childrenItem {
-        > li:hover {
-          color: #2589ff;
+    font-size: 12px;
+    line-height: 30px;
+    color: #aaa;
+    > div {
+      > li:hover {
+        span {
+          color: #2589ff !important;
+        }
+        .childrenItem {
+          > li:hover {
+            color: #2589ff !important;
+          }
         }
       }
     }

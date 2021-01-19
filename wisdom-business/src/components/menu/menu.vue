@@ -33,8 +33,7 @@
                         :index="index_one + 1 + '-' +  (index_two + 1)">
             <template slot="title">
               <i :class="menu_two.icon"></i>
-              <span slot="title"
-                    v-if="!isCollapse">{{menu_two.text}}</span>
+              <span slot="title">{{menu_two.text}}</span>
             </template>
           </el-menu-item>
         </el-submenu>
