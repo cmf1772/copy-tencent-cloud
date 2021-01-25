@@ -6,36 +6,36 @@
              label-width="150px">
       <!-- required -->
       <el-form-item label="清除弹窗内容">
-        <span class="hovertext">点击清除弹窗内容</span>
+        <span class="hovertext"
+              @click="clear">点击清除弹窗内容</span>
       </el-form-item>
       <el-form-item label="弹窗标题">
-        <el-input v-model="form.orgCode"
+        <el-input v-model="form.subject"
                   style="width: 600px;" />
       </el-form-item>
       <el-form-item label="弹窗位置">
         <div class="form-item">
           <p style="width: 80px">左侧距离：</p>
-          <el-input v-model="form.loginId"
+          <el-input v-model="form.left"
                     style="width: 215px;">
             <i slot="suffix">px</i>
           </el-input>
           <p style="margin-left: 10px; width: 80px">顶部距离：</p>
-          <el-input v-model="form.loginId"
+          <el-input v-model="form.top"
                     style="width: 215px;">
             <i slot="suffix">px</i>
           </el-input>
         </div>
-
       </el-form-item>
       <el-form-item label="弹窗大小">
         <div class="form-item">
           <p style="width: 80px">弹窗宽度：</p>
-          <el-input v-model="form.loginPwd"
+          <el-input v-model="form.width"
                     style="width: 215px;">
             <i slot="suffix">px</i>
           </el-input>
           <p style="margin-left: 10px; width: 80px">弹窗高度：</p>
-          <el-input v-model="form.loginPwd"
+          <el-input v-model="form.height"
                     style="width: 215px;">
             <i slot="suffix">px</i>
           </el-input>
@@ -61,11 +61,11 @@ export default {
   data () {
     return {
       form: {
-        name: '',
-        orgCode: '',
-        loginId: '',
-        loginPwd: '',
-        description: ''
+        subject: '',
+        left: '',
+        top: '',
+        width: '',
+        height: ''
       },
       editor: null,
       fileList: [],
@@ -73,23 +73,6 @@ export default {
         loading: false,
         text: '确定'
       },
-      // rules: {
-      //   name: [
-      //     { required: true, message: '请输入服务商名称', trigger: 'blur' }
-      //   ],
-      //   loginId: [
-      //     { required: true, message: '请输入登陆账号', trigger: 'blur' }
-      //   ],
-      //   loginPwd: [
-      //     { validator: validateLoginPwd, trigger: 'blur' }
-      //   ],
-      //   confirmPwd: [
-      //     { validator: validateConfirmPwd, trigger: 'blur' }
-      //   ],
-      //   linkName: [
-      //     { required: true, message: '请输入联系人姓名', trigger: 'blur' }
-      //   ]
-      // }
     }
   },
   computed: {},
@@ -100,26 +83,60 @@ export default {
     onSubmit (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          // this.submitBtn.loading = true;
-          // this.submitBtn.text = '处理中...';
-          // providerService.add(this.form).then(res => {
-          //   if (res.data.state === 1) {
-          //     this.$message({ message: "新增成功", type: 'success' });
-          //     this.$router.go(-1);
-          //   } else {
-          //     throw new Error(res.data.msg);
-          //   }
-          // }).catch(error => {
-          //   this.$message.error(error.message);
-          // }).finally(() => {
-          //   this.submitBtn.loading = false;
-          //   this.submitBtn.text = '提交';
-          // })
+          this.$api.addPopupItem({
+            subject: this.form.subject,
+            left: this.form.left,
+            top: this.form.top,
+            width: this.form.width,
+            height: this.form.height,
+            body: this.editor.txt.html(),
+            token: JSON.parse(this.$store.state.token).token
+          }).then(res => {
+            this.$message({
+              message: res.data.msg,
+              type: 'success'
+            });
+          })
         } else {
           return false;
         }
       });
     },
+
+    getPopupItem () {
+      this.$api.getPopupItem({
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.form = {
+          subject: res.data.subject,
+          left: res.data.left,
+          top: res.data.top,
+          width: res.data.width,
+          height: res.data.height
+        }
+        this.editor.txt.html(res.data.body)
+      })
+    },
+
+    clear () {
+      this.$api.delPopupItem({
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.form = {
+          subject: '',
+          left: '',
+          top: '',
+          width: '',
+          height: ''
+        }
+        this.editor.txt.html('')
+        this.$message({
+          message: res.data.msg,
+          type: 'success'
+        });
+      })
+    },
+
     handlePictureCardPreview (file) {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
@@ -151,6 +168,9 @@ export default {
       'code' // 插入代码
     ];
     this.editor.create(); // 创建富文本实例
+    this.$nextTick(() => {
+      this.getPopupItem()
+    })
   }
 }
 </script>

@@ -156,7 +156,6 @@ export default {
       // this.$refs.ruleForm.validate((valid) => {
       //   if (valid) {
       var myreg = /^[1][3,4,5,7,8,9][0-9]{9}$/;
-
       if (!this.ruleForm.phe.length) {
         this.$message({
           message: '请填写手机号',
@@ -172,28 +171,58 @@ export default {
         return false;
       }
       if (!this.thenum) return false
-      this.thenum = false
-      let time = setInterval(() => {
-        if (this.num === 0) {
-          window.clearInterval(time)
-          this.thenum = true
-          this.num = 60
-        }
-        this.num--
-      }, 1000);
-      // } else {
-      //   console.log('error submit!!');
-      //   return false;
-      // }
-      // });
-
-
+      this.$api.get_loginverify_code({ mobile: this.ruleForm.phe }).then(res => {
+        this.thenum = false
+        let time = setInterval(() => {
+          if (this.num === 0) {
+            window.clearInterval(time)
+            this.thenum = true
+            this.num = 60
+          }
+          this.num--
+        }, 1000);
+      })
     },
 
     submitForm (formName) {
+      this.$store.commit('CHANGE_TYPE')
+      console.log(this.tool)
+      let _this = this
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          if (this.seleCtChange) {
+            this.$api.login({
+              login_id: this.ruleForm.pass,
+              login_pass: this.ruleForm.checkPass,
+              platform: this.$store.state.computerType
+            }).then(res => {
+              _this.$message({
+                showClose: true,
+                message: '登陆成功',
+                type: 'success'
+              });
+              _this.tool.setCookie('token', JSON.stringify(res.data.token))
+              console.log(_this.tool.getCookie('token'))
+              _this.$router.push('/home/product')
+              _this.$store.commit('SET_TOKEN', JSON.stringify(res.data.token))
+            })
+          } else {
+            this.$api.phlogin({
+              login_id: this.ruleForm.phe,
+              mobile_code: this.ruleForm.getNum,
+              platform: this.$store.state.computerType
+            }).then(res => {
+              _this.$message({
+                showClose: true,
+                message: '登陆成功',
+                type: 'success'
+              });
+              _this.tool.setCookie('token', JSON.stringify(res.data.token))
+              _this.$store.commit('SET_TOKEN', JSON.stringify(res.data.token))
+              _this.$router.push('/home/product')
+            })
+          }
+
         } else {
           console.log('error submit!!');
           return false;

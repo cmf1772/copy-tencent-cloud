@@ -275,7 +275,7 @@
         <el-dropdown @command="command"
                      style="color: #fff;">
           <span class="el-dropdown-link">
-            陈！！<i class="el-icon-arrow-down el-icon--right"></i>
+            {{JSON.parse($store.state.token).username}}<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
             <!-- <el-dropdown-item command="a">切换店铺</el-dropdown-item> -->
@@ -291,7 +291,8 @@
         <leftMenu :menuData="menuData"
                   :topMenuName='clearName'></leftMenu>
       </div>
-      <div class="right">
+      <div class="right"
+           style="    overflow: hidden;">
         <div class="content"
              :style="{'height': contentHeight}">
           <router-view style="flex: 1; margin: 0"
@@ -373,10 +374,28 @@ export default {
         '/myOrder',
         '/orderFlow',
         '/shopManagement/shippingAddress',
-        '/shopManagement/modifyTheData'
+        '/shopManagement/modifyTheData',
+        '/shopManagement/addPageManagement',
+        '/shopManagement/mobilePhoneBy',
+        '/shopManagement/phoneBy',
+        '/shopManagement/imageAds',
+        '/shopManagement/editImageAds',
+        '/shopManagement/popUpAds',
+        '/shopManagement/showMerchants',
+        '/setUpShops/navigationManagement',
+        '/setUpShops/editNavigationManagement',
+        '/setUpShops/information',
+        '/setUpShops/settingService',
+        '/setUpShops/SMSSettings',
+        '/setUpShops/shopCertification',
+        '/setUpShops/theHttp',
+        '/developManagement/trustManagement',
+        '/shopManagement/templateToBuy',
+        '/shopManagement/editFriendshipConnection'
       ]
       // this.help = !routerArray.indexOf(this.$route.path) > -1
       this.help = routerArray.indexOf(this.$route.path) > -1 ? false : true
+      this.$store.commit('SET_UPLOAD_URL')
     },
 
     // 暂时通过名字判断 *****
@@ -451,10 +470,12 @@ export default {
 </script>
 
 <style lang="scss">
-.el-input__inner,
-.el-input-group__append {
-  background: #151822;
-  border: solid #595961 1px;
+.children {
+  .el-input__inner,
+  .el-input-group__append {
+    background: #151822;
+    border: solid #595961 1px;
+  }
 }
 </style>
 

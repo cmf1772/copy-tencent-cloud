@@ -7,20 +7,19 @@
          style="color: #f5a623 !important;font-weight: 360;margin-right: 10px"></i> 核心设置：
     </p>
     <el-form ref="form"
-             :rules="rules"
              :model="form"
              label-width="130px">
       <el-form-item label="实体商铺认证（营业执照证书）"
                     style="width: 100%"
                     prop="displayName">
-        已认证
+        {{info.enterprice_certify}}
       </el-form-item>
       <el-form-item label="证件图片："
                     style="width: 100%"
                     prop="name">
         <div class="img"
              style="width: 300px">
-          <img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2473338639,2985256281&fm=26&gp=0.jpg"
+          <img :src="info.shop_file.up_licence"
                style="width: 100%"
                alt="">
         </div>
@@ -28,19 +27,20 @@
       <el-form-item label="证件扫描图："
                     style="width: 100%"
                     prop="name">
-        <el-upload action="https://jsonplaceholder.typicode.com/posts/"
-                   list-type="picture-card"
-                   :on-preview="handlePictureCardPreview"
-                   :on-remove="handleRemove">
-          <div slot="tip"
-               class="el-upload__tip">图片允许格式为：jpg,gif,png</div>
-          <i class="el-icon-plus"></i>
+        <el-upload class="upload-pic mt"
+                   :action="domain"
+                   :data="QiniuData"
+                   :on-error="uploadError"
+                   :on-success="uploadSuccess2"
+                   :before-remove="beforeRemove"
+                   :before-upload="beforeAvatarUpload"
+                   :limit="1"
+                   multiple
+                   :on-exceed="handleExceed"
+                   :file-list="fileList">
+          <el-button size="small"
+                     type="primary">选择图片</el-button>
         </el-upload>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%"
-               :src="dialogImageUrl"
-               alt="">
-        </el-dialog>
       </el-form-item>
     </el-form>
     <p style="font-size: 15px; margin-bottom: 10px;font-weight: 360; color:#000">
@@ -48,20 +48,19 @@
          style="color: #f5a623 !important;font-weight: 360;margin-right: 10px"></i> 个人身份认证（其它有效证件）
     </p>
     <el-form ref="form"
-             :rules="rules"
              :model="form"
              label-width="130px">
       <el-form-item label="认证状态："
                     style="width: 100%"
                     prop="displayName">
-        已认证
+        {{info.personal_certify}}
       </el-form-item>
       <el-form-item label="证件图片："
                     style="width: 100%"
                     prop="name">
         <div class="img"
              style="width: 300px">
-          <img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2473338639,2985256281&fm=26&gp=0.jpg"
+          <img :src="info.shop_file.up_licence_thumb"
                style="width: 100%"
                alt="">
         </div>
@@ -69,76 +68,69 @@
       <el-form-item label="证件扫描图："
                     style="width: 100%"
                     prop="name">
-        <el-upload action="https://jsonplaceholder.typicode.com/posts/"
-                   list-type="picture-card"
-                   :on-preview="handlePictureCardPreview"
-                   :on-remove="handleRemove">
-          <div slot="tip"
-               class="el-upload__tip">图片允许格式为：jpg,gif,png</div>
-          <i class="el-icon-plus"></i>
+        <el-upload class="upload-pic mt"
+                   :action="domain"
+                   :data="QiniuData"
+                   :on-error="uploadError"
+                   :on-success="uploadSuccess"
+                   :before-remove="beforeRemove"
+                   :before-upload="beforeAvatarUpload"
+                   :limit="1"
+                   multiple
+                   :on-exceed="handleExceed"
+                   :file-list="fileList">
+          <el-button size="small"
+                     type="primary">选择图片</el-button>
         </el-upload>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%"
-               :src="dialogImageUrl"
-               alt="">
-        </el-dialog>
       </el-form-item>
     </el-form>
-    <!-- <el-form-item label=""
-                    prop="displayName">
-        还没有接入应用？ <a href="http://mp.weixin.qq.com/"
-           target="_blank"
-           class="redColor"
-           rel="noopener noreferrer">点击此处进行申请>></a>
-      </el-form-item> -->
     <p style="font-size: 15px; margin-bottom: 10px">
       <i class="el-icon-edit"
          style="color: #f5a623 !important;font-weight: 360;margin-right: 10px"></i> 申请消保 <span class="redColor">消保认证是指商铺缴纳一定数额的消费者保障金，用于交易纠纷时先行赔付给买家</span>
     </p>
     <el-form ref="form"
-             :rules="rules"
              :model="form"
              label-width="130px">
       <el-form-item label="消保信息："
                     style="width: 100%"
                     prop="name">
-        您当前消保账户余额为 <span class="redColor">￥0.00</span> ，如果不足以支持退货，请及时充值
+        您当前消保账户余额为 <span class="redColor">{{info.shop_file.xb_money}}</span> ，如果不足以支持退货，请及时充值
       </el-form-item>
       <el-form-item label="申请费用："
                     style="width: 100%"
                     prop="displayName">
-        您此次充值金额为：<el-input v-model="form.name"
-                  style="width: 150px"></el-input> 元 （友情提示：每次充值金额不低于￥1,000.00）
+        您此次充值金额为：<el-input v-model="form.xb_money"
+                  style="width: 150px"></el-input> 元 （友情提示：每次充值金额不低于{{info.mm_member_money_txt}}）
       </el-form-item>
       <el-form-item label="支付方式："
                     style="width: 100%"
                     prop="name">
         <div>
-          <el-checkbox v-model="value">使用预付款支付，您当前账户预付款余额：<span class="redColor">￥3446.45</span></el-checkbox>
+          <el-checkbox v-model="form.advance">使用预付款支付，您当前账户预付款余额：<span class="redColor">{{info.mm_price_sign}}{{info.mm_member_money}}</span></el-checkbox>
         </div>
         <div>
-          不足部分使用其它方式支付 支付密码：<el-input v-model="form.name"
-                    style="width: 150px"></el-input>还没设置支付密码？ <span class="redColor">现在就去设置</span> 。
+          不足部分使用其它方式支付 支付密码：
+          <el-input v-model="form.pay_pass"
+                    style="width: 150px">
+          </el-input>
+          还没设置支付密码？ <span class="redColor">现在就去设置</span> 。
         </div>
         <div>
-          <el-radio v-model="form.radio"
-                    label="1">支付宝支付 支付宝是阿里旗下产品，是国内最大的，使用人数最多的第三方支付系统，安全便捷</el-radio>
+          <el-radio v-model="form.pay_id"
+                    label="5">支付宝支付 支付宝是阿里旗下产品，是国内最大的，使用人数最多的第三方支付系统，安全便捷</el-radio>
         </div>
         <div>
-          <el-radio v-model="form.radio"
-                    label="2">手机支付宝支付 手机支付宝支付</el-radio>
+          <el-radio v-model="form.pay_id"
+                    label="7">微信pc支付 微信pc支付</el-radio>
         </div>
         <div>
-          <el-radio v-model="form.radio"
-                    label="3">微信pc支付 微信pc支付</el-radio>
-        </div>
-        <div>
-          <el-radio v-model="form.radio"
-                    label="4">微信wap支付 微信wap支付</el-radio>
+          <el-radio v-model="form.pay_id"
+                    label="8">微信wap支付 微信wap支付</el-radio>
         </div>
       </el-form-item>
     </el-form>
     <el-button type="primary"
+               @click="setXb"
                style="float: right">确定</el-button>
   </div>
 </template>
@@ -154,83 +146,126 @@ export default {
       dialogImageUrl: '',
       dialogVisible: false,
       form: {
-        radio: '1',
-        displayName: '',
-        name: '',
-        type: '',
-        value: '',
-        driverId: '',
-        description: '',
-        province: '',
-        city: '',
-        qu: ''
+        pay_id: '',
+        advance: '',
+        xb_money: '',
+        pay_pass: ''
       },
-      height: window.innerHeight - 180 + 'px',
-      drivers: [],
-      submitBtn: {
-        loading: false,
-        text: '提交'
+      info: {
+        shop_file: {
+          up_licence: '',
+          up_licence_thumb: ''
+        }
       },
-      rules: {
-        displayName: [
-          { required: true, message: '请输入收货人', trigger: 'blur' }
-        ],
-        name: [
-          { required: true, message: '请输入手机号', trigger: 'blur' }
-        ],
-        type: [
-          { required: true, message: '请输入类型', trigger: 'blur' }
-        ],
-        value: [
-          { required: true, message: '请不要重复填写省市', trigger: 'blur' }
-        ],
-        driverId: [
-          { required: true, message: '请选择所属驱动', trigger: 'change' }
-        ]
+      height: window.innerHeight - 100 + 'px',
+      fileList: [],
+      QiniuData: {
+        key: "", //图片名字处理
+        token: this.$store.state.upToken,//七牛云token
+        data: {}
       },
-      imgData: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1121833438,3473430102&fm=26&gp=0.jpg',
+      fileList: [],
+      domain: this.$store.state.getUploadUrl, // 七牛云的上传地址（华东区）
+      qiniuaddr: 'http://img.meichengmall.com/',
     }
   },
 
   mounted () {
-
+    this.$api.getUploadToken().then(res => {
+      this.QiniuData.token = res.data.token.token
+    })
+    this.getSupCheckInfo()
   },
 
   methods: {
-    getemplate () {
-      this.$router.push('/shopManagement/templateToBuy')
-    },
-    goNavSet () {
-      this.$router.push('/setUpShops/navigationStyleSettings?nameType=导航样式设置')
-    },
-
-    handleRemove (file, fileList) {
-      console.log(file, fileList);
-    },
-    handlePictureCardPreview (file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
-    changeFile (e) {
-      function getObjectURL (file) {
-        var url = null;
-        if (window.createObjectURL != undefined) {
-          // basic
-          url = window.createObjectURL(file);
-        } else if (window.URL != undefined) {
-          // mozilla(firefox)
-          url = window.URL.createObjectURL(file);
-        } else if (window.webkitURL != undefined) {
-          // webkit or chrome
-          url = window.webkitURL.createObjectURL(file);
+    setXb () {
+      this.$api.setXb({
+        pay_id: this.form.pay_id,
+        advance: this.form.advance ? 1 : 0,
+        xb_money: this.form.xb_money,
+        pay_pass: this.form.pay_pass,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        if (res.data.succ == 0) {
+          this.$message({
+            type: 'error',
+            message: res.data.err
+          })
+        } else {
+          this.$message({
+            type: 'success',
+            message: res.data.msg
+          })
         }
-        return url;
-      }
+      })
 
-      let imgData = e.target.files[0];
-      this.imgFile = imgData;
-      this.imgData = getObjectURL(imgData);
+      this.$api.setIdCard({
+
+      }).then(res => {
+
+      })
     },
+
+    getSupCheckInfo () {
+      this.$api.getSupCheckInfo({
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.info = res.data
+      })
+    },
+
+    // 上传logo
+    handleExceed (files, fileList) {
+      this.$message.warning(
+        `当前限制选择 1 张图片，如需更换，请删除上一张图片在重新选择！`
+      );
+    },
+
+    beforeAvatarUpload (file) {   //图片上传之前的方法
+      this.QiniuData.data = file;
+      this.QiniuData.key = `${'knowledge/' + file.name}`;
+    },
+
+    // 个人
+    uploadSuccess (response, file, fileList) {  //图片上传成功的方法
+      this.info.shop_file.up_licence_thumb = `${this.qiniuaddr}${response.key}`;
+      this.$api.setIdCard({
+        up_id_card: this.info.shop_file.up_licence_thumb,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.$message({
+          type: 'success',
+          message: res.data.msg
+        })
+      })
+    },
+
+    // 企业
+    uploadSuccess2 (response, file, fileList) {  //图片上传成功的方法
+      this.info.shop_file.up_licence = `${this.qiniuaddr}${response.key}`;
+      this.$api.setLicence({
+        up_id_card: this.info.shop_file.up_licence,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.$message({
+          type: 'success',
+          message: res.data.msg
+        })
+      })
+    },
+
+
+    beforeRemove (file, fileList) {
+      // return this.$confirm(`确定移除 ${ file.name }？`);
+    },
+
+    uploadError (err, file, fileList) {    //图片上传失败时调用
+      this.$message({
+        message: "上传出错，请重试！",
+        type: "error",
+        center: true
+      });
+    }
   }
 }
 </script>

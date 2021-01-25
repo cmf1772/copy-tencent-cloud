@@ -2,68 +2,54 @@
 
   <div class="imageAds">
     <el-form ref="form"
-             :rules="rules"
              :model="form"
              label-width="150px">
-      <el-form-item label="栏目名称"
-                    prop="name">
-        <el-input v-model="form.name"
+      <el-form-item label="栏目名称">
+        <el-input v-model="form.title"
                   style="width: 600px;"></el-input>
-      </el-form-item>
-      <el-form-item label="字体样式"
-                    prop="serviceName">
-        <div class="form-item">
-          <el-select v-model="form.position"
-                     style="width:300px;margin-left: 0;margin-right:20px"
-                     placeholder="请选择标题颜色">
-          </el-select>
-          <el-checkbox-group v-model="checkList">
-            <el-checkbox label="粗体"></el-checkbox>
-            <el-checkbox label="斜体"></el-checkbox>
-            <el-checkbox label="下划线"></el-checkbox>
-          </el-checkbox-group>
-        </div>
       </el-form-item>
       <el-form-item label="图片"
                     prop="host">
-        <el-upload action="https://jsonplaceholder.typicode.com/posts/"
-                   list-type="picture-card"
-                   :on-preview="handlePictureCardPreview"
-                   :on-remove="handleRemove">
-          <i class="el-icon-plus"></i>
+        <el-upload class="upload-pic mt"
+                   :action="domain"
+                   :data="QiniuData"
+                   :on-error="uploadError"
+                   :on-success="uploadSuccess"
+                   :before-remove="beforeRemove"
+                   :before-upload="beforeAvatarUpload"
+                   :limit="1"
+                   multiple
+                   :on-exceed="handleExceed"
+                   :file-list="fileList">
+          <el-button size="small"
+                     type="primary">选择图片</el-button>
         </el-upload>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%"
-               :src="dialogImageUrl"
-               alt="">
-        </el-dialog>
+        <img :src="form.nav_img"
+             style="width: 50px; height: 50px"
+             alt="">
       </el-form-item>
-      <el-form-item label="栏目链接"
-                    prop="name">
-        <el-input v-model="form.name"
+      <el-form-item label="栏目链接">
+        <el-input v-model="form.link"
                   style="width: 600px;"></el-input>
       </el-form-item>
-      <el-form-item label="文字说明"
-                    prop="name">
-        <el-input v-model="form.name"
+      <el-form-item label="文字说明">
+        <el-input v-model="form.alt"
                   style="width: 600px;"></el-input>
       </el-form-item>
-      <el-form-item label="目标框架"
-                    prop="port">
-        <el-radio v-model="form.radio"
-                  label="1">本窗口</el-radio>
-        <el-radio v-model="form.radio"
-                  label="2">新窗口</el-radio>
+      <el-form-item label="目标框架">
+        <el-radio v-model="form.target"
+                  label="0">本窗口</el-radio>
+        <el-radio v-model="form.target"
+                  label="1">新窗口</el-radio>
       </el-form-item>
-      <el-form-item label="栏目类型"
-                    prop="port">
-        <el-radio v-model="form.radio"
-                  label="2">顶部导航</el-radio>
-        <el-radio v-model="form.radio"
-                  label="1">底部导航</el-radio>
+      <el-form-item label="栏目类型">
+        <el-radio v-model="form.pos"
+                  label="head">顶部导航</el-radio>
+        <el-radio v-model="form.pos"
+                  label="foot">底部导航</el-radio>
       </el-form-item>
       <el-form-item label="位置排序">
-        <el-input v-model="form.name"
+        <el-input v-model="form.view"
                   style="width: 600px;"></el-input>
       </el-form-item>
       <el-form-item>
@@ -83,82 +69,124 @@ export default {
     return {
       checkList: [],
       form: {
-        name: '',
-        serviceName: '',
-        host: '',
-        port: '',
-        description: '',
-        position: '',
-        radio: '1'
+        title: '',
+        nav_img: '',
+        alt: '',
+        target: '',
+        pos: '',
+        link: '',
+        view: '',
       },
-      dialogImageUrl: '',
-      dialogVisible: false,
       fileList: [],
+      QiniuData: {
+        key: "", //图片名字处理
+        token: this.$store.state.upToken,//七牛云token
+        data: {}
+      },
+      fileList: [],
+      domain: this.$store.state.getUploadUrl, // 七牛云的上传地址（华东区）
+      qiniuaddr: 'http://img.meichengmall.com/',
+      dialogVisible: false,
       submitBtn: {
         loading: false,
         text: '提交'
       },
-      // rules: {
-      //   name: [
-      //     { required: true, message: '请输入分组名称', trigger: 'blur' }
-      //   ],
-      //   serviceName: [
-      //     { required: true, message: '请输入服务名称', trigger: 'blur' }
-      //   ],
-      //   host: [
-      //     { required: true, message: '请输入主机IP', trigger: 'blur' }
-      //   ],
-      //   port: [
-      //     { required: true, message: '请输入端口', trigger: 'blur' }
-      //   ],
-      // }
     }
   },
   computed: {},
   methods: {
-    handleRemove (file, fileList) {
-      console.log(file, fileList);
-    },
-    handlePreview (file) {
-      console.log(file);
-    },
-    handleExceed (files, fileList) {
-      this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-    },
-    beforeRemove (file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`);
+    getNavItem () {
+      this.$api.getNavItem({
+        uid: this.$route.query.uid,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.form = {
+          title: res.data.title,
+          nav_img: res.data.nav_img,
+          alt: res.data.alt,
+          target: res.data.target + '',
+          pos: res.data.pos,
+          link: res.data.link,
+          view: res.data.view,
+        }
+      })
     },
 
-    goBack () {
-      this.$router.go(-1);
-    },
-    handlePictureCardPreview (file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
     onSubmit (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          // this.submitBtn.loading = true;
-          // this.submitBtn.text = '处理中...';
-          // driverService.add(this.form).then(res => {
-          //     if (res.data.state === 1) {
-          //         this.$message({message: "新增成功", type: 'success'});
-          //         this.$router.go(-1);
-          //     } else {
-          //         throw new Error(res.data.msg);
-          //     }
-          // }).catch(error => {
-          //     this.$message.error(error.message);
-          // }).finally(() => {
-          //     this.submitBtn.loading = false;
-          //     this.submitBtn.text = '提交';
-          // })
+          if (this.$route.query.uid) {
+            this.$api.setNavItem({
+              uid: this.$route.query.uid,
+              pid: '0',
+              title: this.form.title,
+              nav_img: this.form.nav_img,
+              alt: this.form.alt,
+              target: this.form.target,
+              pos: this.form.pos,
+              link: this.form.link,
+              view: this.form.view,
+              token: JSON.parse(this.$store.state.token).token
+            }).then(res => {
+              this.$router.push('/setUpShops/navigationManagement')
+            })
+          } else {
+            this.$api.addNavItem({
+              pid: '0',
+              title: this.form.title,
+              nav_img: this.form.nav_img,
+              alt: this.form.alt,
+              target: this.form.target,
+              pos: this.form.pos,
+              link: this.form.link,
+              view: this.form.view,
+              token: JSON.parse(this.$store.state.token).token
+            }).then(res => {
+              this.$router.push('/setUpShops/navigationManagement')
+            })
+          }
+
         } else {
           return false;
         }
       });
+    },
+
+    handleExceed (files, fileList) {
+      this.$message.warning(
+        `当前限制选择 1 张图片，如需更换，请删除上一张图片在重新选择！`
+      );
+    },
+
+    beforeAvatarUpload (file) {   //图片上传之前的方法
+      this.QiniuData.data = file;
+      this.QiniuData.key = `${'knowledge/' + file.name}`;
+    },
+
+    uploadSuccess (response, file, fileList) {  //图片上传成功的方法
+      this.form.nav_img = `${this.qiniuaddr}${response.key}`;
+    },
+
+    beforeRemove (file, fileList) {
+      // return this.$confirm(`确定移除 ${ file.name }？`);
+    },
+
+    uploadError (err, file, fileList) {    //图片上传失败时调用
+      this.$message({
+        message: "上传出错，请重试！",
+        type: "error",
+        center: true
+      });
+    },
+  },
+
+  mounted () {
+    if (this.$route.query.uid) {
+      this.getNavItem()
     }
+    this.$api.getUploadToken().then(res => {
+      this.QiniuData.token = res.data.token.token
+    })
   }
 }
 </script>

@@ -35,7 +35,7 @@
                          style="width:40%">{{thenum ? '获取验证码' : num}}</el-button>
             </div>
           </el-form-item>
-          <el-form-item label="用户名"
+          <el-form-item label="用户昵称"
                         prop="user">
             <el-input v-model="ruleForm.user"
                       clearable
@@ -68,29 +68,69 @@
                       clearable
                       v-model="ruleForm.emial"></el-input>
           </el-form-item>
-          <el-form-item label="所在地区"
-                        prop="region">
-            <div style="width:100%; display: flex">
+          <div style="width:100%; display: flex"
+               class="boxxx">
+            <el-form-item label="所在地区"
+                          class="boxOne"
+                          style="width: 40%"
+                          prop="province">
               <el-select v-model="ruleForm.province"
                          clearable
-                         style="width:50%"
+                         style="width:100%"
+                         @change="changeCity"
                          placeholder="所在省">
-                <el-option label="区域一"
-                           value="shanghai"></el-option>
-                <el-option label="区域二"
-                           value="beijing"></el-option>
+                <el-option v-for="(item, index) in $store.state.cityList"
+                           :key="index"
+                           :label="item.name"
+                           :value="item.id"></el-option>
               </el-select>
+            </el-form-item>
+            <el-form-item label=""
+                          class="boxTwo"
+                          style="width: 20%"
+                          prop="city">
               <el-select v-model="ruleForm.city"
                          clearable
-                         style="width:50%;margin-left:0"
+                         @change="changeAreaList"
+                         style="width:100%;margin-left:0"
                          placeholder="所在市">
-                <el-option label="区域一"
-                           value="shanghai"></el-option>
-                <el-option label="区域二"
-                           value="beijing"></el-option>
+                <el-option v-for="(item, index) in $store.state.areaList"
+                           :key="index"
+                           :label="item.name"
+                           :value="item.id"></el-option>
               </el-select>
-            </div>
-          </el-form-item>
+            </el-form-item>
+            <el-form-item label=""
+                          style="width: 20%"
+                          class="boxThree"
+                          prop="city">
+              <el-select v-model="ruleForm.platform"
+                         clearable
+                         @change="changeCounty"
+                         style="width:100%;margin-left:0"
+                         placeholder="所在县">
+                <el-option v-for="(item, index) in $store.state.county"
+                           :key="index"
+                           :label="item.name"
+                           :value="item.id"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label=""
+                          class="boxFore"
+                          style="width: 20%"
+                          prop="city">
+              <el-select v-model="ruleForm.district"
+                         clearable
+                         style="width:100%;margin-left:0"
+                         placeholder="所在乡">
+                <el-option v-for="(item, index) in $store.state.district"
+                           :key="index"
+                           :label="item.name"
+                           :value="item.id"></el-option>
+              </el-select>
+            </el-form-item>
+          </div>
+
           <el-form-item>
             <el-button type="primary"
                        style="width: 100%"
@@ -132,6 +172,7 @@ export default {
         callback();
       }
     }
+
     var region = (rule, value, callback) => {
       if (!this.ruleForm.province.length) {
         callback(new Error('请选择所在省'));
@@ -154,7 +195,9 @@ export default {
         newpwd: '',
         pwd: '',
         province: '',
-        city: ''
+        city: '',
+        district: '',
+        platform: '',
       },
 
       num: 60,
@@ -174,16 +217,19 @@ export default {
           { required: true, message: '请填写联系邮箱', trigger: 'blur' }
         ],
         newpwd: [
-          { type: 'date', required: true, message: '请填写二次密码', trigger: 'blur' }
+          { required: true, message: '请填写二次密码', trigger: 'blur' }
         ],
         pwd: [
-          { type: 'date', required: true, message: '请填写密码', trigger: 'blur' }
+          { required: true, message: '请填写密码', trigger: 'blur' }
         ],
+        // province: [
+        //   { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
+        // ],
         province: [
-          { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
+          { required: true, message: '请选择所在省', trigger: 'change' }
         ],
-        region: [
-          { required: true, validator: region, trigger: 'change' }
+        city: [
+          { required: true, message: '请选择所在市', trigger: 'change' }
         ]
         // desc: [
         //   { required: true, message: '请填写活动形式', trigger: 'blur' }
@@ -199,6 +245,23 @@ export default {
   },
 
   methods: {
+    changeCity () {
+      this.ruleForm.city = ''
+      this.ruleForm.platform = ''
+      this.ruleForm.district = ''
+      this.$store.commit('GET_CITY', { id: this.ruleForm.province, name: 'areaList' })
+    },
+
+    changeAreaList () {
+      this.ruleForm.platform = ''
+      this.ruleForm.district = ''
+      this.$store.commit('GET_CITY', { id: this.ruleForm.city, name: 'county' })
+    },
+    changeCounty () {
+      this.ruleForm.district = ''
+      this.$store.commit('GET_CITY', { id: this.ruleForm.platform, name: 'district' })
+    },
+
     handleRemove (file, fileList) {
       console.log(file, fileList);
     },
@@ -213,9 +276,24 @@ export default {
     },
 
     submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$store.commit('CHANGE_TYPE')
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          alert('submit!');
+          this.$api.sendRegister({
+            login_id: this.ruleForm.phe,
+            mobile_code: this.ruleForm.getNum,
+            nick: this.ruleForm.user,
+            pass: this.ruleForm.pwd,
+            repass: this.ruleForm.newpwd,
+            email: this.ruleForm.emial,
+            province: this.ruleForm.province,
+            city: this.ruleForm.city,
+            district: this.ruleForm.district,
+            county: this.ruleForm.county,
+            platform: this.$store.state.computerType
+          }).then(res => {
+            console.log(res)
+          })
         } else {
           console.log('error submit!!');
           return false;
@@ -225,7 +303,6 @@ export default {
 
     getSeleNum () {
       var myreg = /^[1][3,4,5,7,8,9][0-9]{9}$/;
-
       if (!this.ruleForm.phe.length) {
         this.$message({
           message: '请输入手机号',
@@ -242,20 +319,26 @@ export default {
       }
       if (!this.thenum) return false
       this.thenum = false
-      let time = setInterval(() => {
-        if (this.num === 0) {
-          window.clearInterval(time)
-          this.thenum = true
-          this.num = 60
-        }
-        this.num--
-      }, 1000);
-
+      this.$api.get_registerverify_code({ mobile: this.ruleForm.phe }).then(res => {
+        let time = setInterval(() => {
+          if (this.num === 0) {
+            window.clearInterval(time)
+            this.thenum = true
+            this.num = 60
+          }
+          this.num--
+        }, 1000);
+      })
     },
   },
 
   created () {
 
+  },
+
+  mounted () {
+    console.log(this.$store)
+    this.$store.commit('GET_CITY')
   },
 
   watch: {
@@ -269,6 +352,21 @@ export default {
   // }
 }
 </script>
+
+<style lang="scss">
+.boxxx {
+  .is-required {
+    .el-form-item__content {
+      margin-left: 0px !important;
+    }
+  }
+  .boxOne {
+    .el-form-item__content {
+      margin-left: 100px !important;
+    }
+  }
+}
+</style>
 
 <style lang="scss" scoped>
 .registered {

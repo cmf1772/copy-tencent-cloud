@@ -63,10 +63,10 @@
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
+                         :page-sizes="[10, 20, 30, 40]"
                          :page-size="100"
                          layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
+                         :total="total">
           </el-pagination>
         </div>
       </div>
@@ -81,25 +81,10 @@ export default {
     return {
       time: [],
       sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
-      totalData: 1, //总页数
+      total: 1, //总页数
+      page_size: 10,
     }
   },
 
@@ -114,12 +99,31 @@ export default {
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.getPagePageList()
+    },
+
+    getPagePageList () {
+      // title: "string",
+      this.$api.getPagePageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        order_type: "asc",
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.total = res.data.total_result
+      })
     },
 
     handleSizeChange (val) {
+      this.page_size = val
+      this.getPagePageList()
       console.log(`每页 ${val} 条`);
     },
+  },
+
+  mounted () {
+    this.getPagePageList()
   }
 }
 </script>

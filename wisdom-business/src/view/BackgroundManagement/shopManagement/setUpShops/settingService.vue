@@ -6,47 +6,47 @@
              label-width="100px">
       <el-form-item label="客服 电话"
                     prop="name">
-        <el-input v-model="form.name"></el-input>
+        <el-input v-model="form.mm_ceo_phone"></el-input>
       </el-form-item>
       <el-form-item label="客服 E-mail"
                     prop="name">
-        <el-input v-model="form.name"></el-input>
+        <el-input v-model="form.mm_client_email"></el-input>
       </el-form-item>
       <el-form-item label="客服 旺旺"
                     prop="name">
-        <el-input v-model="form.name"></el-input>
+        <el-input v-model="form.mm_client_ww"></el-input>
       </el-form-item>
       <el-form-item label="客服 传真"
                     prop="name">
-        <el-input v-model="form.name"></el-input>
+        <el-input v-model="form.mm_client_fax"></el-input>
       </el-form-item>
       <el-form-item label="客服 QQ 1"
                     prop="name">
-        <el-input v-model="form.name"></el-input>
+        <el-input v-model="form.mm_client_qq1"></el-input>
       </el-form-item>
       <el-form-item label="客服 QQ 2"
                     prop="name">
-        <el-input v-model="form.name"></el-input>
+        <el-input v-model="form.mm_client_qq2"></el-input>
       </el-form-item>
       <el-form-item label="客服服务时间"
                     style="width: 100%"
                     prop="name">
         <el-input type="textarea"
-                  v-model="form.name"></el-input>
+                  v-model="form.mm_client_time"></el-input>
       </el-form-item>
       <el-form-item label="配送说明"
                     style="width: 100%"
                     prop="name">
         <el-input type="textarea"
                   :autosize="{ minRows: 5}"
-                  v-model="form.name"></el-input>
+                  v-model="form.mm_dist_instr"></el-input>
       </el-form-item>
       <el-form-item label="配送范围"
                     style="width: 100%"
                     prop="name">
         <el-input type="textarea"
                   :autosize="{ minRows: 5}"
-                  v-model="form.name"></el-input>
+                  v-model="form.mm_dist_range"></el-input>
       </el-form-item>
 
       <el-button type="primary"
@@ -63,84 +63,64 @@ export default {
   name: 'settingService',
   data () {
     return {
-      checkList: [],
       form: {
-        name: '',
-        serviceName: '',
-        host: '',
-        port: '',
-        description: '',
-        position: '',
-        radio: '1'
+        mm_ceo_phone: '',
+        mm_client_email: '',
+        mm_client_ww: '',
+        mm_client_fax: '',
+        mm_client_qq1: '',
+        mm_client_qq2: '',
+        mm_client_time: '',
+        mm_dist_instr: '',
+        mm_dist_range: '',
       },
-      dialogImageUrl: '',
-      dialogVisible: false,
-      fileList: [],
       submitBtn: {
         loading: false,
         text: '提交'
       },
-      // rules: {
-      //   name: [
-      //     { required: true, message: '请输入分组名称', trigger: 'blur' }
-      //   ],
-      //   serviceName: [
-      //     { required: true, message: '请输入服务名称', trigger: 'blur' }
-      //   ],
-      //   host: [
-      //     { required: true, message: '请输入主机IP', trigger: 'blur' }
-      //   ],
-      //   port: [
-      //     { required: true, message: '请输入端口', trigger: 'blur' }
-      //   ],
-      // }
     }
   },
   computed: {},
   methods: {
-    handleRemove (file, fileList) {
-      console.log(file, fileList);
-    },
-    handlePreview (file) {
-      console.log(file);
-    },
-    handleExceed (files, fileList) {
-      this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-    },
-    beforeRemove (file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`);
-    },
-
-    goBack () {
-      this.$router.go(-1);
-    },
-    handlePictureCardPreview (file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
     onSubmit (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          // this.submitBtn.loading = true;
-          // this.submitBtn.text = '处理中...';
-          // driverService.add(this.form).then(res => {
-          //     if (res.data.state === 1) {
-          //         this.$message({message: "新增成功", type: 'success'});
-          //         this.$router.go(-1);
-          //     } else {
-          //         throw new Error(res.data.msg);
-          //     }
-          // }).catch(error => {
-          //     this.$message.error(error.message);
-          // }).finally(() => {
-          //     this.submitBtn.loading = false;
-          //     this.submitBtn.text = '提交';
-          // })
+          this.$api.setMsgSet({
+            mm_ceo_phone: this.form.mm_ceo_phone,
+            mm_client_email: this.form.mm_client_email,
+            mm_client_ww: this.form.mm_client_ww,
+            mm_client_fax: this.form.mm_client_fax,
+            mm_client_qq1: this.form.mm_client_qq1,
+            mm_client_qq2: this.form.mm_client_qq2,
+            mm_client_time: this.form.mm_client_time,
+            mm_dist_instr: this.form.mm_dist_instr,
+            mm_dist_range: this.form.mm_dist_range,
+            token: JSON.parse(this.$store.state.token).token
+          }).then(res => {
+            this.$message({
+              type: 'success',
+              message: res.data.msg
+            })
+          })
         } else {
           return false;
         }
       });
+    },
+
+    getMsgSet () {
+      this.$api.getMsgSet({
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => [
+        res.data.forEach(item => {
+          this.form[item.cf_name] = item.cf_value
+        })
+      ])
     }
+  },
+
+  mounted () {
+    this.getMsgSet()
   }
 }
 </script>
