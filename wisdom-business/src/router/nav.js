@@ -179,10 +179,12 @@ let navArr = [
         children: [{
           text: '常规商品管理',
           path: '/commodity/conventionalKnowledge'
-        }, {
-          text: '知识商品管理',
-          path: '/commodity/productsKnowledge'
-        }, {
+        },
+        //  {
+        //   text: '知识商品管理',
+        //   path: '/commodity/productsKnowledge'
+        // }, 
+        {
           text: '拼团商品管理',
           path: '/commodity/spellMassGoods'
         }, {

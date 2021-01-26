@@ -12,10 +12,14 @@
                   :preview-src-list="url">
         </el-image>
         <p>{{item.tpl_name}}</p>
+        <span v-if='item.tpl_code === "default"'
+              style="margin-top: 40px; font-size: 14px"
+              class="mt redColor">当前模板</span>
         <el-button slot="append"
                    type="primary"
-                   v-if='index === 0'
+                   v-else
                    icon="el-icon-plus"
+                   @click="importTpl(item.uid, item.tpl_code)"
                    style="width: 90px; height: 35px;text-aline:center;line-height: 0px;padding: 0 10px;font-size: 12px;margin: 10px 0 10px 10px;">
           立即导入
         </el-button>
@@ -59,6 +63,20 @@ export default {
   },
 
   methods: {
+    importTpl (uid, tpl_code) {
+      this.$api.importTpl({
+        uid: uid,
+        tpl_code: tpl_code,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.getBuyTplList()
+        this.$message({
+          message: res.data.msg,
+          type: 'success'
+        });
+      })
+    },
+
     getAllTplPageList () {
       this.$api.getAllTplPageList({
         "order_type": "asc",
@@ -69,7 +87,6 @@ export default {
         for (let key in res.data.items) {
           this.urlList.push(res.data.items[key].s_img)
         }
-
       })
     },
 

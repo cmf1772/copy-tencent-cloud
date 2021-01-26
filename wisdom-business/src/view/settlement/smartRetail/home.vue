@@ -391,7 +391,15 @@ export default {
         '/setUpShops/theHttp',
         '/developManagement/trustManagement',
         '/shopManagement/templateToBuy',
-        '/shopManagement/editFriendshipConnection'
+        '/shopManagement/editFriendshipConnection',
+        '/shopManagement/friendshipConnection',
+        '/commodity/conventionalKnowledge',
+        '/commodity/editConventionalKnowledge',
+        '/commodity/rebateGoods',
+        '/commodity/spellMassGoods',
+        '/commodity/secondsKillGoods',
+        '/commodity/bulkGoods',
+        '/commodity/editBulkGoods'
       ]
       // this.help = !routerArray.indexOf(this.$route.path) > -1
       this.help = routerArray.indexOf(this.$route.path) > -1 ? false : true

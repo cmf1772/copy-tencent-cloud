@@ -226,6 +226,8 @@ const article = {
   // 购买
   getBuyTplList (params) { return axios.post('/sadmin/tpl/getBuyTplList', { ...params }) },
 
+  // 导入
+  importTpl (params) { return axios.post('/sadmin/tpl/importTpl', { ...params }) },
 
   /**
    * 友情链接
@@ -246,17 +248,96 @@ const article = {
   // 删除
   delLinkItem (params) { return axios.post('/sadmin/links/delLinkItem', { ...params }) },
 
+  /**
+   * 常规商品管理
+   **/
+  getGoodsPageList (params) { return axios.post('/sadmin/goods/getGoodsPageList', { ...params }) },
 
 
+  /**
+   * 常规商品分类
+   * */
+  getCategoryPageList (params) { return axios.post('/sadmin/category/getCategoryPageList', { ...params }) },
 
+  // 添加
+  addGoodsItem (params) { return axios.post('/sadmin/goods/addGoodsItem', { ...params }) },
 
+  // 删除
+  delGoodsItem (params) { return axios.post('/sadmin/goods/delGoodsItem', { ...params }) },
 
+  // 获取
+  getGoodsItem (params) { return axios.post('/sadmin/goods/getGoodsItem', { ...params }) },
 
+  // 编辑
+  setGoodsItem (params) { return axios.post('/sadmin/goods/setGoodsItem', { ...params }) },
+
+  // 下架
+  batDown (params) { return axios.post('/sadmin/goods/batDown', { ...params }) },
+
+  // 批量删除
+  batDelGoodsItem (params) { return axios.post('/sadmin/goods/batDelGoodsItem', { ...params }) },
+
+  // 更新
+  batMoveItem (params) { return axios.post('/sadmin/goods/batMoveItem', { ...params }) },
+
+  /**
+   * 拼团商品
+   * */
+
+  //  获取
+  getPtGoodsPageList (params) { return axios.post('/sadmin/goods/getPtGoodsPageList', { ...params }) },
+
+  /**
+   * 返利商品
+   * */
+
+  //  获取
+  getReturnGoodsPageList (params) { return axios.post('/sadmin/goods/getReturnGoodsPageList', { ...params }) },
+
+  /**
+   * 批发
+   * */
+  getPfGoodsPageList (params) { return axios.post('/sadmin/goods/getPfGoodsPageList', { ...params }) },
+
+  // 加入
+  batPfAddItem (params) { return axios.post('/sadmin/goods/batPfAddItem', { ...params }) },
+
+  // 更新
+  batUpdateItem (params) { return axios.post('/sadmin/goods/batUpdateItem', { ...params }) },
 
   /**
    * 分类
    * */
   getBoardPageList (params) { return axios.post('/admin/board/getBoardPageList', { ...params }) },
+
+  // 子分类
+  getBoardPageSubList (params) { return axios.post('/admin/board/getBoardPageSubList', { ...params }) },
+
+  /**
+   * 团购商品
+   **/
+
+  // 列表
+  getGoodsTgPageList (params) { return axios.post('/sadmin/groupgd/getGoodsPageList', { ...params }) },
+
+  // 添加
+  addTgGoodsItem (params) { return axios.post('/sadmin/groupgd/addGoodsItem', { ...params }) },
+
+  // 获取
+  getTgGoodsItem (params) { return axios.post('/sadmin/groupgd/getGoodsItem', { ...params }) },
+
+  // 编辑
+  setTgGoodsItem (params) { return axios.post('/sadmin/groupgd/setGoodsItem', { ...params }) },
+
+  // 删除
+  delTgGoodsItem (params) { return axios.post('/sadmin/groupgd/delGoodsItem', { ...params }) },
+
+  // 更新
+  batTgMoveItem (params) { return axios.post('/sadmin/groupgd/batMoveItem', { ...params }) },
+
+
+
+
 
   /**
      * 七牛云上传token 地址
