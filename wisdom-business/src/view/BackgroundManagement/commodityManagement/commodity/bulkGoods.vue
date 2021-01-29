@@ -57,7 +57,7 @@
       </el-button>
       <p style="margin: 10px 0 10px 10px">积分不够？ <span class="redColor">请点击这里，进行积分充值</span></p>
       <p style="margin: 10px 0 10px 10px">团购活动申请需要积分 <span class="redColor"
-              style="margin-right: 20px">50</span> 您当前积分<span class="redColor"> 92239 </span></p>
+              style="margin-right: 20px">{{mm_groupgd_point}}</span> 您当前积分<span class="redColor"> {{$store.state.user.member_point_acc}} </span></p>
       <div class="flex">
         <el-table :data="tableData"
                   stripe
@@ -146,6 +146,7 @@
 </template>
 
 <script>
+import { getCookie } from '@/request/api/cookie'
 export default {
   name: 'provider',
 
@@ -161,10 +162,19 @@ export default {
       page_size: 10,
       multipleSelection: [],
       cat_menu_move: '',
+      mm_groupgd_point: ''
     }
   },
 
   methods: {
+    getSettingItem () {
+      this.$api.getSettingItem({
+        type: 'show_set'
+      }).then(res => {
+        this.mm_groupgd_point = res.data[3].cf_value
+      })
+    },
+
     batTgMoveItem () {
       this.$api.batTgMoveItem({
         uid: this.multipleSelection,
@@ -219,7 +229,7 @@ export default {
         order_type: "asc",
         order_field: 'uid',
         cate_id: this.cate_id,
-        ps_subject: '',
+        ps_subject: this.ps_subject,
         token: JSON.parse(this.$store.state.token).token,
       }).then(res => {
         this.tableData = res.data.items
@@ -263,6 +273,7 @@ export default {
   },
 
   mounted () {
+    this.getSettingItem()
     this.getBoardPageList()
     this.getGoodsTgPageList()
   }

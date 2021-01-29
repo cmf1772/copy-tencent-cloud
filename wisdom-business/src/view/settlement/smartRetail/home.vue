@@ -2,9 +2,6 @@
   <div>
     <div class="top"
          style="background: #262F3E">
-      <!-- <div style=" float: left"
-               @click="$router.push('/home/product')"
-               class="text blueColor s">美城智慧零售</div> -->
       <div class="titleimg"
            style=" float: left;">
         <img src="@/assets/img/favicon.png"
@@ -275,7 +272,7 @@
         <el-dropdown @command="command"
                      style="color: #fff;">
           <span class="el-dropdown-link">
-            {{JSON.parse($store.state.token).username}}<i class="el-icon-arrow-down el-icon--right"></i>
+            {{$store.state.user.nickname || JSON.parse($store.state.token).username}}<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
             <!-- <el-dropdown-item command="a">切换店铺</el-dropdown-item> -->
@@ -399,7 +396,18 @@ export default {
         '/commodity/spellMassGoods',
         '/commodity/secondsKillGoods',
         '/commodity/bulkGoods',
-        '/commodity/editBulkGoods'
+        '/commodity/editBulkGoods',
+        '/commodity/editSpellMassGoods',
+        '/commodity/editSecondsKillGoods',
+        '/commodity/auctionGoods',
+        '/commodity/editAuctionGoods',
+        '/commodity/distributionGoods',
+        '/commodity/notGoods',
+        '/conventionalProducts/conventionalProducts',
+        '/conventionalProducts/editConventional',
+        '/contentManagement/magazineManagement',
+        '/contentManagement/informationManagement',
+        '/contentManagement/addInformationManagement'
       ]
       // this.help = !routerArray.indexOf(this.$route.path) > -1
       this.help = routerArray.indexOf(this.$route.path) > -1 ? false : true

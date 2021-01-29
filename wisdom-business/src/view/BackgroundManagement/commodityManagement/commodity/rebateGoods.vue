@@ -286,7 +286,7 @@ export default {
         order_type: "asc",
         order_field: 'uid',
         cate_id: this.cate_id,
-        ps_subject: '',
+        ps_subject: this.ps_subject,
         token: JSON.parse(this.$store.state.token).token,
       }).then(res => {
         this.tableData = res.data.items

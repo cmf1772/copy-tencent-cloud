@@ -202,7 +202,7 @@ export default {
                 type: 'success'
               });
               _this.tool.setCookie('token', JSON.stringify(res.data.token))
-              console.log(_this.tool.getCookie('token'))
+              _this.tool.setCookie('user', JSON.stringify(res.data.user))
               _this.$router.push('/home/product')
               _this.$store.commit('SET_TOKEN', JSON.stringify(res.data.token))
             })
@@ -217,7 +217,9 @@ export default {
                 message: '登陆成功',
                 type: 'success'
               });
+
               _this.tool.setCookie('token', JSON.stringify(res.data.token))
+              _this.tool.setCookie('user', JSON.stringify(res.data.user))
               _this.$store.commit('SET_TOKEN', JSON.stringify(res.data.token))
               _this.$router.push('/home/product')
             })

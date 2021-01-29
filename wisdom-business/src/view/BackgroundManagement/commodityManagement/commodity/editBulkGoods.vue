@@ -465,7 +465,7 @@ export default {
           attr_store: res.data.product.attr_store,
           goods_main: res.data.product.goods_main,
           date: [res.data.product.start_date, res.data.product.end_date],
-          gallery: this.qiniuaddr + res.data.photo[0].thumb
+          gallery: res.data.photo[0].thumb
         }
 
         this.editor.txt.html(res.data.product.goods_main)
