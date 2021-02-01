@@ -58,11 +58,6 @@
           </el-table-column>
         </el-table>
         <div class="btootm_paination">
-          <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
@@ -93,12 +88,10 @@ export default {
   },
 
   mounted () {
-
     this.getTBoardPageSubList()
   },
 
   methods: {
-
     delArticleItem (i, r) {
       this.$api.delArticleItem({
         uid: r.uid,
