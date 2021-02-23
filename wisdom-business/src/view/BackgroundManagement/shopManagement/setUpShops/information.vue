@@ -1,19 +1,6 @@
 <template>
   <div class="information"
        :style="{'height': height}">
-    <!-- <p style="font-size: 15px; margin-bottom: 10px;font-weight: 360; color:#000">
-      <i class="el-icon-edit"
-         style="color: #f5a623 !important;font-weight: 360;margin-right: 10px"></i> 头部样式设置：
-    </p> -->
-    <!-- <el-form ref="form"
-             :model="form"
-             label-width="130px">
-      <el-form-item label="头部样式设置"
-                    prop="displayName">
-        <el-button type="primary"
-                   @click="goNavSet">点击设置</el-button>
-      </el-form-item>
-    </el-form> -->
     <p style="font-size: 15px; margin-bottom: 10px;font-weight: 360; color:#000">
       <i class="
        el-icon-edit"
@@ -197,13 +184,6 @@
         <p>开户行：*****</p>
         <p>开户名：**</p>
       </el-form-item>
-      <!-- <el-form-item label=""
-                    prop="displayName">
-        还没有接入应用？ <a href="http://mp.weixin.qq.com/"
-           target="_blank"
-           class="redColor"
-           rel="noopener noreferrer">点击此处进行申请>></a>
-      </el-form-item> -->
     </el-form>
     <p style="font-size: 15px; margin-bottom: 10px">
       <i class="el-icon-edit"

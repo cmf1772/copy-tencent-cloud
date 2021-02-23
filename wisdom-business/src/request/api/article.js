@@ -471,12 +471,21 @@ const article = {
   // 删除
   delArticleItem (params) { return axios.post('/sadmin/board/delArticleItem', { ...params }) },
 
+  /**
+   * 课程订单
+   * */
+
+  // 列表
+  getMyTaskPageList (params) { return axios.post('/sadmin/egoods/getMyTaskPageList', { ...params }) },
 
 
 
+  /**
+   * 客户订单
+   **/
 
-
-
+  // 列表
+  getSellerOrderPageList (params) { return axios.post('/sadmin/order/getSellerOrderPageList', { ...params }) },
 
 
 

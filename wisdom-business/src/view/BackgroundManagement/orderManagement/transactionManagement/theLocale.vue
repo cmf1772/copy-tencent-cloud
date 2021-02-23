@@ -50,12 +50,12 @@
         </el-table>
         <div class="btootm_paination">
           <el-pagination @size-change="handleSizeChange"
-                         @current-change="handleCurrentChangeFun"
+                         @current-change="handleCurrentChanhgeFun"
                          :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
+                         :page-sizes="[10, 20, 30, 40]"
+                         :page-size="10"
                          layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
+                         :total="40">
           </el-pagination>
         </div>
       </div>
@@ -71,23 +71,7 @@ export default {
     return {
       time: [],
       sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
     }

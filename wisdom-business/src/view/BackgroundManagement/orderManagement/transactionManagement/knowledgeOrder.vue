@@ -54,18 +54,13 @@
               </el-table-column>
             </el-table>
             <div class="btootm_paination">
-              <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
               <el-pagination @size-change="handleSizeChange"
                              @current-change="handleCurrentChangeFun"
                              :current-page="currentPage"
-                             :page-sizes="[100, 200, 300, 400]"
-                             :page-size="100"
+                             :page-sizes="[10, 20, 30, 40]"
+                             :page-size="page_size"
                              layout="total, sizes, prev, pager, next, jumper"
-                             :total="400">
+                             :total="total">
               </el-pagination>
             </div>
           </div>
@@ -354,85 +349,31 @@ export default {
       },
       height: window.innerHeight - 500 + 'px',
       activeName: 'first',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
-      totalData: 1, //总页数
+      total: 1, //总页数
+      page_size: 10
     }
   },
 
+  mounted () {
+    this.getMyTaskPageList()
+  },
+
   methods: {
+    getMyTaskPageList () {
+      this.$api.getMyTaskPageList({
+        course_id: 0,
+        page: this.currentPage,
+        page_size: this.page_size,
+        order_type: "asc",
+        order_field: 'id',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+
+      })
+    },
+
     handleClick (tab, event) {
       console.log(tab, event);
     },

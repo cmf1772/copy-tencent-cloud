@@ -4,8 +4,8 @@
     <el-tabs v-model="activeName"
              class="table_bottom"
              @tab-click="handleClick">
-      <el-tab-pane label="所有订单"
-                   name="first">
+      <el-tab-pane label="待付款"
+                   name="1">
         <div>
           <div class="flex"
                :style="{'height': height}">
@@ -21,19 +21,43 @@
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="date"
+              <el-table-column prop="ordersn"
                                show-overflow-tooltip
-                               label="收货人"
+                               label="订单号码"
                                width="180">
               </el-table-column>
-              <el-table-column prop="name"
+              <el-table-column prop="username"
                                show-overflow-tooltip
-                               label="收货地址"
+                               label="订购者"
                                width="180">
               </el-table-column>
-              <el-table-column prop="address"
+              <el-table-column prop="goods_amount"
                                show-overflow-tooltip
-                               label="联系电话">
+                               label="商品金额">
+              </el-table-column>
+              <el-table-column prop="sh_price"
+                               show-overflow-tooltip
+                               label="运费">
+              </el-table-column>
+              <el-table-column prop="discount"
+                               show-overflow-tooltip
+                               label="折扣">
+              </el-table-column>
+              <el-table-column prop="goods_rest_amount"
+                               show-overflow-tooltip
+                               label="余款">
+              </el-table-column>
+              <el-table-column prop="goods_point"
+                               show-overflow-tooltip
+                               label="订单积分">
+              </el-table-column>
+              <el-table-column prop="shop_name"
+                               show-overflow-tooltip
+                               label="商家名称">
+              </el-table-column>
+              <el-table-column prop="status"
+                               show-overflow-tooltip
+                               label="订单状态">
               </el-table-column>
               <el-table-column show-overflow-tooltip
                                label="操作"
@@ -62,10 +86,10 @@
               <el-pagination @size-change="handleSizeChange"
                              @current-change="handleCurrentChangeFun"
                              :current-page="currentPage"
-                             :page-sizes="[100, 200, 300, 400]"
-                             :page-size="100"
+                             :page-sizes="[10, 20, 30, 40]"
+                             :page-size="page_size"
                              layout="total, sizes, prev, pager, next, jumper"
-                             :total="400">
+                             :total="total">
               </el-pagination>
             </div>
           </div>
@@ -336,7 +360,6 @@
                    style="float: right">确定</el-button>
       </el-tab-pane>
     </el-tabs>
-
   </div>
 </template>
 
@@ -346,93 +369,33 @@ export default {
 
   data () {
     return {
-      time: [],
-      sName: '',
-      value1: [],
       form: {
         displayName: ''
       },
       height: window.innerHeight - 500 + 'px',
-      activeName: 'first',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      activeName: '1',
+      tableData: [],
       currentPage: 1, //当前页数
-      totalData: 1, //总页数
+      total: 1, //总页数
+      page_size: 10,
     }
   },
 
   methods: {
+    getSellerOrderPageList () {
+      this.$api.getSellerOrderPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        order_type: "asc",
+        order_field: 'uid',
+        status: this.activeName,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.total = res.data.total_result
+      })
+    },
+
     handleClick (tab, event) {
       console.log(tab, event);
     },
@@ -447,12 +410,17 @@ export default {
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.getSellerOrderPageList()
     },
 
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`);
+      this.getSellerOrderPageList()
     },
+  },
+
+  mounted () {
+    this.getSellerOrderPageList()
   }
 }
 </script>

@@ -407,7 +407,9 @@ export default {
         '/conventionalProducts/editConventional',
         '/contentManagement/magazineManagement',
         '/contentManagement/informationManagement',
-        '/contentManagement/addInformationManagement'
+        '/contentManagement/addInformationManagement',
+        '/transactionManagement/magazineManagement',
+        '/transactionManagement/customerOrder'
       ]
       // this.help = !routerArray.indexOf(this.$route.path) > -1
       this.help = routerArray.indexOf(this.$route.path) > -1 ? false : true
