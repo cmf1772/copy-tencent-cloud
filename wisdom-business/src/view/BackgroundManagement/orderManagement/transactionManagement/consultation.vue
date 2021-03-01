@@ -13,72 +13,74 @@
             {{scope.$index+1}}
           </template>
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="goods_name"
                          show-overflow-tooltip
                          label="商品名称">
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="reject"
                          show-overflow-tooltip
-                         label="咨询内容">
+                         label="驳回理由">
         </el-table-column>
-        <el-table-column prop="date"
-                         show-overflow-tooltip
-                         label="咨询内容">
-        </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="expire"
                          show-overflow-tooltip
                          label="时间">
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="roll"
                          show-overflow-tooltip
                          label="评论者">
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="status"
                          show-overflow-tooltip
                          label="状态">
         </el-table-column>
         <el-table-column show-overflow-tooltip
                          label="操作"
-                         width="150"
+                         width="180"
                          min-width="60">
           <template slot-scope="scope">
             <div>
               <el-button size="medium"
                          type="text"
-                         class="blueColor right20">编辑</el-button>
-              <!-- <el-button size="medium"
+                         @click="setCheckItem(scope.$index, scope.row)"
+                         class="blueColor right20">审核</el-button>
+              <el-button size="medium"
                          type="text"
                          class="blueColor right20"
-                         @click="editor(scope.$index, scope.row)">区域设置</el-button> -->
+                         @click="onChange(scope.$index, scope.row)">留言</el-button>
               <el-button size="medium"
                          type="text"
                          class="redColor right20"
-                         @click="editor(scope.$index, scope.row)">删除</el-button>
-              <!-- <el-button size="medium"
-                         type="text"
-                         class="redColor"
-                         @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button> -->
+                         @click="delCommentItem(scope.$index, scope.row)">删除</el-button>
             </div>
           </template>
         </el-table-column>
       </el-table>
       <div class="btootm_paination">
-        <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
         <el-pagination @size-change="handleSizeChange"
                        @current-change="handleCurrentChangeFun"
                        :current-page="currentPage"
-                       :page-sizes="[100, 200, 300, 400]"
-                       :page-size="100"
+                       :page-sizes="[10, 20, 30, 40]"
+                       :page-size="page_size"
                        layout="total, sizes, prev, pager, next, jumper"
-                       :total="400">
+                       :total="total">
         </el-pagination>
       </div>
     </div>
-  </div>
+    <el-dialog title="提示"
+               :visible.sync="dialogVisible"
+               width="30%"
+               :before-close="handleClose">
+      <el-input placeholder="请输入内容"
+                v-model="reply"
+                clearable>
+      </el-input>
+      <span slot="footer"
+            class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary"
+                   @click="setReplyItem">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -88,48 +90,92 @@ export default {
 
   data () {
     return {
-      time: [],
-      sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      dialogVisible: false,
+      tableData: [],
       currentPage: 1, //当前页数
-      totalData: 1, //总页数
+      total: 1, //总页数
+      page_size: 10,
+      reply: '',
+      uid: ''
     }
   },
 
   methods: {
-    add () {
-      this.$router.push('/driver/edit?nameType=新建驱动')
+    onChange (i, r) {
+      this.uid = r.uid
+      this.dialogVisible = true
+      this.reply = ''
+    },
 
+    setReplyItem () {
+      this.$api.setReplyItem({
+        uid: this.uid,
+        reply: this.reply,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          type: 'success',
+          message: res.data.msg
+        })
+        this.dialogVisible = false
+        this.getMyCommentPageList()
+      })
     },
-    editor () {
-      this.$router.push('/transactionManagement/theLocale?nameType=区域设置')
+
+    setCheckItem (i, r) {
+      this.$api.setCheckItem({
+        uid: r.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          type: 'success',
+          message: res.data.msg
+        })
+        this.getMyCommentPageList()
+      })
     },
+
+    delCommentItem (i, r) {
+      this.$api.delCommentItem({
+        uid: r.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          type: 'success',
+          message: '删除成功'
+        })
+        this.getMyCommentPageList()
+      })
+    },
+
+    getMyCommentPageList () {
+      this.$api.getMyCommentPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        order_type: "asc",
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.total = res.data.total_result
+      })
+    },
+
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.getMyCommentPageList()
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val;
+      this.getMyCommentPageList()
     },
-  }
+  },
+
+  mounted () {
+    this.getMyCommentPageList()
+  },
 }
 </script>
 

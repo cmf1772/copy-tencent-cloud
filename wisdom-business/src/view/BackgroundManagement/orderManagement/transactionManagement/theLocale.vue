@@ -53,9 +53,9 @@
                          @current-change="handleCurrentChanhgeFun"
                          :current-page="currentPage"
                          :page-sizes="[10, 20, 30, 40]"
-                         :page-size="10"
+                         :page-size="page_size"
                          layout="total, sizes, prev, pager, next, jumper"
-                         :total="40">
+                         :total="total">
           </el-pagination>
         </div>
       </div>
@@ -69,22 +69,31 @@ export default {
 
   data () {
     return {
-      time: [],
-      sName: '',
       tableData: [],
       currentPage: 1, //当前页数
-      totalData: 1, //总页数
+      total: 1, //总页数
+      page_size: 10
     }
   },
 
   methods: {
-    add () {
-      this.$router.push('/transactionManagement/addTheLocale?nameType=新建配送区域  ')
+    // add () {
+    //   this.$router.push('/transactionManagement/addTheLocale?nameType=新建配送区域  ')
 
+    // },
+    // editor () {
+    //   this.$router.push('/transactionManagement/addTheLocale?nameType=修改配送区域  ')
+    // },
+    getShippingItem () {
+      this.$api.getShippingItem({
+        ship_uid: this.$route.query.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalList = res.data.total_result
+      })
     },
-    editor () {
-      this.$router.push('/transactionManagement/addTheLocale?nameType=修改配送区域  ')
-    },
+
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
@@ -92,8 +101,14 @@ export default {
     },
 
     handleSizeChange (val) {
+      this.page_size = val;
+      tableDataRenderFun(this);
       console.log(`每页 ${val} 条`);
     },
+  },
+
+  mounted () {
+    this.getShippingItem()
   }
 }
 </script>

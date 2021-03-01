@@ -409,7 +409,15 @@ export default {
         '/contentManagement/informationManagement',
         '/contentManagement/addInformationManagement',
         '/transactionManagement/magazineManagement',
-        '/transactionManagement/customerOrder'
+        '/transactionManagement/customerOrder',
+        '/transactionManagement/spellGroupOrder',
+        '/transactionManagement/addSpellGroupOrder',
+        '/transactionManagement/toApplyFor',
+        '/transactionManagement/logisticsTools',
+        '/transactionManagement/theLocale',
+        '/transactionManagement/consultation',
+        '/transactionManagement/evaluationOfTheBuyer',
+        '/transactionManagement/orderManagement'
       ]
       // this.help = !routerArray.indexOf(this.$route.path) > -1
       this.help = routerArray.indexOf(this.$route.path) > -1 ? false : true

@@ -14,35 +14,40 @@
               {{scope.$index+1}}
             </template>
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="group_id"
                            show-overflow-tooltip
                            label="拼团ID"
                            width="180">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="group_name"
                            show-overflow-tooltip
                            label="拼团商品"
                            width="180">
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="user_name"
                            show-overflow-tooltip
                            label="发起者">
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="group_price"
                            show-overflow-tooltip
                            label="拼团金额">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="total_number"
                            show-overflow-tooltip
                            label="拼团人数"
                            width="180">
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="buy_number"
                            show-overflow-tooltip
                            label="参团人数"
                            width="180">
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="state_name"
+                           show-overflow-tooltip
+                           label="拼团状态"
+                           width="180">
+          </el-table-column>
+          <el-table-column prop="start_time"
                            show-overflow-tooltip
                            label="拼团时间"
                            width="180">
@@ -70,10 +75,10 @@
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
+                         :page-sizes="[10, 20, 30, 40]"
+                         :page-size="page_size"
                          layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
+                         :total="total">
           </el-pagination>
         </div>
       </div>
@@ -87,48 +92,54 @@ export default {
 
   data () {
     return {
-      time: [],
-      sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
-      totalData: 1, //总页数
+      total: 1, //总页数
+      page_size: 10
     }
   },
 
   methods: {
+    ptgetSellerOrderPageList () {
+      this.$api.ptgetSellerOrderPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        order_type: "asc",
+        order_field: 'group_id',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.total = res.data.total_result
+      })
+    },
+
     add () {
       this.$router.push('/transactionManagement/addSpellGroupOrder?nameType=拼团订单列表')
-
     },
-    editor () {
-      this.$router.push('/transactionManagement/addSpellGroupOrder?nameType=拼团订单列表')
+    editor (i, r) {
+      this.$router.push({
+        path: '/transactionManagement/addSpellGroupOrder',
+        query: {
+          uid: r.uid
+        }
+      })
     },
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.ptgetSellerOrderPageList()
     },
 
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.ptgetSellerOrderPageList()
     },
-  }
+  },
+
+  mounted () {
+    this.ptgetSellerOrderPageList()
+  },
 }
 </script>
 

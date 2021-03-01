@@ -14,27 +14,23 @@
             {{scope.$index+1}}
           </template>
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="shop_name"
                          show-overflow-tooltip
                          label="商品名称">
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="supplier_id"
                          show-overflow-tooltip
-                         label="咨询内容">
+                         label="所属商铺">
         </el-table-column>
-        <el-table-column prop="date"
-                         show-overflow-tooltip
-                         label="咨询内容">
-        </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="expire"
                          show-overflow-tooltip
                          label="时间">
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="roll"
                          show-overflow-tooltip
                          label="评论者">
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="status"
                          show-overflow-tooltip
                          label="状态">
         </el-table-column>
@@ -46,40 +42,45 @@
             <div>
               <el-button size="medium"
                          type="text"
-                         class="blueColor right20">编辑</el-button>
-              <!-- <el-button size="medium"
-                         type="text"
                          class="blueColor right20"
-                         @click="editor(scope.$index, scope.row)">区域设置</el-button> -->
-              <el-button size="medium"
-                         type="text"
-                         class="redColor right20"
-                         @click="editor(scope.$index, scope.row)">删除</el-button>
-              <!-- <el-button size="medium"
-                         type="text"
-                         class="redColor"
-                         @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button> -->
+                         @click="onChange(scope.$index, scope.row)">商家评价</el-button>
             </div>
           </template>
         </el-table-column>
       </el-table>
       <div class="btootm_paination">
-        <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
         <el-pagination @size-change="handleSizeChange"
                        @current-change="handleCurrentChangeFun"
                        :current-page="currentPage"
-                       :page-sizes="[100, 200, 300, 400]"
-                       :page-size="100"
+                       :page-sizes="[10, 20, 30, 40]"
+                       :page-size="page_size"
                        layout="total, sizes, prev, pager, next, jumper"
-                       :total="400">
+                       :total="total">
         </el-pagination>
       </div>
     </div>
-  </div>
+    <el-dialog title="提示"
+               :visible.sync="dialogVisible"
+               width="30%"
+               :before-close="handleClose">
+      <el-radio v-model="level"
+                label="1">好评</el-radio>
+      <el-radio v-model="level"
+                label="0">中评</el-radio>
+      <el-radio v-model="level"
+                label="-1">差评</el-radio>
+      <el-input placeholder="请输入评价"
+                class="mt"
+                v-model="comment"
+                clearable>
+      </el-input>
+      <span slot="footer"
+            class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary"
+                   @click="setCommentItem">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -89,48 +90,68 @@ export default {
 
   data () {
     return {
-      time: [],
-      sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
-      totalData: 1, //总页数
+      total: 1, //总页数
+      page_size: 10,
+      dialogVisible: false,
+      comment: '',
+      uid: '',
+      level: ''
     }
   },
 
   methods: {
-    add () {
-      this.$router.push('/driver/edit?nameType=新建驱动')
+    onChange (i, r) {
+      this.uid = r.uid
+      this.dialogVisible = true
+      this.comment = ''
+    },
 
+    setCommentItem () {
+      this.$api.setCommentItem({
+        uid: this.uid,
+        comment: this.comment,
+        level: this.level,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          type: 'success',
+          message: res.data.msg
+        })
+        this.dialogVisible = false
+        this.getMyCommentPageList()
+      })
     },
-    editor () {
-      this.$router.push('/transactionManagement/theLocale?nameType=区域设置')
+
+    getSellerCommentPageList () {
+      this.$api.getSellerCommentPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        order_type: "asc",
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.total = res.data.total_result
+      })
     },
+
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.getSellerCommentPageList()
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val;
+      this.getSellerCommentPageList()
     },
-  }
+  },
+
+  mounted () {
+    this.getSellerCommentPageList()
+  },
 }
 </script>
 

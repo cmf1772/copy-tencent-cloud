@@ -301,18 +301,18 @@ let navArr = [
         path: '/report/main',
         menu: true,
         children: [
+          // {
+          //   text: '知识订单',
+          //   path: '/transactionManagement/magazineManagement'
+          // },
           {
-            text: '知识订单',
-            path: '/transactionManagement/magazineManagement'
-          },
-          {
-            text: '客户订单',
+            text: '订单管理',
             path: '/transactionManagement/customerOrder'
           },
-          {
-            text: '退货通道',
-            path: '/transactionManagement/returnsChannel'
-          },
+          // {
+          //   text: '退货通道',
+          //   path: '/transactionManagement/returnsChannel'
+          // },
           {
             text: '拼团订单',
             path: '/transactionManagement/spellGroupOrder'
@@ -321,10 +321,10 @@ let navArr = [
             text: '体现申请',
             path: '/transactionManagement/toApplyFor'
           },
-          {
-            text: '拼团退货',
-            path: '/transactionManagement/spellGroupReturns'
-          },
+          // {
+          //   text: '拼团退货',
+          //   path: '/transactionManagement/spellGroupReturns'
+          // },
           {
             text: '物流工具',
             path: '/transactionManagement/logisticsTools'

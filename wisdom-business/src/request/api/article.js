@@ -485,7 +485,116 @@ const article = {
    **/
 
   // 列表
-  getSellerOrderPageList (params) { return axios.post('/sadmin/order/getSellerOrderPageList', { ...params }) },
+  getSellerOrderPageList (params) { return axios.post('/sadmin/eorder/getSellerOrderPageList', { ...params }) },
+
+  // 获取客户延期收货记录分页列表
+  getSellerDelayOrderPageList (params) { return axios.post('/sadmin/order/getSellerDelayOrderPageList', { ...params }) },
+
+  // 提交延期收货申请
+  Delaydelay (params) { return axios.post('/sadmin/order/delay', { ...params }) },
+
+  // 发货
+  delivery (params) { return axios.post('/sadmin/eorder/delivery', { ...params }) },
+
+  // 验证
+  groupCheck (params) { return axios.post('/sadmin/eorder/groupCheck', { ...params }) },
+
+  /**
+   * 拼团订单
+   * */
+
+  // 列表
+  ptgetSellerOrderPageList (params) { return axios.post('/sadmin/ptorder/getSellerOrderPageList', { ...params }) },
+
+  // 拼团列表
+  getSellerOrderListPageList (params) { return axios.post('/sadmin/ptorder/getSellerOrderListPageList', { ...params }) },
+
+  // 验证
+  ptgroupCheck (params) { return axios.post('/sadmin/ptorder/groupCheck', { ...params }) },
+
+  // 退货
+  getSellerBackOrderPageList (params) { return axios.post('/sadmin/ptbackorder/getSellerBackOrderPageList', { ...params }) },
+
+  /**
+   * 体现
+   * */
+
+  // 列表
+  getMyWithdrawPageList (params) { return axios.post('/sadmin/withdraw/getMyWithdrawPageList', { ...params }) },
+
+  // 记录
+  getWithdrawItem (params) { return axios.post('/sadmin/withdraw/getWithdrawItem', { ...params }) },
+
+  // 提交
+  applyWithdraw (params) { return axios.post('/sadmin/withdraw/applyWithdraw', { ...params }) },
+
+  // 信息
+  getMemberAccountInfo (params) { return axios.post('/sadmin/settings/getMemberAccountInfo', { ...params }) },
+
+  /**
+   * 物流工具
+   * */
+
+  // 列表
+  getShippingList (params) { return axios.post('/sadmin/shipping/getShippingList', { ...params }) },
+
+  // 安装
+  addShippingItem (params) { return axios.post('/sadmin/shipping/addShippingItem', { ...params }) },
+
+  // 卸载
+  delShippingItem (params) { return axios.post('/sadmin/shipping/delShippingItem', { ...params }) },
+
+  // 基本信息列表
+  getShippingItem (params) { return axios.post('/sadmin/shipping/getShippingItem', { ...params }) },
+
+  /**
+   * 销售咨询管理
+   * */
+
+  // 列表
+  getMyCommentPageList (params) { return axios.post('/sadmin/comment/getMyCommentPageList', { ...params }) },
+
+  // 审核
+  setCheckItem (params) { return axios.post('/sadmin/comment/setCheckItem', { ...params }) },
+
+  // 删除
+  delCommentItem (params) { return axios.post('/sadmin/comment/delCommentItem', { ...params }) },
+
+  // 评论
+  setReplyItem (params) { return axios.post('/sadmin/comment/setReplyItem', { ...params }) },
+
+  /**
+   * 评论
+   * */
+
+  // 列表
+  getSellerCommentPageList (params) { return axios.post('/sadmin/comment/getSellerCommentPageList', { ...params }) },
+
+  // 评论
+  setCommentItem (params) { return axios.post('/sadmin/comment/setCommentItem', { ...params }) },
+
+  /**
+   * 消保明细
+   * */
+
+  // 列表
+  getMyMoneyPageList (params) { return axios.post('/sadmin/xbmoney/getMyMoneyPageList', { ...params }) },
+
+  // 消保余额
+  delMoneyItem (params) { return axios.post('/sadmin/xbmoney/delMoneyItem', { ...params }) },
+
+
+  /**
+   * 返佣订单
+   * */
+
+  // 列表
+  getMyTgOrderPageList (params) { return axios.post('/sadmin/mytgorder/getMyTgOrderPageList', { ...params }) },
+
+
+
+
+
 
 
 

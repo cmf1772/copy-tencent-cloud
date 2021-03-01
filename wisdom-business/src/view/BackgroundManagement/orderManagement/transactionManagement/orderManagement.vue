@@ -15,381 +15,130 @@
         搜索
       </el-button>
     </div>
-    <el-tabs v-model="activeName"
-             class="table_bottom"
+    <el-tabs v-model="status"
              @tab-click="handleClick">
       <el-tab-pane label="所有订单"
-                   name="first">
-        <div>
-          <div class="flex"
-               :style="{'height': height}">
-            <el-table :data="tableData"
-                      stripe
-                      style="width: 100%">
-              <el-table-column show-overflow-tooltip
-                               type="index"
-                               width="50"
-                               label="序号">
-                <template slot-scope="scope">
-                  <!-- {{(currentPage-1)*10+scope.$index+1}} -->
-                  {{scope.$index+1}}
-                </template>
-              </el-table-column>
-              <el-table-column prop="date"
-                               show-overflow-tooltip
-                               label="收货人"
-                               width="180">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="收货地址"
-                               width="180">
-              </el-table-column>
-              <el-table-column prop="address"
-                               show-overflow-tooltip
-                               label="联系电话">
-              </el-table-column>
-              <el-table-column show-overflow-tooltip
-                               label="操作"
-                               width="150"
-                               min-width="60">
-                <template slot-scope="scope">
-                  <div>
-                    <el-button size="medium"
-                               type="text"
-                               class="yellowColor right20"
-                               @click="editor(scope.$index, scope.row)">编辑</el-button>
-                    <el-button size="medium"
-                               type="text"
-                               class="redColor"
-                               @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
-                  </div>
-                </template>
-              </el-table-column>
-            </el-table>
-            <div class="btootm_paination">
-              <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
-              <el-pagination @size-change="handleSizeChange"
-                             @current-change="handleCurrentChangeFun"
-                             :current-page="currentPage"
-                             :page-sizes="[100, 200, 300, 400]"
-                             :page-size="100"
-                             layout="total, sizes, prev, pager, next, jumper"
-                             :total="400">
-              </el-pagination>
-            </div>
-          </div>
-        </div>
+                   name="0">
       </el-tab-pane>
       <el-tab-pane label="待付款"
-                   name="second">
-        <div>
-          <div class="flex"
-               :style="{'height': height}">
-            <el-table :data="tableData"
-                      stripe
-                      style="width: 100%">
-              <el-table-column show-overflow-tooltip
-                               type="index"
-                               width="50"
-                               label="序号">
-                <template slot-scope="scope">
-                  <!-- {{(currentPage-1)*10+scope.$index+1}} -->
-                  {{scope.$index+1}}
-                </template>
-              </el-table-column>
-              <el-table-column prop="date"
-                               show-overflow-tooltip
-                               label="订单号码"
-                               width="180">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="订购者"
-                               width="180">
-              </el-table-column>
-              <el-table-column prop="address"
-                               show-overflow-tooltip
-                               label="金额">
-              </el-table-column>
-              <el-table-column prop="address"
-                               show-overflow-tooltip
-                               label="下单时间">
-              </el-table-column>
-              <el-table-column prop="address"
-                               show-overflow-tooltip
-                               label="延迟信息">
-              </el-table-column>
-              <el-table-column prop="address"
-                               show-overflow-tooltip
-                               label="状态">
-              </el-table-column>
-              <el-table-column show-overflow-tooltip
-                               label="操作"
-                               width="150"
-                               min-width="60">
-                <template slot-scope="scope">
-                  <div>
-                    <el-button size="medium"
-                               type="text"
-                               class="yellowColor right20"
-                               @click="editor(scope.$index, scope.row)">编辑</el-button>
-                    <el-button size="medium"
-                               type="text"
-                               class="redColor"
-                               @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
-                  </div>
-                </template>
-              </el-table-column>
-            </el-table>
-            <div class="btootm_paination">
-              <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
-              <el-pagination @size-change="handleSizeChange"
-                             @current-change="handleCurrentChangeFun"
-                             :current-page="currentPage"
-                             :page-sizes="[100, 200, 300, 400]"
-                             :page-size="100"
-                             layout="total, sizes, prev, pager, next, jumper"
-                             :total="400">
-              </el-pagination>
-            </div>
-          </div>
-        </div>
-      </el-tab-pane>
-      <el-tab-pane label="待备货"
-                   name="third">
-        <div>
-          <div class="flex"
-               :style="{'height': height}">
-            <el-table :data="tableData"
-                      stripe
-                      style="width: 100%">
-              <el-table-column show-overflow-tooltip
-                               type="index"
-                               width="50"
-                               label="序号">
-                <template slot-scope="scope">
-                  <!-- {{(currentPage-1)*10+scope.$index+1}} -->
-                  {{scope.$index+1}}
-                </template>
-              </el-table-column>
-              <el-table-column prop="date"
-                               show-overflow-tooltip
-                               label="退货商品"
-                               width="180">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="订单号"
-                               width="180">
-              </el-table-column>
-              <el-table-column prop="address"
-                               show-overflow-tooltip
-                               label="订单折扣">
-              </el-table-column>
-              <el-table-column prop="address"
-                               show-overflow-tooltip
-                               label="退货信息">
-              </el-table-column>
-              <el-table-column prop="address"
-                               show-overflow-tooltip
-                               label="状态">
-              </el-table-column>
-              <el-table-column prop="address"
-                               show-overflow-tooltip
-                               label="申请时间">
-              </el-table-column>
-              <el-table-column show-overflow-tooltip
-                               label="操作"
-                               width="150"
-                               min-width="60">
-                <template slot-scope="scope">
-                  <div>
-                    <el-button size="medium"
-                               type="text"
-                               class="yellowColor right20"
-                               @click="editor(scope.$index, scope.row)">编辑</el-button>
-                    <el-button size="medium"
-                               type="text"
-                               class="redColor"
-                               @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
-                  </div>
-                </template>
-              </el-table-column>
-            </el-table>
-            <div class="btootm_paination">
-              <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
-              <el-pagination @size-change="handleSizeChange"
-                             @current-change="handleCurrentChangeFun"
-                             :current-page="currentPage"
-                             :page-sizes="[100, 200, 300, 400]"
-                             :page-size="100"
-                             layout="total, sizes, prev, pager, next, jumper"
-                             :total="400">
-              </el-pagination>
-            </div>
-          </div>
-        </div>
-      </el-tab-pane>
-      <el-tab-pane label="待付余额"
                    name="1">
-
       </el-tab-pane>
       <el-tab-pane label="已取消"
                    name="2">
-
       </el-tab-pane>
       <el-tab-pane label="已付款"
                    name="3">
-
       </el-tab-pane>
       <el-tab-pane label="已发货"
                    name="4">
-
       </el-tab-pane>
-      <el-tab-pane label="已收获"
+      <el-tab-pane label="已收货"
                    name="5">
-
-      </el-tab-pane>
-      <el-tab-pane label="待退货"
-                   name="6">
-
       </el-tab-pane>
       <el-tab-pane label="已退货"
-                   name="7">
-
+                   name="6">
       </el-tab-pane>
     </el-tabs>
-
+    <div class="flex"
+         :style="{'height': height}">
+      <el-table :data="tableData"
+                stripe
+                style="width: 100%">
+        <el-table-column show-overflow-tooltip
+                         type="index"
+                         width="50"
+                         label="序号">
+          <template slot-scope="scope">
+            {{scope.$index+1}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="ordersn"
+                         show-overflow-tooltip
+                         label="编号"
+                         width="180">
+        </el-table-column>
+        <el-table-column prop="shop_name"
+                         show-overflow-tooltip
+                         label="商家名称"
+                         width="180">
+        </el-table-column>
+        <el-table-column prop="addtime"
+                         show-overflow-tooltip
+                         label="下单时间"
+                         width="180">
+        </el-table-column>
+        <el-table-column prop="sh_price"
+                         show-overflow-tooltip
+                         label="运费">
+        </el-table-column>
+        <el-table-column prop="goods_point"
+                         show-overflow-tooltip
+                         label="订单积分">
+        </el-table-column>
+      </el-table>
+    </div>
+    <div class="btootm_paination">
+      <el-pagination @size-change="handleSizeChange"
+                     @current-change="handleCurrentChangeFun"
+                     :current-page="currentPage"
+                     :page-sizes="[10, 20, 30, 40]"
+                     :page-size="page_size"
+                     layout="total, sizes, prev, pager, next, jumper"
+                     :total="total">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'orderManagement',
-
   data () {
     return {
-      time: [],
-      sName: '',
-      value1: [],
-      form: {
-        displayName: ''
-      },
       height: window.innerHeight - 270 + 'px',
-      activeName: 'first',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      status: '0',
+      tableData: [],
       currentPage: 1, //当前页数
-      totalData: 1, //总页数
+      total: 1, //总页数
+      page_size: 10
     }
   },
 
   methods: {
-    handleClick (tab, event) {
-      console.log(tab, event);
+    getMyTgOrderPageList () {
+      this.$api.getMyTgOrderPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        order_type: "asc",
+        order_field: 'uid',
+        status: this.status,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.total = res.data.total_result
+      })
     },
 
-    add () {
-      this.$router.push('/shopManagement/addModifyTheData?nameType=添加收货地址')
+    handleClick (val) {
+      this.currentPage = 1
+      this.getMyTgOrderPageList()
+    },
 
-    },
-    editor () {
-      this.$router.push('/shopManagement/addModifyTheData?nameType=编辑编辑地址')
-    },
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.getMyTgOrderPageList()
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val;
+      this.getMyTgOrderPageList()
     },
-  }
+  },
+
+  mounted () {
+    this.getMyTgOrderPageList()
+  },
 }
 </script>
 

@@ -13,11 +13,11 @@
             {{scope.$index+1}}
           </template>
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="name"
                          show-overflow-tooltip
                          label="配送名称">
         </el-table-column>
-        <el-table-column prop="date"
+        <el-table-column prop="desc"
                          show-overflow-tooltip
                          label="配送描述">
         </el-table-column>
@@ -28,44 +28,35 @@
           <template slot-scope="scope">
             <div>
               <el-button size="medium"
-                         v-if="scope.$index !== 0"
+                         v-if="scope.row.install === 0"
                          type="text"
+                         @click="addShippingItem(scope.$index, scope.row)"
                          class="blueColor right20">安装</el-button>
               <el-button size="medium"
-                         v-if="scope.$index === 0"
+                         v-if="scope.row.install === 1"
                          type="text"
                          class="blueColor right20"
                          @click="editor(scope.$index, scope.row)">区域设置</el-button>
               <el-button size="medium"
-                         v-if="scope.$index === 0"
+                         v-if="scope.row.install === 1"
                          type="text"
                          class="redColor right20"
-                         @click="editor(scope.$index, scope.row)">删除</el-button>
-              <!-- <el-button size="medium"
-                         type="text"
-                         class="redColor"
-                         @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button> -->
+                         @click="delShippingItem(scope.$index, scope.row)">删除</el-button>
             </div>
           </template>
         </el-table-column>
       </el-table>
       <div class="btootm_paination">
-        <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
         <el-pagination @size-change="handleSizeChange"
                        @current-change="handleCurrentChangeFun"
                        :current-page="currentPage"
-                       :page-sizes="[100, 200, 300, 400]"
-                       :page-size="100"
+                       :page-sizes="[10, 20, 30, 40]"
+                       :page-size="page_size"
                        layout="total, sizes, prev, pager, next, jumper"
-                       :total="400">
+                       :total="total">
         </el-pagination>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -77,35 +68,71 @@ export default {
     return {
       time: [],
       sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
-      totalData: 1, //总页数
+      total: 1, //总页数
+      page_size: 10
     }
   },
 
   methods: {
+    addShippingItem (i, r) {
+      this.$api.addShippingItem({
+        name: r.key,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          type: 'success',
+          message: '安装成功'
+        })
+        this.getShippingList()
+      })
+    },
+
+    delShippingItem (i, r) {
+      this.$api.delShippingItem({
+        uid: r.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          type: 'success',
+          message: '卸载成功'
+        })
+        this.getShippingList()
+      })
+    },
+
+    getShippingList () {
+      this.$api.getShippingList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        order_type: "asc",
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = []
+        res.data.forEach(i => {
+          for (let key in i) {
+            this.tableData.push({
+              name: i[key].name,
+              desc: i[key].desc,
+              install: i[key].install,
+              license: i[key].license,
+              uid: i[key].uid,
+              key: key
+            })
+          }
+        })
+        console.log(this.tableData)
+        this.totalList = res.data.total_result
+      })
+    },
     add () {
       this.$router.push('/driver/edit?nameType=新建驱动')
-
     },
-    editor () {
-      this.$router.push('/transactionManagement/theLocale?nameType=区域设置')
+
+    editor (i, r) {
+      this.$router.push('/transactionManagement/theLocale?uid=' + r.uid)
     },
     // 分页
     handleCurrentChangeFun (val) {
@@ -114,8 +141,14 @@ export default {
     },
 
     handleSizeChange (val) {
+      this.page_size = val;
+      tableDataRenderFun(this);
       console.log(`每页 ${val} 条`);
     },
+  },
+
+  mounted () {
+    this.getShippingList()
   }
 }
 </script>
