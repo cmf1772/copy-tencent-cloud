@@ -4,8 +4,8 @@
  */
 import axios from 'axios'
 import router from '../router'
+import { Message } from 'element-ui'
 // import store from '../store/index'
-import { message } from 'element-ui'
 
 /**
  * 提示函数
@@ -40,11 +40,16 @@ const toLogin = () => {
  * @param {Number} status 请求失败的状态码
  */
 const errorHandle = (status, other) => {
-  // 状态码判断
   switch (status) {
     // 401: 未登录状态，跳转登录页
     case 200:
       this.$message('这是一条消息提示');
+      break
+    case 400:
+      Message({
+        message: other.err_msg,
+        type: 'error'
+      });
       break
     case 401:
       toLogin()
@@ -97,7 +102,7 @@ instance.interceptors.response.use(
     const { response } = error
     if (response) {
       // 请求已发出，但是不在2xx的范围
-      errorHandle(response.status, response.data.message)
+      errorHandle(response.status, response.data)
       return Promise.reject(response)
     } else {
       // 处理断网的情况

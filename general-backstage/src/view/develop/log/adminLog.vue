@@ -7,34 +7,27 @@
         placeholder="请输入会员ID"
         size="medium"
       ></el-input>
-      <el-button type="primary" icon="el-icon-search" size="medium"></el-button>
+      <el-button type="primary" icon="el-icon-search" size="medium" @click="search"></el-button>
     </div>
     <div class="task_con">
       <el-table :data="tableData" style="width: 100%" :max-height="tableHeight">
-        <el-table-column prop="id" label="ID" width="100" align="center">
+        <el-table-column prop="uid" label="ID" width="150" align="center">
         </el-table-column>
-        <el-table-column
-          prop="vip_id"
-          label="会员ID"
-          width="150"
-          align="center"
-        >
+        <el-table-column prop="m_id" label="会员ID" align="center">
         </el-table-column>
-        <el-table-column prop="action" label="动作" align="center">
+        <el-table-column prop="cnt" label="动作" align="center">
         </el-table-column>
-        <el-table-column prop="time" label="时间" width="300" align="center">
+        <el-table-column prop="register_date" label="时间"  align="center">
         </el-table-column>
       </el-table>
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChangeFun"
-        :current-page="currentPage"
-        :page-sizes="[100, 200, 300, 400]"
-        :page-size="100"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="400"
-      >
-      </el-pagination>
+      <el-pagination @size-change="handleSizeChange"
+                       @current-change="handleCurrentChangeFun"
+                       :current-page="currentPage"
+                       :page-sizes="[10, 20, 30, 40]"
+                       :page-size="page_size"
+                       layout="total, sizes, prev, pager, next, jumper"
+                       :total="totalData">
+        </el-pagination>
     </div>
   </div>
 </template>
@@ -47,48 +40,46 @@ export default {
       tableHeight: null,
       input: "",
       currentPage: 1,
-      tableData: [
-        {
-          id: "1",
-          vip_id: "admin",
-          action: "淘宝支付提现：MA2015120318285564",
-          time: "2020-07-30 10:01:20"
-        },
-        {
-          id: "1",
-          vip_id: "admin",
-          action: "淘宝支付提现：MA2015120318285564",
-          time: "2020-07-30 10:01:20"
-        },
-        {
-          id: "1",
-          vip_id: "admin",
-          action: "淘宝支付提现：MA2015120318285564",
-          time: "2020-07-30 10:01:20"
-        },
-        {
-          id: "1",
-          vip_id: "admin",
-          action: "淘宝支付提现：MA2015120318285564",
-          time: "2020-07-30 10:01:20"
-        },
-        {
-          id: "1",
-          vip_id: "admin",
-          action: "淘宝支付提现：MA2015120318285564",
-          time: "2020-07-30 10:01:20"
-        }
-      ]
+      page_size: 10,
+      totalData: 0,
+      tableData: []
     };
   },
   mounted() {
     var inHeight = document.getElementsByClassName("task_top");
     this.tableHeight =
       window.innerHeight - 210 - inHeight[0].clientHeight + "px";
+    this.create()
   },
   methods: {
-    handleSizeChange() {},
-    handleCurrentChangeFun() {}
+    create () {
+      this.$newApi.getAdminLogPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        m_id: this.input,
+        order_type: 'desc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.totalData = res.data.total_result
+        this.tableData = res.data.items
+      })
+    },
+    search() {
+      this.currentPage = 1
+      this.page_size = 10
+      this.create()
+    },
+    // 分页
+    handleCurrentChangeFun (val) {
+      this.currentPage = val;
+      this.create()
+    },
+
+    handleSizeChange (val) {
+      this.page_size = val
+      this.create()
+    },
   }
 };
 </script>

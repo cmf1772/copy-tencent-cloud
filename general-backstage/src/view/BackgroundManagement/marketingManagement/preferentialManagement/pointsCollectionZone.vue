@@ -34,21 +34,23 @@
           搜索
         </el-button>
       </div>
+      <div class="top_right">
+        <el-button type="primary" @click="selectDel">删除选定</el-button>
+      </div>
     </div>
     <div class="table_bottom">
       <el-tabs v-model="activeName"
                @tab-click="handleClick">
         <el-tab-pane label="商品价格"
-                     name="first"></el-tab-pane>
+                     name="price"></el-tab-pane>
         <el-tab-pane label="上传时间"
-                     name="second"></el-tab-pane>
+                     name="time"></el-tab-pane>
         <el-tab-pane label="商品库存"
-                     name="third"></el-tab-pane>
+                     name="stock"></el-tab-pane>
       </el-tabs>
       <div class="flex">
         <el-table :data="tableData"
-                  stripe
-                  style="width: 100%">
+                  style="width: 100%" @selection-change="handleSelectionChange">
           <el-table-column show-overflow-tooltip
                            type="index"
                            width="50"
@@ -63,7 +65,7 @@
                            label="商品信息">
             <template slot-scope="scope">
               <div>
-                <el-input v-model=" scope.row.name"
+                <el-input v-model="scope.row.goods_name" @blur="nameChange('goods_name', scope.row)"
                           style="width: 200px;border:none"
                           clearable>
                 </el-input>
@@ -74,24 +76,24 @@
                            label="积分汇价格">
             <template slot-scope="scope">
               <div>
-                <el-input v-model=" scope.row.name"
+                <el-input v-model=" scope.row.goods_sale_price" @blur="nameChange('goods_sale_price', scope.row)"
                           style="width: 200px;border:none"
                           clearable>
                 </el-input>
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="goods_stock"
                            show-overflow-tooltip
                            label="总库存"
                            width="180">
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="register_date"
                            show-overflow-tooltip
                            label="发布时间"
                            width="180">
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="status"
                            show-overflow-tooltip
                            label="状态"
                            width="180">
@@ -106,11 +108,11 @@
                 <el-button size="medium"
                            type="text"
                            class="yellowColor right20"
-                           @click="editor(scope.$index, scope.row)">修改</el-button>
+                           @click="editor(scope.row)">修改</el-button>
                 <el-button size="medium"
                            type="text"
                            class="redColor  right20"
-                           @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
+                           @click="checkTrackQueryFun(scope.row)">删除</el-button>
                 <!-- <el-button size="medium"
                            type="text"
                            @click="release"
@@ -121,13 +123,13 @@
         </el-table>
         <div class="btootm_paination">
           <el-pagination @size-change="handleSizeChange"
-                         @current-change="handleCurrentChangeFun"
-                         :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
-                         layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
-          </el-pagination>
+                       @current-change="handleCurrentChangeFun"
+                       :current-page="currentPage"
+                       :page-sizes="[10, 20, 30, 40]"
+                       :page-size="page_size"
+                       layout="total, sizes, prev, pager, next, jumper"
+                       :total="totalData">
+        </el-pagination>
         </div>
       </div>
     </div>
@@ -145,20 +147,13 @@ export default {
       ps_subject: '',
       ps_code: '',
       approval: '-2',
-      options: [
-        { value: '', label: '全部' },
-        { value: 0, label: '离线' },
-        { value: 1, label: '在线' },
-        { value: 2, label: '维护' },
-        { value: 3, label: '故障' },
-        { value: 4, label: '失效' },
-      ],
       sName: '',
       tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
       page_size: 10,
-      activeName: ''
+      activeName: 'price',
+      selectData: []
     }
   },
   mounted() {
@@ -175,15 +170,98 @@ export default {
         approval: this.approval,
         supplier_id: '',
         order_type: 'asc',
-        order_field: 'uid',
+        order_field: this.activeName,
         token: JSON.parse(this.$store.state.token).token,
       }).then(res => {
         this.tableData = res.data.items
         this.totalData = res.data.total_result
       })
     },
-    editor () {
-      this.$router.push('/preferentialManagement/editpointsCollectionZone?nameType=修改积分汇专区')
+    nameChange(name, row) {
+      this.$newApi.JFajaxEdit({
+        uid: row.uid,
+	      field: name,
+	      val: row[name],
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.err_code >= 0) {
+            this.$message({
+              type: 'error',
+              message: res.data.msg
+            })
+          }
+          else{
+            this.$message({
+              type: 'success',
+              message: '操作成功'
+            })
+          }
+      })
+    },
+    checkTrackQueryFun(row) {
+      this.$newApi.delChangeGdItem({
+        uid: row.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.err_code >= 0) {
+            this.$message({
+              type: 'error',
+              message: res.data.msg
+            })
+          }
+          else{
+            this.$message({
+              type: 'success',
+              message: '操作成功'
+            })
+            this.create()
+          }
+      })
+    },
+    handleSelectionChange(row) {
+      this.selectData = row
+    },
+    selectDel() {
+      if(this.selectData.length == 0) {
+        return this.$message({
+          type: 'error',
+          message: '请选择要删除的数据'
+        })
+      }
+      let arr = ''
+      this.selectData.forEach((item, index) => {
+        if(index == 0) {
+          arr = item.uid
+        }
+        else {
+          arr += ',' + item.uid
+        }
+      })
+      this.$newApi.batDelChangeGdItem({
+        uid: arr,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.err_code >= 0) {
+            this.$message({
+              type: 'error',
+              message: res.data.msg
+            })
+          }
+          else{
+            this.$message({
+              type: 'success',
+              message: '操作成功'
+            })
+            this.create()
+          }
+      })
+    },
+    sesarchFun() {
+      this.currentPage = 1
+      this.create()
+    },
+    editor (row) {
+      this.$router.push('/preferentialManagement/editpointsCollectionZone?uid=' + row.uid)
     },
 
     release () {
@@ -193,14 +271,16 @@ export default {
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.create()
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.create()
     },
     handleClick (tab, event) {
-      console.log(tab, event);
+      // console.log(t?ab, event);
+      this.create()
     }
   }
 }
@@ -222,7 +302,7 @@ export default {
     justify-content: space-between;
   }
 
-  .table_bottom {
+  /deep/ .table_bottom {
     width: 100%;
     height: auto;
     background: #fff;
@@ -231,6 +311,11 @@ export default {
     display: flex;
     flex-direction: column;
     margin-top: 5px;
+    td{
+      /deep/ .el-tooltip{
+        height: 40px !important;
+      }
+    }
   }
 
   .el-table {

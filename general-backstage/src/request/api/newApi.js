@@ -1520,11 +1520,57 @@ const newData =  {
 
    // 获取积分商品分页列表
    getChangeGdPageList (params) { return axios.post('/admin/changegd/getChangeGdPageList', params) },
+    // 编辑指定的积分兑换商品字段列
+    JFajaxEdit (params) { return axios.post('/admin/changegd/ajaxEdit', params) },
+    // 删除一个积分兑换商品
+    delChangeGdItem (params) { return axios.post('/admin/changegd/delChangeGdItem', params) },
+    // 批量删除积分兑换商品
+    batDelChangeGdItem (params) { return axios.post('/admin/changegd/batDelChangeGdItem', params) },
+    // 获取一个积分兑换商品
+    getChangeGdItem (params) { return axios.post('/admin/changegd/getChangeGdItem', params) },
+    // 获取相关分类下的筛选属性
+    getAttList (params) { return axios.post('/admin/changegd/getAttList', params) },
+    // 编辑一个积分商品
+    setChangeGdItem (params) { return axios.post('/admin/changegd/setChangeGdItem', params) },
 
    // 获取广告分页列表
    getAdPageList (params) { return axios.post('/admin/rcmad/getAdPageList', params) },
     // 获取广告初始化数据
     getInitData (params) { return axios.post('/admin/rcmad/getInitData', params) },
+    // 删除一个推荐广告
+    delRcmAdItem (params) { return axios.post('/admin/rcmad/delRcmAdItem', params) },
+    // 批量删除推荐广告
+    batDelRcmAdItem (params) { return axios.post('/admin/rcmad/batDelRcmAdItem', params) },
+    // 添加一个推荐广告
+    addRcmAdItem (params) { return axios.post('/admin/rcmad/addRcmAdItem', params) },
+    // 获取一个推荐广告
+    getRcmAdItem (params) { return axios.post('/admin/rcmad/getRcmAdItem', params) },
+    // 编辑一个推荐广告
+    setRcmAdItem (params) { return axios.post('/admin/rcmad/setRcmAdItem', params) },
+    // 审核一个广告申请信息
+    checkApplyItem (params) { return axios.post('/admin/rcmad/checkApplyItem', params) },
+    // 拒绝一个广告申请信息
+    backApplyItem (params) { return axios.post('/admin/rcmad/backApplyItem', params) },
+    // 获取一个广告申请详情
+    getApplyItem (params) { return axios.post('/admin/rcmad/getApplyItem', params) },
+
+    // 获取待审核广告申请分页列表
+    getApplyPageList (params) { return axios.post('/admin/rcmad/getApplyPageList', params) },
+    // 获取待展示广告申请分页列表
+    getApplyCheckPageList (params) { return axios.post('/admin/rcmad/getApplyCheckPageList', params) },
+    // 删除一个广告申请信息
+    delApplyItem (params) { return axios.post('/admin/rcmad/delApplyItem', params) },
+
+    // 获取品牌分页列表
+    getBrandPageList (params) { return axios.post('/admin/brand/getBrandPageList', params) },
+    // 删除一个品牌
+    delBrandItem (params) { return axios.post('/admin/brand/delBrandItem', params) },
+    // 添加一个品牌
+    addBrandItem (params) { return axios.post('/admin/brand/addBrandItem', params) },
+    // 获取一个品牌
+    getBrandItem (params) { return axios.post('/admin/brand/getBrandItem', params) },
+    // 编辑一个品牌
+    setBrandItem (params) { return axios.post('/admin/brand/setBrandItem', params) },
 
    // -----------------------   服务管理  --------------------
    // 获取供应信息分页列表
@@ -1695,8 +1741,608 @@ const newData =  {
    // 添加一个弹窗广告
    addPopupItem (params) { return axios.post('/admin/popup/addPopupItem', params) },
 
+  // ----------- 商家管理 - 商铺管理 ---------------
+   // 获取商家分页列表 
+   getSupplierPageList (params) { return axios.post('/admin/supplier/getSupplierPageList', params) },
+   // 开启或关闭一个商家 
+   ajaxEdit (params) { return axios.post('/admin/supplier/ajaxEdit', params) },
+   // 获取一个商家 
+   getSupplierItem (params) { return axios.post('/admin/supplier/getSupplierItem', params) },
+   // 编辑一个商家 
+   setSupplierItem (params) { return axios.post('/admin/supplier/setSupplierItem', params) },
+   // 删除一个商家 
+   delSupplierItem (params) { return axios.post('/admin/supplier/delSupplierItem', params) },
+   // 编辑一个推荐广告 
+   setRcmAdItem (params) { return axios.post('/admin/rcmad/setRcmAdItem', params) },
+   // 获取广告初始化数据 
+   getInitData (params) { return axios.post('/admin/rcmad/getInitData', params) },
+   // 根据商品关键字搜索商品信息
+   searchGoods (params) { return axios.post('/admin/rcmad/searchGoods', params) },
+   // 根据商铺关键字搜索商家信息
+   searchShop (params) { return axios.post('/admin/rcmad/searchShop', params) },
+   // 添加一个推荐广告 
+   addRcmAdItem (params) { return axios.post('/admin/rcmad/addRcmAdItem', params) },
+   
+
+   // 获取地区分页列表 
+   getAreaPageList (params) { return axios.post('/admin/area/getAreaPageList', params) },
+   // 添加一个添加搜索地区 
+   addSearchAreaItem (params) { return axios.post('/admin/searcharea/addSearchAreaItem', params) },
+   // 获取地区管理员 
+   getAdminItem (params) { return axios.post('/admin/searcharea/getAdminItem', params) },
+   // 删除一个地区 
+   delAreaItem (params) { return axios.post('/admin/area/delAreaItem', params) },
+   // 获取总店分页列表 
+   getCityShopPageList (params) { return axios.post('/admin/city/getCityShopPageList', params) },
+   // 删除一个总店 
+   delCityShopItem (params) { return axios.post('/admin/city/delCityShopItem', params) },
+   // 获取总店管理员 
+   ZDgetAdminItem (params) { return axios.post('/admin/city/getAdminItem', params) },
+   // 添加或编辑一个总店管理员 
+   ZDaddAdminItem (params) { return axios.post('/admin/city/addAdminItem', params) },
+   // 添加一个总店 
+   addCityShopItem (params) { return axios.post('/admin/city/addCityShopItem', params) },
+
+   // 获取商家分页列表 
+   XDgetSupplierPageList (params) { return axios.post('/admin/xsupplier/getSupplierPageList', params) },
+   // 获取一个商家 
+   XDgetSupplierItem (params) { return axios.post('/admin/xsupplier/getSupplierItem', params) },  
+   // 编辑一个商家 
+   XDsetSupplierItem (params) { return axios.post('/admin/xsupplier/setSupplierItem', params) }, 
+   // 删除一个商家 
+   XDdelSupplierItem (params) { return axios.post('/admin/xsupplier/delSupplierItem', params) },
+
+   // 获取商家分页列表 
+   YDgetSupplierPageList (params) { return axios.post('/admin/ysupplier/getSupplierPageList', params) },
+   // 获取一个商家 
+   YDgetSupplierItem (params) { return axios.post('/admin/ysupplier/getSupplierItem', params) },  
+   // 编辑一个商家 
+   YDsetSupplierItem (params) { return axios.post('/admin/ysupplier/setSupplierItem', params) }, 
+   // 删除一个商家 
+   YDdelSupplierItem (params) { return axios.post('/admin/ysupplier/delSupplierItem', params) },
+
+    // 获取买家评论分页列表 
+    MJgetCommentPageList (params) { return axios.post('/admin/buymsg/getCommentPageList', params) },
+    // 删除一个评论 
+    MJdelMsgItem (params) { return axios.post('/admin/buymsg/delMsgItem', params) },
+    // 批量删除一个评论 
+    MJbatDelMsgItem (params) { return axios.post('/admin/buymsg/batDelMsgItem', params) },
+
+    // 获取卖家评论分页列表
+    SMJgetCommentPageList (params) { return axios.post('/admin/supmsg/getCommentPageList', params) },
+    // 删除一个评论 
+    SMJdelMsgItem (params) { return axios.post('/admin/supmsg/delMsgItem', params) },
+    // 批量删除一个评论 
+    SMJbatDelMsgItem (params) { return axios.post('/admin/supmsg/batDelMsgItem', params) },
+
+    // 获取申请分页列表
+    getShopUpdatePageList (params) { return axios.post('/admin/shopupdate/getShopUpdatePageList', params) },
+    // 审核一个网店升级申请
+    SJsetCheckItem (params) { return axios.post('/admin/shopupdate/setCheckItem', params) },
+
+    // -------------------------------- 行业分类 -----------------------------------
+   // 获取分类分页列表
+   HYgetCategoryPageList (params) { return axios.post('/admin/industrycategory/getCategoryPageList', params) },
+   // 获取指定分类的子分类列表
+   HYgetSubList (params) { return axios.post('/admin/industrycategory/getSubList', params) },
+   // 删除一个分类
+   HYdelCategoryItem (params) { return axios.post('/admin/industrycategory/delCategoryItem', params) },
+   // 添加一个分类
+   HYaddCategoryItem (params) { return axios.post('/admin/industrycategory/addCategoryItem', params) },
+   // 获取一个分类
+   HYgetCategoryItem (params) { return axios.post('/admin/industrycategory/getCategoryItem', params) },
+   // 编辑一个分类
+   HYsetCategoryItem (params) { return axios.post('/admin/industrycategory/setCategoryItem', params) },
+   // 批量删除分类
+   HYbatDelCategoryItem (params) { return axios.post('/admin/industrycategory/batDelCategoryItem', params) },
+   // 更新分类列表
+   HYcreateLevelCat (params) { return axios.post('/admin/industrycategory/createLevelCat', params) },
+   // 分类层次自动纠错
+   HYcorrect (params) { return axios.post('/admin/industrycategory/correct', params) },
+   // 复制一个分类
+   HYcopyCategoryItem (params) { return axios.post('/admin/industrycategory/copyCategoryItem', params) },
+
+   // ----------------------------------- 招聘职位分类 -------------------------------
+   // 获取分类分页列表
+   JPgetCategoryPageList (params) { return axios.post('/admin/positioncategory/getCategoryPageList', params) },
+   // 获取指定分类的子分类列表
+   JPgetSubList (params) { return axios.post('/admin/positioncategory/getSubList', params) },
+   // 删除一个分类
+   JPdelCategoryItem (params) { return axios.post('/admin/positioncategory/delCategoryItem', params) },
+   // 添加一个分类
+   JPaddCategoryItem (params) { return axios.post('/admin/positioncategory/addCategoryItem', params) },
+   // 获取一个分类
+   JPgetCategoryItem (params) { return axios.post('/admin/positioncategory/getCategoryItem', params) },
+   // 编辑一个分类
+   JPsetCategoryItem (params) { return axios.post('/admin/positioncategory/setCategoryItem', params) },
+   // 批量删除分类
+   JPbatDelCategoryItem (params) { return axios.post('/admin/positioncategory/batDelCategoryItem', params) },
+   // 更新分类列表
+   JPcreateLevelCat (params) { return axios.post('/admin/positioncategory/createLevelCat', params) },
+   // 分类层次自动纠错
+   JPcorrect (params) { return axios.post('/admin/positioncategory/correct', params) },
+   // 复制一个分类
+   JPcopyCategoryItem (params) { return axios.post('/admin/positioncategory/copyCategoryItem', params) },
+
+   // ----------------------------------- 兼职类别 -------------------------------
+   // 获取分类分页列表
+   JZgetCategoryPageList (params) { return axios.post('/admin/jztype/getCategoryPageList', params) },
+   // 获取指定分类的子分类列表
+   JZgetSubList (params) { return axios.post('/admin/jztype/getSubList', params) },
+   // 删除一个分类
+   JZdelCategoryItem (params) { return axios.post('/admin/jztype/delCategoryItem', params) },
+   // 添加一个分类
+   JZaddCategoryItem (params) { return axios.post('/admin/jztype/addCategoryItem', params) },
+   // 获取一个分类
+   JZgetCategoryItem (params) { return axios.post('/admin/jztype/getCategoryItem', params) },
+   // 编辑一个分类
+   JZsetCategoryItem (params) { return axios.post('/admin/jztype/setCategoryItem', params) },
+   // 批量删除分类
+   JZbatDelCategoryItem (params) { return axios.post('/admin/jztype/batDelCategoryItem', params) },
+   // 更新分类列表
+   JZcreateLevelCat (params) { return axios.post('/admin/jztype/createLevelCat', params) },
+   // 分类层次自动纠错
+   JZcorrect (params) { return axios.post('/admin/jztype/correct', params) },
+   // 复制一个分类
+   JZcopyCategoryItem (params) { return axios.post('/admin/jztype/copyCategoryItem', params) },
+
+   // ----------------------------------- 兼职职业分类 -------------------------------
+   // 获取分类分页列表
+   JZZYgetCategoryPageList (params) { return axios.post('/admin/jzCategory/getCategoryPageList', params) },
+   // 获取指定分类的子分类列表
+   JZZYgetSubList (params) { return axios.post('/admin/jzCategory/getSubList', params) },
+   // 删除一个分类
+   JZZYdelCategoryItem (params) { return axios.post('/admin/jzCategory/delCategoryItem', params) },
+   // 添加一个分类
+   JZZYaddCategoryItem (params) { return axios.post('/admin/jzCategory/addCategoryItem', params) },
+   // 获取一个分类
+   JZZYgetCategoryItem (params) { return axios.post('/admin/jzCategory/getCategoryItem', params) },
+   // 编辑一个分类
+   JZZYsetCategoryItem (params) { return axios.post('/admin/jzCategory/setCategoryItem', params) },
+   // 批量删除分类
+   JZZYbatDelCategoryItem (params) { return axios.post('/admin/jzCategory/batDelCategoryItem', params) },
+   // 更新分类列表
+   JZZYcreateLevelCat (params) { return axios.post('/admin/jzCategory/createLevelCat', params) },
+   // 分类层次自动纠错
+   JZZYcorrect (params) { return axios.post('/admin/jzCategory/correct', params) },
+   // 复制一个分类
+   JZZYcopyCategoryItem (params) { return axios.post('/admin/jzCategory/copyCategoryItem', params) },
+
+   // ----------------------------------- 地区管理 -------------------------------
+   // 获取分类分页列表
+   getAreaPageList (params) { return axios.post('/admin/area/getAreaPageList', params) },
+   // 获取指定分类的子分类列表
+   DQgetSubList (params) { return axios.post('/admin/area/getSubList', params) },
+   // 删除一个分类
+   DQdelAreaItem (params) { return axios.post('/admin/area/delAreaItem', params) },
+   // 添加一个分类
+   DQaddAreaItem (params) { return axios.post('/admin/area/addAreaItem', params) },
+   // 获取一个分类
+   DQgetAreaItem (params) { return axios.post('/admin/area/getAreaItem', params) },
+   // 编辑一个分类
+   DQsetAreaItem (params) { return axios.post('/admin/area/setAreaItem', params) },
+   // 批量删除分类
+   DQbatDelAreaItem (params) { return axios.post('/admin/area/batDelAreaItem', params) },
+   // 更新分类列表
+   DQcreateLevelCat (params) { return axios.post('/admin/area/createLevelCat', params) },
+   // 分类层次自动纠错
+   DQcorrect (params) { return axios.post('/admin/area/correct', params) },
+
+  // ----------------------------------- 经营行业 -------------------------------
+   // 获取分类分页列表
+   JYgetCategoryPageList (params) { return axios.post('/admin/bindustrycategory/getCategoryPageList', params) },
+   // 获取指定分类的子分类列表
+   JYgetSubList (params) { return axios.post('/admin/bindustrycategory/getSubList', params) },
+   // 删除一个分类
+   JYdelCategoryItem (params) { return axios.post('/admin/bindustrycategory/delCategoryItem', params) },
+   // 添加一个分类
+   JYaddCategoryItem (params) { return axios.post('/admin/bindustrycategory/addCategoryItem', params) },
+   // 获取一个分类
+   JYgetCategoryItem (params) { return axios.post('/admin/bindustrycategory/getCategoryItem', params) },
+   // 编辑一个分类
+   JYsetCategoryItem (params) { return axios.post('/admin/bindustrycategory/setCategoryItem', params) },
+   // 批量删除分类
+   JYbatDelCategoryItem (params) { return axios.post('/admin/bindustrycategory/batDelCategoryItem', params) },
+   // 更新分类列表
+   JYcreateLevelCat (params) { return axios.post('/admin/bindustrycategory/createLevelCat', params) },
+   // 分类层次自动纠错
+   JYcorrect (params) { return axios.post('/admin/bindustrycategory/correct', params) },
+   // 复制一个分类
+   JYcopyCategoryItem (params) { return axios.post('/admin/bindustrycategory/copyCategoryItem', params) },
+
+   // ----------------------------------- 品牌车系分类 -------------------------------
+   // 获取分类分页列表
+   PPCgetCategoryPageList (params) { return axios.post('/admin/brandcategory/getCategoryPageList', params) },
+   // 获取指定分类的子分类列表
+   PPCgetSubList (params) { return axios.post('/admin/brandcategory/getSubList', params) },
+   // 删除一个分类
+   PPCdelCategoryItem (params) { return axios.post('/admin/brandcategory/delCategoryItem', params) },
+   // 添加一个分类
+   PPCaddCategoryItem (params) { return axios.post('/admin/brandcategory/addCategoryItem', params) },
+   // 获取一个分类
+   PPCgetCategoryItem (params) { return axios.post('/admin/brandcategory/getCategoryItem', params) },
+   // 编辑一个分类
+   PPCsetCategoryItem (params) { return axios.post('/admin/brandcategory/setCategoryItem', params) },
+   // 批量删除分类
+   PPCbatDelCategoryItem (params) { return axios.post('/admin/brandcategory/batDelCategoryItem', params) },
+   // 更新分类列表
+   PPCcreateLevelCat (params) { return axios.post('/admin/brandcategory/createLevelCat', params) },
+   // 分类层次自动纠错
+   PPCcorrect (params) { return axios.post('/admin/brandcategory/correct', params) },
+   // 复制一个分类
+   PPCcopyCategoryItem (params) { return axios.post('/admin/brandcategory/copyCategoryItem', params) },
+
+   // ----------------------------------- 车类车型分类 -------------------------------
+   // 获取分类分页列表
+   CLCXgetCategoryPageList (params) { return axios.post('/admin/cxcategory/getCategoryPageList', params) },
+   // 获取指定分类的子分类列表
+   CLCXgetSubList (params) { return axios.post('/admin/cxcategory/getSubList', params) },
+   // 删除一个分类
+   CLCXdelCategoryItem (params) { return axios.post('/admin/cxcategory/delCategoryItem', params) },
+   // 添加一个分类
+   CLCXaddCategoryItem (params) { return axios.post('/admin/cxcategory/addCategoryItem', params) },
+   // 获取一个分类
+   CLCXgetCategoryItem (params) { return axios.post('/admin/cxcategory/getCategoryItem', params) },
+   // 编辑一个分类
+   CLCXsetCategoryItem (params) { return axios.post('/admin/cxcategory/setCategoryItem', params) },
+   // 批量删除分类
+   CLCXbatDelCategoryItem (params) { return axios.post('/admin/cxcategory/batDelCategoryItem', params) },
+   // 更新分类列表
+   CLCXcreateLevelCat (params) { return axios.post('/admin/cxcategory/createLevelCat', params) },
+   // 分类层次自动纠错
+   CLCXcorrect (params) { return axios.post('/admin/cxcategory/correct', params) },
+   // 复制一个分类
+   CLCXcopyCategoryItem (params) { return axios.post('/admin/cxcategory/copyCategoryItem', params) },
+
+   // ----------------------------------- 租车分类 -------------------------------
+   // 获取分类分页列表
+   ZCFLgetCategoryPageList (params) { return axios.post('/admin/zuchecategory/getCategoryPageList', params) },
+   // 获取指定分类的子分类列表
+   ZCFLgetSubList (params) { return axios.post('/admin/zuchecategory/getSubList', params) },
+   // 删除一个分类
+   ZCFLdelCategoryItem (params) { return axios.post('/admin/zuchecategory/delCategoryItem', params) },
+   // 添加一个分类
+   ZCFLaddCategoryItem (params) { return axios.post('/admin/zuchecategory/addCategoryItem', params) },
+   // 获取一个分类
+   ZCFLgetCategoryItem (params) { return axios.post('/admin/zuchecategory/getCategoryItem', params) },
+   // 编辑一个分类
+   ZCFLsetCategoryItem (params) { return axios.post('/admin/zuchecategory/setCategoryItem', params) },
+   // 批量删除分类
+   ZCFLbatDelCategoryItem (params) { return axios.post('/admin/zuchecategory/batDelCategoryItem', params) },
+   // 更新分类列表
+   ZCFLcreateLevelCat (params) { return axios.post('/admin/zuchecategory/createLevelCat', params) },
+   // 分类层次自动纠错
+   ZCFLcorrect (params) { return axios.post('/admin/zuchecategory/correct', params) },
+   // 复制一个分类
+   ZCFLcopyCategoryItem (params) { return axios.post('/admin/zuchecategory/copyCategoryItem', params) },
+
+   // ----------------------------------- 常规商品分类 -------------------------------
+   // 获取分类分页列表
+   CGSPgetCategoryPageList (params) { return axios.post('/admin/category/getCategoryPageList', params) },
+   // 获取指定分类的子分类列表
+   CGSPgetSubList (params) { return axios.post('/admin/category/getSubList', params) },
+   // 删除一个分类
+   CGSPdelCategoryItem (params) { return axios.post('/admin/category/delCategoryItem', params) },
+   // 添加一个分类
+   CGSPaddCategoryItem (params) { return axios.post('/admin/category/addCategoryItem', params) },
+   // 获取一个分类
+   CGSPgetCategoryItem (params) { return axios.post('/admin/category/getCategoryItem', params) },
+   // 编辑一个分类
+   CGSPsetCategoryItem (params) { return axios.post('/admin/category/setCategoryItem', params) },
+   // 批量删除分类
+   CGSPbatDelCategoryItem (params) { return axios.post('/admin/category/batDelCategoryItem', params) },
+   // 更新分类列表
+   CGSPcreateLevelCat (params) { return axios.post('/admin/category/createLevelCat', params) },
+   // 分类层次自动纠错
+   CGSPcorrect (params) { return axios.post('/admin/category/correct', params) },
+   // 复制一个分类
+   CGSPcopyCategoryItem (params) { return axios.post('/admin/category/copyCategoryItem', params) },
+
+    // ----------------------------------- 供求vip分类 -------------------------------
+   // 获取分类分页列表
+   GQVIPgetCategoryPageList (params) { return axios.post('/admin/categoryvip/getCategoryPageList', params) },
+   // 获取指定分类的子分类列表
+   GQVIPgetSubList (params) { return axios.post('/admin/categoryvip/getSubList', params) },
+   // 删除一个分类
+   GQVIPdelCategoryItem (params) { return axios.post('/admin/categoryvip/delCategoryItem', params) },
+   // 添加一个分类
+   GQVIPaddCategoryItem (params) { return axios.post('/admin/categoryvip/addCategoryItem', params) },
+   // 获取一个分类
+   GQVIPgetCategoryItem (params) { return axios.post('/admin/categoryvip/getCategoryItem', params) },
+   // 编辑一个分类
+   GQVIPsetCategoryItem (params) { return axios.post('/admin/categoryvip/setCategoryItem', params) },
+   // 批量删除分类
+   GQVIPbatDelCategoryItem (params) { return axios.post('/admin/categoryvip/batDelCategoryItem', params) },
+   // 更新分类列表
+   GQVIPcreateLevelCat (params) { return axios.post('/admin/categoryvip/createLevelCat', params) },
+   // 分类层次自动纠错
+   GQVIPcorrect (params) { return axios.post('/admin/categoryvip/correct', params) },
+   // 复制一个分类
+   GQVIPcopyCategoryItem (params) { return axios.post('/admin/categoryvip/copyCategoryItem', params) },
+
+   // ----------------------------------- 知识商品分类 -------------------------------
+   // 获取分类分页列表
+   ZSSPgetCategoryPageList (params) { return axios.post('/admin/ecategory/getCategoryPageList', params) },
+   // 获取指定分类的子分类列表
+   ZSSPgetSubList (params) { return axios.post('/admin/ecategory/getSubList', params) },
+   // 删除一个分类
+   ZSSPdelCategoryItem (params) { return axios.post('/admin/ecategory/delCategoryItem', params) },
+   // 添加一个分类
+   ZSSPaddCategoryItem (params) { return axios.post('/admin/ecategory/addCategoryItem', params) },
+   // 获取一个分类
+   ZSSPgetCategoryItem (params) { return axios.post('/admin/ecategory/getCategoryItem', params) },
+   // 编辑一个分类
+   ZSSPsetCategoryItem (params) { return axios.post('/admin/ecategory/setCategoryItem', params) },
+   // 批量删除分类
+   ZSSPbatDelCategoryItem (params) { return axios.post('/admin/ecategory/batDelCategoryItem', params) },
+   // 更新分类列表
+   ZSSPcreateLevelCat (params) { return axios.post('/admin/ecategory/createLevelCat', params) },
+   // 分类层次自动纠错
+   ZSSPcorrect (params) { return axios.post('/admin/ecategory/correct', params) },
+   // 复制一个分类
+   ZSSPcopyCategoryItem (params) { return axios.post('/admin/ecategory/copyCategoryItem', params) },
+
+   // ----------------------------------- 参数管理 -------------------------------
+   // 获取分类分页列表
+   CSGLgetCategoryPageList (params) { return axios.post('/admin/parameters/getParametersPageList', params) },
+   // 获取指定分类的子分类列表
+   CSGLgetSubList (params) { return axios.post('/admin/parameters/getSubList', params) },
+   // 删除一个分类
+   CSGLdelCategoryItem (params) { return axios.post('/admin/parameters/delParametersItem', params) },
+   // 添加一个分类
+   CSGLaddCategoryItem (params) { return axios.post('/admin/parameters/addCategoryItem', params) },
+   // 获取一个分类
+   CSGLgetCategoryItem (params) { return axios.post('/admin/parameters/getParametersItem', params) },
+   // 编辑一个分类
+   CSGLsetCategoryItem (params) { return axios.post('/admin/parameters/setParametersItem', params) },
+   // 批量删除分类
+   CSGLbatDelCategoryItem (params) { return axios.post('/admin/parameters/batDelCategoryItem', params) },
+   // 更新分类列表
+   CSGLcreateLevelCat (params) { return axios.post('/admin/parameters/createLevelCat', params) },
+   // 分类层次自动纠错
+   CSGLcorrect (params) { return axios.post('/admin/parameters/correct', params) },
+   // 复制一个分类
+   CSGLcopyCategoryItem (params) { return axios.post('/admin/parameters/copyParametersItem', params) },
+   // 批量添加一个参数
+   CSGLbatAddParametersItem (params) { return axios.post('/admin/parameters/batAddParametersItem', params) },
+
+   // ----------------------------------- 相册分类 -------------------------------
+   // 获取分类分页列表
+   XCgetCategoryPageList (params) { return axios.post('/admin/albumcategory/getCategoryPageList', params) },
+   // 获取指定分类的子分类列表
+   XCgetSubList (params) { return axios.post('/admin/albumcategory/getSubList', params) },
+   // 删除一个分类
+   XCdelCategoryItem (params) { return axios.post('/admin/albumcategory/delCategoryItem', params) },
+   // 添加一个分类
+   XCaddCategoryItem (params) { return axios.post('/admin/albumcategory/addCategoryItem', params) },
+   // 获取一个分类
+   XCgetCategoryItem (params) { return axios.post('/admin/albumcategory/getCategoryItem', params) },
+   // 编辑一个分类
+   XCsetCategoryItem (params) { return axios.post('/admin/albumcategory/setCategoryItem', params) },
+   // 批量删除分类
+   XCbatDelCategoryItem (params) { return axios.post('/admin/albumcategory/batDelCategoryItem', params) },
+   // 更新分类列表
+   XCcreateLevelCat (params) { return axios.post('/admin/albumcategory/createLevelCat', params) },
+   // 分类层次自动纠错
+   XCcorrect (params) { return axios.post('/admin/albumcategory/correct', params) },
+   // 复制一个分类
+   XCcopyCategoryItem (params) { return axios.post('/admin/albumcategory/copyCategoryItem', params) },
+
+   // ----------------------------------- 分类信息 -------------------------------
+   // 获取分类分页列表
+   FLXgetCategoryPageList (params) { return axios.post('/admin/mcycategory/getCategoryPageList', params) },
+   // 获取指定分类的子分类列表
+   FLXgetSubList (params) { return axios.post('/admin/mcycategory/getSubList', params) },
+   // 删除一个分类
+   FLXdelCategoryItem (params) { return axios.post('/admin/mcycategory/delCategoryItem', params) },
+   // 添加一个分类
+   FLXaddCategoryItem (params) { return axios.post('/admin/mcycategory/addCategoryItem', params) },
+   // 获取一个分类
+   FLXgetCategoryItem (params) { return axios.post('/admin/mcycategory/getCategoryItem', params) },
+   // 编辑一个分类
+   FLXsetCategoryItem (params) { return axios.post('/admin/mcycategory/setCategoryItem', params) },
+   // 批量删除分类
+   FLXbatDelCategoryItem (params) { return axios.post('/admin/mcycategory/batDelCategoryItem', params) },
+   // 更新分类列表
+   FLXcreateLevelCat (params) { return axios.post('/admin/mcycategory/createLevelCat', params) },
+   // 分类层次自动纠错
+   FLXcorrect (params) { return axios.post('/admin/mcycategory/correct', params) },
+   // 复制一个分类
+   FLXcopyCategoryItem (params) { return axios.post('/admin/mcycategory/copyCategoryItem', params) },
+   // 批量添加一个参数
+   FLXbatAddParametersItem (params) { return axios.post('/admin/mcycategory/batAddCategoryItem', params) },
+   // 编辑价位
+   FLXtypePrice (params) { return axios.post('/admin/mcycategory/typePrice', params) },
+   // 编辑广告
+   FLXtypeRemark (params) { return axios.post('/admin/mcycategory/typeRemark', params) },
+   // 编辑别名
+   FLXalias (params) { return axios.post('/admin/mcycategory/alias', params) },
+
+   // -----------定期任务日志------------
+   // 获取定期任务日志分页列表
+   getTaskLogPageList (params) { return axios.post('/admin/tasklog/getTaskLogPageList', params) },
+   // 删除一个定期任务日志
+   delTaskLogItem (params) { return axios.post('/admin/tasklog/delTaskLogItem', params) },
+
+   // -----------后台日志管理------------
+   // 获取日志分页列表
+   getAdminLogPageList (params) { return axios.post('/admin/adminlog/getAdminLogPageList', params) },
+
+   // -----------商家设置 客服设置------------
+   // 编辑基本设置
+   setSettingItem (params) { return axios.post('/admin/settings/setSettingItem', params) },
+   // 获取商家设置
+   getSettingItem (params) { return axios.post('/admin/settings/getSettingItem', params) },
+
+   // 获取保留域名
+   getDomainItem (params) { return axios.post('/admin/domain/getDomainItem', params) },
+   // 编辑保留域名
+   setDomainItem (params) { return axios.post('/admin/domain/setDomainItem', params) },
+
+   // 获取认证商铺分页列表
+   getSupCheckPageList (params) { return axios.post('/admin/supcheck/getSupCheckPageList', params) },
+   // 商铺认证审核通过
+   certify_supplier (params) { return axios.post('/admin/supcheck/certify_supplier', params) },
+   // 商铺审核通过
+   pass_supplier (params) { return axios.post('/admin/supcheck/pass_supplier', params) },
+   // 商铺认证审核拒绝
+   deny_certify (params) { return axios.post('/admin/supcheck/deny_certify', params) },
+   // 商铺审核拒绝
+   deny_check (params) { return axios.post('/admin/supcheck/deny_check', params) },
+
+   // 获取顶级域名分页列表
+   getTldPageList (params) { return axios.post('/admin/tld/getTldPageList', params) },
+   // 删除一个顶级域名
+   delTldItem (params) { return axios.post('/admin/tld/delTldItem', params) },
+   // 编辑一个顶级域名
+   setTldItem (params) { return axios.post('/admin/tld/setTldItem', params) },
+
+   // 获取商铺类型分页列表
+   getTypePageList (params) { return axios.post('/admin/type/getTypePageList', params) },
+   // 删除一个商铺类型
+   delTypeItem (params) { return axios.post('/admin/type/delTypeItem', params) },
+   // 添加一个商铺类型
+   addTypeItem (params) { return axios.post('/admin/type/addTypeItem', params) },
+   // 编辑一个商铺类型
+   setAreaItem (params) { return axios.post('/admin/type/setAreaItem', params) },
+   // 获取一个商铺类型
+   getTypeItem (params) { return axios.post('/admin/type/getTypeItem', params) },
+
+   // 获取商铺权限分页列表
+   getMemberSetPageList (params) { return axios.post('/admin/memberset/getMemberSetPageList', params) },
+   // 添加一个商铺权限
+   addMemberSetItem (params) { return axios.post('/admin/memberset/addMemberSetItem', params) },
+   // 编辑一个商铺权限
+   setMemberSetItem (params) { return axios.post('/admin/memberset/setMemberSetItem', params) },
+   // 获取一个商铺权限
+   getMemberSetItem (params) { return axios.post('/admin/memberset/getMemberSetItem', params) },
+   // 删除一个商铺权限
+   delMemberSetItem (params) { return axios.post('/admin/memberset/delMemberSetItem', params) },
+
+   // --------------- 通证管理 ----------------
+   // 获取分类信息分页列表
+   getPostPageList (params) { return axios.post('/admin/post/getPostPageList', params) },
+   // 删除一个分类信息
+   FLdelPostItem (params) { return axios.post('/admin/post/delPostItem', params) },
+   // 审核一个分类信息
+   FLsetCheckItem (params) { return axios.post('/admin/post/setCheckItem', params) },
+   // 驳回一个分类信息
+   FLsetBackItem (params) { return axios.post('/admin/post/setBackItem', params) },
+
+    // 获取通证分页列表
+    getPointPageList (params) { return axios.post('/admin/point/getPointPageList', params) },
+    // 获取通证分页列表
+    getPointPageList (params) { return axios.post('/admin/point/getPointPageList', params) },
+
+    // 获取通证订单分页列表
+    TZgetOrderPageList (params) { return axios.post('/admin/pointorder/getOrderPageList', params) },
+    // 添加一个奖励通证
+    TZaddPointItem1 (params) { return axios.post('/admin/point/addPointItem1', params) },
+    // 添加一个红利通证
+    TZaddPointItem2 (params) { return axios.post('/admin/point/addPointItem2', params) },
+    // 添加一个券币通证
+    TZaddPointItem3 (params) { return axios.post('/admin/point/addPointItem3', params) },
+    // 添加一个票证通证
+    TZaddPointItem4 (params) { return axios.post('/admin/point/addPointItem4', params) },
+    // 添加一个权限通证
+    TZaddPointItem5 (params) { return axios.post('/admin/point/addPointItem5', params) },
+    //添加一个参议|服务|权益|商品|资产|通证
+    TZaddPointItem6 (params) { return axios.post('/admin/point/addPointItem6', params) },
+    // 删除一个通证
+    TZdelPointItem (params) { return axios.post('/admin/point/delPointItem', params) },
+    // 批量审核通证信息
+    TZsetBatCheckItem (params) { return axios.post('/admin/point/setBatCheckItem', params) },
 
 
+    
+    // 获取菜单分页列表
+    getMenuPageList (params) { return axios.post('/admin/menu/getMenuPageList', params) },
+    // 根据权限(用户组ID)获取菜单列表
+    getMenuAuthList (params) { return axios.post('/admin/menu/getMenuAuthList', params) },
+
+    // 获取图片分页列表
+    getPicsPageList (params) { return axios.post('/admin/pics/getPicsPageList', params) },
+    // 删除一个图片
+    TPdelLinkItem (params) { return axios.post('/admin/pics/delLinkItem', params) },
+    // 批量删除图片
+    TPbatDelPicsItem (params) { return axios.post('/admin/pics/batDelPicsItem', params) },
+
+    // 批量发送短信
+    batSendSms (params) { return axios.post('/admin/sendsms/batSendSms', params) },
+    // 获取会员等级列表
+    getGradeList (params) { return axios.post('/admin/sendsms/getGradeList', params) },
+
+    // 批量发送邮件
+    batSendMall (params) { return axios.post('/admin/sendmail/batSendMall', params) },
+    // 获取会员等级列表
+    YJgetGradeList (params) { return axios.post('/admin/sendmail/getGradeList', params) },
+
+    // 获取申请商铺分页列表
+    getShopApplyPageList (params) { return axios.post('/admin/supapply/getShopApplyPageList', params) },
+    // 删除一个申请商铺
+    delSupApplyItem (params) { return axios.post('/admin/supapply/delSupApplyItem', params) },
+
+    // 获取微信菜单列表
+    getWxMenuList (params) { return axios.post('/admin/wxmenu/getWxMenuList', params) },
+    // 添加微信菜单
+    addMenuItem (params) { return axios.post('/admin/wxmenu/addMenuItem', params) },  
+    // 删除微信菜单
+    delWxMenuItem (params) { return axios.post('/admin/wxmenu/delWxMenuItem', params) }, 
+
+    // 获取专题页面信息
+    getIndexFloorItem (params) { return axios.post('/admin/onsalepage/getIndexFloorItem', params) },
+    // 设置顶部推广信息
+    setOnSalePageTopItem (params) { return axios.post('/admin/onsalepage/setOnSalePageTopItem', params) }, 
+    // 设置页面背景信息
+    setOnSalePageBkColor (params) { return axios.post('/admin/onsalepage/setOnSalePageBkColor', params) }, 
+    // 设置楼层使用
+    setOnSalePageLevelUse (params) { return axios.post('/admin/onsalepage/setOnSalePageLevelUse', params) }, 
+    // 设置专场场次
+    setOnSalePageTopicUse (params) { return axios.post('/admin/onsalepage/setOnSalePageTopicUse', params) }, 
+    // 设置楼顶和楼标
+    setOnSalePageCeiling (params) { return axios.post('/admin/onsalepage/setOnSalePageCeiling', params) }, 
+
+    // 设置首页楼层广告
+    setIndexFloorItem (params) { return axios.post('/admin/indexfloor/setIndexFloorItem', params) },
+    // 获取首页楼层广告信息
+    SYgetIndexFloorItem (params) { return axios.post('/admin/indexfloor/getIndexFloorItem', params) }, 
+
+
+
+  // 取得商铺认证等级列表
+  getShopLevelList (params) { return axios.post('/common/getShopLevelList', params) },
+
+  //获取主站一级商品分类列表
+  TZgetCategoryList (params) { return axios.post('/common/getCategoryList', params) },
+  //获取主站指定商品分类的子商品分类列表
+  TZgetSubList (params) { return axios.post('/common/getSubList', params) },
+
+  // 获取商品分页列表
+  getGoodsPageList (params) { return axios.post('/admin/goods/getGoodsPageList', params) },
+  // 编辑指定的商品字段列
+  getGoodsajaxEdit (params) { return axios.post('/admin/goods/ajaxEdit', params) },
+  // 删除一个商品
+  delGoodsItem (params) { return axios.post('/admin/goods/delGoodsItem', params) },
+  // 删除一个商品
+  batDelGoodsItem (params) { return axios.post('/admin/goods/batDelGoodsItem', params) },
+  // 批量下架商品
+  batDown (params) { return axios.post('/admin/goods/batDown', params) },
+  // 获取一个商品
+  getGoodsItem (params) { return axios.post('/admin/goods/getGoodsItem', params) },
+  // 搜索商品用于组合购买
+  searchCombine (params) { return axios.post('/admin/goods/searchCombine', params) },
+  // 获取一个商品销售属性图片
+  getAttPic (params) { return axios.post('/admin/goods/getAttPic', params) },
+
+  // 获取推荐基本设置
+  getBasicItem (params) { return axios.post('/admin/affiliate/getBasicItem', params) },
+  // 添加一个推荐等级设置
+  addAffiliateItem (params) { return axios.post('/admin/affiliate/addAffiliateItem', params) },
+
+   // 获取一级分类列表 
+   CGgetCategoryList (params) { return axios.post('/admin/category/getCategoryList', params) },
+   // 获取指定分类的子分类列表 
+   CGgetSubList (params) { return axios.post('/admin/category/getSubList', params) },
 
    // 获取商品分类
    getBoardPageList (params) { return axios.post('/admin/board/getBoardPageList', params) }, // order_field: "od",  order_type: "desc"

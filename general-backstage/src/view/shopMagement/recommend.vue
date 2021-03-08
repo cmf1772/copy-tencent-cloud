@@ -174,9 +174,9 @@
           <el-button size="small"
                     type="primary">选择图片</el-button>
         </el-upload>
-        <el-image
+        <!-- <el-image
           style="width: 200px; height: 200px;display: block;"
-          :src="form.now_ad_pic"></el-image>
+          :src="form.now_ad_pic"></el-image> -->
       </el-form-item>
       <div class="form_display" v-if="form.ad_type == 2"> 
         <el-form-item label="广告标题">
@@ -225,6 +225,7 @@ export default {
   data() {
     return {
       form: {
+        type: [],
         ad_type: '0'
       },
       province: '',
@@ -266,55 +267,6 @@ export default {
     this.$api.getUploadToken().then(res => {
       this.QiniuData.token = res.data.token.token
     })
-    if(this.$route.query.uid != 'add') {
-      this.$newApi.getRcmAdItem({
-        uid: this.$route.query.uid,
-        token: JSON.parse(this.$store.state.token).token,
-      }).then(res => {
-        
-        if(res.data.adInfo.ad_type == 0) {
-          this.form = Object.assign(res.data.goods, res.data.adInfo)
-          this.$set(this.form, 'goods_shop_name', this.form.shop_name)
-          this.$set(this.form, 'goods_desc', this.form.desc)
-          this.$set(this, 'goodsInfo', this.form.goods_id)
-          this.$set(this.form, 'goods_type', String(this.form.goods_type))
-          this.$set(this.form, 'now_goods_img', this.form.img)
-        }
-        else if(res.data.adInfo.ad_type == 1) {
-          this.form = Object.assign(res.data.shop, res.data.adInfo)
-          this.$set(this, 'shopInfo', this.form.shop_id)
-          this.$set(this, 'now_shop_logo', this.form.logo)
-        }
-        else if(res.data.adInfo.ad_type == 2) {
-          this.form = Object.assign(res.data.ad, res.data.adInfo)
-          this.$set(this.form, 'ad_title', this.form.title)
-          this.$set(this.form, 'ad_url', this.form.url)
-          this.$set(this.form, 'now_ad_pic', this.form.pic)
-        }
-
-        if(this.form.is_top_checked_all == 'checked') {
-          this.$set(this.form, 'is_top_all', '1')
-        } else {
-          this.$set(this.form, 'is_top_all', '0')
-        }
-        
-        this.$set(this.form, 'order', this.form.ad_order)
-        this.form.ad_type = String(this.form.ad_type)
-
-        this.$set(this, 'moduleOne', this.form.module)
-        setTimeout(() => {
-          this.configTwoData =  this.configData[this.moduleOne].other_param
-          this.configThreeData = this.configData[this.moduleOne].pos
-
-          this.$set(this, 'moduleTwo', Number(this.form.other_param))
-          this.$set(this, 'moduleThree', this.form.pos)
-
-          this.province = Number(this.form.province)
-          this.$store.commit('GET_CITY', { id: this.province, name: 'areaList' })
-          this.city =  Number(this.form.city)
-        }, 100)
-      })
-    }
   },
   methods: {
     onSubmit() {
@@ -333,102 +285,52 @@ export default {
       else {
         goods_types = this.form.goods_type
       }
-      if(this.form.uid) {
-        this.$newApi.setRcmAdItem({
-          uid: this.form.uid,
-          module: this.moduleOne,
-          other_param: String(this.moduleTwo),
-          pos: this.moduleThree,
-          ad_type: Number(this.form.ad_type),
-          province: String(this.province),
-          city: String(this.city),
-          is_top_all: this.form.is_top_all,
-          goods_type: goods_types,
-          goods_img: img_url1,
-          now_goods_img: this.form.now_goods_img,
-          goods_name: this.form.goods_name,
-          goods_id: this.goodsInfo,
-          goods_shop_name: this.form.goods_shop_name,
-          goods_desc: this.form.goods_desc,
-          shop_logo:  img_url2,
-          now_shop_logo: this.form.now_shop_logo,
-          shop_name: this.form.shop_name,
-          shop_id: this.shopInfo,
-          shop_desc: this.form.shop_desc,
-          ad_pic: img_url3,
-          now_ad_pic: this.form.now_ad_pic,
-          ad_title: this.form.ad_title,
-          show_cat: this.form.show_cat,
-          ad_url: this.form.ad_url,
-          desc: this.form.desc,
-          price: String(this.form.price),
-          wh: this.form.wh,
-          order: this.form.order,
-          tip: this.form.tip,
-          token: JSON.parse(this.$store.state.token).token,
-        }).then(res => {
-          if(res.data.err_code) {
-            this.$message({
-              type: 'error',
-              message: res.data.err_msg
-            })
-          }
-          else{
-            this.$message({
-              type: 'success',
-              message: '操作成功'
-            })
-            this.$router.go(-1)
-          }
-        })
-      } else {
-        this.$newApi.addRcmAdItem({
-          module: this.moduleOne,
-          other_param: String(this.moduleTwo),
-          pos: this.moduleThree,
-          ad_type: Number(this.form.ad_type),
-          province: String(this.province),
-          city: String(this.city),
-          is_top_all: this.form.is_top_all,
-          goods_type: goods_types,
-          goods_img: img_url1,
-          now_goods_img: this.form.now_goods_img,
-          goods_name: this.form.goods_name,
-          goods_id: this.goodsInfo,
-          goods_shop_name: this.form.goods_shop_name,
-          goods_desc: this.form.goods_desc,
-          shop_logo:  img_url2,
-          now_shop_logo: this.form.now_shop_logo,
-          shop_name: this.form.shop_name,
-          shop_id: this.shopInfo,
-          shop_desc: this.form.shop_desc,
-          ad_pic: img_url3,
-          now_ad_pic: this.form.now_ad_pic,
-          ad_title: this.form.ad_title,
-          show_cat: this.form.show_cat,
-          ad_url: this.form.ad_url,
-          desc: this.form.desc,
-          price: this.form.price,
-          wh: this.form.wh,
-          order: this.form.order,
-          tip: this.form.tip,
-          token: JSON.parse(this.$store.state.token).token,
-        }).then(res => {
-          if(res.data.err_code) {
-            this.$message({
-              type: 'error',
-              message: res.data.err_msg
-            })
-          }
-          else{
-            this.$message({
-              type: 'success',
-              message: '操作成功'
-            })
-            this.$router.go(-1)
-          }
-        })
-      }
+      this.$newApi.addRcmAdItem({
+        module: this.moduleOne,
+        other_param: String(this.moduleTwo),
+        pos: this.moduleThree,
+        ad_type: Number(this.form.ad_type),
+        province: String(this.province),
+        city: String(this.city),
+        is_top_all: this.form.is_top_all,
+        goods_type: goods_types,
+        goods_img: img_url1,
+        now_goods_img: this.form.now_goods_img,
+        goods_name: this.form.goods_name,
+        goods_id: this.goodsInfo,
+        goods_shop_name: this.form.goods_shop_name,
+        goods_desc: this.form.goods_desc,
+        shop_logo:  img_url2,
+        now_shop_logo: this.form.now_shop_logo,
+        shop_name: this.form.shop_name,
+        shop_id: this.shopInfo,
+        shop_desc: this.form.shop_desc,
+        ad_pic: img_url3,
+        now_ad_pic: this.form.now_ad_pic,
+        ad_title: this.form.ad_title,
+        show_cat: this.form.show_cat,
+        ad_url: this.form.ad_url,
+        desc: this.form.desc,
+        price: this.form.price,
+        wh: this.form.wh,
+        order: this.form.order,
+        tip: this.form.tip,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.err_code) {
+          this.$message({
+            type: 'error',
+            message: res.data.err_msg
+          })
+        }
+        else{
+          this.$message({
+            type: 'success',
+            message: '操作成功'
+          })
+          this.$router.go(-1)
+        }
+      })
     },
 
     typeChange() {

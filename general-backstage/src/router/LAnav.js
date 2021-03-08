@@ -171,9 +171,17 @@ let LAMenu = [
         name: "商铺管理",
         icon: "el-icon-user",
         actions: [
+          // {
+          //   name: "商铺权限",
+          //   url: "/shopMagement/shoPermissions"
+          // },
           {
             name: "商铺权限",
-            url: "/shopMagement/shoPermissions"
+            url: "/shopMagement/shopDiction"
+          },
+          {
+            name: "商铺类型",
+            url: "/shopMagement/shopType"
           },
           {
             name: "商铺列表",
@@ -321,10 +329,10 @@ let LAMenu = [
             name: "知识商品分类",
             url: "/classSetting/knowledgeGood"
           },
-          {
-            name: "知识型商品分类",
-            url: "/classSetting/comKnow"
-          }
+          // {
+          //   name: "知识型商品分类",
+          //   url: "/classSetting/comKnow"
+          // }
         ]
       }
     ]

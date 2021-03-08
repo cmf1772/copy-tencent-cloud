@@ -3,167 +3,41 @@
     <div class="table_bottom">
       <div class="flex"
            :style="{'height': height}">
-        <div class="top">
-          <p>第1层</p>
+        <div class="top" v-for="index in num" :key="index">
+          <p>第{{index}}层</p>
           <div class="form-item">
             <p style="width:100px">更多链接</p>
             <el-input placeholder="请输入内容"
                       style="width:500px"
-                      v-model="input"
+                      v-model="inputData[index]"
                       clearable>
             </el-input>
           </div>
           <div class="form-item">
             <p style="width:100px">楼层标题图片</p>
-            <el-upload action="https://jsonplaceholder.typicode.com/posts/"
-                       list-type="picture-card"
-                       :on-preview="handlePictureCardPreview"
-                       :on-remove="handleRemove">
-              <i class="el-icon-plus"></i>
+            <el-upload class="upload-pic"
+                      :action="domain"
+                      :data="QiniuData[index]"
+                      :on-remove="handleRemove.bind(null, {'index':index})"
+                      :on-error="uploadError"
+                      :on-success="uploadSuccess.bind(null, {'index':index})"
+                      :before-upload="beforeAvatarUpload.bind(null, {'index':index})"
+                      :limit="1"
+                      multiple
+                      :on-exceed="handleExceed"
+                      :file-list="imageData[index]">
+              <el-button size="small"
+                        type="primary">选择图片</el-button>
             </el-upload>
-            <el-dialog :visible.sync="dialogVisible">
-              <img width="100%"
-                   :src="dialogImageUrl"
-                   alt="">
-            </el-dialog>
           </div>
           <el-button slot="append"
                      type="primary"
                      style="margin-left: 10px"
                      icon="el-icon-search"
-                     @click="sesarchFun()">
+                     @click="sesarchFun(index)">
             确定
           </el-button>
         </div>
-        <div class="top">
-          <p>第2层</p>
-          <div class="form-item">
-            <p style="width:100px">更多链接</p>
-            <el-input placeholder="请输入内容"
-                      style="width:500px"
-                      v-model="input"
-                      clearable>
-            </el-input>
-          </div>
-          <div class="form-item">
-            <p style="width:100px">楼层标题图片</p>
-            <el-upload action="https://jsonplaceholder.typicode.com/posts/"
-                       list-type="picture-card"
-                       :on-preview="handlePictureCardPreview"
-                       :on-remove="handleRemove">
-              <i class="el-icon-plus"></i>
-            </el-upload>
-            <el-dialog :visible.sync="dialogVisible">
-              <img width="100%"
-                   :src="dialogImageUrl"
-                   alt="">
-            </el-dialog>
-          </div>
-          <el-button slot="append"
-                     type="primary"
-                     style="margin-left: 10px"
-                     icon="el-icon-search"
-                     @click="sesarchFun()">
-            确定
-          </el-button>
-        </div>
-        <div class="top">
-          <p>第3层</p>
-          <div class="form-item">
-            <p style="width:100px">更多链接</p>
-            <el-input placeholder="请输入内容"
-                      style="width:500px"
-                      v-model="input"
-                      clearable>
-            </el-input>
-          </div>
-          <div class="form-item">
-            <p style="width:100px">楼层标题图片</p>
-            <el-upload action="https://jsonplaceholder.typicode.com/posts/"
-                       list-type="picture-card"
-                       :on-preview="handlePictureCardPreview"
-                       :on-remove="handleRemove">
-              <i class="el-icon-plus"></i>
-            </el-upload>
-            <el-dialog :visible.sync="dialogVisible">
-              <img width="100%"
-                   :src="dialogImageUrl"
-                   alt="">
-            </el-dialog>
-          </div>
-          <el-button slot="append"
-                     type="primary"
-                     style="margin-left: 10px"
-                     icon="el-icon-search"
-                     @click="sesarchFun()">
-            确定
-          </el-button>
-        </div>
-        <div class="top">
-          <p>第4层</p>
-          <div class="form-item">
-            <p style="width:100px">更多链接</p>
-            <el-input placeholder="请输入内容"
-                      style="width:500px"
-                      v-model="input"
-                      clearable>
-            </el-input>
-          </div>
-          <div class="form-item">
-            <p style="width:100px">楼层标题图片</p>
-            <el-upload action="https://jsonplaceholder.typicode.com/posts/"
-                       list-type="picture-card"
-                       :on-preview="handlePictureCardPreview"
-                       :on-remove="handleRemove">
-              <i class="el-icon-plus"></i>
-            </el-upload>
-            <el-dialog :visible.sync="dialogVisible">
-              <img width="100%"
-                   :src="dialogImageUrl"
-                   alt="">
-            </el-dialog>
-          </div>
-          <el-button slot="append"
-                     type="primary"
-                     style="margin-left: 10px"
-                     icon="el-icon-search"
-                     @click="sesarchFun()">
-            确定
-          </el-button>
-        </div>
-        <div class="top">
-          <p>第5层</p>
-          <div class="form-item">
-            <p style="width:100px">更多链接</p>
-            <el-input placeholder="请输入内容"
-                      style="width:500px"
-                      v-model="input"
-                      clearable>
-            </el-input>
-          </div>
-          <div class="form-item">
-            <p style="width:100px">楼层标题图片</p>
-            <el-upload action="https://jsonplaceholder.typicode.com/posts/"
-                       list-type="picture-card"
-                       :on-preview="handlePictureCardPreview"
-                       :on-remove="handleRemove">
-              <i class="el-icon-plus"></i>
-            </el-upload>
-            <el-dialog :visible.sync="dialogVisible">
-              <img width="100%"
-                   :src="dialogImageUrl"
-                   alt="">
-            </el-dialog>
-          </div>
-          <el-button slot="append"
-                     type="primary"
-                     style="margin-left: 10px"
-                     icon="el-icon-search"
-                     @click="sesarchFun()">
-            确定
-          </el-button>
-        </div>
-
       </div>
     </div>
   </div>
@@ -184,37 +58,118 @@ export default {
       dialogImageUrl: '',
       dialogVisible: false,
       height: window.innerHeight - 180 + 'px',
+
+      domain: this.$store.state.getUploadUrl, // 七牛云的上传地址（华东区）
+      qiniuaddr: 'http://img.meichengmall.com/', // 七牛云的图片外链地址 七牛云空间的外链地址
+      QiniuData: {
+        '1': {
+          key: "", //图片名字处理
+          token: this.$store.state.upToken,//七牛云token
+          data: {}
+        },
+        '2': {
+          token: this.$store.state.upToken,//七牛云token
+        },
+        '3': {
+          token: this.$store.state.upToken,//七牛云token
+        },
+        '4': {
+          token: this.$store.state.upToken,//七牛云token
+        },
+        '5': {
+          token: this.$store.state.upToken,//七牛云token
+        },
+        '6': {
+          token: this.$store.state.upToken,//七牛云token
+        },
+        '7': {
+          token: this.$store.state.upToken,//七牛云token
+        },
+        '8': {
+          token: this.$store.state.upToken,//七牛云token
+        },
+        '9': {
+          token: this.$store.state.upToken,//七牛云token
+        },
+        '10': {
+          token: this.$store.state.upToken,//七牛云token
+        }
+      },
+      uploadPicUrl: '',
+      fileList: [],
+      num: 10,
+      inputData: {},
+      imageData: {},
+      uploadPicUrlData: {}
     }
   },
 
+  mounted() {
+    this.$api.getUploadToken().then(res => {
+      for(let i=1;i<11;i++) {
+        this.QiniuData[i].token = res.data.token.token
+      }
+    })
+
+    this.$newApi.SYgetIndexFloorItem({
+      token: JSON.parse(this.$store.state.token).token,
+    }).then(res => {
+      for(let i in res.data) {
+        this.$set(this.inputData, `${i}`, res.data[i].more_link)
+        this.imageData[i] = []
+        this.imageData[i].push({name: res.data[i].floor_icon, url: res.data[i].floor_icon})
+        this.uploadPicUrlData[i] = res.data[i].more_link
+      }
+    })
+  },
+
   methods: {
-    handleRemove (file, fileList) {
-      console.log(file, fileList);
+    sesarchFun(index) {
+      this.$newApi.setIndexFloorItem({
+        floor: index,
+        more_link: this.inputData[index],
+        floor_icon: this.uploadPicUrlData[index],
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.err_code >= 0) {
+          this.$message({
+            type: 'error',
+            message: res.data.msg
+          })
+        }
+        else{
+          this.$message({
+            type: 'success',
+            message: '操作成功'
+          })
+        }
+      })
     },
-    handlePictureCardPreview (file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
+    
+    handleRemove (obj, file, fileList) {
+      this.uploadPicUrlData[obj.index] = ''
     },
-
-    add () {
-      this.$router.push('/advertisingManagement/editcustomArea?nameType=添加广告')
-
+    uploadError (err, file, fileList) {    //图片上传失败时调用
+      if(!file) return
+      this.$message({
+        message: "上传出错，请重试！",
+        type: "error",
+        center: true
+      });
     },
-    edit () {
-      this.$router.push('/advertisingManagement/editcustomArea?nameType=修改广告')
-
+    uploadSuccess (obj, response, file, fileList) {  //图片上传成功的方法
+      if(!file) return
+      this.uploadPicUrlData[obj.index] = `${JSON.parse(this.$store.state.token).client_id}/adv/${file.name}`;
     },
-    look () {
-      this.$router.push('/marketHome/details')
+    beforeAvatarUpload (obj, file) {   //图片上传之前的方法
+      if(!file) return  
+      this.QiniuData[obj.index].data = file;
+      this.QiniuData[obj.index].key = `${JSON.parse(this.$store.state.token).client_id}/adv/${file.name}`;
     },
-    // 分页
-    handleCurrentChangeFun (val) {
-      this.currentPage = val;
-      tableDataRenderFun(this);
-    },
-
-    handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+    handleExceed (files, fileList) {
+      this.$message.warning(
+        `当前限制选择 1 张图片，如需更换，请删除上一张图片在重新选择！`
+      );
     },
   }
 }

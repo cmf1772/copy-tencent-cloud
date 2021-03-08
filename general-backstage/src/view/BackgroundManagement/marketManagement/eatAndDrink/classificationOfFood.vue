@@ -482,12 +482,11 @@ export default {
       });
     },
     uploadSuccess (response, file, fileList) {  //图片上传成功的方法
-    console.log(response, file, fileList)
-      this.uploadPicUrl = `${this.qiniuaddr}${file.name}`;
+      this.uploadPicUrl = `${this.qiniuaddr}${JSON.parse(this.$store.state.token).client_id}/category/${file.name}`;
     },
     beforeAvatarUpload (file) {   //图片上传之前的方法
       this.QiniuData.data = file;
-      this.QiniuData.key = `${'knowledge/' + file.name}`;
+      this.QiniuData.key = `${JSON.parse(this.$store.state.token).client_id}/category/${file.name}`;
     },
     handleExceed (files, fileList) {
       this.$message.warning(

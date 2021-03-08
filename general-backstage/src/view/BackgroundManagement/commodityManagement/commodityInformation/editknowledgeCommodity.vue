@@ -529,7 +529,8 @@ export default {
 
       this.$api.setGoodsItem({
         uid: this.$route.query.uid,
-        goods_cat: this.product.goods_category + ',' + this.product.goods_category1,
+        goods_category_pid: this.product.goods_category,
+        goods_cat:  this.product.goods_category1,
         goods_code: this.product.goods_code,
         goods_name: this.product.goods_name,
         goods_stock: this.product.goods_stock,
@@ -675,8 +676,10 @@ export default {
         //   wholesale3: ''
         // }]
 
+        this.product.goods_category = res.data.product.goods_category_pid
         if (this.product.goods_category.length) {
           this.$store.commit('GET_SUB_LIST', this.product.goods_category)
+          this.product.goods_category1 = res.data.product.goods_category
         }
 
         res.data.product.wholesale_price

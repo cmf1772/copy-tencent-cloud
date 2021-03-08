@@ -1110,10 +1110,10 @@ let navArr = [
             name: "专题页面",
             url: "/floorMarketing/specialPage"
           },
-          {
-            name: "首页楼层",
-            url: "/floorMarketing/homeFloor"
-          }
+          // {
+          //   name: "首页楼层",
+          //   url: "/floorMarketing/homeFloor"
+          // }
         ]
       }, {
         id: 'ADMIN_LIST',

@@ -26,23 +26,35 @@
         <el-button slot="append"
                    type="primary"
                    style="margin-right: 20px;width:130px;margin: 10px 0 10px 10px"
-                   icon="el-icon-bottom">
+                   icon="el-icon-bottom"
+                   @click="outClick">
           批量下架
+        </el-button>
+        <el-button slot="append"
+                   type="primary"
+                   style="margin-right: 20px;width:130px;margin: 10px 0 10px 10px"
+                   icon="el-icon-bottom"
+                   @click="selectClick">
+          批量删除
         </el-button>
       </div>
       <el-tabs v-model="activeName"
                @tab-click="handleClick">
         <el-tab-pane label="商品价格"
-                     name="first"></el-tab-pane>
+                     :name="'price'"></el-tab-pane>
         <el-tab-pane label="上传时间"
-                     name="second"></el-tab-pane>
+                     :name="'time'"></el-tab-pane>
         <el-tab-pane label="商品库存"
-                     name="third"></el-tab-pane>
+                     :name="'stock'"></el-tab-pane>
       </el-tabs>
       <div class="flex">
         <el-table :data="tableData"
                   stripe
+                  @selection-change="handleSelectionChange"
                   style="width: 100%">
+          <el-table-column type="selection"
+                           width="55">
+          </el-table-column>
           <el-table-column show-overflow-tooltip
                            type="index"
                            width="50"
@@ -52,16 +64,17 @@
               {{scope.$index+1}}
             </template>
           </el-table-column>
-          <el-table-column prop="date"
+          <!-- <el-table-column prop="date"
                            show-overflow-tooltip
                            label="上架情况"
                            width="180">
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column show-overflow-tooltip
                            label="商品名称">
             <template slot-scope="scope">
               <div>
-                <el-input v-model=" scope.row.name"
+                <el-input v-model="scope.row.goods_name"
+                          @blur="nameChange('goods_name', scope.row.goods_name, scope.row.uid)"
                           style="width: 200px;border:none"
                           clearable>
                 </el-input>
@@ -72,48 +85,44 @@
                            label="商品编码">
             <template slot-scope="scope">
               <div>
-                <el-input v-model=" scope.row.name"
+                <el-input v-model=" scope.row.goods_code"
+                          @blur="nameChange('goods_code', scope.row.goods_code, scope.row.uid)"
                           style="width: 200px;border:none"
                           clearable>
                 </el-input>
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="goods_category"
                            show-overflow-tooltip
-                           label="所属分类"
-                           width="180">
+                           label="所属分类">
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="shop_name"
                            show-overflow-tooltip
-                           label="所属商铺"
-                           width="180">
+                           label="所属商铺">
           </el-table-column>
           <el-table-column show-overflow-tooltip
                            label="商城价格">
             <template slot-scope="scope">
               <div>
-                <el-input v-model=" scope.row.name"
+                <el-input v-model=" scope.row.goods_sale_price"
+                          @blur="nameChange('goods_sale_price', scope.row.goods_sale_price, scope.row.uid)"
                           style="width: 200px;border:none"
                           clearable>
                 </el-input>
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="goods_stock"
                            show-overflow-tooltip
-                           label="总库存"
-                           width="180">
+                           label="总库存">
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="preorder"
                            show-overflow-tooltip
-                           label="接受预定"
-                           width="180">
+                           label="接受预定">
           </el-table-column>
           <el-table-column show-overflow-tooltip
-                           label="操作"
-                           width="200"
-                           min-width="60">
+                           label="操作" width="200">
             <template slot-scope="scope">
               <div>
 
@@ -137,10 +146,10 @@
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
+                         :page-sizes="[10, 20, 30, 40]"
+                         :page-size="page_size"
                          layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
+                         :total="totalData">
           </el-pagination>
         </div>
       </div>
@@ -165,40 +174,162 @@ export default {
         { value: 4, label: '失效' },
       ],
       sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      sCode: '',
+      tableData: [],
       currentPage: 1, //当前页数
+      page_size: 10,
       totalData: 1, //总页数
-      activeName: ''
+      activeName: 'price',
+      selectData: []
     }
+  },
+  mounted() {
+    this.create()
   },
 
   methods: {
-    editor () {
-      this.$router.push('/commodityInformation/editGeneralMerchandise?nameType=修改商品信息')
+    create() {
+      this.$newApi.getGoodsPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        ps_subject: this.sName,
+        ps_code: this.sCode,
+        supplier_id: '',
+        order_type: 'asc',
+        order_field: this.activeName,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
+    },
+
+    nameChange(name, value, uid) {
+      this.$newApi.getGoodsajaxEdit({
+        uid: uid,
+        field: name,
+        val: value,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.code >= 0) {
+          this.$message({
+            type: 'error',
+            message: res.data.msg
+          })
+        } else {
+          this.create()
+          this.$message({
+            type: 'success',
+            message: res.data.msg
+          })
+        }
+      })
+    },
+
+    handleSelectionChange(val) {
+      this.selectData = val
+    },
+
+    outClick() {
+      if(this.selectData.length == []) {
+        return this.$message({
+          type: 'error',
+          message: '请选择要下架的数据'
+        })
+      } else {
+        let arr = ''
+        this.selectData.forEach((item, index) => {
+          if(index == 0) {
+            arr = item.uid
+          } else {
+            arr += ',' + item.uid
+          }
+        })
+        this.$newApi.batDown({
+          uid: arr,
+          token: JSON.parse(this.$store.state.token).token,
+        }).then(res => {
+          if(res.data.code >= 0) {
+            this.$message({
+              type: 'error',
+              message: res.data.msg
+            })
+          } else {
+            this.create()
+            this.$message({
+              type: 'success',
+              message: res.data.msg
+            })
+          }
+        })
+      }
+    },  
+
+    selectClick() {
+      if(this.selectData.length == []) {
+        return this.$message({
+          type: 'error',
+          message: '请选择要删除的数据'
+        })
+      } else {
+        let arr = ''
+        this.selectData.forEach((item, index) => {
+          if(index == 0) {
+            arr = item.uid
+          } else {
+            arr += ',' + item.uid
+          }
+        })
+        this.$newApi.batDelGoodsItem({
+          uid: arr,
+          token: JSON.parse(this.$store.state.token).token,
+        }).then(res => {
+          if(res.data.code >= 0) {
+            this.$message({
+              type: 'error',
+              message: res.data.msg
+            })
+          } else {
+            this.create()
+            this.$message({
+              type: 'success',
+              message: res.data.msg
+            })
+          }
+        })
+      }
+    },
+
+    checkTrackQueryFun(index, row) {
+      this.$newApi.delGoodsItem({
+        uid: row.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.code >= 0) {
+          this.$message({
+            type: 'error',
+            message: res.data.msg
+          })
+        } else {
+          this.create()
+          this.$message({
+            type: 'success',
+            message: res.data.msg
+          })
+        }
+      })
+    },
+
+    sesarchFun() {
+      this.create()
+    },
+
+    handleClick() {
+      this.create()
+    },
+
+    editor (index, row) {
+      this.$router.push('/commodityInformation/editGeneralMerchandise?nameType=修改商品信息&uid=' + row.uid)
     },
 
     release () {
@@ -211,12 +342,16 @@ export default {
       tableDataRenderFun(this);
     },
 
-    handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+    // 分页
+    handleCurrentChangeFun (val) {
+      this.currentPage = val;
+      this.create()
     },
-    handleClick (tab, event) {
-      console.log(tab, event);
-    }
+
+    handleSizeChange (val) {
+      this.page_size = val
+      this.create()
+    },
   }
 }
 </script>

@@ -2,72 +2,59 @@
 
   <div class="editbrandManagement">
     <el-form ref="form"
-             :rules="rules"
              :model="form"
              label-width="150px">
       <el-form-item label="品牌名称"
-                    prop="name"
                     required>
-        <el-input v-model="form.name"
+        <el-input v-model="form.brandname"
                   placeholder="请填写所经营商品品牌"
                   style="width: 600px;"></el-input>
       </el-form-item>
       <el-form-item label="网 址"
-                    prop="code"
                     required>
-        <el-input v-model="form.code"
+        <el-input v-model="form.weburl"
                   placeholder="请填写所经营品牌官方网址"
                   style="width: 600px;"></el-input>
       </el-form-item>
       <el-form-item label="所属分类">
-        <el-select v-model="form.status"
-                   placeholder="全部">
-          <el-option v-for="item in options"
-                     :key="item.value"
-                     :label="item.label"
-                     :value="item.value">
-          </el-option>
+        <el-select v-model="province"
+                   style="width: 30%"
+                   @change="categoryChange"
+                   clearable>
+          <el-option v-for="(item, index) in gdItemData" :key="index" :label="item.category_name" :value="item.uid"></el-option>
         </el-select>
-        <el-select v-model="form.status"
-                   placeholder="全部">
-          <el-option v-for="item in options"
-                     :key="item.value"
-                     :label="item.label"
-                     :value="item.value">
-          </el-option>
+        <el-select v-model="cateMat"
+                   style="width: 30%"
+                   clearable>
+          <el-option v-for="(item, index) in cateData" :key="index" :label="item.category_name" :value="item.uid"></el-option>
         </el-select>
         <p>请正确选择您经营品牌的分类,否则官方审核不通过!</p>
       </el-form-item>
       <el-form-item label="排序"
-                    prop="profileId"
                     required>
-        <el-select v-model="form.profileId"
-                   placeholder="请选择">
-          <el-option v-for="item in profiles"
-                     :key="item.id"
-                     :label="item.name"
-                     :value="item.id">
-          </el-option>
-        </el-select>
+        <el-input v-model="form.train"
+                  style="width: 600px;"></el-input>
       </el-form-item>
       <el-form-item label="品牌LOGO"
-                    prop="groupId"
                     required>
-        <el-upload action="https://jsonplaceholder.typicode.com/posts/"
-                   list-type="picture-card"
-                   :on-preview="handlePictureCardPreview"
-                   :on-remove="handleRemove">
-          <i class="el-icon-plus"></i>
+        <el-upload class="upload-pic"
+                  :action="domain"
+                  :data="QiniuData"
+                  :on-remove="handleRemove"
+                  :on-error="uploadError"
+                  :on-success="uploadSuccess"
+                  :before-upload="beforeAvatarUpload"
+                  :limit="1"
+                  multiple
+                  :on-exceed="handleExceed"
+                  :file-list="fileList">
+          <el-button size="small"
+                    type="primary">选择图片</el-button>
         </el-upload>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%"
-               :src="dialogImageUrl"
-               alt="">
-        </el-dialog>
       </el-form-item>
-      <el-form-item label="关键字">
+      <el-form-item label="关键字" >
         <el-input type="textarea"
-                  v-model="form.description"
+                  v-model="form.keywords"
                   style="width: 600px;"
                   rows="5"></el-input>
       </el-form-item>
@@ -76,7 +63,7 @@
       </el-form-item>
       <el-form-item label="品牌描述">
         <el-input type="textarea"
-                  v-model="form.description"
+                  v-model="form.brief"
                   style="width: 600px;"
                   rows="5"></el-input>
         <p>请与官网品牌描述保持一致，非个人商铺信息</p>
@@ -96,107 +83,162 @@ export default {
   data () {
     return {
       checked: true,
-      form: {
-        name: '',
-        code: '',
-        status: 1,
-        profileId: '',
-        groupId: '',
-        description: ''
-      },
-      dialogImageUrl: '',
+      form: {},
       dialogVisible: false,
-      options: [
-        { value: 0, label: '离线' },
-        { value: 1, label: '在线' },
-        { value: 2, label: '维护' },
-        { value: 3, label: '故障' },
-        { value: 4, label: '失效' },
-      ],
-      profiles: [],
-      groups: [],
       submitBtn: {
         loading: false,
         text: '提交'
       },
-      rules: {
-        name: [
-          { required: true, message: '请输入设备名称', trigger: 'blur' }
-        ],
-        code: [
-          { required: true, message: '请输入设备编码', trigger: 'blur' }
-        ],
-        profileId: [
-          { required: true, message: '请选择模板', trigger: 'change' }
-        ],
-        groupId: [
-          { required: true, message: '请选择所属分组', trigger: 'change' }
-        ]
-      }
+      rules: {},
+
+      domain: this.$store.state.getUploadUrl, // 七牛云的上传地址（华东区）
+      qiniuaddr: 'http://img.meichengmall.com/', // 七牛云的图片外链地址 七牛云空间的外链地址
+      QiniuData: {
+        key: "", //图片名字处理
+        token: this.$store.state.upToken,//七牛云token
+        data: {}
+      },
+      uploadPicUrl: '',
+      fileList: [],
+      gdItemData: [],
+      cateData: [],
+      province: '',
+      cateMat: ''
     }
   },
-  computed: {},
+  mounted() {
+    this.$api.getUploadToken().then(res => {
+      this.QiniuData.token = res.data.token.token
+    })
+
+    this.$newApi.CGgetCategoryList({
+      token: JSON.parse(this.$store.state.token).token,
+    }).then(res => {
+      this.gdItemData = res.data
+    })
+
+    if(this.$route.query.uid !== 'add') {
+      this.$newApi.getBrandItem({
+        uid: this.$route.query.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.form = res.data
+        if(res.data.logo !== '') {
+          this.fileList.push({name: res.data.logo, url: res.data.logo})
+          this.uploadPicUrl = res.data.logo
+        }
+        if(this.isCheck) {
+          this.checked = true
+        } else {
+          this.checked = false
+        }
+        this.province = res.data.goods_category_pid
+        this.$newApi.CGgetSubList({
+          uid: res.data.goods_category_pid,
+          token: JSON.parse(this.$store.state.token).token,
+        }).then(res => {
+          this.cateData = res.data
+        })
+        this.cateMat = res.data.category_id
+      })
+    }
+  },
   methods: {
-    handleRemove (file, fileList) {
-      console.log(file, fileList);
+    categoryChange() {
+      this.cateMat = ''
+      this.$newApi.CGgetSubList({
+        uid: this.province,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.cateData = res.data
+      })
     },
-    handlePictureCardPreview (file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
+
     goBack () {
       this.$router.go(-1);
     },
     onSubmit (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          // this.submitBtn.loading = true;
-          // this.submitBtn.text = '处理中...';
-          // deviceService.add(this.form).then(res => {
-          //   if (res.data.state === 1) {
-          //     this.$message({ message: "新增成功", type: 'success' });
-          //     this.$router.go(-1);
-          //   } else {
-          //     throw new Error(res.data.msg);
-          //   }
-          // }).catch(error => {
-          //   this.$message.error(error.message);
-          // }).finally(() => {
-          //   this.submitBtn.loading = false;
-          //   this.submitBtn.text = '提交';
-          // })
-        } else {
-          return false;
-        }
+      if(this.$route.query.uid == 'add') {
+        this.$newApi.addBrandItem({
+          brandname: this.form.brandname,
+          weburl: this.form.weburl,
+          goods_category_pid: this.province,	
+          goods_cat: this.cateMat,
+          train: this.form.train,	
+          logo_file: this.uploadPicUrl,	
+          keywords: this.form.keywords,	
+          isCheck: this.checked ? 1 : 0,
+          brief: this.form.brief,
+          token: JSON.parse(this.$store.state.token).token,
+        }).then(res => {
+          if(res.data.err_code >= 0) {
+            this.$message({
+              type: 'error',
+              message: res.data.msg
+            })
+          }
+          else{
+            this.$message({
+              type: 'success',
+              message: '操作成功'
+            })
+            this.$router.go(-1);
+          }
+        })
+      } else {
+        this.$newApi.setBrandItem({
+          uid: this.form.id,
+          brandname: this.form.brandname,
+          weburl: this.form.weburl,
+          goods_category_pid: this.province,	
+          goods_cat: this.cateMat,
+          train: this.form.train,	
+          logo_file: this.uploadPicUrl,	
+          keywords: this.form.keywords,	
+          isCheck: this.checked ? 1 : 0,
+          brief: this.form.brief,
+          token: JSON.parse(this.$store.state.token).token,
+        }).then(res => {
+          if(res.data.err_code >= 0) {
+            this.$message({
+              type: 'error',
+              message: res.data.msg
+            })
+          }
+          else{
+            this.$message({
+              type: 'success',
+              message: '操作成功'
+            })
+            this.$router.go(-1);
+          }
+        })
+      }
+      
+    },
+    handleRemove (file, fileList) {
+      this.uploadPicUrl = "";
+    },
+    uploadError (err, file, fileList) {    //图片上传失败时调用
+      this.$message({
+        message: "上传出错，请重试！",
+        type: "error",
+        center: true
       });
     },
-    initProfiles () {
-      // profileService.queryList().then(res => {
-      //   if (res.data.state === 1) {
-      //     this.profiles = res.data.data;
-      //   } else {
-      //     throw new Error(res.data.msg);
-      //   }
-      // }).catch(error => {
-      //   this.$message.error("模板加载失败");
-      // })
+    uploadSuccess (response, file, fileList) {  //图片上传成功的方法
+      this.uploadPicUrl = `${JSON.parse(this.$store.state.token).client_id}/brand/${file.name}`;
     },
-    initGroups () {
-      // groupService.queryList().then(res => {
-      //   if (res.data.state === 1) {
-      //     this.groups = res.data.data;
-      //   } else {
-      //     throw new Error(res.data.msg);
-      //   }
-      // }).catch(error => {
-      //   this.$message.error("分组加载失败");
-      // })
-    }
+    beforeAvatarUpload (file) {   //图片上传之前的方法
+      this.QiniuData.data = file;
+      this.QiniuData.key = `${JSON.parse(this.$store.state.token).client_id}/brand/${file.name}`;
+    },
+    handleExceed (files, fileList) {
+      this.$message.warning(
+        `当前限制选择 1 张图片，如需更换，请删除上一张图片在重新选择！`
+      );
+    },
   },
-  created () {
-    this.initProfiles();
-    this.initGroups();
-  }
 }
 </script>
 <style scoped>

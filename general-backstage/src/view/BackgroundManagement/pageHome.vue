@@ -316,6 +316,7 @@ export default {
         "/shopMagement/buyersEvaluation",
         "/shopMagement/sellerEvaluation",
         "/shopMagement/upgradeReview",
+        "/shopMagement/recommend",
         "/preferentialManagement/couponManagement",
         "/preferentialManagement/pointsCollectionZone",
         "/advertisingManagement/advertisingManagement",

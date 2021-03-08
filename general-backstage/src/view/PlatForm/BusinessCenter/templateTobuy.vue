@@ -1,8 +1,8 @@
 <template>
   <div class="tobuy_page" :style="{ height: heights }">
-    <div class="tobuy_top">
+    <!-- <div class="tobuy_top"> -->
       <!-- <el-button size="medium" type="primary">同步模板数据</el-button> -->
-    </div>
+    <!-- </div> -->
     <div class="tobuy_con">
       <el-table :data="tableData" style="width: 100%" :height="tableHeight">
         <el-table-column prop="tpl_name" label="模板名称">
@@ -114,9 +114,9 @@ export default {
     };
   },
   mounted() {
-    var inHeight = document.getElementsByClassName("tobuy_top");
+    var inHeight = document.getElementsByClassName("tobuy_con");
     this.tableHeight =
-      window.innerHeight - 180 - inHeight[0].clientHeight + "px";
+      window.innerHeight - 120 - inHeight[0].clientHeight + "px";
       this.create()
     this.$api.getUploadToken().then(res => {
       this.QiniuData.token = res.data.token.token

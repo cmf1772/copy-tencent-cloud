@@ -6,62 +6,75 @@
         placeholder="请输入搜索内容"
         size="medium"
       ></el-input>
-      <el-button type="primary" icon="el-icon-search" size="medium"></el-button>
+      <el-button type="primary" icon="el-icon-search" size="medium" @click="search"></el-button>
     </div>
     <div class="task_con">
       <el-table
         :data="tableData"
         style="width: 100%"
         :max-height="tableHeight"
-        border
       >
         <el-table-column
-          prop="img_url"
+          prop="pic"
           label="封面图片"
           width="150"
           align="center"
         >
           <template slot-scope="scope">
-            <el-image :src="scope.row.img_url"></el-image>
+            <el-image :src="imgUrl + scope.row.pic"></el-image>
           </template>
         </el-table-column>
-        <el-table-column prop="title" label="标题" align="center" width="200">
+        <el-table-column prop="goods_name" label="标题" align="center" width="200">
         </el-table-column>
         <el-table-column
-          prop="classify"
+          prop="type_position"
           label="所属分类"
           align="center"
           width="200"
         >
         </el-table-column>
-        <el-table-column prop="time" label="发布时间" align="center">
+        <el-table-column prop="register_date" label="发布时间" align="center">
         </el-table-column>
         <el-table-column prop="status" label="状态" align="center">
         </el-table-column>
-        <el-table-column prop="num" label="留言数量" align="center">
+        <el-table-column prop="msg_num" label="留言数量" align="center">
         </el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button
               size="medium"
               type="text"
+              class=""
+              v-if="scope.row.status !== '已审核'"
+              @click="shOrdermin(scope.row)"
+              >审核</el-button
+            >
+            <el-button
+              size="medium"
+              type="text"
+              class=""
+              v-if="scope.row.status !== '已审核'"
+              @click="bhOrdermin(scope.row)"
+              >驳回</el-button
+            >
+            <el-button
+              size="medium"
+              type="text"
               class="redColor  right20"
-              @click="checkTrackQueryFun(scope.$index, scope.row)"
+              @click="checkTrackQueryFun(scope.row)"
               >删除</el-button
             >
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChangeFun"
-        :current-page="currentPage"
-        :page-sizes="[100, 200, 300, 400]"
-        :page-size="100"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="400"
-      >
-      </el-pagination>
+      <el-pagination @size-change="handleSizeChange"
+                       @current-change="handleCurrentChangeFun"
+                       :current-page="currentPage"
+                       :page-sizes="[10, 20, 30, 40]"
+                       :page-size="page_size"
+                       layout="total, sizes, prev, pager, next, jumper"
+                       :total="totalData">
+        </el-pagination>
     </div>
   </div>
 </template>
@@ -74,55 +87,107 @@ export default {
       tableHeight: null,
       input: "",
       currentPage: 1,
-      tableData: [
-        {
-          img_url:
-            "https://t7.baidu.com/it/u=3616242789,1098670747&fm=79&app=86&size=h300&n=0&g=4n&f=jpeg?sec=1596694345&t=8e863a07e820e00fbeabb03ba9a3475c",
-          title: "苹果手机这个回收多少钱，最低多轻松",
-          classify: "回收> 手机/电脑/数码/办公",
-          time: "2020-06-01 21:01",
-          status: "0",
-          num: "2"
-        },
-        {
-          img_url:
-            "https://t7.baidu.com/it/u=3616242789,1098670747&fm=79&app=86&size=h300&n=0&g=4n&f=jpeg?sec=1596694345&t=8e863a07e820e00fbeabb03ba9a3475c",
-          title: "苹果手机这个回收多少钱，最低多轻松",
-          classify: "回收> 手机/电脑/数码/办公",
-          time: "2020-06-01 21:01",
-          status: "0",
-          num: "2"
-        },
-        {
-          img_url:
-            "https://t7.baidu.com/it/u=378254553,3884800361&fm=79&app=86&size=h300&n=0&g=4n&f=jpeg?sec=1596694345&t=f3b671f6d5b52e2d167c828ab698cebd",
-          title: "苹果手机这个回收多少钱，最低多轻松",
-          classify: "回收> 手机/电脑/数码/办公",
-          time: "2020-06-01 21:01",
-          status: "0",
-          num: "2"
-        },
-        {
-          img_url:
-            "https://t7.baidu.com/it/u=378254553,3884800361&fm=79&app=86&size=h300&n=0&g=4n&f=jpeg?sec=1596694345&t=f3b671f6d5b52e2d167c828ab698cebd",
-          title: "苹果手机这个回收多少钱，最低多轻松",
-          classify: "回收> 手机/电脑/数码/办公",
-          time: "2020-06-01 21:01",
-          status: "0",
-          num: "2"
-        }
-      ]
+      page_size: 10,
+      totalData: 0,
+      tableData: [],
+      imgUrl: 'http://www.bjxmqy.com:9501/'
     };
   },
   mounted() {
     var inHeight = document.getElementsByClassName("task_top");
     this.tableHeight =
       window.innerHeight - 210 - inHeight[0].clientHeight + "px";
+      this.create()
   },
   methods: {
-    handleSizeChange() {},
-    handleCurrentChangeFun() {},
-    checkTrackQueryFun() {}
+    create() {
+      this.$newApi.getPostPageList({  
+        page: this.currentPage,
+        page_size: this.page_size,
+        title: this.input,
+        order_type: 'asc',
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.totalData = res.data.total_result
+      })
+    },
+    search() {
+      this.currentPage = 1
+      this.page_size = 10
+      this.create()
+    },
+    // 分页
+    handleCurrentChangeFun (val) {
+      this.currentPage = val;
+      this.create()
+    },
+
+    handleSizeChange (val) {
+      this.page_size = val
+      this.create()
+    },
+    shOrdermin(row) {
+      this.$newApi.FLsetCheckItem({
+        uid: row.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.err_code) {
+          this.$message({
+            type: 'error',
+            message: res.data.err_msg
+          })
+        }
+        else{
+          this.create()
+          this.$message({
+            type: 'success',
+            message: '操作成功'
+          })
+        }
+      })
+    },
+    bhOrdermin(row) {
+      this.$newApi.FLsetBackItem({
+        uid: row.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.err_code) {
+          this.$message({
+            type: 'error',
+            message: res.data.err_msg
+          })
+        }
+        else{
+          this.create()
+          this.$message({
+            type: 'success',
+            message: '操作成功'
+          })
+        }
+      })
+    },
+    checkTrackQueryFun(row) {
+      this.$newApi.FLdelPostItem({
+        uid: row.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.err_code) {
+          this.$message({
+            type: 'error',
+            message: res.data.err_msg
+          })
+        }
+        else{
+          this.create()
+          this.$message({
+            type: 'success',
+            message: '操作成功'
+          })
+        }
+      })
+    }
   }
 };
 </script>

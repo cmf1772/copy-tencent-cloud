@@ -274,6 +274,20 @@ let LARouter = [
       require(["@/view/shopMagement/shoPermissions.vue"], resolve)
   },
   {
+    path: "/shopMagement/shopDiction",
+    name: "shopDiction",
+    meta: ["商家管理", "商铺管理", "设置商铺权限"],
+    component: resolve =>
+      require(["@/view/shopMagement/shopDiction.vue"], resolve)
+  },
+  {
+    path: "/shopMagement/shopType",
+    name: "shopType",
+    meta: ["商家管理", "商铺管理", "商铺类型"],
+    component: resolve =>
+      require(["@/view/shopMagement/shopType.vue"], resolve)
+  },
+  {
     path: "/shopMagement/substation",
     name: "substation",
     meta: ["商家管理", "商铺管理", "分站管理"],
@@ -286,6 +300,12 @@ let LARouter = [
     meta: ["商家管理", "商铺管理", "总店管理"],
     component: resolve =>
       require(["@/view/shopMagement/headOffice.vue"], resolve)
+  },
+  {
+    path: "/shopMagement/recommend",
+    name: "recommend",
+    meta: ["商家管理", "商铺管理", "推荐广告"],
+    component: resolve => require(["@/view/shopMagement/recommend.vue"], resolve)
   },
   {
     path: "/shopMagement/shopList",

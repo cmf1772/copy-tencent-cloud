@@ -7,17 +7,17 @@
       label-width="130px"
       class="setnode_ruleForm"
     >
-      <el-form-item label="短信签名" prop="name">
-        <el-input v-model="ruleForm.name"></el-input>
+      <el-form-item label="短信签名" prop="mm_sms_tel">
+        <el-input v-model="ruleForm.mm_sms_tel"></el-input>
         <p>
           ↑ 显示于短信末尾，可填写商城名称，请务必规范填写，否则短信会被拦截
         </p>
       </el-form-item>
-      <el-form-item label="短信帐号" prop="account">
-        <el-input v-model="ruleForm.account"></el-input>
+      <el-form-item label="短信帐号" prop="mm_sms_system_id">
+        <el-input v-model="ruleForm.mm_sms_system_id"></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input v-model="ruleForm.password" show-password></el-input>
+      <el-form-item label="密码" prop="mm_sms_system_pass">
+        <el-input v-model="ruleForm.mm_sms_system_pass"></el-input>
       </el-form-item>
       <el-form-item label="扩展功能" prop="expand">
         <el-button type="primary">查看短信余额</el-button>
@@ -27,10 +27,10 @@
         </p>
       </el-form-item>
       <el-form-item label="当前用户申请短信" prop="applySms">
-        {{ ruleForm.applySms }}条
+        {{ ruleForm.total_sms_apply }}条
       </el-form-item>
       <el-form-item label="短信申请费用" prop="applyCost">
-        {{ ruleForm.applyCost }}
+        请查看  <a href="">http://www.winic.org/Development.asp</a>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')"
@@ -91,18 +91,7 @@ export default {
     return {
       heights: window.innerHeight - 160 + "px",
       dialogVisible: false,
-      ruleForm: {
-        name: "",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: "",
-        applySms: "12222",
-        applyCost: "请查看 http://www.winic.org/Development.asp"
-      },
+      ruleForm: {},
       form: {},
       rules: {
         name: [
@@ -112,19 +101,46 @@ export default {
       }
     };
   },
+  mounted() {
+    this.create()
+  },
   methods: {
+    create() {
+      this.$newApi.getSettingItem({
+        type: 'sms_set',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        res.data.data.forEach((item, index) => {
+          this.$set(this.ruleForm, `${item.cf_name}`, item.cf_value)
+        })
+        this.$set(this.ruleForm, 'total_sms_apply', res.data.total_sms_apply)
+      })
+    },
     customSend() {
       this.dialogVisible = true;
     },
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          alert("submit!");
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
-      });
+      this.$newApi.setSettingItem({
+        type: 'sms_set',
+        mm_sms_tel: this.ruleForm.mm_sms_tel,
+        mm_sms_system_id: this.ruleForm.mm_sms_system_id,
+        mm_sms_system_pass: this.ruleForm.mm_sms_system_pass,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.err_code >= 0) {
+            this.$message({
+              type: 'error',
+              message: res.data.msg
+            })
+          }
+          else{
+            this.$message({
+              type: 'success',
+              message: '设置成功'
+            })
+            // this.resetForm()
+          }
+      })
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
@@ -169,5 +185,9 @@ export default {
       width: 80%;
     }
   }
+}
+
+a{
+  color:#f00;
 }
 </style>

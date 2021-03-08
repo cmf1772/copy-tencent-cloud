@@ -26,6 +26,8 @@
                      name="1"></el-tab-pane>
         <el-tab-pane label="使用记录"
                      name="2"></el-tab-pane>
+        <el-tab-pane label="撤销记录"
+                     name="3"></el-tab-pane>
       </el-tabs>
       <div class="flex">
         <el-table :data="tableData"

@@ -2,7 +2,7 @@
   <div class="domain_page" :style="{ height: heights }">
     <div class="domain_top">
       <el-input placeholder="www|mydomain|shop|fff" v-model="value"></el-input>
-      <el-button type="primary">提交</el-button>
+      <el-button type="primary" @click="save">提交</el-button>
       <span><i class="el-icon-warning-outline"></i>多个域名用|分隔</span>
     </div>
   </div>
@@ -15,6 +15,37 @@ export default {
       heights: window.innerHeight - 160 + "px",
       value: ""
     };
+  },
+  mounted() {
+    this.create()
+  },
+  methods: {
+    create() {
+      this.$newApi.getDomainItem({
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.value = res.data.domain
+      })
+    },
+    save() {
+      this.$newApi.setDomainItem({
+        subdomain: this.value,  
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.err_code >= 0) {
+          this.$message({
+            type: 'error',
+            message: res.data.msg
+          })
+        }
+        else{
+          this.$message({
+            type: 'success',
+            message: '设置成功'
+          })
+        }
+      })
+    }
   }
 };
 </script>

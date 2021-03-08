@@ -610,7 +610,10 @@ export default {
         res.data.product.goods_status = res.data.product.goods_status + ''
         this.product.goods_status = res.data.product.goods_status.split(',')
         this.product.goods_brand = this.product.goods_brand + ''
-        this.product.goods_category = this.product.goods_category + ''
+        this.product.goods_category = res.data.product.goods_category_pid + ''
+        this.product.goods_category1 = res.data.product.goods_category + ''
+        console.log(res.data.product)
+        console.log(this.product.goods_category, this.product.goods_category1)
         this.time = [this.product.start_date, this.product.end_date]
         this.product.goods_status = []
         if (this.product.hot_checked === 'checked') {

@@ -9,4 +9,5 @@ export default {
   getUploadUrl: '',
   getCategoryList: [], // 商品分类列表
   getSubList: [], // 商品子菜单
+  imgUrl: 'http://www.bjxmqy.com:9501/'
 }

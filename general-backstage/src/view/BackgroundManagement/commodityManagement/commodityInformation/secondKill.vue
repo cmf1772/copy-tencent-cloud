@@ -103,7 +103,7 @@
 
           <el-table-column prop="end_date"
                            show-overflow-tooltip
-                           label="开始时间">
+                           label="结束时间">
           </el-table-column>
           <!-- <el-table-column prop="register_date"
                            show-overflow-tooltip
@@ -238,10 +238,10 @@ export default {
         ps_code: this.ps_code,
         ps_subject: this.ps_subject
       }).then(res => {
-        res.data.items.forEach(item => {
-          item.start_date = this.timestamp(item.start_date)
-          item.end_date = this.timestamp(item.end_date)
-        })
+        // res.data.items.forEach(item => {
+        //   item.start_date = this.timestamp(item.start_date)
+        //   item.end_date = this.timestamp(item.end_date)
+        // })
         this.tableData = res.data.items
         this.totalData = res.data.total_result
         console.log(this.tableData)

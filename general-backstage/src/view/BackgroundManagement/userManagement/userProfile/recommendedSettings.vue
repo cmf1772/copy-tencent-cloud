@@ -31,7 +31,7 @@
         </div>
       </div>
       <div class="top_right">
-
+        <el-button @click="addSet">添加设置</el-button>
       </div>
     </div>
     <div class="table_bottom">
@@ -93,18 +93,26 @@
             </template>
           </el-table-column>
         </el-table>
-        <div class="btootm_paination">
-          <el-pagination @size-change="handleSizeChange"
-                         @current-change="handleCurrentChangeFun"
-                         :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
-                         layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
-          </el-pagination>
-        </div>
       </div>
     </div>
+
+    <el-dialog
+      title="添加推荐设置"
+      :visible.sync="dialogVisible"
+      width="30%">
+      <el-form ref="form" :model="form" label-width="120px"   label-position="left">
+        <el-form-item label="积分百分比">
+          <el-input v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item label="现金百分比">
+          <el-input v-model="form.name"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="cancel">取 消</el-button>
+        <el-button type="primary" @click="save">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -128,25 +136,11 @@ export default {
         { value: 4, label: '失效' },
       ],
       sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
+      dialogVisible: false,
+      form: {}
     }
   },
 
@@ -161,23 +155,16 @@ export default {
       }).then(res => {
       })
     },
-
-    add () {
-      this.$router.push('/device/edit?nameType=新建设备')
-
+    addSet() {
+      this.dialogVisible = true
     },
-    editor () {
-      this.$router.push('/device/edit?nameType=修改设备')
+    cancel() {
+      this.dialogVisible = false
+      this.form = {}
     },
-    // 分页
-    handleCurrentChangeFun (val) {
-      this.currentPage = val;
-      tableDataRenderFun(this);
-    },
-
-    handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
-    },
+    save() {
+      
+    }
   }
 }
 </script>
