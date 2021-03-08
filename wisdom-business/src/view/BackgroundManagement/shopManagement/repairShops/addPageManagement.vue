@@ -6,21 +6,21 @@
              label-width="150px">
       <!-- required -->
       <el-form-item label="页面网址名称">
-        <el-input v-model="form.name"
+        <el-input v-model="form.page_name"
                   style="width: 600px;" />
       </el-form-item>
       <el-form-item label="页面名称">
-        <el-input v-model="form.orgCode"
+        <el-input v-model="form.page_subject"
                   style="width: 600px;" />
       </el-form-item>
       <el-form-item label="关键字">
-        <el-input v-model="form.loginId"
+        <el-input v-model="form.page_key"
                   type="textarea"
                   style="width: 600px;" />
       </el-form-item>
       <el-form-item label="描述">
         <el-input type="textarea"
-                  v-model="form.loginPwd"
+                  v-model="form.page_desc"
                   style="width: 600px;" />
       </el-form-item>
       <el-form-item label="详细内容">
@@ -43,11 +43,11 @@ export default {
   data () {
     return {
       form: {
-        name: '',
-        orgCode: '',
-        loginId: '',
-        loginPwd: '',
-        description: ''
+        page_name: '',
+        page_subject: '',
+        page_key: '',
+        page_desc: '',
+        page_body: ''
       },
       editor: null,
       fileList: [],
@@ -65,21 +65,16 @@ export default {
     onSubmit (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          // this.submitBtn.loading = true;
-          // this.submitBtn.text = '处理中...';
-          // providerService.add(this.form).then(res => {
-          //   if (res.data.state === 1) {
-          //     this.$message({ message: "新增成功", type: 'success' });
-          //     this.$router.go(-1);
-          //   } else {
-          //     throw new Error(res.data.msg);
-          //   }
-          // }).catch(error => {
-          //   this.$message.error(error.message);
-          // }).finally(() => {
-          //   this.submitBtn.loading = false;
-          //   this.submitBtn.text = '提交';
-          // })
+          this.$api.addPageItem({
+            page_name: this.form.page_name,
+            page_subject: this.form.page_subject,
+            page_key: this.form.page_key,
+            page_desc: this.form.page_desc,
+            page_body: this.editor.txt.html(),
+            token: JSON.parse(this.$store.state.token).token,
+          }).then(res => {
+
+          })
         } else {
           return false;
         }
@@ -120,10 +115,6 @@ export default {
 }
 </script>
 <style scoped>
-.addPageManagement {
-  height: 200px;
-}
-
 .el-form {
   text-align: left !important;
 }

@@ -13,42 +13,34 @@
         </span>
       </el-form-item>
       <el-form-item label="视频代码">
-        <el-input v-model="form.orgCode"
+        <el-input v-model="form.video_code"
                   type="textarea"
                   style="width: 600px;" />
       </el-form-item>
       <el-form-item label="当前形象">
-        <!-- <div class="form-item">
-          <p style="width: 80px">左侧距离：</p>
-          <el-input v-model="form.loginId"
-                    style="width: 215px;">
-            <i slot="suffix">px</i>
-          </el-input>
-          <p style="margin-left: 10px; width: 80px">顶部距离：</p>
-          <el-input v-model="form.loginId"
-                    style="width: 215px;">
-            <i slot="suffix">px</i>
-          </el-input>
-        </div> -->
+
       </el-form-item>
       <el-form-item label="商家形象">
-        <el-upload class="upload-demo"
-                   action="https://jsonplaceholder.typicode.com/posts/"
-                   :on-preview="handlePreview"
-                   :on-remove="handleRemove"
+        <el-upload class="upload-pic mt"
+                   :action="domain"
+                   :data="QiniuData"
+                   :on-error="uploadError"
+                   :on-success="uploadSuccess"
                    :before-remove="beforeRemove"
-                   multiple
+                   :before-upload="beforeAvatarUpload"
                    :limit="1"
+                   multiple
                    :on-exceed="handleExceed"
                    :file-list="fileList">
           <el-button size="small"
-                     type="primary">点击上传</el-button>
-          <div slot="tip"
-               class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                     type="primary">选择商家形象图片</el-button>
         </el-upload>
+        <img :src="form.promote_pic"
+             style="width: 50px; height: 50px"
+             alt="">
       </el-form-item>
       <el-form-item label="黄页公告">
-        <el-input v-model="form.orgCode"
+        <el-input v-model="form.supplier_notice"
                   type="textarea"
                   style="width: 600px;" />
       </el-form-item>
@@ -67,22 +59,20 @@
       <el-form ref="form"
                :model="form"
                label-width="150px">
-        <el-form-item v-for="(item,index) in array"
-                      :key='index'
-                      :label="item.name">
-          <el-upload class="upload-demo"
-                     action="https://jsonplaceholder.typicode.com/posts/"
-                     :on-preview="handlePreview"
-                     :on-remove="handleRemove"
-                     :before-remove="beforeRemove"
+        <el-form-item label="证书">
+          <el-upload class="upload-pic mt"
+                     :action="domain"
+                     :data="QiniuData2"
+                     :on-error="uploadError2"
+                     :on-success="uploadSuccess2"
+                     :before-remove="beforeRemove2"
+                     :before-upload="beforeAvatarUpload2"
+                     :limit="20"
                      multiple
-                     :limit="1"
                      :on-exceed="handleExceed"
-                     :file-list="fileList">
+                     :file-list="fileList2">
             <el-button size="small"
-                       type="primary">点击上传</el-button>
-            <div slot="tip"
-                 class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                       type="primary">证书文件</el-button>
           </el-upload>
         </el-form-item>
         <el-form-item>
@@ -96,20 +86,18 @@
 </template>
 
 <script>
-import E from "wangeditor";
 export default {
   name: 'showMerchants',
   data () {
     return {
       form: {
-        name: '',
-        orgCode: '',
-        loginId: '',
-        loginPwd: '',
-        description: ''
+        video_code: '',
+        promote_pic: '',
+        supplier_notice: '',
+        certi: '',
       },
-      editor: null,
       fileList: [],
+      fileList2: [],
       submitBtn: {
         loading: false,
         text: '确定'
@@ -117,28 +105,31 @@ export default {
       array: [{
         name: '证书'
       }],
-      height: window.innerHeight - 180 + 'px'
-      // rules: {
-      //   name: [
-      //     { required: true, message: '请输入服务商名称', trigger: 'blur' }
-      //   ],
-      //   loginId: [
-      //     { required: true, message: '请输入登陆账号', trigger: 'blur' }
-      //   ],
-      //   loginPwd: [
-      //     { validator: validateLoginPwd, trigger: 'blur' }
-      //   ],
-      //   confirmPwd: [
-      //     { validator: validateConfirmPwd, trigger: 'blur' }
-      //   ],
-      //   linkName: [
-      //     { required: true, message: '请输入联系人姓名', trigger: 'blur' }
-      //   ]
-      // }
+      height: window.innerHeight - 100 + 'px',
+      QiniuData: {
+        key: "", //图片名字处理
+        token: this.$store.state.upToken,//七牛云token
+        data: {}
+      },
+      QiniuData2: {
+        key: "", //图片名字处理
+        token: this.$store.state.upToken,//七牛云token
+        data: {}
+      },
+      domain: this.$store.state.getUploadUrl, // 七牛云的上传地址（华东区）
+      qiniuaddr: 'http://img.meichengmall.com/',
     }
   },
+
   computed: {},
   methods: {
+    sjgetPageItem () {
+      this.$api.sjgetPageItem({
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+
+      })
+    },
     add () {
       this.array.push({
         name: '证书' + (this.array.length)
@@ -156,51 +147,98 @@ export default {
       this.array.splice(this.array.length - 1, 1)
     },
 
-    handleRemove (file, fileList) {
-      console.log(file, fileList);
-    },
-    handlePreview (file) {
-      console.log(file);
-    },
-    handleExceed (files, fileList) {
-      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-    },
-    beforeRemove (file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`);
-    },
-    goBack () {
-      this.$router.go(-1);
-    },
     onSubmit (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          // this.submitBtn.loading = true;
-          // this.submitBtn.text = '处理中...';
-          // providerService.add(this.form).then(res => {
-          //   if (res.data.state === 1) {
-          //     this.$message({ message: "新增成功", type: 'success' });
-          //     this.$router.go(-1);
-          //   } else {
-          //     throw new Error(res.data.msg);
-          //   }
-          // }).catch(error => {
-          //   this.$message.error(error.message);
-          // }).finally(() => {
-          //   this.submitBtn.loading = false;
-          //   this.submitBtn.text = '提交';
-          // })
+          this.$api.setPageItem({
+            video_code: this.form.video_code,
+            promote_pic: this.form.promote_pic,
+            supplier_notice: this.form.supplier_notice,
+            certi: this.fileList2.map(val => { return val.path }).join(','),
+            token: JSON.parse(this.$store.state.token).token
+          }).then(res => {
+            this.$message({
+              message: res.data.msg,
+              type: 'success'
+            });
+          })
         } else {
           return false;
         }
       });
     },
-    handlePictureCardPreview (file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
+
+    handleExceed (files, fileList) {
+      this.$message.warning(
+        `当前限制选择 20 个！`
+      );
+    },
+
+    beforeAvatarUpload (file) {   //图片上传之前的方法
+      this.QiniuData.data = file;
+      this.QiniuData.key = `${'knowledge/' + file.name}`;
+    },
+
+    uploadSuccess (response, file, fileList) {  //图片上传成功的方法
+      this.form.promote_pic = `${this.qiniuaddr}${response.key}`;
+    },
+
+    beforeRemove (file, fileList) {
+      // return this.$confirm(`确定移除 ${ file.name }？`);
+    },
+
+    uploadError (err, file, fileList) {    //图片上传失败时调用
+      this.$message({
+        message: "上传出错，请重试！",
+        type: "error",
+        center: true
+      });
+    },
+    handleExceed2 (files, fileList) {
+      this.$message.warning(
+        `当前限制选择 20 个！`
+      );
+    },
+
+    beforeAvatarUpload2 (file) {   //图片上传之前的方法
+      this.QiniuData2.data = file;
+      this.fileList2.push({
+        name: file.name,
+        path: `${this.qiniuaddr}${file.name}`
+      })
+      this.QiniuData2.key = `${'knowledge/' + file.name}`;
+    },
+
+    uploadSuccess2 (response, file, fileList) {  //图片上传成功的方法
+      this.form.promote_pic = `${this.qiniuaddr}${response.key}`;
+    },
+
+    beforeRemove2 (file, fileList) {
+      this.$api.delCertiItem({
+
+      }).then(res => {
+
+      })
+      this.fileList2 = fileList
+      // return this.$confirm(`确定移除 ${ file.name }？`);
+    },
+
+    uploadError2 (err, file, fileList) {    //图片上传失败时调用
+      this.$message({
+        message: "上传出错，请重试！",
+        type: "error",
+        center: true
+      });
     },
   },
-  mounted () {
 
+  mounted () {
+    console.log(this)
+    this.$api.getUploadToken().then(res => {
+      this.QiniuData.token = res.data.token.token
+      this.QiniuData2.token = res.data.token.token
+    })
+    this.sjgetPageItem()
   }
 }
 </script>

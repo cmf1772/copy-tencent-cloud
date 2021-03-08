@@ -4,40 +4,51 @@
       <div class="top_left">
         <span>搜索关键字：</span>
         <el-input placeholder="关键字"
-                  v-model="sName"
+                  v-model="ps_subject"
                   style="width: 200px"
                   clearable>
         </el-input>
         <span>分类：</span>
-        <el-select clearable
-                   style="width:200px;;margin-left:10px;"
-                   class="first-child"
-                   placeholder="请选择">
-          <el-option label="姓名"
-                     value="name"></el-option>
-          <el-option label="编号"
-                     value="code"></el-option>
+        <!-- @change="changeFun" -->
+        <el-select v-model="cate_id"
+                   style="width: 200px"
+                   clearable>
+          <el-option v-for="(item, index) in getBoardPageList"
+                     :key="index"
+                     :label="item.board_title"
+                     :value="item.uid"></el-option>
         </el-select>
+        <!-- <el-select v-model="form.goods_cat"
+                   style="width: 50%"
+                   clearable>
+          <el-option v-for="(item, index) in getBoardPageListChildren"
+                     :key="index"
+                     :label="item.board_title"
+                     :value="item.uid"></el-option>
+        </el-select> -->
         <span>品牌：</span>
         <el-select clearable
                    style="width:200px;;margin-left:10px;"
                    class="first-child"
+                   v-model="ps_brand"
                    placeholder="请选择">
-          <el-option label="姓名"
-                     value="name"></el-option>
+          <el-option v-for="item in select"
+                     :key="item.uid"
+                     :label="item.value"
+                     :value="item.uid"></el-option>
           <el-option label="编号"
                      value="code"></el-option>
         </el-select>
         <span>价格：</span>
         <el-input placeholder="价格"
-                  v-model="sName"
+                  v-model="ps_price"
                   style="width: 200px"
                   clearable>
         </el-input>
         <el-button slot="append"
                    type="primary"
                    icon="el-icon-search"
-                   @click="sesarchFun()">
+                   @click="getStoragePageList">
           确定
         </el-button>
       </div>
@@ -48,6 +59,7 @@
     <div class="table_bottom">
       <el-button slot="append"
                  type="primary"
+                 @click="setAddTo"
                  icon="el-icon-plus"
                  style="width: 100px; height: 35px;text-aline:center;line-height: 0px;padding: 0 10px;font-size: 12px;margin: 10px 0 10px 10px;">
         加入推广库
@@ -56,7 +68,11 @@
       <div class="flex">
         <el-table :data="tableData"
                   stripe
+                  @selection-change="handleSelectionChange"
                   style="width: 100%">
+          <el-table-column type="selection"
+                           width="55">
+          </el-table-column>
           <el-table-column show-overflow-tooltip
                            type="index"
                            width="50"
@@ -67,12 +83,13 @@
             </template>
           </el-table-column>
           <el-table-column show-overflow-tooltip
-                           label="商品名称"
-                           width="180">
+                           label="商品名称">
             <template slot-scope="scope">
-              <div class="img">
-                <img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1714308978,576105142&fm=26&gp=0.jpg"
+              <div class="img flexC">
+                <img :src=" 'http://img.meichengmall.com/' + scope.row.goods_file1"
+                     style="width: 50%;height: 50%"
                      alt="">
+                <span>{{scope.row.goods_name}}</span>
               </div>
             </template>
           </el-table-column>
@@ -81,33 +98,29 @@
                            label="商城价格"
                            width="180">
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="goods_brand"
                            show-overflow-tooltip
-                           label="起拍价">
+                           label="品牌">
+          </el-table-column>
+          <el-table-column prop="goods_sale_price"
+                           show-overflow-tooltip
+                           label="价格">
           </el-table-column>
           <el-table-column prop="address"
                            show-overflow-tooltip
-                           label="终止价">
+                           label="分成">
           </el-table-column>
           <el-table-column prop="address"
                            show-overflow-tooltip
-                           label="起始时间">
+                           label="优惠">
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="goods_category"
                            show-overflow-tooltip
-                           label="终止时间">
-          </el-table-column>
-          <el-table-column prop="address"
-                           show-overflow-tooltip
-                           label="参与人次">
-          </el-table-column>
-          <el-table-column prop="address"
-                           show-overflow-tooltip
-                           label="状态">
+                           label="分类">
           </el-table-column>
           <el-table-column show-overflow-tooltip
                            label="操作"
-                           width="200"
+                           width="100"
                            min-width="60">
             <template slot-scope="scope">
               <div>
@@ -115,31 +128,18 @@
                            type="text"
                            class="yellowColor right20"
                            @click="look(scope.$index, scope.row)">查看</el-button>
-                <el-button size="medium"
-                           type="text"
-                           class="blueColor right20"
-                           @click="edit(scope.$index, scope.row)">编辑</el-button>
-                <el-button size="medium"
-                           type="text"
-                           class="redColor"
-                           @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
               </div>
             </template>
           </el-table-column>
         </el-table>
         <div class="btootm_paination">
-          <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
+                         :page-sizes="[10, 20, 30, 40]"
+                         :page-size="page_size"
                          layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
+                         :total="total">
           </el-pagination>
         </div>
       </div>
@@ -153,85 +153,93 @@ export default {
 
   data () {
     return {
-      time: [],
-      sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
-      totalData: 1, //总页数
+      total: 1, //总页数
+      page_size: 10,
+      cate_id: '',
+      ps_subject: '',
+      ps_brand: '',
+      ps_price: '',
+      multipleSelection: [],
+      select: [],
+      getBoardPageList: []
     }
   },
 
+  mounted () {
+    this.getStoragePageList()
+    this.getBrandList()
+    this.getBoardPageListFun()
+  },
+
   methods: {
-    add () {
-      this.$router.push('/information/edit?nameType=新建资讯')
+    getBoardPageListFun () {
+      this.$api.getBoardPageList({
+        order_field: "od",
+        order_type: "desc",
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.getBoardPageList = res.data.items
+      })
+    },
 
+    getBrandList () {
+      this.$api.getBrandList({
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        for (let key in res.data) {
+          this.select.push({
+            value: res.data[key],
+            uid: key
+          })
+        }
+      })
     },
-    edit () {
-      this.$router.push('/information/edit?nameType=编辑资讯')
 
+    handleSelectionChange (val) {
+      this.multipleSelection = val.map(val => { return val.uid }).join(',')
     },
-    look () {
-      this.$router.push('/marketHome/details')
+
+    setAddTo () {
+      this.$api.setAddTo({
+        uid: this.multipleSelection,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.getStoragePageList()
+      })
     },
+
+    getStoragePageList () {
+      this.$api.getStoragePageList({
+        cate_id: this.cate_id,
+        ps_brand: this.ps_brand,
+        ps_price: this.ps_price,
+        ps_subject: this.ps_subject,
+        page: this.currentPage,
+        page_size: this.page_size,
+        order_type: "asc",
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.total = res.data.total_result
+      })
+    },
+
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.getStoragePageList()
     },
 
     handleSizeChange (val) {
+      this.page_size = val
+      this.getStoragePageList()
       console.log(`每页 ${val} 条`);
     },
   }

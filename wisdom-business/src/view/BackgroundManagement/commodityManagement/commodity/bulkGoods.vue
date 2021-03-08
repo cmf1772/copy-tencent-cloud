@@ -1,24 +1,28 @@
 <template>
-  <div class="secondsKillGoods">
+  <div class="provider">
     <div class="top_button">
       <div class="top_left">
         <span>搜索商品：</span>
         <el-select clearable
                    style="width:100px;;margin-left:10px;"
                    class="first-child"
+                   v-model="cate_id"
                    placeholder="请选择">
-          <el-option label="姓名"
-                     value="name"></el-option>
-          <el-option label="编号"
-                     value="code"></el-option>
+          <el-option v-for="(item, index) in searchSelect"
+                     :key="index"
+                     :label="item.category_name"
+                     :value="item.uid"></el-option>
         </el-select>
         <el-input placeholder="请输入内容"
+                  v-model="ps_subject"
                   class=""
                   style="width:220px;;">
           <el-button slot="append"
                      type="primary"
                      icon="el-icon-search"
-                     @click="sesarchFun()">
+                     @click="() => {
+                       getGoodsTgPageList()
+                     }">
             确定
           </el-button>
         </el-input>
@@ -26,35 +30,20 @@
       <div class="top_right">
         <el-button slot="append"
                    type="primary"
-                   icon="el-icon-download"
-                   @click="sesarchFun()">
-          下架
-        </el-button>
-        <el-button slot="append"
-                   type="primary"
+                   class="ml"
                    icon="el-icon-s-promotion"
-                   @click="sesarchFun()">
+                   @click="batTgMoveItem">
           移动
         </el-button>
         <el-select clearable
                    style="width:100px;;margin-left:10px;"
                    class="first-child"
-                   v-model="searchSelect"
+                   v-model="cat_menu_move"
                    placeholder="请选择">
-          <el-option label="姓名"
-                     value="name"></el-option>
-          <el-option label="编号"
-                     value="code"></el-option>
-        </el-select>
-        <el-select clearable
-                   style="width:100px;;margin-left:10px;"
-                   class="first-child"
-                   v-model="searchSelect"
-                   placeholder="请选择">
-          <el-option label="姓名"
-                     value="name"></el-option>
-          <el-option label="编号"
-                     value="code"></el-option>
+          <el-option v-for="(item, index) in searchSelect"
+                     :key="index"
+                     :label="item.category_name"
+                     :value="item.uid"></el-option>
         </el-select>
       </div>
     </div>
@@ -68,11 +57,15 @@
       </el-button>
       <p style="margin: 10px 0 10px 10px">积分不够？ <span class="redColor">请点击这里，进行积分充值</span></p>
       <p style="margin: 10px 0 10px 10px">团购活动申请需要积分 <span class="redColor"
-              style="margin-right: 20px">50</span> 您当前积分<span class="redColor"> 92239 </span></p>
+              style="margin-right: 20px">{{mm_groupgd_point}}</span> 您当前积分<span class="redColor"> {{$store.state.user.member_point_acc}} </span></p>
       <div class="flex">
         <el-table :data="tableData"
                   stripe
+                  @selection-change="handleSelectionChange"
                   style="width: 100%">
+          <el-table-column type="selection"
+                           width="55">
+          </el-table-column>
           <el-table-column show-overflow-tooltip
                            type="index"
                            width="50"
@@ -83,67 +76,68 @@
             </template>
           </el-table-column>
           <el-table-column show-overflow-tooltip
-                           label="商品名称"
-                           width="180">
+                           label="商品名称">
             <template slot-scope="scope">
-              <div class="img">
-                <img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1714308978,576105142&fm=26&gp=0.jpg"
+              <div class="img flexC">
+                <img :src=" 'http://img.meichengmall.com/' + scope.row.goods_file1"
+                     style="width: 50%;height: 50%"
                      alt="">
+                <span>{{scope.row.goods_name}}</span>
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="goods_sale_price"
                            show-overflow-tooltip
                            label="商城价格"
                            width="180">
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="goods_sale_price"
                            show-overflow-tooltip
                            label="团购价格">
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="start_date"
                            show-overflow-tooltip
                            label="起始时间">
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="end_date"
                            show-overflow-tooltip
                            label="终止时间">
           </el-table-column>
+          <el-table-column prop="status"
+                           show-overflow-tooltip
+                           label="当前状态">
+          </el-table-column>
+
           <el-table-column show-overflow-tooltip
                            label="操作"
-                           width="200"
+                           width="180"
                            min-width="60">
             <template slot-scope="scope">
               <div>
                 <el-button size="medium"
                            type="text"
                            class="yellowColor right20"
-                           @click="look(scope.$index, scope.row)">查看</el-button>
+                           @click="loog(scope.$index, scope.row)">查看</el-button>
                 <el-button size="medium"
                            type="text"
                            class="blueColor right20"
-                           @click="edit(scope.$index, scope.row)">编辑</el-button>
+                           @click="editor(scope.$index, scope.row)">编辑</el-button>
                 <el-button size="medium"
                            type="text"
                            class="redColor"
-                           @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
+                           @click="delTgGoodsItem(scope.$index, scope.row)">删除</el-button>
               </div>
             </template>
           </el-table-column>
         </el-table>
         <div class="btootm_paination">
-          <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
+                         :page-sizes="[10, 20, 30, 40]"
+                         :page-size="page_size"
                          layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
+                         :total="total">
           </el-pagination>
         </div>
       </div>
@@ -152,92 +146,136 @@
 </template>
 
 <script>
+import { getCookie } from '@/request/api/cookie'
 export default {
-  name: 'secondsKillGoods',
+  name: 'provider',
+
 
   data () {
     return {
-      time: [],
-      sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      ps_subject: '',
+      cate_id: '',
+      searchSelect: [],
+      tableData: [],
       currentPage: 1, //当前页数
-      totalData: 1, //总页数
+      total: 1, //总页数
+      page_size: 10,
+      multipleSelection: [],
+      cat_menu_move: '',
+      mm_groupgd_point: ''
     }
   },
 
   methods: {
+    getSettingItem () {
+      this.$api.getSettingItem({
+        type: 'show_set'
+      }).then(res => {
+        this.mm_groupgd_point = res.data[3].cf_value
+      })
+    },
+
+    batTgMoveItem () {
+      this.$api.batTgMoveItem({
+        uid: this.multipleSelection,
+        cat_menu_move: this.cat_menu_move,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.$message({
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.getGoodsTgPageList()
+      })
+    },
+
+    changeFun () {
+      this.$api.getBoardPageSubList({
+        order_field: "uid",
+        order_type: "asc",
+        pid: this.goods_cat_pid_menu_move,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.goods_cat_menu_move = ''
+        this.getBoardPageListChildren = res.data.items
+      })
+    },
+
+    handleSelectionChange (val) {
+      this.multipleSelection = val.map(val => { return val.uid }).join(',')
+    },
+
     add () {
       this.$router.push('/commodity/editBulkGoods?nameType=添加商品')
-
     },
-    edit () {
-      this.$router.push('/commodity/editBulkGoods?nameType=编辑商品')
 
-    },
     look () {
       this.$router.push('/marketHome/details')
     },
+
+    editor (i, r) {
+      this.$router.push({
+        path: '/commodity/editBulkGoods',
+        query: {
+          uid: r.uid
+        }
+      })
+    },
+
+    getGoodsTgPageList () {
+      this.$api.getGoodsTgPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        order_type: "asc",
+        order_field: 'uid',
+        cate_id: this.cate_id,
+        ps_subject: this.ps_subject,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.total = res.data.total_result
+      })
+    },
+
+    getBoardPageList () {
+      this.$api.getCategoryPageList({
+        order_type: "asc",
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.searchSelect = res.data.items
+      })
+    },
+
+    delTgGoodsItem (i, r) {
+      this.$api.delTgGoodsItem({
+        uid: r.uid,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.$message({
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.getGoodsTgPageList()
+      })
+    },
+
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.getGoodsTgPageList()
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.getGoodsTgPageList()
     },
+  },
+
+  mounted () {
+    this.getSettingItem()
+    this.getBoardPageList()
+    this.getGoodsTgPageList()
   }
 }
 </script>
@@ -275,7 +313,7 @@ export default {
   justify-content: space-between;
 }
 
-.secondsKillGoods {
+.provider {
   width: 100%;
   height: 100%;
   display: flex;

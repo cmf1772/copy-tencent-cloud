@@ -6,51 +6,39 @@
          style="color: #f5a623 !important;font-weight: 360;margin-right: 10px"></i> 商品分类：
     </p>
     <el-form ref="form"
-             :rules="rules"
              :model="form"
              label-width="130px">
       <el-form-item label="主站分类："
                     prop="displayName">
-        <el-select v-model="form.province"
-                   style="width: 100%"
-                   clearable>
-          <el-option label="美食"
-                     value="shanghai"></el-option>
-          <el-option label="娱乐"
-                     value="beijing"></el-option>
-        </el-select>
+        <div class="flex">
+          <el-select v-model="form.goods_category_pid"
+                     style="width: 50%"
+                     @change="changeFun"
+                     clearable>
+            <el-option v-for="(item, index) in getBoardPageList"
+                       :key="index"
+                       :label="item.board_title"
+                       :value="item.uid"></el-option>
+          </el-select>
+          <el-select v-model="form.goods_cat"
+                     style="width: 50%"
+                     clearable>
+            <el-option v-for="(item, index) in getBoardPageListChildren"
+                       :key="index"
+                       :label="item.board_title"
+                       :value="item.uid"></el-option>
+          </el-select>
+        </div>
       </el-form-item>
       <el-form-item label="分类选择："
                     prop="displayName">
-        <el-select v-model="form.province"
+        <el-select v-model="form.supplier_cat"
                    style="width: 100%"
                    clearable>
-          <el-option label="美食"
-                     value="shanghai"></el-option>
-          <el-option label="娱乐"
-                     value="beijing"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="多重分类："
-                    prop="displayName">
-        <el-select v-model="form.province"
-                   style="width: 100%"
-                   clearable>
-          <el-option label="美食"
-                     value="shanghai"></el-option>
-          <el-option label="娱乐"
-                     value="beijing"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="多重分类："
-                    prop="displayName">
-        <el-select v-model="form.province"
-                   style="width: 100%"
-                   clearable>
-          <el-option label="美食"
-                     value="shanghai"></el-option>
-          <el-option label="娱乐"
-                     value="beijing"></el-option>
+          <el-option v-for="(item, index) in supplier_cat_all"
+                     :key="index"
+                     :label="item.category_name"
+                     :value="item.uid"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="筛选属性 -"
@@ -72,19 +60,18 @@
            style="cursor: pointer;">查看原商品信息</p>
       </div>
       <el-form ref="form"
-               :rules="rules"
                :model="form"
                label-width="130px">
         <el-form-item label="商品名称："
                       style="width: 100%"
                       prop="displayName">
-          <el-input v-model="form.displayName"
+          <el-input v-model="form.goods_name"
                     placeholder=""></el-input>
         </el-form-item>
         <el-form-item label="进货价："
                       prop="name">
           <div class="form-item">
-            <el-input v-model="form.name"
+            <el-input v-model="form.goods_cost"
                       style="width: 60%;margin-tight: 1%"></el-input>
             <p style="width: 20%;text-align: right; ">加价率：</p>
             <el-select v-model="form.province"
@@ -121,114 +108,132 @@
             </el-select>
           </div>
         </el-form-item>
-        <el-form-item label="市场价"
+        <el-form-item label="市场价："
                       prop="name">
-          <el-input v-model="form.name">
+          <el-input v-model="form.goods_market_price">
             <span slot="suffix">元</span>
           </el-input>
         </el-form-item>
         <el-form-item label="起拍价格："
                       prop="name">
           <div class="form-item">
-            <el-input v-model="form.name"
-                      style="width: 60%;margin-tight: 1%"></el-input>
-            <p style="width: 20%;text-align: left; ">元</p>
-
-            <el-checkbox v-model="checked">会员折扣</el-checkbox>
+            <el-input v-model="form.start_price"
+                      style="width: 100%;margin-tight: 1%">
+              <span slot="suffix">元</span>
+            </el-input>
           </div>
         </el-form-item>
         <el-form-item label="一口价："
                       prop="name">
-          <el-input v-model="form.name">
+          <el-input v-model="form.end_price">
             <span slot="suffix">元</span>
           </el-input>
         </el-form-item>
         <el-form-item label="加价幅度："
                       prop="name">
-          <el-input v-model="form.name">
+          <el-input v-model="form.bid_add">
             <span slot="suffix">元</span>
           </el-input>
         </el-form-item>
         <el-form-item label="保证金："
                       prop="name">
-          <el-input v-model="form.name">
+          <el-input v-model="form.assure">
             <span slot="suffix">元</span>
           </el-input>
         </el-form-item>
+        <el-form-item label="起止时间："
+                      prop="name">
+          <el-date-picker v-model="form.date"
+                          type="daterange"
+                          value-format="yyyy-MM-dd"
+                          range-separator="至"
+                          start-placeholder="开始日期"
+                          end-placeholder="结束日期">
+          </el-date-picker>
+        </el-form-item>
         <el-form-item label="商品重量："
                       prop="name">
-          <el-input v-model="form.name">
+          <el-input v-model="form.goods_kg">
             <span slot="suffix">克</span>
           </el-input>
         </el-form-item>
         <el-form-item label="商品显示："
                       prop="name">
-          <el-checkbox-group v-model="checkList">
-            <el-checkbox label="热门"></el-checkbox>
-            <el-checkbox label="推荐"></el-checkbox>
-            <el-checkbox label="免邮"></el-checkbox>
+          <el-checkbox-group v-model="form.goods_status">
+            <el-checkbox label="1">热门</el-checkbox>
+            <el-checkbox label="2">推荐</el-checkbox>
+            <el-checkbox label="4">免邮</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="商品编码："
                       prop="name">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="form.goods_code"></el-input>
         </el-form-item>
         <el-form-item label="商品品牌："
                       prop="name">
           <div class="form-item">
-            <el-select v-model="form.province"
+            <el-select v-model="form.goods_brand"
                        style="width: 25%;"
                        clearable>
-              <el-option label="情感"
-                         value="shanghai"></el-option>
-              <el-option label="百丽"
-                         value="shanghai"></el-option>
+              <el-option v-for="(item, index) in getBoardPageList"
+                         :key="index"
+                         :label="item.board_title"
+                         :value="item.uid"></el-option>
             </el-select>
-            <el-input v-model="form.name"
+            <el-input v-model="form.search_brand"
                       style="width: 60%;margin-tight: 1%"></el-input>
 
             <p style="width: 20%;text-align: right; cursor: pointer;">搜索</p>
           </div>
         </el-form-item>
-        <el-form-item label="总库存："
-                      prop="name">
-          <el-input v-model="form.name">
-            <span slot="suffix">件</span>
-          </el-input>
-        </el-form-item>
         <el-form-item label="商品详细大图："
                       style="width: 100%"
                       prop="name">
-          <el-upload action="https://jsonplaceholder.typicode.com/posts/"
-                     list-type="picture-card"
-                     :on-preview="handlePictureCardPreview"
-                     :on-remove="handleRemove">
-            <i class="el-icon-plus"></i>
+          <el-upload class="upload-pic mt"
+                     :action="domain"
+                     :data="QiniuData"
+                     :on-error="uploadError"
+                     :on-success="uploadSuccessGoodsFile2"
+                     :before-remove="beforeRemove"
+                     :before-upload="beforeAvatarUpload"
+                     :limit="1"
+                     multiple
+                     :on-exceed="handleExceed"
+                     :file-list="fileList">
+            <el-button size="small"
+                       type="primary">选择图片</el-button>
           </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%"
-                 :src="dialogImageUrl"
-                 alt="">
-          </el-dialog>
+          <img :src="qiniuaddr + form.goods_file2"
+               style="width: 50px; height: 50px"
+               alt="">
         </el-form-item>
         <el-form-item label="商品缩略图："
                       style="width: 100%"
                       prop="name">
-          <el-upload action="https://jsonplaceholder.typicode.com/posts/"
-                     list-type="picture-card"
-                     :on-preview="handlePictureCardPreview"
-                     :on-remove="handleRemove">
-            <div slot="tip"
-                 class="el-upload__tip">不上传，系统自动用商品详细图等比例压缩</div>
-            <i class="el-icon-plus"></i>
+          <el-upload class="upload-pic mt"
+                     :action="domain"
+                     :data="QiniuData"
+                     :on-error="uploadError"
+                     :on-success="uploadSuccessGoodsFile1"
+                     :before-remove="beforeRemove"
+                     :before-upload="beforeAvatarUpload"
+                     :limit="1"
+                     multiple
+                     :on-exceed="handleExceed"
+                     :file-list="fileList">
+            <el-button size="small"
+                       type="primary">选择图片</el-button>
           </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%"
-                 :src="dialogImageUrl"
-                 alt="">
-          </el-dialog>
+          <img :src="qiniuaddr + form.goods_file1"
+               style="width: 50px; height: 50px"
+               alt="">
         </el-form-item>
-
+        <el-form-item label="总库存："
+                      prop="name">
+          <el-input v-model="form.goods_stock">
+            <span slot="suffix">件</span>
+          </el-input>
+        </el-form-item>
       </el-form>
     </div>
     <p style="font-size: 15px; margin-bottom: 20px;font-weight: 360; color:#000">
@@ -238,7 +243,6 @@
             @click="addCoum">[添加]</span> （注意：属性值选完图片后，文字也必须填写。空白属性将被视为放弃。）
     </p>
     <el-form ref="form"
-             :rules="rules"
              :model="form"
              label-width="130px">
       <div v-for="(item, index) in addCoumArray"
@@ -268,110 +272,9 @@
     </el-form>
     <p style="font-size: 15px; margin-bottom: 20px;font-weight: 360; color:#000">
       <i class="el-icon-edit"
-         style="color: #f5a623 !important;font-weight: 360;margin-right: 10px"></i> 批发设置：<span style="cursor: pointer;margin-left: 20px;"
-            class="redColor"
-            @click="addPf">增加</span>
-      <span style="cursor: pointer;margin-left: 20px;"
-            class="redColor"
-            @click="removePf">删除</span>
-    </p>
-    <el-form ref="form"
-             :rules="rules"
-             :model="form"
-             label-width="130px">
-      <el-form-item label="批发数量："
-                    style="width: 100%"
-                    v-for="(item, index) in pf"
-                    :key="index"
-                    prop="name">
-        <el-input v-model="form.name"
-                  style="width: 25%"></el-input>
-        <span style="width: 17.5%">—</span>
-        <el-input v-model="form.name"
-                  style="width: 25%"></el-input>
-        <span style="width: 17.5%">批发价格</span>
-        <el-input v-model="form.name"
-                  style="width: 25%"></el-input>
-      </el-form-item>
-
-      <el-form-item label="批发数量："
-                    style="width: 100%"
-                    prop="name">
-        <span style="width: 17.5%">大于</span>
-        <el-input v-model="form.name"
-                  style="width: 25%"></el-input>
-        <span style="width: 17.5%">批发价格</span>
-        <el-input v-model="form.name"
-                  style="width: 25%"></el-input>
-      </el-form-item>
-
-    </el-form>
-    <p style="font-size: 15px; margin-bottom: 20px;font-weight: 360; color:#000">
-      <i class="el-icon-edit"
-         style="color: #f5a623 !important;font-weight: 360;margin-right: 10px"></i> 组合购买：
-    </p>
-    <el-form ref="form"
-             :rules="rules"
-             :model="form"
-             label-width="130px">
-      <el-form-item label="组合商品："
-                    style="width: 100%"
-                    prop="name">
-        <div class="form-item">
-          <div class="item-list"
-               style="width: 68px; height: 68px">
-            <img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2848120264,2778704476&fm=26&gp=0.jpg"
-                 style="width: 68px; height: 68px"
-                 alt="">
-          </div>
-          <p style="line-height: 68px; margin: 0 20px">➕</p>
-          <div class="item-list"
-               style="width: 68px; height: 68px; margin-right: 20px; border: solid 1px #eee; text-align:center; line-height: 68px"
-               v-for="(item, index) in 4"
-               :key="index">
-            ?
-          </div>
-        </div>
-      </el-form-item>
-      <el-form-item label="组合商品："
-                    style="width: 100%"
-                    prop="name">
-        <div class="form-item">
-          <div class="item-list"
-               style="width: 68px; height: 68px">
-
-            <el-input v-model="form.name"
-                      style="width: 100%"></el-input>
-          </div>
-          <p style="line-height: 40px; margin: 0 20px">➕</p>
-          <div class="item-list"
-               style="width: 68px; height: 68px; margin-right: 20px;"
-               v-for="(item, index) in 4"
-               :key="index">
-            <el-input v-model="form.name"
-                      style="width: 100%"></el-input>
-          </div>
-        </div>
-      </el-form-item>
-      <el-form-item label="组合商品搜索："
-                    style="width: 100%"
-                    prop="name">
-        <div class="form-item">
-          <el-input v-model="form.name"
-                    style="width: 40%"></el-input>
-          <el-button type="primary"
-                     style="float: right">确定</el-button>
-          <span class="redColor"> （接索不到？请完善您的关键字）</span>
-        </div>
-      </el-form-item>
-    </el-form>
-    <p style="font-size: 15px; margin-bottom: 20px;font-weight: 360; color:#000">
-      <i class="el-icon-edit"
          style="color: #f5a623 !important;font-weight: 360;margin-right: 10px"></i> 详细信息：
     </p>
     <el-form ref="form"
-             :rules="rules"
-             :model="form"
              label-width="130px">
       <el-form-item label="商品说明："
                     style="width: 100%"
@@ -385,28 +288,27 @@
          style="color: #f5a623 !important;font-weight: 360;margin-right: 10px"></i> 商品相册：
     </p>
     <el-form ref="form"
-             :rules="rules"
              :model="form"
              label-width="130px">
-      <!-- <el-form-item label="相册图片："
-                    style="width: 100%"
-                    prop="name">
-      </el-form-item> -->
       <el-form-item label="相册图片："
                     style="width: 100%"
                     prop="name">
-        <!-- :limit="10" -->
-        <el-upload class="upload-demo"
-                   action="https://jsonplaceholder.typicode.com/posts/"
-                   :on-preview="handlePreview"
-                   :on-remove="handleRemove"
+        <el-upload class="upload-pic mt"
+                   :action="domain"
+                   :data="QiniuData"
+                   :on-error="uploadError"
+                   :on-success="uploadSuccessGallery"
                    :before-remove="beforeRemove"
+                   :before-upload="beforeAvatarUpload"
                    multiple
                    :on-exceed="handleExceed"
                    :file-list="fileList">
           <el-button size="small"
-                     type="primary">点击上传</el-button>
+                     type="primary">选择图片</el-button>
         </el-upload>
+        <img :src="qiniuaddr + form.gallery"
+             style="width: 50px; height: 50px"
+             alt="">
       </el-form-item>
     </el-form>
     <p style="font-size: 15px; margin-bottom: 20px;font-weight: 360; color:#000">
@@ -414,22 +316,21 @@
          style="color: #f5a623 !important;font-weight: 360;margin-right: 10px"></i> 商品SEO：
     </p>
     <el-form ref="form"
-             :rules="rules"
              :model="form"
              label-width="130px">
       <el-form-item label="商品关键字："
                     prop="displayName">
-        <el-input v-model="form.displayName"
+        <el-input v-model="form.goods_key"
                   placeholder></el-input>
       </el-form-item>
       <el-form-item label="商品描述："
                     prop="displayName">
-        <el-input v-model="form.displayName"
+        <el-input v-model="form.goods_advance"
                   placeholder></el-input>
       </el-form-item>
-
     </el-form>
     <el-button type="primary"
+               @click="addPmGoodsItem"
                style="float: right">确定</el-button>
   </div>
 </template>
@@ -441,49 +342,50 @@ export default {
 
   data () {
     return {
-      dialogImageUrl: '',
-      dialogVisible: false,
       form: {
-        radio: '1',
-        displayName: '',
-        name: '',
-        type: '',
-        value: '',
-        driverId: '',
-        description: '',
-        province: '',
-        city: '',
-        qu: ''
+        supplier_cat: '',
+        goods_category_pid: '',
+        goods_cat: '',
+        goods_code: '',
+        filter_attr: '',
+        goods_name: '',
+        goods_stock: '',
+        goods_key: '',
+        goods_advance: '',
+        goods_cost: '',
+        start_price: '',
+        end_price: '',
+        assure: '',
+        bid_add: '',
+        goods_market_price: '',
+        type: '1',
+        goods_status: [],
+        goods_kg: '',
+        goods_brand: '',
+        goods_file2: '',
+        goods_file1: '',
+        attr_val: '',
+        attr_store: '',
+        goods_main: '',
+        date: [],
+        start_date: '',
+        end_date: '',
+        gallery: '',
       },
+      fileList: [],
+      QiniuData: {
+        key: "", //图片名字处理
+        token: this.$store.state.upToken,//七牛云token
+        data: {}
+      },
+      domain: this.$store.state.getUploadUrl, // 七牛云的上传地址（华东区）
+      qiniuaddr: 'http://img.meichengmall.com/',
       addCoumArray: [],
-      checkList: [],
-      pf: [{
-        name: '1'
-      }],
-      height: window.innerHeight - 180 + 'px',
-      drivers: [],
-      submitBtn: {
-        loading: false,
-        text: '提交'
-      },
-      rules: {
-        displayName: [
-          { required: true, message: '请输入收货人', trigger: 'blur' }
-        ],
-        name: [
-          { required: true, message: '请输入手机号', trigger: 'blur' }
-        ],
-        type: [
-          { required: true, message: '请输入类型', trigger: 'blur' }
-        ],
-        value: [
-          { required: true, message: '请不要重复填写省市', trigger: 'blur' }
-        ],
-        driverId: [
-          { required: true, message: '请选择所属驱动', trigger: 'change' }
-        ]
-      },
-      imgData: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1121833438,3473430102&fm=26&gp=0.jpg',
+
+      getBoardPageList: [],
+      getBoardPageListChildren: [],
+      supplier_cat_all: [],
+      height: window.innerHeight - 100 + 'px',
     }
   },
 
@@ -514,18 +416,179 @@ export default {
       'code' // 插入代码
     ];
     this.editor.create(); // 创建富文本实例
+    this.$api.getUploadToken().then(res => {
+      this.QiniuData.token = res.data.token.token
+    })
+    this.getBoardPageListFun()
+    this.getCategoryPageList()
+    if (this.$route.query.uid) {
+      this.getPmGoodsItem(this.$route.query.uid)
+    }
   },
 
   methods: {
-    addPf () {
-      this.pf.push({
-        name: '1'
+    getPmGoodsItem (uid) {
+      this.$api.getPmGoodsItem({
+        uid: uid,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.form = {
+          supplier_cat: res.data.product.supplier_cat,
+          goods_category_pid: res.data.product.goods_category_pid,
+          goods_cat: res.data.product.goods_cat,
+          goods_code: res.data.product.goods_code,
+          filter_attr: res.data.product.filter_attr,
+          goods_name: res.data.product.goods_name,
+          goods_stock: res.data.product.goods_stock,
+          goods_key: res.data.product.goods_key,
+          goods_advance: res.data.product.goods_advance,
+          goods_cost: res.data.product.goods_cost,
+          goods_market_price: res.data.product.goods_market_price,
+          type: '1',
+          goods_status: [],
+          goods_kg: res.data.product.goods_kg + '',
+          goods_brand: res.data.product.goods_brand,
+          goods_file2: res.data.product.goods_file2,
+          goods_file1: res.data.product.goods_file1,
+          attr_val: res.data.product.attr_val,
+          attr_store: res.data.product.attr_store,
+          goods_main: res.data.product.goods_main,
+          date: [res.data.product.start_date, res.data.product.end_date],
+          gallery: res.data.photo[0].thumb,
+          start_price: res.data.product.start_price,
+          end_price: res.data.product.end_price,
+          assure: res.data.product.assure,
+          bid_add: res.data.product.bid_add,
+        }
+
+        this.editor.txt.html(res.data.product.goods_main)
+        this.changeFun()
       })
     },
 
-    removePf () {
-      this.pf.splice(this.pf.length - 1, 1)
+    getCategoryPageList () {
+      this.$api.getCategoryPageList({
+        order_type: "asc",
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.supplier_cat_all = res.data.items
+      })
     },
+
+    getBoardPageListFun () {
+      this.$api.getBoardPageList({
+        order_field: "od",
+        order_type: "desc",
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.getBoardPageList = res.data.items
+      })
+    },
+
+    changeFun () {
+      this.$api.getBoardPageSubList({
+        order_field: "uid",
+        order_type: "asc",
+        pid: this.form.goods_category_pid,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.form.goods_cat = ''
+        this.getBoardPageListChildren = res.data.items
+      })
+    },
+
+    addPmGoodsItem () {
+      let data = {
+        supplier_cat: this.form.supplier_cat,
+        goods_category_pid: this.form.goods_category_pid,
+        goods_cat: this.form.goods_cat,
+        goods_code: this.form.goods_code,
+        filter_attr: this.form.filter_attr,
+        goods_name: this.form.goods_name,
+        goods_stock: this.form.goods_stock,
+        goods_key: this.form.goods_key,
+        goods_advance: this.form.goods_advance,
+        goods_cost: this.form.goods_cost,
+        goods_market_price: this.form.goods_market_price,
+        type: this.form.type,
+        goods_status: this.form.goods_status.join(','),
+        goods_kg: this.form.goods_kg,
+        goods_brand: this.form.goods_brand,
+        goods_file2: this.form.goods_file2,
+        goods_file1: this.form.goods_file1,
+        attr_val: this.form.attr_val,
+        attr_store: this.form.attr_store,
+        goods_main: this.editor.txt.html(),
+        start_date: this.form.date[0],
+        end_date: this.form.date[1],
+        gallery: this.form.gallery,
+        start_price: this.form.start_price,
+        end_price: this.form.end_price,
+        assure: this.form.assure,
+        bid_add: this.form.bid_add,
+        token: JSON.parse(this.$store.state.token).token
+      }
+
+      if (this.$route.query.uid) {
+        data['uid'] = this.$route.query.uid
+        this.$api.setPmGoodsItem({
+          ...data
+        }).then(res => {
+          this.$message({
+            message: res.data.msg,
+            type: "success",
+          });
+          this.$router.push('/commodity/auctionGoods')
+        })
+      } else {
+        this.$api.addPmGoodsItem({ ...data }).then(res => {
+          this.$message({
+            message: res.data.msg,
+            type: "success",
+          });
+          this.$router.push('/commodity/auctionGoods')
+        })
+      }
+
+    },
+
+    handleExceed (files, fileList) {
+      this.$message.warning(
+        `当前限制选择 1 张图片，如需更换，请删除上一张图片在重新选择！`
+      );
+    },
+
+    beforeAvatarUpload (file) {   //图片上传之前的方法
+      this.QiniuData.data = file;
+      this.QiniuData.key = `${JSON.parse(this.$store.state.token).client_id + '/goods/' + file.name}`;
+    },
+
+
+    uploadSuccessGoodsFile2 (response, file, fileList) {  //图片上传成功的方法
+      this.form.goods_file2 = `${response.key}`;
+    },
+
+    uploadSuccessGoodsFile1 (response, file, fileList) {  //图片上传成功的方法
+      this.form.goods_file1 = `${response.key}`;
+    },
+
+    uploadSuccessGallery (response, file, fileList) {  //图片上传成功的方法
+      this.form.gallery = `${response.key}`;
+    },
+
+    beforeRemove (file, fileList) {
+      // return this.$confirm(`确定移除 ${ file.name }？`);
+    },
+
+    uploadError (err, file, fileList) {    //图片上传失败时调用
+      this.$message({
+        message: "上传出错，请重试！",
+        type: "error",
+        center: true
+      });
+    },
+
 
     clearAll () {
       this.addCoumArray = []
@@ -538,40 +601,6 @@ export default {
     },
     addroum (index) {
       this.addCoumArray[index].addRoumArray.push(this.addCoumArray[index].addRoumArray.length + 1)
-    },
-    getemplate () {
-      this.$router.push('/shopManagement/templateToBuy')
-    },
-    goNavSet () {
-      this.$router.push('/setUpShops/navigationStyleSettings?nameType=导航样式设置')
-    },
-
-    handleRemove (file, fileList) {
-      console.log(file, fileList);
-    },
-    handlePictureCardPreview (file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
-    changeFile (e) {
-      function getObjectURL (file) {
-        var url = null;
-        if (window.createObjectURL != undefined) {
-          // basic
-          url = window.createObjectURL(file);
-        } else if (window.URL != undefined) {
-          // mozilla(firefox)
-          url = window.URL.createObjectURL(file);
-        } else if (window.webkitURL != undefined) {
-          // webkit or chrome
-          url = window.webkitURL.createObjectURL(file);
-        }
-        return url;
-      }
-
-      let imgData = e.target.files[0];
-      this.imgFile = imgData;
-      this.imgData = getObjectURL(imgData);
     },
   }
 }

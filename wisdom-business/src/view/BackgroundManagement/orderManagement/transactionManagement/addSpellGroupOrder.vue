@@ -1,11 +1,11 @@
 
 <template>
-  <div class="addSpellGroupOrder">
+  <div class="customerOrder">
     <el-tabs v-model="activeName"
              class="table_bottom"
              @tab-click="handleClick">
       <el-tab-pane label="所有订单"
-                   name="first">
+                   name="1">
         <div>
           <div class="flex"
                :style="{'height': height}">
@@ -21,54 +21,43 @@
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="date"
+              <el-table-column prop="ordersn"
                                show-overflow-tooltip
                                label="订单号码"
                                width="180">
               </el-table-column>
-              <el-table-column prop="name"
+              <el-table-column prop="username"
                                show-overflow-tooltip
                                label="订购者"
                                width="180">
               </el-table-column>
-              <el-table-column prop="address"
+              <el-table-column prop="goods_amount"
                                show-overflow-tooltip
                                label="商品金额">
               </el-table-column>
-              <el-table-column prop="address"
+              <el-table-column prop="sh_price"
                                show-overflow-tooltip
                                label="运费">
               </el-table-column>
-              <el-table-column prop="address"
+              <el-table-column prop="discount"
                                show-overflow-tooltip
                                label="折扣">
               </el-table-column>
-              <el-table-column prop="address"
+              <el-table-column prop="goods_rest_amount"
                                show-overflow-tooltip
-                               label="分成">
+                               label="余款">
               </el-table-column>
-              <el-table-column prop="address"
+              <el-table-column prop="goods_point"
                                show-overflow-tooltip
-                               label="余额">
+                               label="订单积分">
               </el-table-column>
-              <el-table-column prop="address"
+              <el-table-column prop="shop_name"
+                               show-overflow-tooltip
+                               label="商家名称">
+              </el-table-column>
+              <el-table-column prop="status"
                                show-overflow-tooltip
                                label="订单状态">
-              </el-table-column>
-              <el-table-column prop="address"
-                               show-overflow-tooltip
-                               label="下单时间">
-              </el-table-column>
-              <el-table-column show-overflow-tooltip
-                               label="发货单号"
-                               width="150"
-                               min-width="60">
-                <template slot-scope="scope">
-                  <div>
-                    <el-input v-model="form.displayName"
-                              placeholder></el-input>
-                  </div>
-                </template>
               </el-table-column>
               <el-table-column show-overflow-tooltip
                                label="操作"
@@ -78,12 +67,8 @@
                   <div>
                     <el-button size="medium"
                                type="text"
-                               class="yellowColor right20"
-                               @click="editor(scope.$index, scope.row)">编辑</el-button>
-                    <el-button size="medium"
-                               type="text"
                                class="redColor"
-                               @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
+                               @click="checkTrackQueryFun(scope.$index, scope.row)">编辑</el-button>
                   </div>
                 </template>
               </el-table-column>
@@ -97,10 +82,10 @@
               <el-pagination @size-change="handleSizeChange"
                              @current-change="handleCurrentChangeFun"
                              :current-page="currentPage"
-                             :page-sizes="[100, 200, 300, 400]"
-                             :page-size="100"
+                             :page-sizes="[10, 20, 30, 40]"
+                             :page-size="page_size"
                              layout="total, sizes, prev, pager, next, jumper"
-                             :total="400">
+                             :total="total">
               </el-pagination>
             </div>
           </div>
@@ -112,37 +97,35 @@
                    :rules="rules"
                    :model="form"
                    label-width="130px">
-            <el-form-item label="订购时间："
-                          prop="displayName">
-              <el-date-picker v-model="value1"
+            <el-form-item label="收货人："
+                          prop="consignee">
+              <el-input v-model="form.consignee"
+                        placeholder></el-input>
+            </el-form-item>
+            <el-form-item label="订购人："
+                          prop="username">
+              <el-input v-model="form.username"
+                        placeholder></el-input>
+            </el-form-item>
+            <el-form-item label="下单时间："
+                          prop="time">
+              <el-date-picker v-model="form.time"
+                              style="width: 100%"
                               type="daterange"
+                              value-format="yyyy-MM-dd"
                               range-separator="至"
                               start-placeholder="开始日期"
                               end-placeholder="结束日期">
               </el-date-picker>
             </el-form-item>
-            <el-form-item label="收 货 人："
-                          prop="displayName">
-              <el-input v-model="form.displayName"
-                        placeholder></el-input>
-            </el-form-item>
-            <el-form-item label="订 购 人："
-                          prop="displayName">
-              <el-input v-model="form.displayName"
-                        placeholder></el-input>
-            </el-form-item>
-            <el-form-item label="订单号码："
-                          prop="displayName">
-              <el-input v-model="form.displayName"
-                        placeholder></el-input>
-            </el-form-item>
-            <el-form-item label="交易状态："
+            <el-form-item label="订单号："
                           prop="displayName">
               <el-input v-model="form.displayName"
                         placeholder></el-input>
             </el-form-item>
           </el-form>
           <el-button type="primary"
+                     @click="getSellerOrderListPageList"
                      style="float: right">确定</el-button>
         </div>
       </el-tab-pane>
@@ -151,7 +134,7 @@
         <div>
           <div class="flex"
                :style="{'height': height}">
-            <el-table :data="tableData"
+            <el-table :data="tableDataList"
                       stripe
                       style="width: 100%">
               <el-table-column show-overflow-tooltip
@@ -163,29 +146,29 @@
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="date"
+              <el-table-column prop="ordersn"
                                show-overflow-tooltip
                                label="订单号码"
                                width="180">
               </el-table-column>
-              <el-table-column prop="name"
+              <el-table-column prop="username"
                                show-overflow-tooltip
                                label="订购者"
                                width="180">
               </el-table-column>
-              <el-table-column prop="address"
+              <el-table-column prop="goods_amount"
                                show-overflow-tooltip
                                label="金额">
               </el-table-column>
-              <el-table-column prop="address"
+              <el-table-column prop="addtime"
                                show-overflow-tooltip
                                label="下单时间">
               </el-table-column>
-              <el-table-column prop="address"
+              <!-- <el-table-column prop="address"
                                show-overflow-tooltip
                                label="延迟信息">
-              </el-table-column>
-              <el-table-column prop="address"
+              </el-table-column> -->
+              <el-table-column prop="status"
                                show-overflow-tooltip
                                label="状态">
               </el-table-column>
@@ -198,11 +181,7 @@
                     <el-button size="medium"
                                type="text"
                                class="yellowColor right20"
-                               @click="editor(scope.$index, scope.row)">编辑</el-button>
-                    <el-button size="medium"
-                               type="text"
-                               class="redColor"
-                               @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
+                               @click="Delaydelay(scope.$index, scope.row)">审核</el-button>
                   </div>
                 </template>
               </el-table-column>
@@ -216,10 +195,10 @@
               <el-pagination @size-change="handleSizeChange"
                              @current-change="handleCurrentChangeFun"
                              :current-page="currentPage"
-                             :page-sizes="[100, 200, 300, 400]"
-                             :page-size="100"
+                             :page-sizes="[10, 20, 30, 40]"
+                             :page-size="page_size"
                              layout="total, sizes, prev, pager, next, jumper"
-                             :total="400">
+                             :total="totalList">
               </el-pagination>
             </div>
           </div>
@@ -233,11 +212,12 @@
                    label-width="130px">
             <el-form-item label="订单号码："
                           prop="displayName">
-              <el-input v-model="form.displayName"
+              <el-input v-model="form.ordersn"
                         placeholder></el-input>
             </el-form-item>
           </el-form>
           <el-button type="primary"
+                     @click="getSellerDelayOrderPageList"
                      style="float: right">确定</el-button>
         </div>
       </el-tab-pane>
@@ -246,7 +226,7 @@
         <div>
           <div class="flex"
                :style="{'height': height}">
-            <el-table :data="tableData"
+            <el-table :data="tableDataBack"
                       stripe
                       style="width: 100%">
               <el-table-column show-overflow-tooltip
@@ -258,29 +238,29 @@
                   {{scope.$index+1}}
                 </template>
               </el-table-column>
-              <el-table-column prop="date"
+              <el-table-column prop="goods_name"
                                show-overflow-tooltip
                                label="退货商品"
                                width="180">
               </el-table-column>
-              <el-table-column prop="name"
+              <el-table-column prop="ordersn"
                                show-overflow-tooltip
                                label="订单号"
                                width="180">
               </el-table-column>
-              <el-table-column prop="address"
+              <el-table-column prop="discount"
                                show-overflow-tooltip
                                label="订单折扣">
               </el-table-column>
-              <el-table-column prop="address"
+              <!-- <el-table-column prop="address"
                                show-overflow-tooltip
                                label="退货信息">
-              </el-table-column>
-              <el-table-column prop="address"
+              </el-table-column> -->
+              <el-table-column prop="discount"
                                show-overflow-tooltip
                                label="状态">
               </el-table-column>
-              <el-table-column prop="address"
+              <el-table-column prop="register_date"
                                show-overflow-tooltip
                                label="申请时间">
               </el-table-column>
@@ -311,10 +291,10 @@
               <el-pagination @size-change="handleSizeChange"
                              @current-change="handleCurrentChangeFun"
                              :current-page="currentPage"
-                             :page-sizes="[100, 200, 300, 400]"
-                             :page-size="100"
+                             :page-sizes="[10, 20, 30, 40]"
+                             :page-size="page_size"
                              layout="total, sizes, prev, pager, next, jumper"
-                             :total="400">
+                             :total="totalBack">
               </el-pagination>
             </div>
           </div>
@@ -328,8 +308,10 @@
                    label-width="130px">
             <el-form-item label="申请时间："
                           prop="displayName">
-              <el-date-picker v-model="value1"
+              <el-date-picker v-model="back.time"
                               type="daterange"
+                              style="width: 100%"
+                              value-format="yyyy-MM-dd"
                               range-separator="至"
                               start-placeholder="开始日期"
                               end-placeholder="结束日期">
@@ -337,11 +319,12 @@
             </el-form-item>
             <el-form-item label="申请人："
                           prop="displayName">
-              <el-input v-model="form.displayName"
+              <el-input v-model="back.m_id"
                         placeholder></el-input>
             </el-form-item>
           </el-form>
           <el-button type="primary"
+                     @click="getSellerBackOrderPageList"
                      style="float: right">确定</el-button>
         </div>
       </el-tab-pane>
@@ -357,118 +340,173 @@
                  label-width="130px">
           <el-form-item label="订单号："
                         prop="displayName">
-            <el-input v-model="form.displayName"
+            <el-input v-model="form.ordersn"
                       placeholder></el-input>
           </el-form-item>
           <el-form-item label="订单密码："
                         prop="displayName">
-            <el-input v-model="form.displayName"
+            <el-input v-model="form.code"
                       placeholder></el-input>
           </el-form-item>
         </el-form>
         <el-button type="primary"
+                   @click="ptgroupCheck"
                    style="float: right">确定</el-button>
       </el-tab-pane>
     </el-tabs>
-
+    <el-dialog title="发货单号"
+               :visible.sync="dialogVisible"
+               width="30%"
+               :before-close="handleClose">
+      <el-input placeholder="发货单号"
+                v-model="delivery_code"
+                clearable>
+      </el-input>
+      <span slot="footer"
+            class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary"
+                   @click="delivery">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'addSpellGroupOrder',
+  name: 'customerOrder',
 
   data () {
     return {
-      time: [],
-      sName: '',
-      value1: [],
       form: {
-        displayName: ''
+        displayName: '',
+        ordersn: '',
+        username: '',
+        consignee: '',
+        time: [],
+        displayName: '',
+        ordersn: '',
+        code: '',
+      },
+      back: {
+        time: [],
+        ordersn: '',
+        m_id: ''
       },
       height: window.innerHeight - 500 + 'px',
-      activeName: 'first',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      activeName: '1',
+      tableData: [],
+      tableDataList: [],
+      tableDataBack: [],
       currentPage: 1, //当前页数
-      totalData: 1, //总页数
+      total: 1,
+      totalList: 1, //总页数
+      totalBack: 1,
+      page_size: 10,
+      uid: '',
+      delivery_code: '',
+      dialogVisible: false,
     }
   },
 
   methods: {
-    handleClick (tab, event) {
-      console.log(tab, event);
+    getSellerBackOrderPageList () {
+      this.$api.getSellerBackOrderPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        order_type: "asc",
+        order_field: 'uid',
+        start_time: this.back.time[0],
+        end_time: this.back.time[1],
+        m_id: this.back.m_id,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableDataBack = res.data.items
+        this.totalBack = res.data.total_result
+      })
+    },
+
+    ptgroupCheck () {
+      this.$api.Delaydelay({
+        token: JSON.parse(this.$store.state.token).token,
+        ordersn: this.form.ordersn,
+        code: this.form.code,
+      }).then(res => {
+        this.$message({
+          type: 'success',
+          message: res.data.msg
+        })
+      })
+    },
+
+    delivery () {
+      this.$api.Delaydelay({
+        token: JSON.parse(this.$store.state.token).token,
+        uid: this.uid,
+        delivery_code: this.delivery_code
+      }).then(res => {
+        this.$message({
+          type: 'success',
+          message: res.data.msg
+        })
+        this.getSellerOrderListPageList()
+      })
+    },
+
+    handleClose (done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          done();
+        })
+        .catch(_ => { });
+    },
+
+    Delaydelay (i, r) {
+      this.$api.Delaydelay({
+        token: JSON.parse(this.$store.state.token).token,
+        uid: r.uid,
+      }).then(res => {
+        this.$message({
+          type: 'success',
+          message: res.data.msg
+        })
+        this.getSellerDelayOrderPageList()
+      })
+    },
+
+    getSellerDelayOrderPageList () {
+      this.$api.getSellerDelayOrderPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        order_type: "asc",
+        order_field: 'uid',
+        ordersn: this.form.ordersn,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableDataList = res.data.items
+        this.totalList = res.data.total_result
+      })
+    },
+
+    getSellerOrderListPageList () {
+      this.$api.getSellerOrderListPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        order_type: "asc",
+        order_field: 'uid',
+        status: '0',
+        consignee: this.form.consignee,
+        username: this.form.username,
+        start_time: this.form.time[0],
+        end_time: this.form.time[1],
+        group_id: this.$route.query.uid,
+        displayName: this.form.displayName,
+        wait_for_ready: '0',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.total = res.data.total_result
+      })
     },
 
     add () {
@@ -481,12 +519,23 @@ export default {
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.getSellerOrderListPageList()
+      this.getSellerDelayOrderPageList()
+      this.getSellerBackOrderPageList()
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.getSellerOrderListPageList()
+      this.getSellerDelayOrderPageList()
+      this.getSellerBackOrderPageList()
     },
+  },
+
+  mounted () {
+    this.getSellerBackOrderPageList()
+    this.getSellerOrderListPageList()
+    this.getSellerDelayOrderPageList()
   }
 }
 </script>
@@ -501,7 +550,7 @@ export default {
   }
 }
 
-.addSpellGroupOrder {
+.customerOrder {
   width: 100%;
   height: 100%;
   display: flex;

@@ -5,7 +5,7 @@
 import axios from 'axios'
 import router from '../router'
 // import store from '../store/index'
-// import { message } from 'element-ui'
+import { Message } from 'element-ui'
 
 /**
  * 提示函数
@@ -20,7 +20,7 @@ const tip = msg => {
   alert(msg)
 }
 
-axios.defaults.baseURL = '/'
+axios.defaults.baseURL = ''
 
 /**
  * 跳转登录页
@@ -43,6 +43,16 @@ const errorHandle = (status, other) => {
   // 状态码判断
   switch (status) {
     // 401: 未登录状态，跳转登录页
+    case 200:
+      debugger
+      this.$message('这是一条消息提示');
+      break
+    case 400:
+      Message({
+        message: other.err_msg,
+        type: 'error'
+      });
+      break
     case 401:
       toLogin()
       break
@@ -79,8 +89,8 @@ instance.interceptors.request.use(
     // 但是即使token存在，也有可能token是过期的，所以在每次的请求头中携带token
     // 后台根据携带的token判断用户的登录情况，并返回给我们对应的状态码
     // 而后我们可以在响应拦截器中，根据状态码进行一些统一的操作。
-    const token = store.state.token
-    token && (config.headers.Authorization = token)
+    // const token = store.state.token
+    // token && (config.headers.Authorization = token)
     return config
   },
   error => Promise.error(error))
@@ -94,7 +104,7 @@ instance.interceptors.response.use(
     const { response } = error
     if (response) {
       // 请求已发出，但是不在2xx的范围
-      errorHandle(response.status, response.data.message)
+      errorHandle(response.status, response.data)
       return Promise.reject(response)
     } else {
       // 处理断网的情况
@@ -102,7 +112,7 @@ instance.interceptors.response.use(
       // network状态在app.vue中控制着一个全局的断网提示组件的显示隐藏
       // 关于断网组件中的刷新重新获取数据，会在断网组件中说明
       if (!window.navigator.onLine) {
-        store.commit('changeNetwork', false)
+        // store.commit('changeNetwork', false)
       } else {
         return Promise.reject(error)
       }

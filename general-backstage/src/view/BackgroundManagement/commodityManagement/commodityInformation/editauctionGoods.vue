@@ -240,7 +240,6 @@
              alt="">
         <el-upload class="upload-demo"
                    action="https://jsonplaceholder.typicode.com/posts/"
-                   :on-preview="handlePreview"
                    :on-remove="handleRemove"
                    :before-remove="beforeRemove"
                    multiple
@@ -471,8 +470,6 @@ export default {
     beforeRemove2 (file, fileList) {
       // return this.$confirm(`确定移除 ${ file.name }？`);
     },
-
-    handlePreview () { },
 
     getSubList () {
       this.$store.commit('GET_SUB_LIST', this.product.goods_category)

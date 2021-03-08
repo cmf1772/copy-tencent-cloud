@@ -6,82 +6,76 @@
          style="color: #f5a623 !important;font-weight: 360;margin-right: 10px"></i> 短信平台设置：
     </p>
     <el-form ref="form"
-             :rules="rules"
              :model="form"
              label-width="140px">
-      <el-form-item label="短信剩余数量"
-                    prop="displayName">
-        5004 条
+      <el-form-item label="短信剩ç余数量">
+        {{noteNum}}条
       </el-form-item>
-      <el-form-item label="当前预存款"
-                    prop="displayName">
-        3446.45 元
+      <el-form-item label="当前预存款">
+        {{Total}} 元
       </el-form-item>
-      <el-form-item label="短信充值"
-                    prop="displayName">
-        <el-select v-model="form.province"
+      <el-form-item label="短信充值">
+        <el-select v-model="form.num"
                    clearable
                    placeholder="">
           <el-option label="50元"
-                     value="shanghai"></el-option>
+                     value="50"></el-option>
           <el-option label="100元"
-                     value="shanghai"></el-option>
+                     value="100"></el-option>
           <el-option label="200元"
-                     value="shanghai"></el-option>
+                     value="200"></el-option>
           <el-option label="500元"
-                     value="shanghai"></el-option>
+                     value="500"></el-option>
           <el-option label="1000元"
-                     value="shanghai"></el-option>
+                     value="1000"></el-option>
         </el-select>
-        <span>预付购买</span>
-        <span class="redColor"> 您可以购得短信2500条</span>
+        <span @click="supplierApplySms"
+              class="s">预付购买</span>
+        <span class="redColor"> 您可以购得短信{{shopNum[form.num]}}条</span>
       </el-form-item>
-      <el-form-item label="自定义发送"
-                    prop="displayName">
+      <el-form-item label="自定义发送">
         <el-button type="primary">自定义发送</el-button>
       </el-form-item>
-      <el-form-item label="现场消费验证"
-                    prop="displayName">
-        <el-checkbox v-model="value">发送</el-checkbox>
+      <el-form-item label="现场消费验证">
+        <el-checkbox v-model="form.mm_sms_group_order">发送</el-checkbox>
       </el-form-item>
-      <el-form-item label="订单支付通知店主"
-                    prop="displayName">
-        <el-checkbox v-model="value">发送</el-checkbox>
+      <el-form-item label="订单支付通知店主">
+        <el-checkbox v-model="form.mm_sms_order_pay_to_shop">发送</el-checkbox>
       </el-form-item>
       <el-form-item label="使用者发送"
-                    style="width: 100%"
-                    prop="displayName">
+                    style="width: 100%">
 
         <div class="form-item">
           <div class="f-t-t">
-            <el-checkbox v-model="value">发送</el-checkbox>
-            <div>
-              您好！您在我们店中订购的商品还为您准备着，请尽快付款，我们将在第一时间为您发货！
-            </div>
+            <el-checkbox v-model="form.mm_sms_order">已发送</el-checkbox>
+            <el-input v-model="form.mm_sms_message1"
+                      type="textarea"
+                      :rows="12"></el-input>
           </div>
           <div class="f-t-t">
-            <el-checkbox v-model="value">已付款</el-checkbox>
-            <div>
-              您好！您的货款我们已收到，我们将尽快为您发货！
-            </div>
+            <el-checkbox v-model="form.mm_sms_receipt">已付款</el-checkbox>
+            <el-input v-model="form.mm_sms_message2"
+                      type="textarea"
+                      :rows="12"></el-input>
           </div>
           <div class="f-t-t">
-            <el-checkbox v-model="value">已发货</el-checkbox>
-            <div>
-              您好！您在我们店中订购的商品已经发货，请注意查收，并祝您购物愉快！
-            </div>
+            <el-checkbox v-model="form.mm_sms_delivery">已发货</el-checkbox>
+            <el-input v-model="form.mm_sms_message3"
+                      type="textarea"
+                      :rows="12"></el-input>
           </div>
           <div class="f-t-t">
-            <el-checkbox v-model="value">已评价</el-checkbox>
-            <div>
-              您好，您真是一个好买家，祝您购物愉快，欢迎下次再来！
-            </div>
+            <el-checkbox v-model="form.mm_sms_comment">已评价</el-checkbox>
+            <el-input v-model="form.mm_sms_message4"
+                      type="textarea"
+                      :rows="12"></el-input>
           </div>
         </div>
 
       </el-form-item>
     </el-form>
     <el-button type="primary"
+               @click="setSmsSet"
                style="float: right">确定</el-button>
   </div>
 </template>
@@ -93,87 +87,106 @@ export default {
 
   data () {
     return {
-      dialogImageUrl: '',
-      dialogVisible: false,
       form: {
-        radio: '1',
-        displayName: '',
-        name: '',
-        type: '',
-        value: '',
-        driverId: '',
-        description: '',
-        province: '',
-        city: '',
-        qu: ''
+        mm_sms_group_order: null,
+        mm_sms_order_pay_to_shop: null,
+        mm_sms_order: null,
+        mm_sms_message1: '',
+        mm_sms_receipt: null,
+        mm_sms_message2: '',
+        mm_sms_delivery: null,
+        mm_sms_message3: '',
+        mm_sms_comment: null,
+        mm_sms_message4: '',
+        num: ''
       },
-      value: false,
-      height: window.innerHeight - 180 + 'px',
+      noteNum: '',
+      Total: '',
+      array: ['mm_sms_group_order', 'mm_sms_order', 'mm_sms_receipt', 'mm_sms_delivery', 'mm_sms_comment', 'mm_sms_order_pay_to_shop'],
+      height: window.innerHeight - 100 + 'px',
       drivers: [],
+      shopNum: {},
       submitBtn: {
         loading: false,
         text: '提交'
       },
-      rules: {
-        displayName: [
-          { required: true, message: '请输入收货人', trigger: 'blur' }
-        ],
-        name: [
-          { required: true, message: '请输入手机号', trigger: 'blur' }
-        ],
-        type: [
-          { required: true, message: '请输入类型', trigger: 'blur' }
-        ],
-        value: [
-          { required: true, message: '请不要重复填写省市', trigger: 'blur' }
-        ],
-        driverId: [
-          { required: true, message: '请选择所属驱动', trigger: 'change' }
-        ]
-      },
-      imgData: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1121833438,3473430102&fm=26&gp=0.jpg',
     }
   },
 
   mounted () {
-
+    this.getSmsSet()
   },
 
   methods: {
-    getemplate () {
-      this.$router.push('/shopManagement/templateToBuy')
-    },
-    goNavSet () {
-      this.$router.push('/setUpShops/navigationStyleSettings?nameType=导航样式设置')
+    setSmsSet () {
+      this.$api.setSmsSet({
+        mm_sms_group_order: this.form.mm_sms_group_order ? 1 : 0,
+        mm_sms_order_pay_to_shop: this.form.mm_sms_order_pay_to_shop ? 1 : 0,
+        mm_sms_order: this.form.mm_sms_order ? 1 : 0,
+        mm_sms_message1: this.form.mm_sms_message1,
+        mm_sms_receipt: this.form.mm_sms_receipt ? 1 : 0,
+        mm_sms_message2: this.form.mm_sms_message2,
+        mm_sms_delivery: this.form.mm_sms_delivery ? 1 : 0,
+        mm_sms_message3: this.form.mm_sms_message3,
+        mm_sms_comment: this.form.mm_sms_comment ? 1 : 0,
+        mm_sms_message4: this.form.mm_sms_message4,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.$message({
+          type: 'success',
+          message: res.data.msg
+        })
+      })
     },
 
-    handleRemove (file, fileList) {
-      console.log(file, fileList);
-    },
-    handlePictureCardPreview (file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
-    changeFile (e) {
-      function getObjectURL (file) {
-        var url = null;
-        if (window.createObjectURL != undefined) {
-          // basic
-          url = window.createObjectURL(file);
-        } else if (window.URL != undefined) {
-          // mozilla(firefox)
-          url = window.URL.createObjectURL(file);
-        } else if (window.webkitURL != undefined) {
-          // webkit or chrome
-          url = window.webkitURL.createObjectURL(file);
-        }
-        return url;
-      }
+    getSmsSet () {
+      this.$api.getSmsSet({
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        res.data.data.forEach(item => {
+          if (this.array.indexOf(item.cf_name) > -1) {
+            this.$set(this.form, item.cf_name, item.cf_value === '0' ? false : true)
+          } else {
+            this.$set(this.form, item.cf_name, item.cf_value)
+          }
+        })
+      })
 
-      let imgData = e.target.files[0];
-      this.imgFile = imgData;
-      this.imgData = getObjectURL(imgData);
+      this.$api.getSmsMoneyNum({
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.shopNum = res.data
+      })
+
+      this.$api.getTotalShopMoney({
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.Total = res.data
+      })
+
+      this.getTotalShopSms()
     },
+
+    getTotalShopSms () {
+      this.$api.getTotalShopSms({
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.noteNum = res.data
+      })
+    },
+
+    supplierApplySms () {
+      this.$api.supplierApplySms({
+        num: this.form.num,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.$message({
+          type: 'success',
+          message: res.data.msg
+        })
+        this.getTotalShopSms()
+      })
+    }
   }
 }
 </script>

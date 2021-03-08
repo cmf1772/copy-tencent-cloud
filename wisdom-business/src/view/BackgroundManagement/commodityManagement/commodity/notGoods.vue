@@ -3,22 +3,22 @@
     <div class="top_button">
       <div class="top_left">
         <span>搜索商品：</span>
-        <el-select clearable
-                   style="width:100px;;margin-left:10px;"
-                   class="first-child"
-                   placeholder="请选择">
-          <el-option label="姓名"
-                     value="name"></el-option>
-          <el-option label="编号"
-                     value="code"></el-option>
+        <el-select v-model="cate_id"
+                   style="width: 120px"
+                   clearable>
+          <el-option v-for="(item, index) in supplier_cat_all"
+                     :key="index"
+                     :label="item.category_name"
+                     :value="item.uid"></el-option>
         </el-select>
         <el-input placeholder="请输入内容"
                   class=""
+                  v-model="ps_subject"
                   style="width:220px;;">
           <el-button slot="append"
                      type="primary"
                      icon="el-icon-search"
-                     @click="sesarchFun()">
+                     @click="getWsjGoodsPageList">
             确定
           </el-button>
         </el-input>
@@ -36,7 +36,11 @@
       <div class="flex">
         <el-table :data="tableData"
                   stripe
+                  @selection-change="handleSelectionChange"
                   style="width: 100%">
+          <el-table-column type="selection"
+                           width="55">
+          </el-table-column>
           <el-table-column show-overflow-tooltip
                            type="index"
                            width="50"
@@ -47,67 +51,54 @@
             </template>
           </el-table-column>
           <el-table-column show-overflow-tooltip
-                           label="商品名称"
-                           width="180">
+                           label="商品名称">
             <template slot-scope="scope">
-              <div class="img">
-                <img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1714308978,576105142&fm=26&gp=0.jpg"
+              <div class="img flexC">
+                <img :src=" 'http://img.meichengmall.com/' + scope.row.goods_file1"
+                     style="width: 50%;height: 50%"
                      alt="">
+                <span>{{scope.row.goods_name}}</span>
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="goods_sale_price"
                            show-overflow-tooltip
                            label="商城价格"
                            width="180">
           </el-table-column>
-          <el-table-column prop="address"
-                           show-overflow-tooltip
-                           label="拼团金额">
-          </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="register_date"
                            show-overflow-tooltip
                            label="发布时间">
           </el-table-column>
-          <el-table-column prop="address"
-                           show-overflow-tooltip
+          <el-table-column show-overflow-tooltip
                            label="上架情况">
+
+            <div>
+              下架
+            </div>
           </el-table-column>
           <el-table-column show-overflow-tooltip
                            label="操作"
-                           width="200"
+                           width="100"
                            min-width="60">
             <template slot-scope="scope">
               <div>
                 <el-button size="medium"
                            type="text"
-                           class="yellowColor right20"
-                           @click="look(scope.$index, scope.row)">查看</el-button>
-                <!-- <el-button size="medium"
-                           type="text"
-                           class="blueColor right20"
-                           @click="edit(scope.$index, scope.row)">编辑</el-button> -->
-                <el-button size="medium"
-                           type="text"
                            class="redColor"
-                           @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
+                           @click="delWsjGoodsItem(scope.$index, scope.row)">删除</el-button>
               </div>
             </template>
           </el-table-column>
         </el-table>
         <div class="btootm_paination">
-          <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
+                         :page-sizes="[10, 20, 30, 40]"
+                         :page-size="page_size"
                          layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
+                         :total="total">
           </el-pagination>
         </div>
       </div>
@@ -121,85 +112,87 @@ export default {
 
   data () {
     return {
-      time: [],
-      sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      ps_subject: '',
+      cate_id: '',
+      tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
+      total: 0,
+      page_size: 10,
+      multipleSelection: [],
     }
   },
 
+  mounted () {
+    this.getWsjGoodsPageList()
+    this.getCategoryPageList()
+  },
+
   methods: {
-    add () {
-      this.$router.push('/information/edit?nameType=新建资讯')
+    getCategoryPageList () {
+      this.$api.getCategoryPageList({
+        order_type: "asc",
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.supplier_cat_all = res.data.items
+      })
+    },
 
+    batWsjUp () {
+      this.$api.batWsjUp({
+        uid: this.multipleSelection,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.getWsjGoodsPageList()
+      })
     },
-    edit () {
-      this.$router.push('/information/edit?nameType=编辑资讯')
 
+    handleSelectionChange (val) {
+      this.multipleSelection = val.map(val => { return val.uid }).join(',')
     },
-    look () {
-      this.$router.push('/marketHome/details')
+
+    delWsjGoodsItem (i, r) {
+      this.$api.delWsjGoodsItem({
+        uid: r.uid,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.$message({
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.getWsjGoodsPageList()
+      })
     },
+
+    getWsjGoodsPageList () {
+      this.$api.getWsjGoodsPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        order_type: "asc",
+        order_field: 'uid',
+        cate_id: this.cate_id,
+        ps_subject: this.ps_subject,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.total = res.data.total_result
+      })
+    },
+
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.getWsjGoodsPageList();
     },
 
     handleSizeChange (val) {
+      this.page_size = val;
+      this.getWsjGoodsPageList();
       console.log(`每页 ${val} 条`);
     },
   }

@@ -13,11 +13,11 @@
         <el-tabs v-model="activeName"
                  @tab-click="handleClick">
           <el-tab-pane label="查看全部"
-                       name="first"></el-tab-pane>
+                       name=""></el-tab-pane>
           <el-tab-pane label="顶部导航"
-                       name="second"></el-tab-pane>
+                       name="head"></el-tab-pane>
           <el-tab-pane label="底部导航"
-                       name="third"></el-tab-pane>
+                       name="foot"></el-tab-pane>
         </el-tabs>
       </div>
       <div class="flex">
@@ -33,23 +33,27 @@
               {{scope.$index+1}}
             </template>
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="title"
                            show-overflow-tooltip
-                           label="网站名称"
+                           label="栏目名称"
                            width="180">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="view"
                            show-overflow-tooltip
-                           label="链接地址"
-                           width="180">
+                           label="排序">
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="pos"
                            show-overflow-tooltip
-                           label="链接说明">
+                           label="栏目类型">
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="target"
                            show-overflow-tooltip
-                           label="显示顺序">
+                           label="窗口类型">
+            <template slot-scope="scope">
+              <div>
+                {{scope.row.target === 1 ? '新窗口' : '本窗口'}}
+              </div>
+            </template>
           </el-table-column>
           <el-table-column show-overflow-tooltip
                            label="操作"
@@ -64,24 +68,19 @@
                 <el-button size="medium"
                            type="text"
                            class="redColor"
-                           @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
+                           @click="delNavItem(scope.$index, scope.row)">删除</el-button>
               </div>
             </template>
           </el-table-column>
         </el-table>
         <div class="btootm_paination">
-          <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
+                         :page-sizes="[10, 20, 30, 40]"
+                         :page-size="page_size"
                          layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
+                         :total="total">
           </el-pagination>
         </div>
       </div>
@@ -95,99 +94,60 @@ export default {
 
   data () {
     return {
-      activeName: 'second',
-      time: [],
-      sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      activeName: '',
+      tableData: [],
       currentPage: 1, //当前页数
-      totalData: 1, //总页数
+      total: 1, //总页数
+      page_size: 10,
     }
   },
 
   methods: {
-    handleClick () {
+    getNavPageList () {
+      this.$api.getNavPageList({
+        pos: this.activeName == 0 ? '' : this.activeName,
+        page: this.currentPage,
+        page_size: this.page_size,
+        order_type: "asc",
+        order_field: 'view',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.total = res.data.total_result
+      })
+    },
 
+    delNavItem (i, r) {
+      this.$api.delNavItem({
+        uid: r.nid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          message: '删除成功',
+          type: 'success'
+        });
+        this.getNavPageList()
+      })
+    },
+
+    handleClick () {
+      this.getNavPageList()
     },
 
     add () {
       this.$router.push('/setUpShops/editNavigationManagement?nameType=添加导航')
 
     },
-    editor () {
-      this.$router.push('/setUpShops/editNavigationManagement?nameType=编辑导航')
+    editor (i, r) {
+      this.$router.push({
+        path: '/setUpShops/editNavigationManagement',
+        query: {
+          nameType: '编辑导航',
+          uid: r.nid
+        }
+      })
     },
+
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
@@ -197,6 +157,10 @@ export default {
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`);
     },
+  },
+
+  mounted () {
+    this.getNavPageList()
   }
 }
 </script>

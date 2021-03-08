@@ -12,8 +12,11 @@
         <el-table :data="tableData"
                   stripe
                   row-key="id"
-                  :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
-                  style="width: 100%">
+                  :load="load"
+                  ref="table"
+                  lazy
+                  :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+          style="width: 100%">
           <el-table-column show-overflow-tooltip
                            type="index"
                            width="50"
@@ -24,12 +27,12 @@
             </template>
           </el-table-column>
           <el-table-column show-overflow-tooltip
-                           prop="name"
+                           prop="category_name"
                            label="分类名称"
                            width="180">
 
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="category_rank"
                            show-overflow-tooltip
                            label="顺序">
           </el-table-column>
@@ -41,16 +44,16 @@
               <div>
                 <el-button size="medium"
                            type="text"
-                           class="yellowColor right20"
-                           @click="look(scope.$index, scope.row)">查看</el-button>
-                <el-button size="medium"
-                           type="text"
                            class="blueColor right20"
                            @click="edit(scope.$index, scope.row)">编辑</el-button>
                 <el-button size="medium"
                            type="text"
+                           class="yellowColor right20"
+                           @click="copyCategoryItem(scope.$index, scope.row)">复制</el-button>
+                <el-button size="medium"
+                           type="text"
                            class="redColor"
-                           @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
+                           @click="delCategoryItem(scope.$index, scope.row)">删除</el-button>
               </div>
             </template>
           </el-table-column>
@@ -64,10 +67,10 @@
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
+                         :page-sizes="[10, 20, 30, 40]"
+                         :page-size="page_size"
                          layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
+                         :total="total">
           </el-pagination>
         </div>
       </div>
@@ -81,87 +84,174 @@ export default {
 
   data () {
     return {
-      time: [],
-      sName: '',
-      tableData: [{
-        id: 1,
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        id: 2,
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        id: 3,
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄',
-        children: [{
-          id: 31,
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          id: 32,
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }]
-      }, {
-        id: 4,
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }],
-      tableData1: [{
-        id: 1,
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        id: 2,
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        id: 3,
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄',
-        hasChildren: true
-      }, {
-        id: 4,
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
-      totalData: 1, //总页数
+      page_size: 10,
+      total: 1, //总页数
     }
   },
 
+  mounted () {
+    this.getCgCategoryPageList()
+  },
+
   methods: {
+    load (tree, treeNode, resolve) {
+      console.log(tree, treeNode)
+      this.$api.getSubList({
+        uid: tree.uid,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        res.data.forEach(item => {
+          item['hasChildren'] = true
+          item['id'] = item.uid
+          item['parent'] = tree.uid
+        })
+        resolve(res.data)
+      })
+    },
+
+    // 分装删除
+    delCategoryItem (i, r) {
+      console.log(this.tableData)
+      this.$api.delCategoryItem({
+        uid: r.uid,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.$message({
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.getCgCategoryPageList()
+        this.deleteLazyTableItem(r)
+      })
+    },
+
+    deleteLazyTableItem (item) {
+      const store = this.$refs.table.store;
+      if (item.parent != -1) {
+        let parentRow = store.states.data.find(child => child.id == item.parent);
+        if (!parentRow) {
+          const keys = Object.keys(store.states.lazyTreeNodeMap);
+          for (let i = 0; i < keys.length; i++) {
+            parentRow = store.states.lazyTreeNodeMap[keys[i]].find(child => child.id == item.parent);
+            if (parentRow) {
+              break;
+            }
+          }
+        }
+        parentRow.childrenCount--;
+        const parent = store.states.lazyTreeNodeMap[item.parent];
+        const index = parent.findIndex(child => child.id == item.id);
+        parent.splice(index, 1);
+      }
+      else {
+        const parent = store.states.data;
+        const index = parent.findIndex(child => child.id == item.id);
+        parent.splice(index, 1);
+      }
+    },
+
+    copyCategoryItem (i, r) {
+      this.$api.copyCategoryItem({
+        uid: r.uid,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.$message({
+          message: '复制成功',
+          type: 'success'
+        });
+        res.data['hasChildren'] = true
+        res.data['id'] = res.data.uid
+        res.data['parent'] = r.uid
+        this.getCgCategoryPageList()
+        this.findNewParent(r.uid, res.data)
+      })
+    },
+
+    // 查找新的父节点及数据后，添加子节点
+    findNewParent (parentId, newItemData) {
+      const store = this.$refs.table.store;
+      // 首先在最外层里面找
+      let parentRow = store.states.data.find(item => item.id === parentId);
+      if (parentRow) {
+        parentRow.childrenCount++;
+      }
+      // 不在最外层
+      else {
+        const keys = Object.keys(store.states.lazyTreeNodeMap);
+        for (let i = 0; i < keys.length; i++) {
+          parentRow = store.states.lazyTreeNodeMap[keys[i]].find(item => item.id == parentId);
+          if (parentRow) {
+            break;
+          }
+        }
+        if (parentRow) {
+          parentRow.childrenCount++;
+        }
+      }
+      const parentTreeNode = store.states.treeData[parentId];
+      this.addLazyTableItemToParent(parentTreeNode, parentId, newItemData);
+    },
+
+    // 把数据加到父级节点上去
+    addLazyTableItemToParent (parentTreeNode, parentId, newItemData) {
+      debugger
+      const store = this.$refs.table.store;
+      // 如果在已加载过的节点的子节点中
+      if (parentTreeNode) {
+        // 如果该节点已加载
+        if (parentTreeNode.loaded) {
+          store.states.lazyTreeNodeMap[parentId].push(newItemData);
+        }
+      }
+    },
+
+
+    getCgCategoryPageList () {
+      this.$api.getCgCategoryPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        order_type: "asc",
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        res.data.items.forEach(item => {
+          item['hasChildren'] = true
+          item['id'] = item.uid
+        })
+        this.tableData = res.data.items
+        this.total = res.data.total_result
+      })
+    },
+
     add () {
       this.$router.push('/conventionalProducts/editConventional?nameType=新建商品分类')
 
     },
 
-    edit () {
-      this.$router.push('/conventionalProducts/editConventional?nameType=编辑商品分类')
+    edit (i, r) {
+      this.$router.push({
+        path: '/conventionalProducts/editConventional',
+        query: {
+          uid: r.uid
+        }
+      })
     },
+
     look () {
       this.$router.push('/marketHome/details')
     },
+
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.getCgCategoryPageList()
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.getCgCategoryPageList()
     },
   }
 }

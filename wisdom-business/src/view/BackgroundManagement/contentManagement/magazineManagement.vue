@@ -4,26 +4,26 @@
     <div class="table_bottom">
       <p style="width: 100px; height: 25px;text-aline:center;line-height: 25px;font-size: 12px;margin: 10px 0 10px 10px;font-size: 16px">栏目添加</p>
       <el-form ref="form"
-               :rules="rules"
-               :model="form"
+               :model="formTop"
                label-width="130px">
-        <el-form-item label="栏目编码："
+        <el-form-item label="栏目编码（英文）："
                       prop="displayName">
-          <el-input v-model="form.displayName"
+          <el-input v-model="formTop.board_code"
                     placeholder="必须用英文"></el-input>
         </el-form-item>
         <el-form-item label="栏目标题："
                       prop="displayName">
-          <el-input v-model="form.displayName"
+          <el-input v-model="formTop.board_title"
                     placeholder="前台显示的栏目名称"></el-input>
         </el-form-item>
         <el-form-item label="排序："
                       prop="displayName">
-          <el-input v-model="form.displayName"
+          <el-input v-model="formTop.od"
                     placeholder></el-input>
         </el-form-item>
       </el-form>
       <el-button type="primary"
+                 @click="addBoardItem"
                  style="float: right; width: 100px; margin-left: 30px">确定</el-button>
       <div class="flex">
         <el-table :data="tableData"
@@ -38,17 +38,17 @@
               {{scope.$index+1}}
             </template>
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="board_name_code"
                            show-overflow-tooltip
                            label="栏目名称（英文）"
                            width="180">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="board_title"
                            show-overflow-tooltip
                            label="栏目标题"
                            width="180">
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="od"
                            show-overflow-tooltip
                            label="排序">
           </el-table-column>
@@ -70,24 +70,19 @@
                 <el-button size="medium"
                            type="text"
                            class="redColor"
-                           @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
+                           @click="delBoardItem(scope.$index, scope.row)">删除</el-button>
               </div>
             </template>
           </el-table-column>
         </el-table>
         <div class="btootm_paination">
-          <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
+                         :page-sizes="[10, 20, 30, 40]"
+                         :page-size="page_size"
                          layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
+                         :total="total">
           </el-pagination>
         </div>
       </div>
@@ -97,22 +92,21 @@
                width="50%"
                :before-close="handleClose">
       <el-form ref="form"
-               :rules="rules"
                :model="form"
                label-width="130px">
         <el-form-item label="栏目编码："
                       prop="displayName">
-          <el-input v-model="form.displayName"
+          <el-input v-model="form.board_code"
                     placeholder="必须用英文"></el-input>
         </el-form-item>
         <el-form-item label="栏目标题："
                       prop="displayName">
-          <el-input v-model="form.displayName"
+          <el-input v-model="form.board_title"
                     placeholder="前台显示的栏目名称"></el-input>
         </el-form-item>
         <el-form-item label="排序："
                       prop="displayName">
-          <el-input v-model="form.displayName"
+          <el-input v-model="form.od"
                     placeholder></el-input>
         </el-form-item>
       </el-form>
@@ -120,7 +114,7 @@
             class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary"
-                   @click="dialogVisible = false">确 定</el-button>
+                   @click="setBoardItem">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -132,83 +126,123 @@ export default {
 
   data () {
     return {
-      time: [],
-      sName: '',
+      formTop: {
+        board_code: '',
+        board_title: '',
+        od: '',
+        parentid: '0',
+      },
+
       dialogVisible: false,
       form: {
-        displayName: ''
+        board_code: '',
+        board_title: '',
+        od: '',
+        parentid: '0',
       },
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
-      totalData: 1, //总页数
+      total: 1, //总页数
+      page_size: 10,
+      uid: '',
     }
   },
 
+  mounted () {
+    this.getArticlePageList()
+  },
+
   methods: {
+    addBoardItem () {
+      this.$api.addBoardItem({
+        board_title: this.formTop.board_title,
+        board_code: this.formTop.board_code,
+        parentid: this.formTop.parentid,
+        od: this.formTop.od,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          message: '添加成功',
+          type: 'success'
+        });
+        this.getArticlePageList()
+      })
+    },
+
+    getArticlePageList () {
+      this.$api.getArticlePageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        order_type: "asc",
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.total = res.data.total_result
+      })
+    },
+
+    setBoardItem () {
+      this.$api.setBoardItem({
+        uid: this.uid,
+        board_title: this.form.board_title,
+        board_code: this.form.board_code,
+        parentid: this.form.parentid,
+        od: this.form.od,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.dialogVisible = false
+        this.getArticlePageList()
+      })
+    },
+
+    // 分装删除
+    delBoardItem (i, r) {
+      this.$api.delBoardItem({
+        uid: r.uid,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.$message({
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.getArticlePageList()
+      })
+    },
+
+
+
     add () {
       this.$router.push('/commodity/editConventionalKnowledge?nameType=添加商品')
     },
 
-    look () {
-      this.$router.push('/contentManagement/informationManagement')
+    look (i, r) {
+      this.$router.push({
+        path: '/contentManagement/informationManagement',
+        query: {
+          ps_name: r.board_name_code
+        }
+      })
     },
 
 
-    editor () {
+    editor (i, r) {
       this.dialogVisible = true
+      this.$api.getBoardItem({
+        uid: r.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.form.board_code = res.data.board_name_code
+        this.form.board_title = res.data.board_title
+        this.form.od = res.data.od
+        this.uid = r.uid
+      })
     },
+
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;

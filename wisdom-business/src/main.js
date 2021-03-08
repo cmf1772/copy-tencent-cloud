@@ -8,14 +8,16 @@ import 'element-ui/lib/theme-chalk/index.css';
 import Loading from './components/loading.js'
 import api from './request/api/index'
 import loading from './components/loading.js';
-
+import store from './store/store.js'
 import VueAMap from 'vue-amap'
+import tool from './request/api/cookie'
 Vue.use(VueAMap)
 
 //引入echart
 import echarts from 'echarts'
 //将echarts引入到vue的原型中
 Vue.prototype.$echarts = echarts
+Vue.prototype.tool = tool;
 
 // 挂租公共组建
 Vue.use(Loading)
@@ -41,6 +43,7 @@ Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  store,
   router,
   components: { App },
   template: '<App/>'

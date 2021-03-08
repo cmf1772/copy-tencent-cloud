@@ -6,7 +6,6 @@
          style="color: #f5a623 !important;font-weight: 360;margin-right: 10px"></i> 我要托管：
     </p>
     <el-form ref="form"
-             :rules="rules"
              :model="form"
              label-width="130px">
       <el-form-item label="申请条件："
@@ -16,116 +15,124 @@
       <el-form-item label="商铺名称："
                     style="width: 100%"
                     prop="displayName">
-        <el-input v-model="form.displayName"
+        <el-input v-model="form.shop_name"
                   placeholder="15个汉字内 例如：***有限公司"></el-input>
       </el-form-item>
       <el-form-item label="商铺类型："
                     prop="displayName">
-        <el-select v-model="form.province"
+        <el-select v-model="form.sellshow"
                    style="width:100%"
                    clearable
                    placeholder="请选择">
           <el-option label="销售型商铺"
-                     value="shanghai"></el-option>
+                     value="1"></el-option>
           <el-option label="展示型商铺"
-                     value="beijing"></el-option>
+                     value="2"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="所属分类："
                     prop="displayName">
-        <el-select v-model="form.province"
+        <el-select v-model="form.shop_cat"
                    style="width:100%"
                    clearable
                    placeholder="请选择">
-          <el-option label="美食"
-                     value="shanghai"></el-option>
-          <el-option label="娱乐"
-                     value="beijing"></el-option>
+          <el-option v-for="(item, index) in pageList"
+                     :key="index"
+                     :label="item.board_title"
+                     :value="item.uid"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="主营项目："
                     style="width: 100%"
                     prop="displayName">
-        <el-input v-model="form.displayName"
+        <el-input v-model="form.run_product"
                   placeholder="例如：男女服饰，男女皮鞋"></el-input>
       </el-form-item>
       <el-form-item label="详细地址："
                     prop="displayName">
-        <el-input v-model="form.displayName"
+        <el-input v-model="form.address"
                   placeholder="请填写具体街道，例如：南昌路88号"></el-input>
       </el-form-item>
 
       <el-form-item label="联系人："
                     prop="displayName">
-        <el-input v-model="form.displayName"
+        <el-input v-model="form.name"
                   placeholder=""></el-input>
 
       </el-form-item>
       <el-form-item label="联系电话："
                     prop="displayName">
-        <el-input v-model="form.displayName"
+        <el-input v-model="form.tel"
                   placeholder=""></el-input>
       </el-form-item>
       <el-form-item label="联系QQ："
                     prop="displayName">
-        <el-input v-model="form.displayName"
+        <el-input v-model="form.qq"
                   placeholder=""></el-input>
       </el-form-item>
       <el-form-item label="商铺logo："
                     style="width: 100%"
                     prop="name">
-        <el-input v-model="form.displayName"
-                  style="width: 200px"
+        <el-input v-model="form.logo_tip"
                   placeholder="店标名字"></el-input>
-        <el-upload action="https://jsonplaceholder.typicode.com/posts/"
-                   list-type="picture-card"
-                   :on-preview="handlePictureCardPreview"
-                   :on-remove="handleRemove">
-          <div slot="tip"
-               class="el-upload__tip">图片最佳尺寸：130*60px，格式JPG或GIF，大小150K以内</div>
-          <i class="el-icon-plus"></i>
+        <el-upload class="upload-pic mt"
+                   :action="domain"
+                   :data="QiniuData"
+                   :on-error="uploadError"
+                   :on-success="uploadSuccess"
+                   :before-remove="beforeRemove"
+                   :before-upload="beforeAvatarUpload"
+                   :limit="1"
+                   multiple
+                   :on-exceed="handleExceed"
+                   :file-list="fileList">
+          <el-button size="small"
+                     type="primary">选择图片</el-button>
         </el-upload>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%"
-               :src="dialogImageUrl"
-               alt="">
-        </el-dialog>
+        <img :src="form.up_logo"
+             style="width: 50px; height: 50px"
+             alt="">
       </el-form-item>
       <el-form-item label="商铺banner："
                     style="width: 100%"
                     prop="name">
-        <el-input v-model="form.displayName"
-                  style="width: 200px"
+        <el-input v-model="form.banner_tip"
+                  style="width: 50%"
                   placeholder="商铺横幅文字"></el-input>
-        <el-upload action="https://jsonplaceholder.typicode.com/posts/"
-                   list-type="picture-card"
-                   :on-preview="handlePictureCardPreview"
-                   :on-remove="handleRemove">
-          <div slot="tip"
-               class="el-upload__tip">图片最佳尺寸：972*125px，格式JPG或GIF，大小500K以内</div>
-          <i class="el-icon-plus"></i>
+        <el-upload class="upload-pic mt"
+                   :action="domain"
+                   :data="QiniuData"
+                   :on-error="uploadError"
+                   :on-success="uploadSuccess2"
+                   :before-remove="beforeRemove"
+                   :before-upload="beforeAvatarUpload"
+                   :limit="1"
+                   multiple
+                   :on-exceed="handleExceed"
+                   :file-list="fileList">
+          <el-button size="small"
+                     type="primary">选择图片</el-button>
         </el-upload>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%"
-               :src="dialogImageUrl"
-               alt="">
-        </el-dialog>
+        <img :src="form.banner"
+             style="width: 50px; height: 50px"
+             alt="">
       </el-form-item>
       <el-form-item label="商铺描述："
                     prop="displayName">
-        <el-input v-model="form.displayName"
+        <el-input v-model="form.shop_desc"
                   placeholder=""></el-input>
       </el-form-item>
       <el-form-item label="给该项目留言："
                     style="width:100%"
                     prop="displayName">
-        <el-input v-model="form.displayName"
+        <el-input v-model="form.msg"
                   type="textarea"
                   placeholder=""></el-input>
       </el-form-item>
 
     </el-form>
     <el-button type="primary"
+               @click="applyShop"
                style="float: right">确定</el-button>
   </div>
 </template>
@@ -137,85 +144,104 @@ export default {
 
   data () {
     return {
-      dialogImageUrl: '',
-      dialogVisible: false,
       form: {
-        radio: '1',
-        displayName: '',
+        shop_name: '',
+        sellshow: '',
+        shop_cat: '',
+        run_product: '',
+        address: '',
         name: '',
-        type: '',
-        value: '',
-        driverId: '',
-        description: '',
-        province: '',
-        city: '',
-        qu: ''
+        tel: '',
+        qq: '',
+        logo_tip: '',
+        up_logo: '',
+        banner_tip: '',
+        banner: '',
+        shop_desc: '',
+        msg: '',
+        token: ''
       },
-      height: window.innerHeight - 180 + 'px',
-      drivers: [],
-      submitBtn: {
-        loading: false,
-        text: '提交'
+      height: window.innerHeight - 100 + 'px',
+      QiniuData: {
+        key: "", //图片名字处理
+        token: this.$store.state.upToken,//七牛云token
+        data: {}
       },
-      rules: {
-        displayName: [
-          { required: true, message: '请输入收货人', trigger: 'blur' }
-        ],
-        name: [
-          { required: true, message: '请输入手机号', trigger: 'blur' }
-        ],
-        type: [
-          { required: true, message: '请输入类型', trigger: 'blur' }
-        ],
-        value: [
-          { required: true, message: '请不要重复填写省市', trigger: 'blur' }
-        ],
-        driverId: [
-          { required: true, message: '请选择所属驱动', trigger: 'change' }
-        ]
-      },
-      imgData: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1121833438,3473430102&fm=26&gp=0.jpg',
+      fileList: [],
+      pageList: [],
+      domain: this.$store.state.getUploadUrl, // 七牛云的上传地址（华东区）
+      qiniuaddr: 'http://img.meichengmall.com/'
     }
   },
 
   mounted () {
-
+    this.$api.getBoardPageList({
+      order_field: "od",
+      order_type: "desc",
+      token: JSON.parse(this.$store.state.token).token
+    }).then(res => {
+      this.pageList = res.data.items
+    })
+    this.$api.getUploadToken().then(res => {
+      this.QiniuData.token = res.data.token.token
+    })
   },
 
   methods: {
-    getemplate () {
-      this.$router.push('/shopManagement/templateToBuy')
+    applyShop () {
+      this.$api.applyShop({
+        shop_name: this.form.shop_name,
+        sellshow: this.form.sellshow,
+        shop_cat: this.form.shop_cat,
+        run_product: this.form.run_product,
+        address: this.form.address,
+        name: this.form.name,
+        tel: this.form.tel,
+        qq: this.form.qq,
+        logo_tip: this.form.logo_tip,
+        up_logo: this.form.up_logo,
+        banner_tip: this.form.banner_tip,
+        banner: this.form.banner,
+        shop_desc: this.form.shop_desc,
+        msg: this.form.msg,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.$message({
+          type: 'success',
+          message: res.data.msg
+        })
+      })
     },
-    goNavSet () {
-      this.$router.push('/setUpShops/navigationStyleSettings?nameType=导航样式设置')
+    // 上传logo
+    handleExceed (files, fileList) {
+      this.$message.warning(
+        `当前限制选择 1 张图片，如需更换，请删除上一张图片在重新选择！`
+      );
     },
 
-    handleRemove (file, fileList) {
-      console.log(file, fileList);
+    beforeAvatarUpload (file) {   //图片上传之前的方法
+      this.QiniuData.data = file;
+      this.QiniuData.key = `${JSON.parse(this.$store.state.token).client_id + '/shop/' + file.name}`;
     },
-    handlePictureCardPreview (file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
-    changeFile (e) {
-      function getObjectURL (file) {
-        var url = null;
-        if (window.createObjectURL != undefined) {
-          // basic
-          url = window.createObjectURL(file);
-        } else if (window.URL != undefined) {
-          // mozilla(firefox)
-          url = window.URL.createObjectURL(file);
-        } else if (window.webkitURL != undefined) {
-          // webkit or chrome
-          url = window.webkitURL.createObjectURL(file);
-        }
-        return url;
-      }
 
-      let imgData = e.target.files[0];
-      this.imgFile = imgData;
-      this.imgData = getObjectURL(imgData);
+    uploadSuccess (response, file, fileList) {  //图片上传成功的方法
+      this.form.up_logo = `${this.qiniuaddr}${response.key}`;
+    },
+
+    uploadSuccess2 (response, file, fileList) {  //图片上传成功的方法
+      this.form.banner = `${this.qiniuaddr}${response.key}`;
+    },
+
+    beforeRemove (file, fileList) {
+      // return this.$confirm(`确定移除 ${ file.name }？`);
+    },
+
+    uploadError (err, file, fileList) {    //图片上传失败时调用
+      this.$message({
+        message: "上传出错，请重试！",
+        type: "error",
+        center: true
+      });
     },
   }
 }

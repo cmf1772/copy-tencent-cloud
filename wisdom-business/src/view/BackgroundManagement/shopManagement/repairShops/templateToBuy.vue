@@ -5,17 +5,21 @@
     </div>
     <div class="content">
       <div class="item"
-           v-for="(item, index) in url"
+           v-for="(item, index) in BuyTplList"
            :key="index">
         <el-image style="width: 145px; height: 185px"
-                  :src="item"
-                  :preview-src-list="srcList">
+                  :src="item.s_img"
+                  :preview-src-list="url">
         </el-image>
-        <p>默认模板</p>
+        <p>{{item.tpl_name}}</p>
+        <span v-if='item.tpl_code === "default"'
+              style="margin-top: 40px; font-size: 14px"
+              class="mt redColor">当前模板</span>
         <el-button slot="append"
                    type="primary"
-                   v-if='index === 0'
+                   v-else
                    icon="el-icon-plus"
+                   @click="importTpl(item.uid, item.tpl_code)"
                    style="width: 90px; height: 35px;text-aline:center;line-height: 0px;padding: 0 10px;font-size: 12px;margin: 10px 0 10px 10px;">
           立即导入
         </el-button>
@@ -26,13 +30,13 @@
     </div>
     <div class="content">
       <div class="item"
-           v-for="(item, index) in url"
+           v-for="(item, index) in srcList"
            :key="index">
         <el-image style="width: 145px; height: 185px"
-                  :src="item"
-                  :preview-src-list="srcList">
+                  :src="item.s_img"
+                  :preview-src-list="urlList">
         </el-image>
-        <p>默认模板</p>
+        <p>{{item.tpl_name}}</p>
         <el-button slot="append"
                    type="primary"
                    v-if='index === 0'
@@ -51,21 +55,59 @@ export default {
 
   data () {
     return {
-      url: [
-        'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-        'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1121833438,3473430102&fm=26&gp=0.jpg',
-        'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2864287296,145841194&fm=26&gp=0.jpg',
-        'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1769807321,355494893&fm=26&gp=0.jpg',
-        'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2391667107,3258741112&fm=26&gp=0.jpg'
-      ],
-      srcList: [
-        'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-        'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1121833438,3473430102&fm=26&gp=0.jpg',
-        'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2864287296,145841194&fm=26&gp=0.jpg',
-        'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1769807321,355494893&fm=26&gp=0.jpg',
-        'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2391667107,3258741112&fm=26&gp=0.jpg'
-      ]
+      BuyTplList: {},
+      url: [],
+      srcList: {},
+      urlList: []
     }
+  },
+
+  methods: {
+    importTpl (uid, tpl_code) {
+      this.$api.importTpl({
+        uid: uid,
+        tpl_code: tpl_code,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.getBuyTplList()
+        this.$message({
+          message: res.data.msg,
+          type: 'success'
+        });
+      })
+    },
+
+    getAllTplPageList () {
+      this.$api.getAllTplPageList({
+        "order_type": "asc",
+        "order_field": "sellshow",
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.srcList = res.data.items
+        for (let key in res.data.items) {
+          this.urlList.push(res.data.items[key].s_img)
+        }
+      })
+    },
+
+    getBuyTplList () {
+      this.$api.getBuyTplList({
+        "order_type": "asc",
+        "order_field": "sellshow",
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.BuyTplList = res.data
+        for (let key in res.data) {
+          this.url.push(res.data[key].s_img)
+        }
+
+      })
+    }
+  },
+
+  mounted () {
+    this.getBuyTplList()
+    this.getAllTplPageList()
   }
 }
 </script>
@@ -101,6 +143,7 @@ export default {
     display: flex;
     box-sizing: border-box;
     padding: 20px;
+    overflow-y: auto;
     .item {
       margin-right: 20px;
       text-align: center;

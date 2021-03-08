@@ -22,21 +22,24 @@
               {{scope.$index+1}}
             </template>
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="banner_subject"
                            show-overflow-tooltip
                            label="广告名"
                            width="180">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="banner_point"
                            show-overflow-tooltip
                            label="广告位置"
                            width="180">
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="banner_width"
                            show-overflow-tooltip
                            label="最佳宽/高">
+            <template slot-scope="scope">
+              {{scope.row.banner_width}}/ {{scope.row.banner_height}}
+            </template>
           </el-table-column>
-          <el-table-column prop="address"
+          <el-table-column prop="banner_type"
                            show-overflow-tooltip
                            label="广告种类">
           </el-table-column>
@@ -53,22 +56,17 @@
                 <el-button size="medium"
                            type="text"
                            class="redColor"
-                           @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
+                           @click="delBannerItem(scope.$index, scope.row)">删除</el-button>
               </div>
             </template>
           </el-table-column>
         </el-table>
         <div class="btootm_paination">
-          <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
+                         :page-sizes="[10, 20, 30, 40]"
+                         :page-size="page_size"
                          layout="total, sizes, prev, pager, next, jumper"
                          :total="400">
           </el-pagination>
@@ -86,101 +84,69 @@ export default {
     return {
       time: [],
       sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
-      totalData: 1, //总页数
+      total: 1, //总页数
+      page_size: 10,
     }
   },
 
   methods: {
+    delBannerItem (i, r) {
+      this.$api.delBannerItem({
+        uid: r.uid,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.$message({
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.getBannerPageList()
+      })
+    },
+
     add () {
       this.$router.push('/shopManagement/editImageAds?nameType=添加广告')
+    },
 
+    editor (i, r) {
+      this.$router.push({
+        path: '/shopManagement/editImageAds',
+        query: {
+          nameType: '编辑广告',
+          uid: r.uid
+        }
+      })
     },
-    editor () {
-      this.$router.push('/shopManagement/editImageAds?nameType=编辑广告')
+
+    getBannerPageList () {
+      this.$api.getBannerPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        order_type: "asc",
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.total = res.data.total_result
+      })
     },
+
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.getBannerPageList();
     },
 
     handleSizeChange (val) {
+      this.page_size = val
+      this.getBannerPageList()
       console.log(`每页 ${val} 条`);
     },
+  },
+
+  mounted () {
+    this.getBannerPageList()
   }
 }
 </script>

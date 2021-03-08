@@ -11,36 +11,40 @@
         <span>***********</span>
       </el-form-item>
       <el-form-item label="账户类型："
-                    prop="displayName">
+                    prop="displayName"
+                    @change="changeAcction">
         <el-radio v-model="form.radio"
-                  label="1">支付宝</el-radio>
+                  label="0">支付宝</el-radio>
         <el-radio v-model="form.radio"
-                  label="2">银行</el-radio>
+                  label="1">银行</el-radio>
       </el-form-item>
       <el-form-item label="开户名："
-                    prop="displayName">
-        <el-input v-model="form.displayName"
+                    prop="member_name">
+        <el-input v-model="form.member_name"
                   placeholder></el-input>
       </el-form-item>
       <el-form-item label="您的提现账号："
-                    prop="displayName">
-        <el-input v-model="form.displayName"
+                    prop="account">
+        <el-input v-model="form.account"
                   placeholder></el-input>
         <p>您当前可用资金账户金额：<span class="redColor">￥0.00 </span> 冻结金额：￥201.80</p>
       </el-form-item>
-      <el-form-item label="您的提现金额："
+      <el-form-item label="开户行："
+                    v-if="form.radio === '1'"
                     prop="displayName">
-        <el-input v-model="form.displayName"
+        <el-input v-model="form.bank"
                   placeholder></el-input>
       </el-form-item>
       <el-form-item label="您的提现金额："
-                    prop="displayName">
-        <el-input v-model="form.displayName"
+                    prop="money">
+        <el-input v-model="form.money"
                   placeholder></el-input>
       </el-form-item>
+
     </el-form>
     <el-button type="primary"
-               style="margin-left: 35%; width: 100px">确定</el-button>
+               style="margin-left: 35%; width: 100px"
+               @click="applyWithdraw">确定</el-button>
     <p style="margin-top: 20px"> <span class="redColor">※温馨提醒：</span> 请检查填写的账号类别及账号，确认是提现至您本人相应的账户中 (如遇到问题，可咨询客服 <span class="redColor">13810173183</span> 点击这里给我发消息 )</p>
     <p style="margin-top: 20px">提现记录</p>
     <el-table :data="tableData"
@@ -55,37 +59,38 @@
           {{scope.$index+1}}
         </template>
       </el-table-column>
-      <el-table-column prop="date"
+      <el-table-column prop="money"
                        show-overflow-tooltip
                        label="提现金额"
                        width="180">
       </el-table-column>
-      <el-table-column prop="name"
+      <el-table-column prop="real_money"
                        show-overflow-tooltip
                        label="实收金额"
                        width="180">
       </el-table-column>
-      <el-table-column prop="address"
+      <el-table-column prop="sn"
                        show-overflow-tooltip
                        label="流水号">
       </el-table-column>
-      <el-table-column prop="address"
+      <el-table-column prop="reg_time"
                        show-overflow-tooltip
                        label="提现时间">
       </el-table-column>
-      <el-table-column prop="address"
-                       show-overflow-tooltip
-                       label="账户信息">
+      <el-table-column show-overflow-tooltip
+                       prop="account"
+                       label="账号">
+      </el-table-column>
+      <el-table-column show-overflow-tooltip
+                       prop="type"
+                       label="账号类型">
       </el-table-column>
       <el-table-column show-overflow-tooltip
                        label="状态"
                        width="150"
+                       prop="status_text"
                        min-width="60">
-        <template slot-scope="scope">
-          <div>
-            <span>未审核</span>
-          </div>
-        </template>
+
       </el-table-column>
     </el-table>
     <div class="btootm_paination">
@@ -97,10 +102,10 @@
       <el-pagination @size-change="handleSizeChange"
                      @current-change="handleCurrentChangeFun"
                      :current-page="currentPage"
-                     :page-sizes="[100, 200, 300, 400]"
-                     :page-size="100"
+                     :page-sizes="[10, 20, 30, 40]"
+                     :page-size="page_size"
                      layout="total, sizes, prev, pager, next, jumper"
-                     :total="400">
+                     :total="total">
       </el-pagination>
     </div>
   </div>
@@ -112,94 +117,85 @@ export default {
   data () {
     return {
       form: {
-        radio: '1',
-        displayName: '',
-        name: '',
-        type: '',
-        value: '',
-        driverId: '',
-        description: '',
-        province: '',
-        city: '',
-        qu: ''
+        radio: "0",
+        member_name: '',
+        account: '',
+        money: '',
+        bank: '',
       },
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
-      totalData: 1, //总页数
+      total: 1, //总页数
+      page_size: 10
     }
-  }
+  },
+
+  methods: {
+    changeAcction () {
+
+    },
+
+    // t提交
+    applyWithdraw () {
+      this.$api.applyWithdraw({
+        type: this.form.radio,
+        member_name: this.form.member_name,
+        account: this.form.account,
+        money: this.form.money,
+        bank: this.form.bank,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.$message({
+          type: 'success',
+          message: res.data.msg
+        })
+        this.getMyWithdrawPageList()
+      })
+    },
+
+    getMemberAccountInfo () {
+      this.$api.getMemberAccountInfo({
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.form = {
+          radio: res.data.type + '',
+          member_name: res.data.member_name,
+          account: res.data.account,
+          money: res.data.money,
+        }
+      })
+    },
+
+    getMyWithdrawPageList () {
+      this.$api.getMyWithdrawPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        order_type: "asc",
+        order_field: 'uid',
+        type: 0,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.total = res.data.total_result
+      })
+    },
+
+    // 分页
+    handleCurrentChangeFun (val) {
+      this.currentPage = val;
+      this.getMyWithdrawPageList()
+    },
+
+    handleSizeChange (val) {
+      this.page_size = val
+      this.getMyWithdrawPageList()
+    },
+  },
+
+  mounted () {
+    this.getMemberAccountInfo()
+    this.getMyWithdrawPageList()
+  },
 }
 </script>
 <style lang="scss" scoped>

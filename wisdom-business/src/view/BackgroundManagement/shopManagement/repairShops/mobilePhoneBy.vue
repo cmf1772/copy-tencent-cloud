@@ -1,47 +1,52 @@
+
 <template>
   <div class="mobilePhoneBy">
     <div class="title-bottom">
-      <p style="font-size: 16px;font-family: MicrosoftYaHei; color: #333;font-weight: 600; ">上传轮转广告：</p>
+      <p style="font-size: 16px;font-family: MicrosoftYaHei; color: #333;font-weight: 600; ">上传手机轮转广告：</p>
       <div class="itembutton">
         <div class="top_left">
           <span style="margin-left: 10px">标题</span>
           <el-input placeholder="输入标题"
-                    v-model="sName"
+                    v-model="title"
+                    size="mini"
                     style="width: 200px"
                     clearable>
           </el-input>
           <span style="margin-left: 10px">连接</span>
           <el-input placeholder="输入连接"
-                    v-model="sName"
+                    v-model="link"
+                    size="mini"
                     style="width: 200px"
                     clearable>
           </el-input>
           <span style="margin-left: 10px">排序</span>
           <el-input placeholder="请排序"
-                    v-model="sName"
+                    v-model="cat_tag"
+                    size="mini"
                     style="width: 200px"
                     clearable>
           </el-input>
-          <el-upload class="upload-demo"
-                     style="margin-top: 10px"
-                     action="https://jsonplaceholder.typicode.com/posts/"
-                     :on-preview="handlePreview"
+          <el-upload class="upload-pic mt"
+                     :action="domain"
+                     :data="QiniuData"
                      :on-remove="handleRemove"
+                     :on-error="uploadError"
+                     :on-success="uploadSuccess"
                      :before-remove="beforeRemove"
-                     multiple
+                     :before-upload="beforeAvatarUpload"
                      :limit="1"
+                     multiple
                      :on-exceed="handleExceed"
                      :file-list="fileList">
             <el-button size="small"
-                       type="primary">选择文件</el-button>
-            <div slot="tip"
-                 class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                       type="primary">选择图片</el-button>
           </el-upload>
         </div>
         <div class="top_right">
           <el-button slot="append"
+                     size="mini"
                      type="primary"
-                     @click="sesarchFun()">
+                     @click="sesarchFun">
             确定
           </el-button>
         </div>
@@ -65,21 +70,21 @@
                          width="180">
           <template slot-scope="scope">
             <div class="img">
-              <img src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1363634644,2070593954&fm=26&gp=0.jpg"
+              <img :src="scope.row.img"
                    alt="">
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="name"
+        <el-table-column prop="title"
                          show-overflow-tooltip
                          label="标题"
                          width="180">
         </el-table-column>
-        <el-table-column prop="address"
+        <el-table-column prop="link"
                          show-overflow-tooltip
                          label="连接">
         </el-table-column>
-        <el-table-column prop="address"
+        <el-table-column prop="cat_tag"
                          show-overflow-tooltip
                          label="排序">
         </el-table-column>
@@ -96,24 +101,19 @@
               <el-button size="medium"
                          type="text"
                          class="redColor"
-                         @click="checkTrackQueryFun(scope.$index, scope.row)">删除</el-button>
+                         @click="delCycleItem(scope.$index, scope.row)">删除</el-button>
             </div>
           </template>
         </el-table-column>
       </el-table>
       <div class="btootm_paination">
-        <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
         <el-pagination @size-change="handleSizeChange"
                        @current-change="handleCurrentChangeFun"
                        :current-page="currentPage"
-                       :page-sizes="[100, 200, 300, 400]"
-                       :page-size="100"
+                       :page-sizes="[10, 20, 30, 40]"
+                       :page-size="page_size"
                        layout="total, sizes, prev, pager, next, jumper"
-                       :total="400">
+                       :total="total">
         </el-pagination>
       </div>
     </div>
@@ -129,40 +129,43 @@
                left
                label-width="150px">
         <el-form-item label="标题"
-                      prop="name"
+                      prop="title"
                       required>
-          <el-input v-model="form.name"
+          <el-input v-model="form.title"
                     style="width: 100%;"></el-input>
         </el-form-item>
         <el-form-item label="链接地址"
-                      prop="serviceName"
+                      prop="link"
                       required>
-          <el-input v-model="form.serviceName"
+          <el-input v-model="form.link"
                     style="width: 100%;"></el-input>
         </el-form-item>
         <el-form-item label="显示顺序"
-                      prop="host"
+                      prop="cat_tag"
                       required>
-          <el-input v-model="form.host"
+          <el-input v-model="form.cat_tag"
                     style="width: 100%;"></el-input>
         </el-form-item>
         <el-form-item label="轮转图片"
-                      prop="port"
                       required>
-          <el-upload class="upload-demo"
-                     action="https://jsonplaceholder.typicode.com/posts/"
-                     :on-preview="handlePreview"
-                     :on-remove="handleRemove"
-                     :before-remove="beforeRemove"
-                     multiple
+          <el-upload class="upload-pic mt"
+                     :action="domain"
+                     :data="form.QiniuData"
+                     :on-remove="handleRemove2"
+                     :on-error="uploadError2"
+                     :on-success="uploadSuccess2"
+                     :before-remove="beforeRemove2"
+                     :before-upload="beforeAvatarUpload2"
                      :limit="1"
-                     :on-exceed="handleExceed"
-                     :file-list="fileList">
+                     multiple
+                     :on-exceed="handleExceed2"
+                     :file-list="form.fileList">
             <el-button size="small"
-                       type="primary">选择文件</el-button>
-            <div slot="tip"
-                 class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                       type="primary">选择图片</el-button>
           </el-upload>
+          <img :src="form.uploadPicUrl"
+               style="width: 50px; height: 50px"
+               alt="">
         </el-form-item>
       </el-form>
       <span slot="footer"
@@ -182,143 +185,216 @@ export default {
   data () {
     return {
       form: {
-        name: '',
-        serviceName: '',
-        host: '',
-        port: '',
-        description: ''
+        title: '',
+        link: '',
+        cat_tag: '',
+        QiniuData: {
+          key: "", //图片名字处理
+          data: {},
+          token: this.$store.state.upToken,//七牛云token
+        },
+        uploadPicUrl: "", //提交到后台图片地址
+        fileList: [],
       },
-      sName: '',
       rules: {
-        name: [
+        title: [
           { required: true, message: '请输入标题', trigger: 'blur' }
         ],
-        serviceName: [
+        link: [
           { required: true, message: '请输入链接地址', trigger: 'blur' }
         ],
-        host: [
+        cat_tag: [
           { required: true, message: '显示顺序', trigger: 'blur' }
-        ],
-        port: [
-          { required: true, message: '轮转图片', trigger: 'blur' }
         ],
       },
       dialogVisible: false,
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
-      totalData: 1, //总页数
-      fileList: []
+      total: 1, //总页数
+      page_size: 10,
+      title: '',
+      link: '',
+      cat_tag: '',
+      QiniuData: {
+        key: "", //图片名字处理
+        token: this.$store.state.upToken,//七牛云token
+        data: {}
+      },
+      uploadPicUrl: "", //提交到后台图片地址
+      fileList: [],
+      domain: this.$store.state.getUploadUrl, // 七牛云的上传地址（华东区）
+      qiniuaddr: 'http://img.meichengmall.com/',
+      uid: ''
     }
   },
 
   methods: {
-    editor () {
-      this.dialogVisible = true
+    delCycleItem (i, r) {
+      this.$api.delCycleItem({
+        uid: r.uid,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.$message({
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.getCyclePageList()
+      })
     },
+
+    getCyclePageList () {
+      this.$api.getCyclePageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        order_type: "asc",
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.total = res.data.total_result
+      })
+    },
+
+    editor (index, row) {
+      this.$api.getCycleItem({
+        uid: row.uid,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.form.title = res.data.title
+        this.form.link = res.data.link
+        this.form.cat_tag = res.data.cat_tag
+        this.form.uploadPicUrl = res.data.img
+        this.form.fileList[0] = res.data.img
+        this.uid = res.data.uid
+        this.dialogVisible = true
+      })
+    },
+
     onSubmit (formName) {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          // this.submitBtn.loading = true;
-          // this.submitBtn.text = '处理中...';
-          // driverService.add(this.form).then(res => {
-          //     if (res.data.state === 1) {
-          //         this.$message({message: "新增成功", type: 'success'});
-          //         this.$router.go(-1);
-          //     } else {
-          //         throw new Error(res.data.msg);
-          //     }
-          // }).catch(error => {
-          //     this.$message.error(error.message);
-          // }).finally(() => {
-          //     this.submitBtn.loading = false;
-          //     this.submitBtn.text = '提交';
-          // })
+          this.$api.setCycleItem({
+            uid: this.uid,
+            title: this.form.title,
+            link: this.form.link,
+            img: this.form.uploadPicUrl,
+            cat_tag: this.form.cat_tag,
+            token: JSON.parse(this.$store.state.token).token,
+          }).then(res => {
+            this.dialogVisible = false
+            this.$message({
+              message: '操作成功',
+              type: 'success'
+            });
+            this.getCyclePageList()
+          })
         } else {
           return false;
         }
       });
     },
-    handleRemove (file, fileList) {
-      console.log(file, fileList);
-    },
-    handlePreview (file) {
-      console.log(file);
-    },
-    handleExceed (files, fileList) {
-      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-    },
-    beforeRemove (file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`);
-    },
-    handleCurrentChangeFun () {
 
+    handleCurrentChangeFun (val) {
+      this.currentPage = val
+      this.getCyclePageList()
     },
-    handleSizeChange () {
+    handleSizeChange (val) {
+      this.page_size = val
+      this.getCyclePageList()
+    },
+    sesarchFun () {
+      this.$api.addCycleItem({
+        title: this.title,
+        link: this.link,
+        cat_tag: this.cat_tag,
+        img: this.uploadPicUrl,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.getCyclePageList()
+      })
+    },
 
-    },
     handleClose (done) {
       this.$confirm('确认关闭？')
         .then(_ => {
           done();
         })
         .catch(_ => { });
-    }
+    },
+    handleRemove (file, fileList) {
+      this.uploadPicUrl = "";
+    },
+
+    handleExceed (files, fileList) {
+      this.$message.warning(
+        `当前限制选择 1 张图片，如需更换，请删除上一张图片在重新选择！`
+      );
+    },
+
+    beforeAvatarUpload (file) {   //图片上传之前的方法
+      this.QiniuData.data = file;
+      this.QiniuData.key = JSON.parse(this.$store.state.token).client_id + '/shop/' + file.name
+
+    },
+
+    uploadSuccess (response, file, fileList) {  //图片上传成功的方法
+      this.uploadPicUrl = `${this.qiniuaddr}${response.key}`;
+    },
+
+    beforeRemove (file, fileList) {
+      // return this.$confirm(`确定移除 ${ file.name }？`);
+    },
+
+    uploadError (err, file, fileList) {    //图片上传失败时调用
+      this.$message({
+        message: "上传出错，请重试！",
+        type: "error",
+        center: true
+      });
+    },
+
+    beforeRemove2 (file, fileList) {
+      // return this.$confirm(`确定移除 ${ file.name }？`);
+    },
+
+    handleRemove2 (file, fileList) {
+      this.form.uploadPicUrl = "";
+    },
+
+    handleExceed2 (files, fileList) {
+      this.$message.warning(
+        `当前限制选择 1 张图片，如需更换，请删除上一张图片在重新选择！`
+      );
+    },
+
+    beforeAvatarUpload2 (file) {   //图片上传之前的方法
+      this.form.QiniuData.data = file;
+      this.form.QiniuData.key = `${'knowledge/' + file.name}`;
+    },
+
+    uploadSuccess2 (response, file, fileList) {  //图片上传成功的方法
+      this.form.uploadPicUrl = `${this.qiniuaddr}${response.key}`;
+    },
+
+    uploadError2 (err, file, fileList) {    //图片上传失败时调用
+      this.$message({
+        message: "上传出错，请重试！",
+        type: "error",
+        center: true
+      });
+    },
+
+    beforeRemove2 (file, fileList) {
+      // return this.$confirm(`确定移除 ${ file.name }？`);
+    },
+  },
+
+  mounted () {
+    this.getCyclePageList()
+    this.$api.getUploadToken().then(res => {
+      this.QiniuData.token = res.data.token.token
+      this.form.QiniuData.token = res.data.token.token
+    })
   }
 }
 </script>
@@ -364,7 +440,6 @@ export default {
   width: 600px;
 }
 .mobilePhoneBy {
-  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
