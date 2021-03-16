@@ -10,6 +10,8 @@ import api from './request/api/index'
 import loading from './components/loading.js';
 import store from './store/store.js'
 import tool from './request/api/cookie'
+import axios from "axios"
+
 
 import VueAMap from 'vue-amap'
 Vue.use(VueAMap)

@@ -328,6 +328,9 @@ export default {
         case 'e':
           this.$router.push('/homepage')
           break;
+        case 'd':
+          this.$router.push('/homepageTwo')
+          break;
         default:
           return false
 

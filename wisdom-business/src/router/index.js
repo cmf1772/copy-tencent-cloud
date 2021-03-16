@@ -5,6 +5,9 @@ import menu from './menu';
 import reactive from './reactive'
 import shop from './shop'
 
+import cmfRouter from './cmfRouter'
+
+
 Vue.use(Router)
 
 //动态路由 生成
@@ -57,6 +60,10 @@ let rootRouter = reactive
 autoRouters.forEach(rouer => {
   rootRouter.push(rouer)
 })
+
+rootRouter.push(cmfRouter)
+
+console.log(rootRouter)
 
 //  判读啊是否零售 -》 将商铺后台合并
 rootRouter.forEach(router => {

@@ -20,7 +20,7 @@ const tip = msg => {
   alert(msg)
 }
 
-axios.defaults.baseURL = ''
+axios.defaults.baseURL = 'http://www.bjxmqy.com:9501'
 
 /**
  * 跳转登录页
