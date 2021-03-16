@@ -3,6 +3,10 @@
     <div class="all">
       <!-- <img src="../../assets/img/logoFFF.png"
            alt=""> -->
+      <!-- <div style="width: 100%; height: 500px; background: red"
+           id="map">
+
+      </div> -->
       <div class="main-content">
         <div class="userLogin">
           用户登录
@@ -79,6 +83,12 @@
 </template>
 
 <script>
+import 'leaflet/dist/leaflet.css'
+import L from 'leaflet'
+import markerIcon from 'leaflet/dist/images/marker-icon.png'
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
+import markerShadow from 'leaflet/dist/images/marker-shadow.png'
+
 export default {
   name: 'login',
   data () {
@@ -144,7 +154,8 @@ export default {
       },
       seleCtChange: true,
       num: 60,
-      thenum: true
+      thenum: true,
+      map: ''
     }
   },
   methods: {
@@ -239,12 +250,30 @@ export default {
 
     resetForm (formName) {
       this.$refs[formName].resetFields();
-    }
-  }
+    },
+
+    createTileLayer (map, url, options) {
+      let tileLayer = L.tileLayer(url, options)
+      tileLayer.addTo(map)
+      return tileLayer
+    },
+
+
+  },
+
+  mounted () {
+  },
+
 }
 </script>
 
 <style lang="scss" scoped>
+.my-div-icon {
+  width: 15px;
+  height: 15px;
+  background-color: red;
+  border-radius: 50%;
+}
 .el-divider__text {
   background: #f6f6fb;
 }

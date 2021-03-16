@@ -1,17 +1,21 @@
 <template>
-  <div class="couponManagement">
+  <div class="provider">
     <div class="table_bottom">
       <el-button slot="append"
                  type="primary"
                  icon="el-icon-plus"
                  style="width: 120px; height: 35px;text-aline:center;line-height: 0px;padding: 0 10px;font-size: 12px;margin: 10px 0 10px 10px;"
                  @click="add">
-        添加优惠券
+        加入推广商品
       </el-button>
       <div class="flex">
         <el-table :data="tableData"
                   stripe
+                  @selection-change="handleSelectionChange"
                   style="width: 100%">
+          <el-table-column type="selection"
+                           width="55">
+          </el-table-column>
           <el-table-column show-overflow-tooltip
                            type="index"
                            width="50"
@@ -21,54 +25,54 @@
               {{scope.$index+1}}
             </template>
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column show-overflow-tooltip
+                           label="商品名称">
+            <template slot-scope="scope">
+              <div class="img flexC">
+                <img :src=" 'http://img.meichengmall.com/' + scope.row.goods_file1"
+                     style="width: 50%;height: 50%"
+                     alt="">
+                <span>{{scope.row.goods_name}}</span>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="goods_brand"
                            show-overflow-tooltip
-                           label="优惠券名称"
+                           label="品牌"
                            width="180">
           </el-table-column>
-          <el-table-column prop="start_date"
+          <el-table-column prop="goods_sale_price"
                            show-overflow-tooltip
-                           label="起始时间"
-                           width="180">
+                           label="价格">
           </el-table-column>
-          <el-table-column prop="end_date"
+          <el-table-column prop="fencheng"
                            show-overflow-tooltip
-                           label="终止时间">
+                           label="分成">
           </el-table-column>
-          <el-table-column prop="discount"
+          <el-table-column prop="youhui"
                            show-overflow-tooltip
-                           label="面额">
+                           label="优惠">
           </el-table-column>
-          <el-table-column prop="status"
-                           show-overflow-tooltip
-                           label="状态"
-                           width="180">
-          </el-table-column>
+
           <el-table-column show-overflow-tooltip
                            label="操作"
-                           width="150"
+                           width="180"
                            min-width="60">
             <template slot-scope="scope">
               <div>
                 <el-button size="medium"
                            type="text"
                            class="yellowColor right20"
-                           @click="editor(scope.$index, scope.row)">编辑</el-button>
+                           @click="loog(scope.$index, scope.row)">查看</el-button>
                 <el-button size="medium"
                            type="text"
-                           class="redColor"
-                           @click="delCouponItem(scope.$index, scope.row)">删除</el-button>
+                           class="blueColor right20"
+                           @click="YcsetAddTo(scope.$index, scope.row)">加入推广商品</el-button>
               </div>
             </template>
           </el-table-column>
         </el-table>
-        <p class="redColor">每家商铺最多能发布 10 张优惠券</p>
         <div class="btootm_paination">
-          <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
@@ -84,31 +88,51 @@
 </template>
 
 <script>
+import { getCookie } from '@/request/api/cookie'
 export default {
-  name: 'couponManagement',
+  name: 'provider',
+
 
   data () {
     return {
-      name: '',
+      ps_subject: '',
+      cate_id: '',
+      searchSelect: [],
       tableData: [],
       currentPage: 1, //当前页数
       total: 1, //总页数
-      page_size: 10
+      page_size: 10,
+      multipleSelection: [],
+      cat_menu_move: '',
     }
   },
 
-  mounted () {
-    this.getCouponPageList()
-  },
-
   methods: {
-    getCouponPageList () {
-      this.$api.getCouponPageList({
+    handleSelectionChange (val) {
+      this.multipleSelection = val.map(val => { return val.uid }).join(',')
+    },
+
+    add () {
+      this.$api.YcsetAddTo({
+        uid: this.multipleSelection,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.$message({
+          message: res.data.msg,
+          type: 'success'
+        });
+        this.YcgetMyStoragePageList()
+      })
+    },
+
+    YcgetMyStoragePageList () {
+      this.$api.YcgetMyStoragePageList({
         page: this.currentPage,
         page_size: this.page_size,
         order_type: "asc",
         order_field: 'uid',
-        username: this.username,
+        cate_id: this.cate_id,
+        ps_subject: this.ps_subject,
         token: JSON.parse(this.$store.state.token).token,
       }).then(res => {
         this.tableData = res.data.items
@@ -116,61 +140,75 @@ export default {
       })
     },
 
-    add () {
-      this.$router.push('/marketingManagement/editCouponManagement?nameType=添加优惠卷')
-    },
-
-    delCouponItem (i, r) {
-      this.$api.delCouponItem({
+    YcsetAddTo (i, r) {
+      this.$api.YcsetAddTo({
         uid: r.uid,
         token: JSON.parse(this.$store.state.token).token,
       }).then(res => {
         this.$message({
           type: 'success',
-          message: res.data.msg
+          message: '加入成功'
         })
-        this.getCouponPageList()
-      })
-    },
-
-    editor (i, r) {
-      this.$router.push({
-        path: '/marketingManagement/editCouponManagement',
-        query: {
-          uid: r.uid
-        }
+        this.YcgetMyStoragePageList()
       })
     },
 
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      this.getCouponPageList()
+      this.YcgetMyStoragePageList()
     },
 
     handleSizeChange (val) {
       this.page_size = val
-      this.getCouponPageList()
+      this.YcgetMyStoragePageList()
     },
+  },
+
+  mounted () {
+    this.YcgetMyStoragePageList()
   }
 }
 </script>
 
+
 <style lang="scss" scoped>
-.couponManagement {
+/deep/ .el-table__body-wrapper {
+  .el-table__body {
+    .el-table__row {
+      .el-tooltip {
+        min-height: 120px;
+        .img {
+          width: 100px;
+          height: 100%;
+          cursor: pointer;
+          > img {
+            width: 100% !important;
+            height: 100% !important;
+          }
+        }
+      }
+    }
+  }
+}
+</style>
+
+<style lang="scss" scoped>
+.top_button {
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+  padding: 20px 20px;
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+}
+
+.provider {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  .top_button {
-    width: 100%;
-    height: auto;
-    box-sizing: border-box;
-    padding: 20px 20px;
-    background: #fff;
-    display: flex;
-    justify-content: space-between;
-  }
 
   .table_bottom {
     width: 100%;
@@ -185,12 +223,14 @@ export default {
 
   .el-table {
     flex: 1;
+    overflow: auto;
   }
 
   .flex {
     flex: 1;
     display: flex;
     flex-direction: column;
+    height: 200px;
   }
 
   .btootm_paination {

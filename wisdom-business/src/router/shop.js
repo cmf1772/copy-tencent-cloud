@@ -607,4 +607,42 @@ export default [{
   name: 'throughDd',
   component: (resolve) => require(['@/view/BackgroundManagement/throughTheManagement/throughDd.vue'], resolve),
   meta: ['通证管理', '通证', '通证订单']
+}, {
+  //  推广
+  path: '/toPromote/gather',
+  name: 'gather',
+  component: (resolve) => require(['@/view/BackgroundManagement/toPromote/gather.vue'], resolve),
+  meta: ['推广', '推广', '推广订单']
+}, {
+  //  云仓
+  path: '/toPromote/YunCang',
+  name: 'YunCang',
+  component: (resolve) => require(['@/view/BackgroundManagement/toPromote/YunCang.vue'], resolve),
+  meta: ['推广', '推广', '推广订单']
+  // 上架
+}, {
+  path: '/toPromote/goodsShelves',
+  name: 'goodsShelves',
+  component: (resolve) => require(['@/view/BackgroundManagement/toPromote/goodsShelves.vue'], resolve),
+  meta: ['推广', '推广', '推广订单']
+}, {
+  path: '/toPromote/promotion',
+  name: 'promotion',
+  component: (resolve) => require(['@/view/BackgroundManagement/toPromote/promotion.vue'], resolve),
+  meta: ['推广', '推广', '推广商超']
+}, {
+  path: '/toPromote/promoteOrder',
+  name: 'promoteOrder',
+  component: (resolve) => require(['@/view/BackgroundManagement/toPromote/promoteOrder.vue'], resolve),
+  meta: ['推广', '推广', '推广订单']
+}, {
+  path: '/toPromote/promoteDetail',
+  name: 'promoteDetail',
+  component: (resolve) => require(['@/view/BackgroundManagement/toPromote/promoteDetail.vue'], resolve),
+  meta: ['推广', '推广', '推广明细']
 }]
+
+
+
+
+

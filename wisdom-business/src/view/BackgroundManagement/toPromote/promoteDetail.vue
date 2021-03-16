@@ -1,6 +1,6 @@
 <template>
   <div class="provider">
-    <div class="top_button">
+    <!-- <div class="top_button">
       <div class="top_left">
         <span>搜索商品：</span>
         <el-select clearable
@@ -21,20 +21,13 @@
                      type="primary"
                      icon="el-icon-search"
                      @click="() => {
-                       getChangeGdPageList()
+                       getMyTgMingXiPageList()
                      }">
             确定
           </el-button>
         </el-input>
       </div>
       <div class="top_right">
-        <el-button slot="append"
-                   type="primary"
-                   class="ml"
-                   icon="el-icon-s-promotion"
-                   @click="jfBatMoveItem">
-          移动
-        </el-button>
         <el-select clearable
                    style="width:100px;;margin-left:10px;"
                    class="first-child"
@@ -46,18 +39,11 @@
                      :value="item.uid"></el-option>
         </el-select>
       </div>
-    </div>
+    </div> -->
     <div class="table_bottom">
-      <el-button slot="append"
-                 type="primary"
-                 icon="el-icon-plus"
-                 style="width: 100px; height: 35px;text-aline:center;line-height: 0px;padding: 0 10px;font-size: 12px;margin: 10px 0 10px 10px;"
-                 @click="add">
-        添加商品
-      </el-button>
-      <p style="margin: 10px 0 10px 10px">积分不够？ <span class="redColor">请点击这里，进行积分充值</span></p>
-      <p style="margin: 10px 0 10px 10px">团购活动申请需要积分 <span class="redColor"
-              style="margin-right: 20px">{{mm_groupgd_point}}</span> 您当前积分<span class="redColor"> {{$store.state.user.member_point_acc}} </span></p>
+      <span>
+        商家总提成：<strong style="color: red">{{MXsetDownToText}}</strong> 元
+      </span>
       <div class="flex">
         <el-table :data="tableData"
                   stripe
@@ -75,7 +61,7 @@
               {{scope.$index+1}}
             </template>
           </el-table-column>
-          <el-table-column show-overflow-tooltip
+          <!-- <el-table-column show-overflow-tooltip
                            label="商品名称">
             <template slot-scope="scope">
               <div class="img flexC">
@@ -85,34 +71,32 @@
                 <span>{{scope.row.goods_name}}</span>
               </div>
             </template>
-          </el-table-column>
-          <el-table-column prop="start_price"
+          </el-table-column> -->
+          <el-table-column prop="memo"
                            show-overflow-tooltip
-                           label="起拍价"
-                           width="180">
+                           label="交易类型">
           </el-table-column>
-          <el-table-column prop="end_price"
+          <el-table-column prop="buyer_name"
                            show-overflow-tooltip
-                           label="终止价">
+                           label="购买会员">
           </el-table-column>
-          <el-table-column prop="start_date"
+          <el-table-column prop="order_sn"
                            show-overflow-tooltip
-                           label="起始时间">
+                           label="交易单号">
           </el-table-column>
-          <el-table-column prop="end_date"
+          <el-table-column prop="reg_date"
                            show-overflow-tooltip
-                           label="终止时间">
+                           label="创建时间">
           </el-table-column>
-          <el-table-column prop="end_date"
+          <el-table-column prop="je"
                            show-overflow-tooltip
-                           label="参与人次">
+                           label="提成金额">
           </el-table-column>
-          <el-table-column prop="approval"
+          <el-table-column prop="status"
                            show-overflow-tooltip
-                           label="当前状态">
+                           label="状态">
           </el-table-column>
-
-          <el-table-column show-overflow-tooltip
+          <!-- <el-table-column show-overflow-tooltip
                            label="操作"
                            width="180"
                            min-width="60">
@@ -125,14 +109,14 @@
                 <el-button size="medium"
                            type="text"
                            class="blueColor right20"
-                           @click="editor(scope.$index, scope.row)">编辑</el-button>
+                           @click="TGsetAddTo(scope.$index, scope.row)">上架到店</el-button>
                 <el-button size="medium"
                            type="text"
-                           class="redColor"
-                           @click="delPmGoodsItem(scope.$index, scope.row)">删除</el-button>
+                           class="redColor right20"
+                           @click="TGsetDownTo(scope.$index, scope.row)">下架</el-button>
               </div>
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
         <div class="btootm_paination">
           <el-pagination @size-change="handleSizeChange"
@@ -154,9 +138,9 @@ import { getCookie } from '@/request/api/cookie'
 export default {
   name: 'provider',
 
-
   data () {
     return {
+      MXsetDownToText: '',
       ps_subject: '',
       cate_id: '',
       searchSelect: [],
@@ -166,72 +150,32 @@ export default {
       page_size: 10,
       multipleSelection: [],
       cat_menu_move: '',
-      mm_groupgd_point: ''
     }
   },
 
   methods: {
-    getSettingItem () {
-      this.$api.getSettingItem({
-        type: 'show_set'
-      }).then(res => {
-        this.mm_groupgd_point = res.data[3].cf_value
-      })
-    },
-
-    jfBatMoveItem () {
-      this.$api.jfBatMoveItem({
-        uid: this.multipleSelection,
-        cat_menu_move: this.cat_menu_move,
-        token: JSON.parse(this.$store.state.token).token
-      }).then(res => {
-        this.$message({
-          message: res.data.msg,
-          type: 'success'
-        });
-        this.getChangeGdPageList()
-      })
-    },
-
-    changeFun () {
-      this.$api.getBoardPageSubList({
-        order_field: "uid",
-        order_type: "asc",
-        pid: this.goods_cat_pid_menu_move,
-        token: JSON.parse(this.$store.state.token).token
-      }).then(res => {
-        this.goods_cat_menu_move = ''
-        this.getBoardPageListChildren = res.data.items
-      })
-    },
-
     handleSelectionChange (val) {
       this.multipleSelection = val.map(val => { return val.uid }).join(',')
     },
 
-    add () {
-      this.$router.push('/marketingManagement/editBonusPointArea?nameType=添加商品')
+    handleClick () {
+      this.getMyTgMingXiPageList()
     },
 
-    look () {
-      this.$router.push('/marketHome/details')
-    },
-
-    editor (i, r) {
-      this.$router.push({
-        path: '/marketingManagement/editBonusPointArea',
-        query: {
-          uid: r.uid
-        }
+    MXsetDownTo () {
+      this.$api.MXsetDownTo({
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.MXsetDownToText = res.data
       })
     },
 
-    getChangeGdPageList () {
-      this.$api.getChangeGdPageList({
+    getMyTgMingXiPageList () {
+      this.$api.getMyTgMingXiPageList({
         page: this.currentPage,
         page_size: this.page_size,
         order_type: "asc",
-        order_field: 'uid',
+        order_field: 'id',
         cate_id: this.cate_id,
         ps_subject: this.ps_subject,
         token: JSON.parse(this.$store.state.token).token,
@@ -241,45 +185,21 @@ export default {
       })
     },
 
-    getBoardPageList () {
-      this.$api.getCategoryPageList({
-        order_type: "asc",
-        order_field: 'uid',
-        token: JSON.parse(this.$store.state.token).token,
-      }).then(res => {
-        this.searchSelect = res.data.items
-      })
-    },
-
-    delPmGoodsItem (i, r) {
-      this.$api.delPmGoodsItem({
-        uid: r.uid,
-        token: JSON.parse(this.$store.state.token).token
-      }).then(res => {
-        this.$message({
-          message: res.data.msg,
-          type: 'success'
-        });
-        this.getChangeGdPageList()
-      })
-    },
-
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      this.getChangeGdPageList()
+      this.getMyTgMingXiPageList()
     },
 
     handleSizeChange (val) {
       this.page_size = val
-      this.getChangeGdPageList()
+      this.getMyTgMingXiPageList()
     },
   },
 
   mounted () {
-    this.getSettingItem()
-    this.getBoardPageList()
-    this.getChangeGdPageList()
+    this.getMyTgMingXiPageList()
+    this.MXsetDownTo()
   }
 }
 </script>

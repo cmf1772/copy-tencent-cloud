@@ -36,14 +36,14 @@ let navArr = [
       menu: true,
       children: [{
         text: '账户概览',
-        // path: '/shopManagement/shippingAddress'
+        path: '/shopManagement/shippingAddress'
       },
       {
         text: '积分明细',
-        // path: '/shopManagement/modifyTheData',
+        path: '/shopManagement/modifyTheData',
       }, {
         text: '资金明细',
-        // path: '/provider/list',
+        path: '/provider/list',
       }
       ]
     },]
@@ -798,6 +798,56 @@ let navArr = [
         //   }
         // ]
       },
+    ]
+  },
+  {
+    id: "SYSTEM",
+    text: "推广中心",
+    icon: "el-icon-s-cooperation",
+    menu: '1',
+    subset: [
+      {
+        id: 'IOT_REPORT',
+        text: '云集商品',
+        icon: 'el-icon-link',
+        path: '/toPromote/gather',
+        menu: true,
+      },
+      {
+        id: 'IOT_REPORT',
+        text: '云仓商品',
+        icon: 'el-icon-link',
+        path: '/toPromote/YunCang',
+        menu: true,
+      },
+      {
+        id: 'IOT_REPORT',
+        text: '上架商品',
+        icon: 'el-icon-link',
+        path: '/toPromote/goodsShelves',
+        menu: true,
+      },
+      {
+        id: 'IOT_REPORT',
+        text: '推广商品',
+        icon: 'el-icon-link',
+        path: '/toPromote/promotion',
+        menu: true,
+      },
+      {
+        id: 'IOT_REPORT',
+        text: '推广订单',
+        icon: 'el-icon-link',
+        path: '/toPromote/promoteOrder',
+        menu: true,
+      },
+      {
+        id: 'IOT_REPORT',
+        text: '推广明细',
+        icon: 'el-icon-link',
+        path: '/toPromote/promoteDetail',
+        menu: true,
+      }
     ]
   },
   {

@@ -53,18 +53,13 @@
         </el-table>
         <p class="redColor">每家商铺最多能发布 10 张优惠券</p>
         <div class="btootm_paination">
-          <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
           <el-pagination @size-change="handleSizeChange"
                          @current-change="handleCurrentChangeFun"
                          :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
+                         :page-sizes="[10, 20, 30, 40]"
+                         :page-size="page_size"
                          layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
+                         :total="total">
           </el-pagination>
         </div>
       </div>
@@ -78,28 +73,15 @@ export default {
 
   data () {
     return {
-      time: [],
-      sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
+      total: '',
+      page_size: ''
     }
+  },
+
+  mounted () {
+    this.getApplyPageList()
   },
 
   methods: {
@@ -110,13 +92,29 @@ export default {
     editor () {
       this.$router.push('/marketingManagement/editadvertisingManagement?nameType=广告申请规则')
     },
+
+    getApplyPageList () {
+      this.$api.getApplyPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        order_type: "asc",
+        order_field: 'uid',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.total = res.data.total_result
+      })
+    },
+
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.getApplyPageList()
     },
 
     handleSizeChange (val) {
+      this.page_size = val;
+      this.getApplyPageList()
       console.log(`每页 ${val} 条`);
     },
   }

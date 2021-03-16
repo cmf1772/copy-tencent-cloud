@@ -4,14 +4,14 @@
     <div class="title">
       <span>订单号：</span>
       <el-input placeholder="驱动名称"
-                v-model="sName"
+                v-model="username"
                 style="width: 200px"
                 clearable>
       </el-input>
       <el-button slot="append"
                  type="primary"
                  icon="el-icon-search"
-                 @click="sesarchFun()">
+                 @click="getMyTgOrderPageList()">
         搜索
       </el-button>
     </div>
@@ -100,7 +100,8 @@ export default {
       tableData: [],
       currentPage: 1, //当前页数
       total: 1, //总页数
-      page_size: 10
+      page_size: 10,
+      username: ''
     }
   },
 
@@ -111,6 +112,7 @@ export default {
         page_size: this.page_size,
         order_type: "asc",
         order_field: 'uid',
+        username: this.username,
         status: this.status,
         token: JSON.parse(this.$store.state.token).token,
       }).then(res => {

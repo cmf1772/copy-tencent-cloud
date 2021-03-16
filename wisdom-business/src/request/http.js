@@ -20,7 +20,7 @@ const tip = msg => {
   alert(msg)
 }
 
-axios.defaults.baseURL = ''
+axios.defaults.baseURL = process.env.NODE_ENV == 'development' ? '' : 'http://www.bjxmqy.com:9501'
 
 /**
  * 跳转登录页
@@ -76,7 +76,10 @@ const errorHandle = (status, other) => {
 }
 
 // 创建axios实例
-var instance = axios.create({ timeout: 1000 * 12 })
+var instance = axios.create({
+  timeout: 60 * 1000, // Timeout
+  withCredentials: false, // Check cross-site Access-Control
+})
 // 设置post请求头
 instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 /**

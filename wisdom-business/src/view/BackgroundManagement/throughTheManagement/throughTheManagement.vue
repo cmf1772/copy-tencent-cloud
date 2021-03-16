@@ -13,298 +13,80 @@
                  @click="add">
         申请通证
       </el-button>
-      <el-tabs v-model="activeName"
-               @tab-click="handleClick">
-        <el-tab-pane label="已通过"
-                     name="first">
-          <div class="flex"
-               :style="{'height': height}">
-            <el-table :data="tableData"
-                      stripe
-                      style="width: 100%">
-              <el-table-column show-overflow-tooltip
-                               type="index"
-                               width="50"
-                               label="序号">
-                <template slot-scope="scope">
-                  <!-- {{(currentPage-1)*10+scope.$index+1}} -->
-                  {{scope.$index+1}}
-                </template>
-              </el-table-column>
-              <el-table-column prop="date"
-                               show-overflow-tooltip
-                               label="类型"
-                               width="180">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="样式">
-              </el-table-column>
-              <el-table-column prop="address"
-                               show-overflow-tooltip
-                               label="名称">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="数量">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="适用商品">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="有效期限">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="规则">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="领券率">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="核销率">
-              </el-table-column>
-            </el-table>
-            <div class="btootm_paination">
-              <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
-              <el-pagination @size-change="handleSizeChange"
-                             @current-change="handleCurrentChangeFun"
-                             :current-page="currentPage"
-                             :page-sizes="[100, 200, 300, 400]"
-                             :page-size="100"
-                             layout="total, sizes, prev, pager, next, jumper"
-                             :total="400">
-              </el-pagination>
-            </div>
-          </div>
-
-        </el-tab-pane>
-        <el-tab-pane label="待审核"
-                     name="second">
-          <div class="flex"
-               :style="{'height': height}">
-            <el-table :data="tableData"
-                      stripe
-                      style="width: 100%">
-              <el-table-column show-overflow-tooltip
-                               type="index"
-                               width="50"
-                               label="序号">
-                <template slot-scope="scope">
-                  <!-- {{(currentPage-1)*10+scope.$index+1}} -->
-                  {{scope.$index+1}}
-                </template>
-              </el-table-column>
-              <el-table-column prop="date"
-                               show-overflow-tooltip
-                               label="类型"
-                               width="180">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="样式">
-              </el-table-column>
-              <el-table-column prop="address"
-                               show-overflow-tooltip
-                               label="名称">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="数量">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="适用商品">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="有效期限">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="规则">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="领券率">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="核销率">
-              </el-table-column>
-            </el-table>
-            <div class="btootm_paination">
-              <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
-              <el-pagination @size-change="handleSizeChange"
-                             @current-change="handleCurrentChangeFun"
-                             :current-page="currentPage"
-                             :page-sizes="[100, 200, 300, 400]"
-                             :page-size="100"
-                             layout="total, sizes, prev, pager, next, jumper"
-                             :total="400">
-              </el-pagination>
-            </div>
-          </div>
-        </el-tab-pane>
-        <el-tab-pane label="未通过"
-                     name="
-                     third">
-          <div class="flex"
-               :style="{'height': height}">
-            <el-table :data="tableData"
-                      stripe
-                      style="width: 100%">
-              <el-table-column show-overflow-tooltip
-                               type="index"
-                               width="50"
-                               label="序号">
-                <template slot-scope="scope">
-                  <!-- {{(currentPage-1)*10+scope.$index+1}} -->
-                  {{scope.$index+1}}
-                </template>
-              </el-table-column>
-              <el-table-column prop="date"
-                               show-overflow-tooltip
-                               label="类型"
-                               width="180">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="样式">
-              </el-table-column>
-              <el-table-column prop="address"
-                               show-overflow-tooltip
-                               label="名称">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="数量">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="适用商品">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="有效期限">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="规则">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="领券率">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="核销率">
-              </el-table-column>
-            </el-table>
-            <div class="btootm_paination">
-              <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
-              <el-pagination @size-change="handleSizeChange"
-                             @current-change="handleCurrentChangeFun"
-                             :current-page="currentPage"
-                             :page-sizes="[100, 200, 300, 400]"
-                             :page-size="100"
-                             layout="total, sizes, prev, pager, next, jumper"
-                             :total="400">
-              </el-pagination>
-            </div>
-          </div>
-        </el-tab-pane>
-        <el-tab-pane label="已过期"
-                     name="
-                     fourth">
-          <div class="flex"
-               :style="{'height': height}">
-            <el-table :data="tableData"
-                      stripe
-                      style="width: 100%">
-              <el-table-column show-overflow-tooltip
-                               type="index"
-                               width="50"
-                               label="序号">
-                <template slot-scope="scope">
-                  <!-- {{(currentPage-1)*10+scope.$index+1}} -->
-                  {{scope.$index+1}}
-                </template>
-              </el-table-column>
-              <el-table-column prop="date"
-                               show-overflow-tooltip
-                               label="类型"
-                               width="180">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="样式">
-              </el-table-column>
-              <el-table-column prop="address"
-                               show-overflow-tooltip
-                               label="名称">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="数量">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="适用商品">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="有效期限">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="规则">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="领券率">
-              </el-table-column>
-              <el-table-column prop="name"
-                               show-overflow-tooltip
-                               label="核销率">
-              </el-table-column>
-            </el-table>
-            <div class="btootm_paination">
-              <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
-              <el-pagination @size-change="handleSizeChange"
-                             @current-change="handleCurrentChangeFun"
-                             :current-page="currentPage"
-                             :page-sizes="[100, 200, 300, 400]"
-                             :page-size="100"
-                             layout="total, sizes, prev, pager, next, jumper"
-                             :total="400">
-              </el-pagination>
-            </div>
-          </div>
-        </el-tab-pane>
-      </el-tabs>
-
+      <div class="c_box">
+        <el-tabs v-model="status"
+                 @tab-click="handleClick">
+          <el-tab-pane label="全部"
+                       name="99"></el-tab-pane>
+          <el-tab-pane label="已审核"
+                       name="0"></el-tab-pane>
+          <el-tab-pane label="待审核"
+                       name="1"></el-tab-pane>
+          <el-tab-pane label="未通过"
+                       name="2"></el-tab-pane>
+          <el-tab-pane label="已过期"
+                       name="3"></el-tab-pane>
+        </el-tabs>
+      </div>
+      <div :style="{'height': height, 'overflow': 'auto'}">
+        <el-table :data="tableData"
+                  stripe
+                  style="width: 100%">
+          <el-table-column prop="name"
+                           show-overflow-tooltip
+                           label="通证名称"
+                           width="180">
+          </el-table-column>
+          <el-table-column prop="type_name"
+                           show-overflow-tooltip
+                           label="类型">
+          </el-table-column>
+          <el-table-column prop="style"
+                           show-overflow-tooltip
+                           label="样式">
+          </el-table-column>
+          <el-table-column prop="num"
+                           show-overflow-tooltip
+                           label="数量">
+          </el-table-column>
+          <el-table-column prop="cate_id"
+                           show-overflow-tooltip
+                           label="适用商品">
+          </el-table-column>
+          <el-table-column prop="start_date"
+                           show-overflow-tooltip
+                           label="有效期限开始">
+          </el-table-column>
+          <el-table-column prop="end_date"
+                           show-overflow-tooltip
+                           label="有效期限结束">
+          </el-table-column>
+          <el-table-column prop="rule_name"
+                           show-overflow-tooltip
+                           label="规则">
+          </el-table-column>
+          <el-table-column prop="receive"
+                           show-overflow-tooltip
+                           label="领券数">
+          </el-table-column>
+          <el-table-column prop="rec_rate"
+                           show-overflow-tooltip
+                           label="核销率">
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="btootm_paination c_box">
+        <el-pagination @size-change="handleSizeChange"
+                       @current-change="handleCurrentChangeFun"
+                       :current-page="currentPage"
+                       :page-sizes="[10, 20, 30, 40]"
+                       :page-size="page_size"
+                       layout="total, sizes, prev, pager, next, jumper"
+                       :total="total">
+        </el-pagination>
+      </div>
     </div>
+
   </div>
 </template>
 
@@ -314,50 +96,60 @@ export default {
 
   data () {
     return {
-      activeName: 'first',
+      status: '99',
       time: [],
-      status: '',
       sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
-      totalData: 1, //总页数
-      height: window.innerHeight - 340 + 'px'
+      total: 1, //总页数
+      page_size: 10,
+      height: window.innerHeight - 400 + 'px'
     }
   },
 
   methods: {
     add () {
       this.$router.push('/throughTheManagement/editThroughTheManagement?nameType=申请通证')
-
     },
+
     editor () {
       this.$router.push('/throughTheManagement/editThroughTheManagement?nameType=修改设备')
     },
+
+    handleClick () {
+      this.getPointPageList()
+    },
+
+    getPointPageList () {
+      this.$api.getPointPageList({
+        page: this.currentPage,
+        page_size: this.page_size,
+        order_type: "asc",
+        order_field: 'id',
+        cate_id: this.cate_id,
+        status: this.status,
+        ps_subject: this.ps_subject,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.items
+        this.total = res.data.total_result
+      })
+    },
+
     // 分页
     handleCurrentChangeFun (val) {
       this.currentPage = val;
-      tableDataRenderFun(this);
+      this.getPointPageList()
     },
 
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+      this.page_size = val
+      this.getPointPageList()
     },
+  },
+
+  mounted () {
+    this.getPointPageList()
   }
 }
 </script>

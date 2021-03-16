@@ -301,6 +301,8 @@ const article = {
   /**
    * 批发
    * */
+
+  // 列表
   getPfGoodsPageList (params) { return axios.post('/sadmin/goods/getPfGoodsPageList', { ...params }) },
 
   // 加入
@@ -478,8 +480,6 @@ const article = {
   // 列表
   getMyTaskPageList (params) { return axios.post('/sadmin/egoods/getMyTaskPageList', { ...params }) },
 
-
-
   /**
    * 客户订单
    **/
@@ -590,6 +590,169 @@ const article = {
 
   // 列表
   getMyTgOrderPageList (params) { return axios.post('/sadmin/mytgorder/getMyTgOrderPageList', { ...params }) },
+
+  /**
+   * 优惠卷
+   * */
+
+  // 列表
+  getCouponPageList (params) { return axios.post('/sadmin/coupon/getCouponPageList', { ...params }) },
+
+  // 添加
+  addCouponItem (params) { return axios.post('/sadmin/coupon/addCouponItem', { ...params }) },
+
+  // 获取
+  getCouponItem (params) { return axios.post('/sadmin/coupon/getCouponItem', { ...params }) },
+
+  // 编辑
+  setCouponItem (params) { return axios.post('/sadmin/coupon/setCouponItem', { ...params }) },
+
+  // 删除
+  delCouponItem (params) { return axios.post('/sadmin/coupon/delCouponItem', { ...params }) },
+
+  /**
+   * 积分
+   * */
+
+  // 列表
+  getChangeGdPageList (params) { return axios.post('/sadmin/changegd/getChangeGdPageList', { ...params }) },
+
+  // 删除
+  batDelChangeGdItem (params) { return axios.post('/sadmin/changegd/batDelChangeGdItem', { ...params }) },
+
+  // 批量更新
+  jfBatMoveItem (params) { return axios.post('/sadmin/changegd/batMoveItem', { ...params }) },
+
+  // 添加
+  addChangeGdItem (params) { return axios.post('/sadmin/changegd/addChangeGdItem', { ...params }) },
+
+  // 获取
+  getChangeGdItem (params) { return axios.post('/sadmin/changegd/getChangeGdItem', { ...params }) },
+
+  // 编辑
+  setChangeGdItem (params) { return axios.post('/sadmin/changegd/setChangeGdItem', { ...params }) },
+
+  /**
+   * 广告管理
+   * */
+
+  // 列表
+  getApplyPageList (params) { return axios.post('/sadmin/rcmad/getApplyPageList', { ...params }) },
+
+  /**
+   * 品牌
+   * */
+
+  // 列表
+  getBrandPageList (params) { return axios.post('/sadmin/brand/getBrandPageList', { ...params }) },
+
+  // 添加
+  addBrandItem (params) { return axios.post('/sadmin/brand/addBrandItem', { ...params }) },
+
+  // 删除
+  delBrandItem (params) { return axios.post('/sadmin/brand/delBrandItem', { ...params }) },
+
+  // 获取
+  getBrandItem (params) { return axios.post('/sadmin/brand/getBrandItem', { ...params }) },
+
+  // 编辑
+  setBrandItem (params) { return axios.post('/sadmin/brand/setBrandItem', { ...params }) },
+
+  /**
+   * 云集
+   * */
+
+  // 列表
+  getMyStoragePageList (params) { return axios.post('/sadmin/goodsstorage/getMyStoragePageList', { ...params }) },
+
+  // 加入
+  YJsetAddTo (params) { return axios.post('/sadmin/goodsstorage/setAddTo', { ...params }) },
+
+  /**
+   * 云仓
+   * */
+
+  // 列表
+  YcgetMyStoragePageList (params) { return axios.post('/sadmin/pfgoodsstorage/getMyStoragePageList', { ...params }) },
+
+  // 加入
+  YcsetAddTo (params) { return axios.post('/sadmin/pfgoodsstorage/setAddTo', { ...params }) },
+
+  /**
+   * 上架
+   * */
+
+  // 列表
+  getMyGoodsUpPageList (params) { return axios.post('/sadmin/goodsup/getMyGoodsUpPageList', { ...params }) },
+
+  // 下架
+  setDownTo (params) { return axios.post('/sadmin/goodsup/setDownTo', { ...params }) },
+
+  /**
+   * 推广商品
+   * */
+
+  // 列表
+  getMyReComGoodsPageList (params) { return axios.post('/sadmin/recomgoods/getMyReComGoodsPageList', { ...params }) },
+
+  // 下架
+  TGsetDownTo (params) { return axios.post('/sadmin/recomgoods/setDownTo', { ...params }) },
+
+  // 上架
+  TGsetAddTo (params) { return axios.post('/sadmin/recomgoods/setAddTo', { ...params }) },
+
+  /**
+   * 推广订单
+   * */
+
+  // 列表
+  getTgOrderPageList (params) { return axios.post('/sadmin/tgorder/getTgOrderPageList', { ...params }) },
+
+  /**
+   * 推广明细
+   * */
+
+  // 列表
+  getMyTgMingXiPageList (params) { return axios.post('/sadmin/tgmingxi/getMyTgMingXiPageList', { ...params }) },
+
+  // 提成
+  MXsetDownTo (params) { return axios.post('/sadmin/tgmingxi/setDownTo', { ...params }) },
+
+  /**
+   * 通证管理
+   * */
+
+  // 列表
+  getPointPageList (params) { return axios.post('/sadmin/point/getPointPageList', { ...params }) },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -254,7 +254,7 @@ export default [{
   }, {
     name: '推广中心',
     icon: '',
-    path: ''
+    path: '/toPromote/gather'
   }, {
     name: '营销活动',
     icon: '',

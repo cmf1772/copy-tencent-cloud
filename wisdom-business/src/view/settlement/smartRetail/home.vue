@@ -417,7 +417,23 @@ export default {
         '/transactionManagement/theLocale',
         '/transactionManagement/consultation',
         '/transactionManagement/evaluationOfTheBuyer',
-        '/transactionManagement/orderManagement'
+        '/transactionManagement/orderManagement',
+        '/transactionManagement/fromTheDetail',
+        '/marketingManagement/couponManagement',
+        '/marketingManagement/editCouponManagement',
+        '/marketingManagement/bonusPointArea',
+        '/marketingManagement/editBonusPointArea',
+        '/marketingManagement/advertisingManagement',
+        '/marketingManagement/brandManagement',
+        '/marketingManagement/editBrandManagement',
+        '/marketingManagement/watermarkIsSet',
+        '/toPromote/gather',
+        '/toPromote/YunCang',
+        '/toPromote/goodsShelves',
+        '/toPromote/promotion',
+        '/toPromote/promoteOrder',
+        '/toPromote/promoteDetail',
+        '/throughTheManagement/throughTheManagement'
       ]
       // this.help = !routerArray.indexOf(this.$route.path) > -1
       this.help = routerArray.indexOf(this.$route.path) > -1 ? false : true
