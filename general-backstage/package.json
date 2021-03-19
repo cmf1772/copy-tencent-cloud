@@ -12,7 +12,7 @@
   "dependencies": {
     "@antv/l7": "^2.2.21",
     "@antv/l7-maps": "^2.2.21",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "echarts": "^4.8.0",
     "element-ui": "^2.13.2",
     "module": "^1.2.5",
