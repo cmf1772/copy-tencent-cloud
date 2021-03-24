@@ -8,27 +8,26 @@
       <el-step title="填写信息"></el-step>
       <el-step title="完成"></el-step>
     </el-steps>
-    <div class="flexJC box mt">
-      <div class="itemi">
-        <span>基础版</span>
-        <p>适用单个网店的商家</p>
+    <div class="flexJC box mt"
+         v-if="json.length">
+      <div class="itemi"
+           v-for="item in json"
+           :key="item">
+        <span>{{item.name}}</span>
+        <p>适用单个网店的商家</p >
         <div>
           单个线上网店，可一站式管理网店的店铺装修、商品、订单、营销、会员、资金等数据。
         </div>
         <el-button type="primary"
-                   @click="goRegisteredF"
+                   @click="goRegisteredF(item)"
                    class="bo">开通店铺</el-button>
       </div>
-      <div class="itemi">
-        <span>专业版</span>
-        <p>适用单个网店的商家</p>
-        <div>
-          单个线上网店，可一站式管理网店的店铺装修、商品、订单、营销、会员、资金等数据。
-        </div>
-        <el-button type="primary"
-                   @click="goRegisteredF"
-                   class="bo">开通店铺</el-button>
-      </div>
+    </div>
+
+    <div class="flex box mt"
+         style="justify-content: center;margin-top: 50"
+         v-if="!json.length">
+      暂无数据
     </div>
 
     <div class="help">
@@ -41,10 +40,34 @@
 export default {
   name: 'selectVersion',
 
-  methods: {
-    goRegisteredF () {
-      this.$router.push('/registeredF')
+  data () {
+    return {
+      json: []
     }
+  },
+
+  methods: {
+    goRegisteredF (item) {
+      this.$router.push({
+        path: '/registeredF',
+        query: {
+          id: this.$route.query.id,
+          type_id: item.id
+        }
+      })
+    },
+
+    getShopLevelList () {
+      this.$api.getShopLevelList({
+        type_id: this.$route.query.id
+      }).then(res => {
+        this.json = res.data
+      })
+    }
+  },
+
+  mounted () {
+    this.getShopLevelList()
   }
 }
 </script>

@@ -1,24 +1,12 @@
 <template>
   <div class="optimizationAndRepair">
     <el-checkbox-group v-model="checkList">
-      <el-checkbox label="mvm_ad_apply"></el-checkbox>
-      <el-checkbox label=" mvm_community"></el-checkbox>
-      <el-checkbox label="mvm_admin_menu"></el-checkbox>
-      <el-checkbox label="mvm_ask_order"></el-checkbox>
-      <el-checkbox label=" mvm_badmin_table"></el-checkbox>
-      <el-checkbox label="mvm_brand_statistics"></el-checkbox>
-      <el-checkbox label="mvm_brand_statistics"></el-checkbox>
-      <el-checkbox label=" mvm_cart_table"></el-checkbox>
-      <el-checkbox label=" mvm_brand_table"></el-checkbox>
-      <el-checkbox label="mvm_brand_statistics"></el-checkbox>
-      <el-checkbox label=" mvm_goods_auction_detail"></el-checkbox>
-      <el-checkbox label=" mvm_daren_comment"></el-checkbox>
-      <el-checkbox label="mvm_brand_statistics"></el-checkbox>
+      <el-checkbox v-for="(item, index) in tableData" :key="index" :label="item"></el-checkbox>
     </el-checkbox-group>
     <div class="buttom">
       <el-radio-group v-model="raido">
-        <el-radio label="1">修复表</el-radio>
-        <el-radio label="2">优化表</el-radio>
+        <el-radio label="repair">修复表</el-radio>
+        <el-radio label="optimize">优化表</el-radio>
       </el-radio-group>
       <el-button type="primary"
                  @click="submitForm('ruleForm')">确定</el-button>
@@ -32,7 +20,41 @@ export default {
   data () {
     return {
       checkList: [],
-      raido: ''
+      raido: 'repair',
+      tableData: []
+    }
+  },
+  mounted() {
+    this.create()
+  },
+  methods: {
+    create () {
+       this.$newApi.getRepairTableList({
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data
+      })
+    },
+    submitForm() {
+      this.$newApi.databaseRepair({
+        tables: JSON.stringify(this.checkList.join(',')),
+        operation: this.raido,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.code >= 0) {
+          return this.$message({
+            type: 'error',
+            message: res.data.msg
+          })
+        } else {
+          this.create()
+          this.checkList = []
+          return this.$message({
+            type: 'success',
+            message: res.data.msg
+          })
+        }
+      })
     }
   }
 }
@@ -49,6 +71,8 @@ export default {
   padding: 20px;
   overflow: hidden;
   .el-checkbox-group {
+    height: 480px;
+    overflow: auto;
     display: flex;
     flex-wrap: wrap;
     .el-checkbox {

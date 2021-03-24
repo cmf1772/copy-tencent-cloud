@@ -1762,6 +1762,22 @@ const newData =  {
    searchShop (params) { return axios.post('/admin/rcmad/searchShop', params) },
    // 添加一个推荐广告 
    addRcmAdItem (params) { return axios.post('/admin/rcmad/addRcmAdItem', params) },
+
+   // ------------- 商家管理 - 商铺导航 --------------------
+   // 获取导航分页列表
+   ShopgetNavPageList (params) { return axios.post('/admin/suppliernavigation/getNavPageList', params) },
+   // 获取上级导航列表
+   ShopgetUpNavItem (params) { return axios.post('/admin/suppliernavigation/getUpNavItem', params) },
+   // 添加一个导航栏目
+   ShopaddNavItem (params) { return axios.post('/admin/suppliernavigation/addNavItem', params) },
+   // 获取一个导航栏目
+   ShopgetNavItem (params) { return axios.post('/admin/suppliernavigation/getNavItem', params) },
+   // 编辑一个导航栏目
+   ShopsetNavItem (params) { return axios.post('/admin/suppliernavigation/setNavItem', params) },
+   // 删除一个导航栏目
+   ShopdelNavItem (params) { return axios.post('/admin/suppliernavigation/delNavItem', params) },
+   // 批量删除导航栏目
+   ShopbatDelNavItem (params) { return axios.post('/admin/suppliernavigation/batDelNavItem', params) },
    
 
    // 获取地区分页列表 
@@ -2338,6 +2354,25 @@ const newData =  {
   getBasicItem (params) { return axios.post('/admin/affiliate/getBasicItem', params) },
   // 添加一个推荐等级设置
   addAffiliateItem (params) { return axios.post('/admin/affiliate/addAffiliateItem', params) },
+
+  // 后台数据备份 ---- 获取数据库表
+  getDataBaseList (params) { return axios.post('/admin/database/getDataBaseList', params) },
+  // 分卷备份设置
+  databaseExport (params) { return axios.post('/admin/database/export', params) },
+  // 获取备份文件列表
+  getExportList (params) { return axios.post('/admin/database/getExportList', params) },
+  // 删除一个备份文件
+  Databasedelete (params) { return axios.post('/admin/database/delete', params) },
+  // 数据库恢复
+  Databaseimport (params) { return axios.post('/admin/database/import', params) },
+  // 下载一个备份文件
+  Databasedown (params) { return axios.post('/admin/database/down', params) },
+  // 获取待修复的数据表列表
+  getRepairTableList (params) { return axios.post('/admin/database/getRepairTableList', params) },
+  // 批量修复数据表
+  databaseRepair (params) { return axios.post('/admin/database/repair', params) },
+  // 执行一条sql
+  databaseQuery (params) { return axios.post('/admin/database/query', params) },
 
    // 获取一级分类列表 
    CGgetCategoryList (params) { return axios.post('/admin/category/getCategoryList', params) },

@@ -3,21 +3,21 @@
     <div class="title">
       请选择需要创业的店铺
     </div>
-    <div class="flexJC">
-      <div class="item flexColumn mt"
+    <div class="flex">
+      <div class="item flexColumn mt mr"
            v-for="item in nameJson"
            :key="item">
         <div class="bg"></div>
         <div class="top">
           <span>{{item.name}}</span>
-          <p>解决网上开店的所有问题</p>
+          <p>解决网上开店的所有问题</p >
         </div>
         <div class="bottoms">
           适用于
-          <p>需要搭建线上商城的商家</p>
+          <p>需要搭建线上商城的商家</p >
         </div>
         <div class="button"
-             @click="goRegisteredF">
+             @click="goRegisteredF(item.id)">
           立即开店
         </div>
       </div>
@@ -37,34 +37,29 @@ export default {
 
   data () {
     return {
-      nameJson: [{
-        name: '智慧零售'
-      }, {
-        name: '智慧餐厅'
-      }, {
-        name: '智慧美业'
-      }, {
-        name: '智慧旅游'
-      }, {
-        name: '智慧酒店'
-      }, {
-        name: '智慧教育'
-      }, {
-        name: '智慧娱乐'
-      }, {
-        name: '智慧医疗'
-      }, {
-        name: '智能家政'
-      }, {
-        name: '智慧房产'
-      }]
+      nameJson: []
     }
   },
 
   methods: {
-    goRegisteredF () {
-      this.$router.push('/selectVersion')
+    goRegisteredF (id) {
+      this.$router.push({
+        path: '/selectVersion',
+        query: {
+          id: id
+        }
+      })
+    },
+
+    getShopApplyPageList () {
+      this.$api.getTypeList().then(res => {
+        this.nameJson = res.data
+      })
     }
+  },
+
+  mounted () {
+    this.getShopApplyPageList()
   }
 }
 </script>

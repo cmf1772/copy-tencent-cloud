@@ -19,6 +19,30 @@ export default {
     return {
       SQL: ''
     }
+  },
+  mounted() {
+
+  },
+  methods: {
+    submitForm () {
+       this.$newApi.databaseQuery({
+        sql: this.SQL,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.code >= 0) {
+          return this.$message({
+            type: 'error',
+            message: res.data.msg
+          })
+        } else {
+          this.SQL = ''
+          return this.$message({
+            type: 'success',
+            message: res.data.msg
+          })
+        }
+      })
+    },
   }
 }
 </script>

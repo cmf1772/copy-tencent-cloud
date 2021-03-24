@@ -2,6 +2,22 @@ import axios from '../http'
 
 const article = {
 
+  /**
+   * 商家入驻
+   * */
+
+  // 商家类型模块
+  getShopApplyPageList (params) { return axios.post('/admin/supapply/getShopApplyPageList', { ...params }) },
+
+  // 列表
+  getTypeList (params) { return axios.post('/common/getTypeList', { ...params }) },
+
+  // 等级
+  getShopLevelList (params) { return axios.post('/common/getShopLevelList', { ...params }) },
+
+  // 提交
+  SJapplyShop (params) { return axios.post('/user/shopapply/applyShop', { ...params }) },
+
   // 测试跨域
   getMusicList (params) { return axios.post('/admin/index/getTjItem', { ...params }) },
 

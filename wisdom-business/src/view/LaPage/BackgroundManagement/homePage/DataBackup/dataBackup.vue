@@ -2,8 +2,8 @@
   <div class="dataBackup">
     <div class="table_bottom">
       <p>分卷备份设置 每个分卷文件大小：
-        <el-input v-model="sName"
-                  style="width: 100px"
+        <el-input v-model="totalsize"
+                  style="width: 200px"
                   clearable>
         </el-input>
         KB
@@ -17,50 +17,30 @@
       </el-button>
       <div class="flex">
         <el-table :data="tableData"
-                  stripe
                   @selection-change="handleSelectionChange"
+                  stripe
+                  height="300"
                   style="width: 100%">
           <el-table-column type="selection"
                            width="55">
           </el-table-column>
-          <el-table-column show-overflow-tooltip
-                           type="index"
-                           width="50"
-                           label="序号">
-            <template slot-scope="scope">
-              <!-- {{(currentPage-1)*10+scope.$index+1}} -->
-              {{scope.$index+1}}
-            </template>
-          </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="tables"
                            show-overflow-tooltip
                            label="数据库表">
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="results"
                            show-overflow-tooltip
                            label="记录条数">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="size"
                            show-overflow-tooltip
                            label="大小 [共 ****M]">
           </el-table-column>
         </el-table>
-        <div class="btootm_paination">
-          <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
-          <el-pagination @size-change="handleSizeChange"
-                         @current-change="handleCurrentChangeFun"
-                         :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
-                         layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
-          </el-pagination>
-        </div>
       </div>
+      <!-- <div>
+        分卷备份设置 每个分卷文件大小：<el-input v-model="totalsize"></el-input> <el-button>开始备份数据</el-button>
+      </div> -->
     </div>
   </div>
 </template>
@@ -73,32 +53,65 @@ export default {
     return {
       time: [],
       sName: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区516 弄'
-      }],
+      tableData: [],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
+      totalsize: '',
+      arr: '',
+      sum: ''
     }
   },
 
-  methods: {
-    add () {
-      this.$router.push('/driver/edit?nameType=新建驱动')
+  mounted() {
+    this.create()
+  },  
 
+  methods: {
+    create () {
+       this.$newApi.getDataBaseList({
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        res.data.tables.forEach((item, index) => {
+          let obj = {}
+          obj.tables = res.data.tables[index]
+          obj.results = res.data.results[index]
+          obj.size = res.data.size[index]
+          this.tableData.push(obj)
+        })
+          this.totalsize = res.data.totalsize
+      })
+    },
+    handleSelectionChange(val) {
+      let arr = '', sum = 0
+      val.forEach((item, index) => {
+        sum = Number(sum) + Number(item.size)
+        if(index == 0) {
+          arr = item.tables
+        } else {
+          arr += ',' + item.tables
+        }
+      }) 
+      this.arr = arr
+      this.sum = sum
+    },
+    add () {
+      this.$newApi.databaseExport({
+        sizeLimit: '2048',
+        tables: this.arr,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.code >= 0) {
+          return this.$message({
+            type: 'error',
+            message: res.data.msg
+          })
+        } else {
+          return this.$message({
+            type: 'success',
+            message: res.data.msg
+          })
+        }
+      })
     },
     editor () {
       this.$router.push('/driver/edit?nameType=修改驱动')

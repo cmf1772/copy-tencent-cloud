@@ -16,13 +16,9 @@
       </div>
       <div class="con-form">
         <!-- 服务商入驻 -->
-        <el-form :model="service"
-                 :rules="serviceLes"
-                 ref="ruleForm"
-                 label-width="130px"
+        <el-form label-width="130px"
                  class="demo-ruleForm">
-          <el-form-item label="店主姓名"
-                        prop="name">
+          <el-form-item label="店主姓名">
             <el-input type="input"
                       clearable
                       placeholder='请填写店铺负责人姓名'
@@ -30,9 +26,8 @@
                       autocomplete="off"></el-input>
           </el-form-item>
 
-          <el-form-item label="店铺名称"
-                        prop="addName">
-            <el-input v-model="service.addName"
+          <el-form-item label="店铺名称">
+            <el-input v-model="service.shop_name"
                       clearable
                       placeholder="请填写商家店铺名称"></el-input>
           </el-form-item>
@@ -43,7 +38,7 @@
               <el-radio label="企业/政府"></el-radio>
             </el-radio-group>
           </el-form-item> -->
-          <el-form-item label="所属行业"
+          <!-- <el-form-item label="所属行业"
                         prop="industry">
             <el-select v-model="service.industry"
                        style="width:100%"
@@ -57,53 +52,49 @@
               <el-option label="城市服务商"
                          value="4"></el-option>
             </el-select>
-          </el-form-item>
+          </el-form-item> -->
 
-          <el-form-item label="所在区域"
-                        prop="region">
+          <el-form-item label="所在区域">
             <div style="width:100%; display: flex">
               <el-select v-model="service.province"
-                         style="width:50%"
                          clearable
+                         style="width:100%"
+                         @change="changeCity"
                          placeholder="所在省">
-                <el-option label="区域一"
-                           value="shanghai"></el-option>
-                <el-option label="区域二"
-                           value="beijing"></el-option>
+                <el-option v-for="(item, index) in $store.state.cityList"
+                           :key="index"
+                           :label="item.name"
+                           :value="item.id"></el-option>
               </el-select>
               <el-select v-model="service.city"
-                         style="width:50%;margin-left:0"
                          clearable
+                         style="width:100%;margin-left:0"
                          placeholder="所在市">
-                <el-option label="区域一"
-                           value="shanghai"></el-option>
-                <el-option label="区域二"
-                           value="beijing"></el-option>
+                <el-option v-for="(item, index) in $store.state.areaList"
+                           :key="index"
+                           :label="item.name"
+                           :value="item.id"></el-option>
               </el-select>
             </div>
           </el-form-item>
 
-          <el-form-item label="详细地址"
-                        prop="address">
+          <el-form-item label="详细地址">
             <el-input v-model="service.address"
                       clearable
                       placeholder="请填写店铺详细地址具体到门牌号"></el-input>
           </el-form-item>
 
-          <el-form-item label="固定电话"
-                        prop="PePhe">
+          <el-form-item label="固定电话">
             <el-input placeholder="请填写店铺固定电话"
                       clearable
-                      v-model="service.PePhe"></el-input>
+                      v-model="service.tel1"></el-input>
           </el-form-item>
-          <el-form-item label="联系手机"
-                        prop="PePheS">
+          <el-form-item label="联系手机">
             <el-input placeholder="请填写店铺负责人常用手机号"
                       clearable
-                      v-model="service.PePhe"></el-input>
+                      v-model="service.tel2"></el-input>
           </el-form-item>
-          <el-form-item label="联系邮箱"
-                        prop="email">
+          <el-form-item label="联系邮箱">
             <el-input placeholder="请填写店铺负责人常用邮箱"
                       clearable
                       v-model="service.email"></el-input>
@@ -111,47 +102,57 @@
           <el-form-item label="店主证件"
                         prop="license">
             <span>请上传店主身份证</span>
-            <el-upload action="https://jsonplaceholder.typicode.com/posts/"
-                       list-type="picture-card"
-                       :on-preview="handlePictureCardPreview"
-                       :on-remove="handleRemove">
-              <i class="el-icon-plus"></i>
+            <el-upload class="upload-pic mt"
+                       :action="domain"
+                       :data="QiniuData"
+                       :on-error="uploadError"
+                       :on-success="uploadSuccessGoodsFile2"
+                       :before-remove="beforeRemove"
+                       :before-upload="beforeAvatarUpload"
+                       :limit="1"
+                       multiple
+                       :on-exceed="handleExceed"
+                       :file-list="fileList">
+              <el-button size="small"
+                         type="primary">选择图片</el-button>
             </el-upload>
-            <el-dialog :visible.sync="dialogVisible">
-              <img width="100%"
-                   :src="dialogImageUrl"
-                   alt="">
-            </el-dialog>
+            < img :src="qiniuaddr + service.up_id_card"
+                 style="width: 50px; height: 50px"
+                 alt="">
           </el-form-item>
 
           <el-form-item label="营业执照"
                         prop="business">
             <span>请上传店铺营业执照</span>
-            <el-upload action="https://jsonplaceholder.typicode.com/posts/"
-                       list-type="picture-card"
-                       :on-preview="handlePictureCardPreview"
-                       :on-remove="handleRemove">
-              <i class="el-icon-plus"></i>
+            <el-upload class="upload-pic mt"
+                       :action="domain"
+                       :data="QiniuData"
+                       :on-error="uploadError"
+                       :on-success="uploadSuccessGoodsFile1"
+                       :before-remove="beforeRemove"
+                       :before-upload="beforeAvatarUpload"
+                       :limit="1"
+                       multiple
+                       :on-exceed="handleExceed"
+                       :file-list="fileList">
+              <el-button size="small"
+                         type="primary">选择图片</el-button>
             </el-upload>
-            <el-dialog :visible.sync="dialogVisible">
-              <img width="100%"
-                   :src="dialogImageUrl"
-                   alt="">
-            </el-dialog>
+            < img :src="qiniuaddr + service.up_licence"
+                 style="width: 50px; height: 50px"
+                 alt="">
           </el-form-item>
 
-          <el-form-item label="账户名称"
-                        prop="accountName">
-            <el-input v-model="service.accountName"
+          <el-form-item label="账户名称">
+            <el-input v-model="service.taobao_name"
                       clearable
                       placeholder="请输入微信（支付宝）提现的账户名称"></el-input>
           </el-form-item>
 
-          <el-form-item label="账号"
-                        prop="account">
+          <el-form-item label="账号">
             <el-input placeholder="请输入您 微信（支付宝）提现的账号"
                       clearable
-                      v-model="service.account"></el-input>
+                      v-model="service.taobao_account"></el-input>
           </el-form-item>
           <!-- <el-form-item label="企业负责人姓名"
                         prop="peName">
@@ -179,96 +180,113 @@
 export default {
   name: 'registered',
   data () {
+    // var regions = (rule, value, callback) => {
+    //   if (!this.service.province.length) {
+    //     callback(new Error('请选择店铺所在省'));
+    //   }
+    //   if (!this.service.city.length) {
+    //     callback(new Error('请选择店铺所在市'));
+    //   }
 
+    //   if (this.service.province.length && this.service.city.length) {
+    //     callback();
+    //   }
+    // }
 
-    var regions = (rule, value, callback) => {
-      if (!this.service.province.length) {
-        callback(new Error('请选择店铺所在省'));
-      }
-      if (!this.service.city.length) {
-        callback(new Error('请选择店铺所在市'));
-      }
+    // var license = (rule, value, callback) => {
+    //   if (!this.dialogImageUrl.length) {
+    //     callback(new Error('请上传店主身份证'));
+    //   } else {
+    //     callback();
+    //   }
+    // }
 
-      if (this.service.province.length && this.service.city.length) {
-        callback();
-      }
-    }
-
-    var license = (rule, value, callback) => {
-      if (!this.dialogImageUrl.length) {
-        callback(new Error('请上传店主身份证'));
-      } else {
-        callback();
-      }
-    }
-
-    var business = (rule, value, callback) => {
-      if (!this.dialogImageUrl.length) {
-        callback(new Error('请上传店铺营业执照'));
-      } else {
-        callback();
-      }
-    }
+    // var business = (rule, value, callback) => {
+    //   if (!this.dialogImageUrl.length) {
+    //     callback(new Error('请上传店铺营业执照'));
+    //   } else {
+    //     callback();
+    //   }
+    // }
 
     return {
       height: 0,
+      checked: false,
       service: {
-        name: '',
-        province: '',
-        city: '',
-        address: '',
-        industry: '',
-        addName: '',
-        peName: '',
-        PePhe: '',
-        email: ''
+        name: "",
+        shop_name: "",
+        supplier_cat: "",
+        sellshow: "",
+        shop_level: "",
+        province: "",
+        city: "",
+        county: "",
+        address: "",
+        tel1: "",
+        tel2: "",
+        email: "",
+        up_id_card: "",
+        up_licence: "",
+        account_type: "0",
+        taobao_account: "",
+        taobao_name: "",
+        bank_account: "",
+        bank: "",
+        bank_name: "",
       },
-
+      fileList: [],
+      QiniuData: {
+        key: "", //图片名字处理
+        token: this.$store.state.upToken,//七牛云token
+        data: {}
+      },
+      domain: this.$store.state.getUploadUrl, // 七牛云的上传地址（华东区）
+      qiniuaddr: 'http://img.meichengmall.com/',
       serviceLes: {
-        name: [
-          { required: true, message: '请填写店铺负责人姓名', trigger: 'blur' }
-        ],
-        region: [
-          { required: true, validator: regions, trigger: 'change' }
-        ],
-        address: [
-          { required: true, message: '请填写店铺详细地址具体到门牌号', trigger: 'blur' },
-        ],
+        // name: [
+        //   { required: true, message: '请填写店铺负责人姓名', trigger: 'blur' }
+        // ],
+        // region: [
+        //   { required: true, validator: regions, trigger: 'change' }
+        // ],
+        // address: [
+        //   { required: true, message: '请填写店铺详细地址具体到门牌号', trigger: 'blur' },
+        // ],
 
-        addName: [
-          { required: true, message: '请填写商家店铺名称', trigger: 'blur' },
-        ],
-        email: [
-          { required: true, message: '请填写店铺负责人常用邮箱', trigger: 'blur' }
-        ],
-        industry: [
-          { required: true, message: '请选择店铺所属行业', trigger: 'change' }
-        ],
-        peName: [
-          { required: true, message: '请填写您企业联系人姓名', trigger: 'blur' }
-        ],
+        // shop_name: [
+        //   { required: true, message: '请填写商家店铺名称', trigger: 'blur' },
+        // ],
+        // email: [
+        //   { required: true, message: '请填写店铺负责人常用邮箱', trigger: 'blur' }
+        // ],
+        // industry: [
+        //   { required: true, message: '请选择店铺所属行业', trigger: 'change' }
+        // ],
+        // peName: [
+        //   { required: true, message: '请填写您企业联系人姓名', trigger: 'blur' }
+        // ],
 
-        accountName: [
-          { required: true, message: '账户名称：请输入微信（支付宝）提现的账户名称', trigger: 'blur' }
-        ],
-        account: [
-          { required: true, message: '请输入您 微信（支付宝）提现的账号', trigger: 'blur' }
-        ],
+        // accountName: [
+        //   { required: true, message: '账户名称：请输入微信（支付宝）提现的账户名称', trigger: 'blur' }
+        // ],
+        // account: [
+        //   { required: true, message: '请输入您 微信（支付宝）提现的账号', trigger: 'blur' }
+        // ],
 
 
-        PePhe: [
-          { required: true, message: '请填写企业负责人联系电话', trigger: 'blur' }
-        ],
-        PePheS: [
-          { required: true, message: '请填写店铺负责人常用手机号', trigger: 'blur' }
-        ],
-        license: [{
-          required: true, validator: license, trigger: 'change'
-        }]
-        ,
-        business: [{
-          required: true, validator: business, trigger: 'change'
-        }]
+        // PePhe: [
+        //   { required: true, message: '请填写企业负责人联系电话', trigger: 'blur' }
+        // ],
+        // PePheS: [
+        //   { required: true, message: '请填写店铺负责人常用手机号', trigger: 'blur' }
+        // ],
+        // license: [{
+        //   required: true, validator: license, trigger: 'change'
+        // }]
+        // ,
+        // business: [{
+        //   required: true, validator: business, trigger: 'change'
+        // }]
         // PePhe: [
         //   { required: true, message: '请填写您企业联系人姓名', trigger: 'blur' }
         // ],
@@ -283,29 +301,91 @@ export default {
   },
 
   methods: {
+    handleExceed (files, fileList) {
+      this.$message.warning(
+        `当前限制选择 1 张图片，如需更换，请删除上一张图片在重新选择！`
+      );
+    },
+
+    beforeAvatarUpload (file) {   //图片上传之前的方法
+      this.QiniuData.data = file;
+      this.QiniuData.key = `${JSON.parse(this.$store.state.token).client_id + '/goods/' + file.name}`;
+    },
+
+
+    uploadSuccessGoodsFile2 (response, file, fileList) {  //图片上传成功的方法
+      this.service.up_id_card = `${response.key}`;
+    },
+
+    uploadSuccessGoodsFile1 (response, file, fileList) {  //图片上传成功的方法
+      this.service.up_licence = `${response.key}`;
+    },
+
+    beforeRemove (file, fileList) {
+      // return this.$confirm(`确定移除 ${ file.name }？`);
+    },
+
+    uploadError (err, file, fileList) {    //图片上传失败时调用
+      this.$message({
+        message: "上传出错，请重试！",
+        type: "error",
+        center: true
+      });
+    },
     goMaent () {
-      // this.$router.push('/survey')
+
     },
-    handleRemove (file, fileList) {
-      console.log(file, fileList);
+
+    changeCity () {
+      this.service.city = ''
+      this.$store.commit('GET_CITY', { id: this.service.province, name: 'areaList' })
     },
-    handlePictureCardPreview (file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
+
     goLogin () {
       this.$router.push('/login')
     },
+
     submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!');
-        } else {
-          this.$router.push('/success')
-          return false;
-        }
-      });
+      if (!this.checked) {
+        return this.$message({
+          message: '请勾选条款',
+          type: 'error'
+        });
+      }
+
+      this.$api.SJapplyShop({
+        name: this.service.name,
+        shop_name: this.service.shop_name,
+        supplier_cat: this.service.supplier_cat,
+        sellshow: this.$route.query.id || 1,
+        shop_level: this.$route.query.type_id || 1,
+        province: this.service.province + '',
+        city: this.service.city + '',
+        county: this.service.county + '1',
+        address: this.service.address,
+        tel1: this.service.tel1,
+        tel2: this.service.tel2,
+        email: this.service.email,
+        up_id_card: this.service.up_id_card,
+        up_licence: this.service.up_licence,
+        account_type: this.service.account_type,
+        taobao_account: this.service.taobao_account,
+        taobao_name: this.service.taobao_name,
+        bank_account: this.service.bank_account,
+        bank: this.service.bank,
+        bank_name: this.service.bank_name,
+        token: JSON.parse(this.$store.state.token).token
+      }).then(res => {
+        this.nameJson = res.data
+      })
     },
+  },
+
+  mounted () {
+    this.$store.commit('GET_CITY')
+    this.$api.getUploadToken().then(res => {
+      this.QiniuData.token = res.data.token.token
+    })
   },
 
   created () {

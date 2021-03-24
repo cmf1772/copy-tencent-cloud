@@ -288,6 +288,13 @@ let LARouter = [
       require(["@/view/LaPage/shopMagement/shopType.vue"], resolve)
   },
   {
+    path: "/shopMagement/shopNav",
+    name: "shopNav",
+    meta: ["商家管理", "商铺管理", "商铺导航"],
+    component: resolve =>
+      require(["@/view/LaPage/shopMagement/shopNav.vue"], resolve)
+  },
+  {
     path: "/shopMagement/substation",
     name: "substation",
     meta: ["商家管理", "商铺管理", "分站管理"],

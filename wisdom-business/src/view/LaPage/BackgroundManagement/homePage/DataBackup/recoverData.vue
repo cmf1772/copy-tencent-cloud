@@ -7,11 +7,7 @@
       <div class="flex">
         <el-table :data="tableData"
                   stripe
-                  @selection-change="handleSelectionChange"
                   style="width: 100%">
-          <el-table-column type="selection"
-                           width="55">
-          </el-table-column>
           <el-table-column show-overflow-tooltip
                            type="index"
                            width="50"
@@ -21,72 +17,58 @@
               {{scope.$index+1}}
             </template>
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="fileName"
                            show-overflow-tooltip
                            label="文件名">
           </el-table-column>
-          <el-table-column prop="date"
+          <el-table-column prop="size" width="80"
                            show-overflow-tooltip
                            label="文件大小">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="timestamp"
                            show-overflow-tooltip
                            label="备份时间">
           </el-table-column>
-          <el-table-column prop="name"
+          <el-table-column prop="number" width="80"
                            show-overflow-tooltip
                            label="卷号">
           </el-table-column>
-          <el-table-column prop="name"
-                           show-overflow-tooltip
-                           label="备份时间">
-          </el-table-column>
           <el-table-column show-overflow-tooltip
                            label="操作"
-                           width="150"
+                           width="160"
                            min-width="60">
             <template slot-scope="scope">
               <div>
                 <el-button size="medium"
                            type="text"
-                           class="yellowColor right20">编辑</el-button>
+                           class="yellowColor right10" @click="importent(scope.row)">导入</el-button>
                 <el-button size="medium"
                            type="text"
-                           class="redColor">删除</el-button>
+                           class="yellowColor right10" @click="downLoad(scope.row)">下载</el-button>
+                <el-button size="medium"
+                           type="text"
+                           class="redColor" @click="cancel(scope.row)">删除</el-button>
               </div>
             </template>
           </el-table-column>
         </el-table>
-        <div class="btootm_paination">
-          <!-- <el-pagination @current-change="handleCurrentChangeFun"
-                         :hide-on-single-page="false"
-                         :current-page="currentPage"
-                         layout="total, jumper,  ->, prev, pager, next"
-                         :total="totalData"></el-pagination> -->
-          <el-pagination @size-change="handleSizeChange"
-                         @current-change="handleCurrentChangeFun"
-                         :current-page="currentPage"
-                         :page-sizes="[100, 200, 300, 400]"
-                         :page-size="100"
-                         layout="total, sizes, prev, pager, next, jumper"
-                         :total="400">
-          </el-pagination>
-        </div>
         <p style="width: 100%; padding: 10px 0;margin-left: 10px"
-           class="redColor">上传数据库备份文件</p>
-        <span style="margin-left: 10px">上传SQL文件：</span>
-        <el-upload action="https://jsonplaceholder.typicode.com/posts/"
-                   list-type="picture-card"
-                   style="margin-left: 10px"
-                   :on-preview="handlePictureCardPreview"
-                   :on-remove="handleRemove">
-          <i class="el-icon-plus"></i>
+           class="redColor">上传SQL文件:</p>
+        <el-upload
+          style="width: 30%; margin-bottom: 30px;"
+          class="upload-demo"
+          :action="domain"
+          :data="QiniuData"
+          :on-error="uploadError"
+          :on-success="uploadSuccessGoodsFile"
+          :before-remove="beforeRemove"
+          :before-upload="beforeAvatarUpload"
+          multiple
+          :limit="1"
+          :on-exceed="handleExceed"
+          :file-list="fileList">
+          <el-button size="small" type="primary">点击上传</el-button>
         </el-upload>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%"
-               :src="dialogImageUrl"
-               alt="">
-        </el-dialog>
       </div>
     </div>
   </div>
@@ -111,25 +93,118 @@ export default {
       }],
       currentPage: 1, //当前页数
       totalData: 1, //总页数
+
+      fileList: [],
+      QiniuData: {
+        key: "", //图片名字处理
+        token: this.$store.state.upToken,//七牛云token
+        data: {}
+      },
+      domain: this.$store.state.getUploadUrl, // 七牛云的上传地址（华东区）
+      qiniuaddr: 'http://img.meichengmall.com/',
     }
   },
 
+  mounted() {
+    this.create()
+    this.$store.commit('GET_UPLOAD_URL')
+    this.$api.getUploadToken().then(res => {
+      this.QiniuData.token = res.data.token.token
+    })
+  },
+
   methods: {
-    add () {
-      this.$router.push('/driver/edit?nameType=新建驱动')
+    create () {
+       this.$newApi.getExportList({
+        page: '1',
+        page_size: '10',
+        marker: '',
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        this.tableData = res.data.list
+      })
+    },
+    cancel(row) {
+      this.$newApi.Databasedelete({
+        filename: row.fileName,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.code >= 0) {
+          return this.$message({
+            type: 'error',
+            message: res.data.msg
+          })
+        } else {
+          this.create()
+          return this.$message({
+            type: 'success',
+            message: res.data.msg
+          })
+        }
+      })
+    },
+    importent(row) {
+      this.$newApi.Databaseimport({
+        pre: row.pre,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.code >= 0) {
+          return this.$message({
+            type: 'error',
+            message: res.data.msg
+          })
+        } else {
+          this.create()
+          return this.$message({
+            type: 'success',
+            message: res.data.msg
+          })
+        }
+      })
+    },
+    downLoad(row) {
+      this.$newApi.Databasedown({
+        filename: row.fileName,
+        token: JSON.parse(this.$store.state.token).token,
+      }).then(res => {
+        if(res.data.code >= 0) {
+          return this.$message({
+            type: 'error',
+            message: res.data.msg
+          })
+        } else {
+          window.open(`${res.data.path}`)
+          return this.$message({
+            type: 'success',
+            message: '下载成功'
+          })
+        }
+      })
+    },
+
+    beforeRemove() {
 
     },
-    editor () {
-      this.$router.push('/driver/edit?nameType=修改驱动')
+    uploadSuccessGoodsFile(response) {
+      console.log(response)
     },
-    // 分页
-    handleCurrentChangeFun (val) {
-      this.currentPage = val;
-      tableDataRenderFun(this);
+    handleExceed (files, fileList) {
+      this.$message.warning(
+        `当前限制选择 1 张图片，如需更换，请删除上一张图片在重新选择！`
+      );
     },
 
-    handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+    beforeAvatarUpload (file) {   //图片上传之前的方法
+      this.QiniuData.data = file;
+      this.QiniuData.key = `${JSON.parse(this.$store.state.token).client_id + file.name}`;
+    },
+
+    uploadError (err, file, fileList) {    //图片上传失败时调用
+      this.$message({
+        message: "上传出错，请重试！",
+        type: "error",
+        center: true
+      });
     },
   }
 }

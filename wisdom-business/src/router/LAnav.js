@@ -175,18 +175,18 @@ let LAMenu = [
           //   name: "商铺权限",
           //   url: "/shopMagement/shoPermissions"
           // },
-          {
-            name: "商铺权限",
-            url: "/shopMagement/shopDiction"
-          },
+          // {
+          //   name: "商铺权限",
+          //   url: "/shopMagement/shopDiction"
+          // },
           {
             name: "商铺类型",
             url: "/shopMagement/shopType"
           },
-          {
-            name: "商铺列表",
-            url: "/shopMagement/shopList"
-          },
+          // {
+          //   name: "商铺列表",
+          //   url: "/shopMagement/shopList"
+          // },
           {
             name: "分站管理",
             url: "/shopMagement/substation"

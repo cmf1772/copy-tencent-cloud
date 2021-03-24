@@ -235,7 +235,7 @@ export default {
         '/marketingManagement/brandManagement',
         '/marketingManagement/watermarkIsSet',
         '/throughTheManagement/throughTheManagement',
-        '/throughTheManagement/throughDd'
+        '/throughTheManagement/throughDd',
       ]
       this.flagtit = routerArray.indexOf(this.$route.path) > -1 ? true : false
       if (this.$route.meta.length) {

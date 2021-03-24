@@ -1,6 +1,7 @@
 <template>
   <div class="buyer_tion" :style="{ height: heights }">
     <div class="tion_top">
+      <el-button class="back" type="text" @click="reBack"><i class="el-icon-arrow-left"></i> 返回</el-button>
       <el-button type="primary" size="medium" @click="addType">新增商铺</el-button>
     </div>
     <div class="tion_con">
@@ -40,7 +41,7 @@
       <el-form ref="form" :model="form" label-width="100px">
         <el-form-item label="商铺类型ID" prop="type_id">
           <!-- <el-input v-model="form.type_id"></el-input> -->
-          <el-select v-model="form.type_id" placeholder="请选择">
+          <el-select v-model="form.type_id" placeholder="请选择" disabled>
             <el-option
               v-for="item in typeData"
               :key="item.id"
@@ -114,6 +115,7 @@ export default {
         page: this.currentPage,
         page_size: this.page_size,
         name: '',
+        type_id: this.$route.query.id,
         order_type: 'asc',
         order_field: 'uid',
         token: JSON.parse(this.$store.state.token).token,
@@ -123,10 +125,12 @@ export default {
       })
     },
     addType() {
+      this.form.type_id = Number(this.$route.query.id)
       this.dialogVisibleTitle = '新增商铺权限'
       this.dialogVisible = true
     },
     edit(row) {
+      this.form.type_id = Number(this.$route.query.id)
       this.dialogVisibleTitle = '编辑商铺权限'
       this.dialogVisible = true
       this.$newApi.getMemberSetItem({  
@@ -228,6 +232,9 @@ export default {
       this.page_size = val
       this.create()
     },
+    reBack() {
+      this.$router.go(-1)
+    }
   }
 };
 </script>
@@ -240,6 +247,13 @@ export default {
   display: flex;
   flex-direction: column;
   .tion_top {
+    .back{
+      float: left;
+      margin-left: 20px;
+      line-height: 1;
+      color: #000;
+      font-size: 20px;
+    }
     padding: 10px 0;
     background: #fff;
     border-radius: 4px;

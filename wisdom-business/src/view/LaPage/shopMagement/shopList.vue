@@ -467,7 +467,7 @@ export default {
       this.$newApi.getSupplierPageList({
         page: this.currentPage,
         page_size: this.page_size,
-        uid: '',
+        sellshow: this.$route.query.id,
         province: String(this.province),
         city: String(this.city),
         county: String(this.county),
@@ -742,6 +742,9 @@ export default {
         `当前限制选择 1 张图片，如需更换，请删除上一张图片在重新选择！`
       );
     },
+    reBack() {
+      this.$router.go(-1)
+    }
   }
 };
 </script>
@@ -755,6 +758,13 @@ export default {
   display: flex;
   flex-direction: column;
   .list_top {
+    .back{
+      float: left;
+      margin-left: 20px;
+      line-height: 1;
+      color: #000;
+      font-size: 20px;
+    }
     width: 100%;
     background: #fff;
     border-radius: 4px;

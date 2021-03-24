@@ -8,8 +8,17 @@
       <el-table :data="tableData" style="width: 100%" :height="tableHeight" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"> </el-table-column>
         <el-table-column prop="name" label="类型名称"> </el-table-column>
-        <el-table-column label="操作" width="180">
+        <el-table-column label="操作" width="230">
           <template slot-scope="scope">
+            <el-button type="text" size="small"  @click="nav(scope.row)">
+              导航
+            </el-button> 
+            <el-button type="text" size="small"  @click="listPush(scope.row)">
+              列表
+            </el-button> 
+            <el-button type="text" size="small"  @click="diction(scope.row)">
+              权限
+            </el-button> 
             <el-button type="text" size="small"  @click="edit(scope.row)">
               编辑
             </el-button>  
@@ -199,6 +208,15 @@ export default {
           })
         }
       })
+    },
+    diction(row) {
+      this.$router.push({path: '/shopMagement/shopDiction', query: { id: row.id}})
+    },
+    listPush(row) {
+      this.$router.push({path: '/shopMagement/shopList', query: { id: row.id}})
+    },
+    nav(row) {
+      this.$router.push({path: '/shopMagement/shopNav', query: { id: row.id}})
     },
     handleSelectionChange(row) { 
       this.selectData = row
