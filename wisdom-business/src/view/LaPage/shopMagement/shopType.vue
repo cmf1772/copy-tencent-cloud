@@ -2,7 +2,7 @@
   <div class="buyer_tion" :style="{ height: heights }">
     <div class="tion_top">
       <el-button type="primary" size="medium" @click="addType">新增类型</el-button>
-      <el-button type="primary" size="medium" @click="delSelect">删除所选</el-button>
+      <!-- <el-button type="primary" size="medium" @click="delSelect">删除所选</el-button> -->
     </div>
     <div class="tion_con">
       <el-table :data="tableData" style="width: 100%" :height="tableHeight" @selection-change="handleSelectionChange">
@@ -155,24 +155,35 @@ export default {
       this.dialogVisible = false
     },
     delMassage(row) {
-      this.$newApi.delTypeItem({
-        uid: row.id,
-        token: JSON.parse(this.$store.state.token).token,
-      }).then(res => {
-        if(res.data.err_code) {
-          this.$message({
-            type: 'error',
-            message: res.data.err_msg
-          })
-        }
-        else{
-          this.create()
-          this.$message({
-            type: 'success',
-            message: '操作成功'
-          })
-        }
-      })
+      this.$confirm('是否删除该条数据?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$newApi.delTypeItem({
+          uid: row.id,
+          token: JSON.parse(this.$store.state.token).token,
+        }).then(res => {
+          if(res.data.err_code) {
+            this.$message({
+              type: 'error',
+              message: res.data.err_msg
+            })
+          }
+          else{
+            this.create()
+            this.$message({
+              type: 'success',
+              message: '操作成功'
+            })
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });          
+      });
     },
     delSelect() {
       if(this.selectData.length == 0) {

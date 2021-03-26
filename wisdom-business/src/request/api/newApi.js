@@ -2273,6 +2273,8 @@ const newData =  {
     
     // 获取菜单分页列表
     getMenuPageList (params) { return axios.post('/admin/menu/getMenuPageList', params) },
+    // 获取级联菜单列表
+    getMenuList (params) { return axios.post('/admin/menu/getMenuList', params) },
     // 根据权限(用户组ID)获取菜单列表
     getMenuAuthList (params) { return axios.post('/admin/menu/getMenuAuthList', params) },
 

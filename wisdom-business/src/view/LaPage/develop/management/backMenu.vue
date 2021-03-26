@@ -82,19 +82,15 @@ export default {
   },
   methods: {
     create () {
-      this.$newApi.getMenuPageList({
-        page: this.currentPage,
-	      page_size: this.page_size,
-	      menu_name: '',
-        order_type: "desc",
-        order_field: "uid",
+      this.$newApi.getMenuList({
+        menu_id:'0',
         token: JSON.parse(this.$store.state.token).token,
       }).then(res => {
-        this.tableData = res.data.items
-        res.data.items.forEach(item => {
+        this.tableData = res.data
+        res.data.forEach(item => {
           item.hasChildren = true
         })
-        this.tableData = res.data.items
+        this.tableData = res.data
       })
     },
     // 分页
@@ -114,9 +110,10 @@ export default {
         group_id: tree.uid,
         token: JSON.parse(this.$store.state.token).token,
       }).then(val => {
-        let arr = this.dataConvert(val.data)
-        console.log(arr)
-        // resolve(arr)
+        val.data.forEach(item => {
+          item.hasChildren = true
+        })
+        resolve(val.data)
       })
     },
     dataConvert(obj) {

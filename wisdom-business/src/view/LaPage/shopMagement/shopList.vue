@@ -101,10 +101,10 @@
         <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
             <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
-            <el-button type="text" size="small" style="color: #f00" @click="del(scope.row)"
-              >删除</el-button
-            ><el-button type="text" size="small" @click="recommend">推荐</el-button>
-            <!-- <el-button type="text" size="small">管理</el-button> -->
+            <!-- <el-button type="text" size="small" style="color: #f00" @click="del(scope.row)"
+              >删除</el-button> -->
+            <el-button type="text" size="small" @click="recommend">推荐</el-button>
+            <el-button type="text" size="small" @click="jump">管理</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -506,6 +506,9 @@ export default {
           })
         }
       })
+    },
+    jump() {
+      this.$router.push('/homepage')
     },
     cancel() {
       this.dialogVisible = false

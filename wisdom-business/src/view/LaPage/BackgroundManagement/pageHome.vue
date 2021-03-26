@@ -12,7 +12,7 @@
                      alt="" />
               </div>
               <span v-if="!isCollapse"
-                    @click="geColund">总后台管理</span>
+                    @click="geColund">美城智慧商业后台</span>
             </div>
             <i class="el-icon-s-fold"
                v-if="!isCollapse"
@@ -116,6 +116,10 @@
                 <i class="el-icon-arrow-down"></i>
               </div>
             </el-popover>
+          </div>
+          <div class="showPage" @click="geColund">
+            <i class="el-icon-s-home" style="margin-right: 3px;margin-top: 2px;"></i>
+            首页
           </div>
         </el-header>
         <el-main>
@@ -456,6 +460,9 @@ export default {
         "/automobile/guestBook",
         "/automobile/customerOrder",
         "/automobile/returnChannel",
+        '/shopMagement/shopType',
+        '/shopMagement/shopNav',
+        '/shopMagement/shopDiction',
         "/automobile/customerOrderVIP" //----
       ];
 
@@ -657,9 +664,24 @@ export default {
   height: 100%;
   display: flex;
   align-items: center;
-  color: #606266;
+  color: #fff;
   font-size: 14px;
   margin-right: 20px;
+}
+
+.showPage{
+  width: auto;
+  float: right;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-size: 14px;
+  margin-right: 20px;
+  &:hover{
+    cursor: pointer;
+    
+  }
 }
 
 .all_mp {
@@ -671,7 +693,7 @@ export default {
   // border-right: solid #ccc 1px;
   // background-color: #424f63 !important;
   .tit {
-    height: 50px;
+    height: 60px;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
@@ -679,6 +701,7 @@ export default {
     box-sizing: border-box;
     padding: 0 10px;
     .item {
+      height: 60px;
       // width: 30px;
       display: flex;
       justify-content: space-between;
@@ -699,6 +722,7 @@ export default {
   //   border: 0;
   // }
   .menu {
+    // overflow: auto;
     flex: 1;
     border-right: 1px solid #424f63;
   }
@@ -712,5 +736,13 @@ export default {
   //   color: rgb(101, 206, 167);
   //   background-color: rgb(53, 63, 79);
   // }
+}
+
+.el-header{
+  background: #2f3e69;
+}
+
+.el-aside{
+  // overflow: hidden;
 }
 </style>

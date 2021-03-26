@@ -86,9 +86,9 @@
       </div>
       <div class="navright">
         <div class="hoverColor"
-             @click="login">登陆</div>
+             @click="login" v-if="type">登陆</div>
         <div class="reg"
-             @click="registered">注册</div>
+             @click="registered" v-if="type">注册</div>
       </div>
     </div>
 
@@ -263,6 +263,7 @@ export default {
   name: 'home',
   data () {
     return {
+      type: true,
       navIndex: null,
       navJson: [
         //   {
@@ -398,6 +399,12 @@ export default {
   },
 
   mounted () {
+    console.log(this.$store.state.token)
+    if(this.$store.state.token != '') {
+      this.type = false
+    } else {
+      this.type = true
+    }
     this.navJson.forEach((item, index) => {
       if (item.link === window.location.href.split('#')[1]) {
         this.navIndex = index
@@ -407,6 +414,13 @@ export default {
 
   watch: {
     $route (to, from) {
+      console.log(this.$store.state.token)
+      if(this.$store.state.token != '') {
+        this.type = false
+      } else {
+        this.type = true
+      }
+      console.log(to, from)
       // console.log(document.getElementsByTagName("body")[0].scrollTop)
       document.getElementById('app').scrollTop = 0
       if (to.name === 'registeredQ') {

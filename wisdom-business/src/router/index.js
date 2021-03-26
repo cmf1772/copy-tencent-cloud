@@ -63,7 +63,6 @@ autoRouters.forEach(rouer => {
 
 rootRouter.push(cmfRouter)
 
-console.log(rootRouter)
 
 //  判读啊是否零售 -》 将商铺后台合并
 rootRouter.forEach(router => {
@@ -71,7 +70,6 @@ rootRouter.forEach(router => {
     router.children = router.children.concat(shop)
   }
 })
-console.log(rootRouter)
 
 export const createRouter = new Router({
   routes: rootRouter
